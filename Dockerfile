@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 
 # Install node modules
 COPY package.json /usr/src/app/
-RUN npm install
+RUN npm --no-color install
 
 # Build js files
 COPY r2d7.coffee /usr/src/app/

@@ -58,7 +58,7 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)$', ["ambient"], (bot, mess
             extra = extra.split('.')
             extra_id = parseInt(extra[1])
             switch extra[0].toLowerCase()
-                when 'u' then
+                when 'u'
                     # Hacked support for Tie/X1
                     upgrade = cards.upgradesById[extra_id]
                     if upgrade.slot == 'System' and 'TIE/x1' in upgrades

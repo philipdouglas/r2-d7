@@ -33,6 +33,7 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, mes
     ships = serialized.split(';')
     console.log(message.match[1])
     output = ["*#{decodeURI(pieces[2].split('=')[1])}* (_#{decodeURI(pieces[0].split('=')[1])}_)"]
+    total_points = 0
     for ship in ships
         points = 0
         ship = ship.split(':')
@@ -71,7 +72,9 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, mes
 
         icon = icon_map[pilot.ship] or "(#{pilot.ship})"
 
-        output.push("#{pilot.name} #{icon}: #{upgrades.join(', ')} (#{points})")
+        output.push("#{pilot.name} #{icon}: #{upgrades.join(', ')} [#{points}]")
+        total_points += points
 
+    output[0] += " *[#{total_points}]*"
     return bot.reply(message, output.join('\n'))
 )

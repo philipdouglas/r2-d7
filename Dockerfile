@@ -5,10 +5,12 @@ FROM node:argon
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-#install botkit
+# Install node modules
 RUN npm install
 COPY r2d7.coffee /usr/src/app/
 COPY cards-common.coffee /usr/src/app/
+
+# Build js files
 iced -c r2d7.coffee cards-common.coffee
 
 #set startup commands

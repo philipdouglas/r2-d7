@@ -22,7 +22,8 @@ icon_map = {
     "Y-Wing":":ywing:",
 }
 
-controller.hears('geordanr\.github\.io\/xwing\/\?(.*)$', ["ambient"], (bot, message) ->
+# For some reason there's a > at the end of the message
+controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, message) ->
     pieces = message.match[1].split('&amp;')
     serialized = pieces[1].split('=')[1]
     if not /v4!s!/.test(serialized)
@@ -30,7 +31,8 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)$', ["ambient"], (bot, mess
 
     serialized = serialized.slice(5)
     ships = serialized.split(';')
-    output = []
+    console.log(message.match[1])
+    output = ["*#{decodeURI(pieces[2].split('=')[1])}* (_#{decodeURI(pieces[0].split('=')[1])}_)"]
     for ship in ships
         points = 0
         ship = ship.split(':')

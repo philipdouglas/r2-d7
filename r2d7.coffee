@@ -57,10 +57,10 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)$', ["ambient"], (bot, mess
         for extra in ship[4].split(',')
             extra = extra.split('.')
             extra_id = parseInt(extra[1])
-            switch extra[0]
-                when 'U' then add_upgrade(cards.upgradesById[extra_id])
-                when 'T' then add_upgrade(cards.titlesById[extra_id])
-                when 'M' then add_upgrade(cards.modificationsById[extra_id])
+            switch extra[0].toLowerCase()
+                when 'u' then add_upgrade(cards.upgradesById[extra_id])
+                when 't' then add_upgrade(cards.titlesById[extra_id])
+                when 'm' then add_upgrade(cards.modificationsById[extra_id])
 
         icon = icon_map[pilot.ship] or "(#{pilot.ship})"
 

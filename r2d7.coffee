@@ -32,9 +32,14 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, mes
     serialized = serialized.slice(5)
     ships = serialized.split(';')
     console.log(message.match[1])
-    output = ["*#{decodeURI(pieces[2].split('=')[1])}* (_#{decodeURI(pieces[0].split('=')[1])}_)"]
+    switch decodeURI(pieces[0].split('=')[1])
+        when 'Scum and Villainy' then faction = ':scum:'
+        when 'Rebel Alliance' then faction = ':rebels:'
+        when 'Galactic Empire' then faction = ':imperials:'
+    output = ["*#{decodeURI(pieces[2].split('=')[1])}* #{faction}"]
     total_points = 0
     for ship in ships
+        if not ship then continue
         points = 0
         ship = ship.split(':')
         pilot = cards.pilotsById[ship[0]]

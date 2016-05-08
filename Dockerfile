@@ -9,6 +9,7 @@ WORKDIR /usr/src/app
 RUN npm install
 COPY r2d7.coffee /usr/src/app/
 COPY cards-common.coffee /usr/src/app/
+COPY package.json /usr/src/app/
 
 # Build js files
 iced -c r2d7.coffee cards-common.coffee

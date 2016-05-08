@@ -5,8 +5,8 @@ bot.startRTM((err, bot, payload) ->
     if err
         throw new Error('Could not connect to slack!')
 )
-cards = require('./cards-common').basicCardData()
 
+cards = require('./cards-common').basicCardData()
 icon_map = {
     "Lambda-Class Shuttle":":lambda:",
     "Firespray-31":":firespray:",
@@ -21,7 +21,6 @@ icon_map = {
     "X-Wing":":xwing:",
     "Y-Wing":":ywing:",
 }
-
 
 controller.hears('geordanr\.github\.io\/xwing\/\?(.*)$', ["ambient"], (bot, message) ->
     pieces = message.match[1].split('&amp;')

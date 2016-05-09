@@ -1,3 +1,8 @@
+exportObj = exports ? this
+require('./cards-common')
+require('./cards-en')
+exportObj.translations.English()
+
 BotKit = require('botkit')
 controller = BotKit.slackbot({debug: false})
 bot = controller.spawn({token: process.env.SLACK_TOKEN})
@@ -6,7 +11,6 @@ bot.startRTM((err, bot, payload) ->
         throw new Error('Could not connect to slack!')
 )
 
-cards = require('./cards-common').basicCardData()
 icon_map = {
     "Lambda-Class Shuttle":":lambda:",
     "Firespray-31":":firespray:",
@@ -42,7 +46,7 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, mes
         if not ship then continue
         points = 0
         ship = ship.split(':')
-        pilot = cards.pilotsById[ship[0]]
+        pilot = exportObj.pilotsById[ship[0]]
         points += pilot.points
         upgrades = []
 
@@ -55,25 +59,25 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, mes
         # Upgrade : Titles : Modifications : Extra Slots
         for upgrade_id in ship[1].split(',')
             upgrade_id = parseInt(upgrade_id)
-            add_upgrade(cards.upgradesById[upgrade_id])
+            add_upgrade(exportObj.upgradesById[upgrade_id])
         for title_id in ship[2].split(',')
             title_id = parseInt(title_id)
-            add_upgrade(cards.titlesById[title_id])
+            add_upgrade(exportObj.titlesById[title_id])
         for mod_id in ship[3].split(',')
             mod_id = parseInt(mod_id)
-            add_upgrade(cards.modificationsById[mod_id])
+            add_upgrade(exportObj.modificationsById[mod_id])
         for extra in ship[4].split(',')
             extra = extra.split('.')
             extra_id = parseInt(extra[1])
             switch extra[0].toLowerCase()
                 when 'u'
                     # Hacked support for Tie/X1
-                    upgrade = cards.upgradesById[extra_id]
+                    upgrade = exportObj.upgradesById[extra_id]
                     if upgrade.slot == 'System' and 'TIE/x1' in upgrades
                         points -= Math.min(4, upgrade.points)
                     add_upgrade(upgrade)
-                when 't' then add_upgrade(cards.titlesById[extra_id])
-                when 'm' then add_upgrade(cards.modificationsById[extra_id])
+                when 't' then add_upgrade(exportObj.titlesById[extra_id])
+                when 'm' then add_upgrade(exportObj.modificationsById[extra_id])
 
         icon = icon_map[pilot.ship] or "(#{pilot.ship})"
 
@@ -82,4 +86,10 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, mes
 
     output[0] += " *[#{total_points}]*"
     return bot.reply(message, output.join('\n'))
+)
+
+
+# Card Lookup
+controller.hears('(.*)', ["direct_mention", "direct_message"], (bot, message) ->
+    return bot.reply(message, cards[ships]['Y-Wing'])
 )

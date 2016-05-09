@@ -2,8 +2,6 @@
   "name": "r2-d7",
   "version": "1.0.0",
   "dependencies": {
-    "botkit": "^0.1.1",
-    "iced-coffee-script": "^108.0.11",
-    "requirejs": "^2.2.0"
+    "botkit": "^0.1.1"
   }
 }

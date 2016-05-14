@@ -35,7 +35,6 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, mes
 
     serialized = serialized.slice(5)
     ships = serialized.split(';')
-    console.log(message.match[1])
     switch decodeURI(pieces[0].split('=')[1])
         when 'Scum and Villainy' then faction = ':scum:'
         when 'Rebel Alliance' then faction = ':rebels:'
@@ -81,7 +80,7 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, mes
 
         icon = icon_map[pilot.ship] or "(#{pilot.ship})"
 
-        output.push("#{pilot.name} #{icon}: #{upgrades.join(', ')} [#{points}]")
+        output.push("_#{pilot.name}_ #{icon}: #{upgrades.join(', ')} *[#{points}]*")
         total_points += points
 
     output[0] += " *[#{total_points}]*"

@@ -84,3 +84,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 *.js
+build_run.ps1

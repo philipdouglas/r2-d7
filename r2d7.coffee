@@ -1,7 +1,5 @@
-exportObj = exports ? this
-require('./cards-common')
-require('./cards-en')
-exportObj.translations.English()
+exportObj = require('./cards-combined')
+exportObj.cardLoaders.English()
 
 BotKit = require('botkit')
 controller = BotKit.slackbot({debug: false})
@@ -87,8 +85,45 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, mes
     return bot.reply(message, output.join('\n'))
 )
 
+fixIcons = (data) ->
+    if data.text?
+        data.text = data.text
+            .replace(/<i class="xwing-miniatures-font xwing-miniatures-font-/g, '[')
+            .replace(/"><\/i>/g, ']')
+            .replace(/<br \/><br \/>/g, '\n')
+            .replace(/<strong>/g, '*')
+            .replace(/<\/strong>/g, '*')
+            .replace(/<em>/g, '')
+            .replace(/<\/em>/g, '')
+            .replace(/<span class="card-restriction">/g, '_')
+            .replace(/<\/span>/g, '_')
+
+# Build a lookup object
+card_lookup = {}
+add_card = (data) ->
+    name = data.name.toLowerCase().replace(/\ \(.*\)$/, '')
+    card_lookup[name] = card_lookup[name] || []
+    card_lookup[name].push(data)
+for upgrade_name, upgrade of exportObj.upgrades
+    fixIcons(upgrade)
+    add_card(upgrade)
+for modification_name, modification of exportObj.modifications
+    modification.slot = 'Modification'
+    fixIcons(modification)
+    add_card(modification)
+for title_name, title of exportObj.titles
+    title.slot = 'Title'
+    fixIcons(title)
+    add_card(title)
 
 # Card Lookup
-controller.hears('(.*)', ["direct_mention", "direct_message"], (bot, message) ->
-    return bot.reply(message, cards[ships]['Y-Wing'])
+controller.hears('(.*)', ['direct_message', 'direct_mention'], (bot, message) ->
+    lookup = message.match[1].trim().toLowerCase()
+    if not card_lookup[lookup]
+        return
+    text = []
+    for card in card_lookup[lookup]
+        text.push("*#{card.slot}* [#{card.points}]")
+        text.push(card.text)
+    return bot.reply(message, text.join('\n'))
 )

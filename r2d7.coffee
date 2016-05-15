@@ -77,6 +77,7 @@ fixIcons = (data) ->
         data.text = data.text
             .replace(/<i class="xwing-miniatures-font xwing-miniatures-font-/g, ':')
             .replace(/"><\/i>/g, ':')
+            .replace(/:bomb:/g, ':xbomb:')  # bomb is already an emoji
             .replace(/<br \/><br \/>/g, '\n')
             .replace(/<strong>/g, '*')
             .replace(/<\/strong>/g, '*')

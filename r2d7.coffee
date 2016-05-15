@@ -9,20 +9,9 @@ bot.startRTM((err, bot, payload) ->
         throw new Error('Could not connect to slack!')
 )
 
-icon_map = {
-    "Lambda-Class Shuttle":":lambda:",
-    "Firespray-31":":firespray:",
-    "A-Wing":":awing:",
-    "TIE Advanced":":advanced:",
-    "TIE Bomber":":bomber:",
-    "B-Wing":":bwing:",
-    "YT-1300":":falcon:",
-    "TIE Fighter":":fighter:",
-    "HWK-290":":hwk:",
-    "TIE Interceptor":":interceptor:",
-    "X-Wing":":xwing:",
-    "Y-Wing":":ywing:",
-}
+ship_to_icon = (pilot) ->
+    name = pilot.ship.replace(/[ -]/g, '')
+    return ":#{name}:"
 
 # For some reason there's a > at the end of the message
 controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, message) ->
@@ -76,9 +65,7 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, mes
                 when 't' then add_upgrade(exportObj.titlesById[extra_id])
                 when 'm' then add_upgrade(exportObj.modificationsById[extra_id])
 
-        icon = icon_map[pilot.ship] or "(#{pilot.ship})"
-
-        output.push("_#{pilot.name}_ #{icon}: #{upgrades.join(', ')} *[#{points}]*")
+        output.push("_#{pilot.name}_ #{ship_to_icon(pilot)}: #{upgrades.join(', ')} *[#{points}]*")
         total_points += points
 
     output[0] += " *[#{total_points}]*"
@@ -88,8 +75,8 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, mes
 fixIcons = (data) ->
     if data.text?
         data.text = data.text
-            .replace(/<i class="xwing-miniatures-font xwing-miniatures-font-/g, '[')
-            .replace(/"><\/i>/g, ']')
+            .replace(/<i class="xwing-miniatures-font xwing-miniatures-font-/g, ':')
+            .replace(/"><\/i>/g, ':')
             .replace(/<br \/><br \/>/g, '\n')
             .replace(/<strong>/g, '*')
             .replace(/<\/strong>/g, '*')
@@ -115,6 +102,10 @@ for title_name, title of exportObj.titles
     title.slot = 'Title'
     fixIcons(title)
     add_card(title)
+for pilot_name, pilot of exportObj.pilots
+    pilot.slot = 'Pilot'
+    fixIcons(pilot)
+    add_card(pilot)
 
 # Card Lookup
 controller.hears('(.*)', ['direct_message', 'direct_mention'], (bot, message) ->
@@ -123,7 +114,11 @@ controller.hears('(.*)', ['direct_message', 'direct_mention'], (bot, message) ->
         return
     text = []
     for card in card_lookup[lookup]
-        text.push("*#{card.slot}* [#{card.points}]")
+        unique = if card.unique then ':unique:' else ''
+        text.push("#{unique}*#{card.slot}* [#{card.points}]")
+        if card.ship
+            slots = (":#{slot.toLowerCase()}:" for slot in card.slots).join(' ')
+            text.push("#{ship_to_icon(card)}#{card.ship} - PS#{card.skill} - #{slots}")
         text.push(card.text)
     return bot.reply(message, text.join('\n'))
 )

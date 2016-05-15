@@ -123,7 +123,8 @@ controller.hears('(.*)', ['direct_message', 'direct_mention'], (bot, message) ->
         return
     text = []
     for card in card_lookup[lookup]
-        text.push("*#{card.slot}* [#{card.points}]")
+        unique = if card.unique then ':unique:' else ''
+        text.push("#{unique}*#{card.slot}* [#{card.points}]")
         text.push(card.text)
     return bot.reply(message, text.join('\n'))
 )

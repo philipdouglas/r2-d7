@@ -88,8 +88,8 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, mes
 fixIcons = (data) ->
     if data.text?
         data.text = data.text
-            .replace(/<i class="xwing-miniatures-font xwing-miniatures-font-/g, '[')
-            .replace(/"><\/i>/g, ']')
+            .replace(/<i class="xwing-miniatures-font xwing-miniatures-font-/g, ':')
+            .replace(/"><\/i>/g, ':')
             .replace(/<br \/><br \/>/g, '\n')
             .replace(/<strong>/g, '*')
             .replace(/<\/strong>/g, '*')

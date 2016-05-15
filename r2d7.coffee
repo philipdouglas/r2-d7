@@ -119,6 +119,7 @@ controller.hears('(.*)', ['direct_message', 'direct_mention'], (bot, message) ->
         text.push("#{unique}*#{card.slot}* [#{card.points}]")
         if card.ship
             slots = (":#{slot.toLowerCase()}:" for slot in card.slots).join(' ')
+            slots = slots.replace(/:bomb:/g, ':xbomb:')
             text.push("#{ship_to_icon(card)}#{card.ship} - PS#{card.skill} - #{slots}")
         text.push(card.text)
     return bot.reply(message, text.join('\n'))

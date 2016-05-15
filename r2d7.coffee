@@ -9,20 +9,9 @@ bot.startRTM((err, bot, payload) ->
         throw new Error('Could not connect to slack!')
 )
 
-icon_map = {
-    "Lambda-Class Shuttle":":lambda:",
-    "Firespray-31":":firespray:",
-    "A-Wing":":awing:",
-    "TIE Advanced":":advanced:",
-    "TIE Bomber":":bomber:",
-    "B-Wing":":bwing:",
-    "YT-1300":":falcon:",
-    "TIE Fighter":":fighter:",
-    "HWK-290":":hwk:",
-    "TIE Interceptor":":interceptor:",
-    "X-Wing":":xwing:",
-    "Y-Wing":":ywing:",
-}
+ship_to_icon = (pilot) ->
+    name = pilot.ship.replace(/[ -]/g, '')
+    return ":#{name}:"
 
 # For some reason there's a > at the end of the message
 controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, message) ->
@@ -76,9 +65,7 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, mes
                 when 't' then add_upgrade(exportObj.titlesById[extra_id])
                 when 'm' then add_upgrade(exportObj.modificationsById[extra_id])
 
-        icon = icon_map[pilot.ship] or "(#{pilot.ship})"
-
-        output.push("_#{pilot.name}_ #{icon}: #{upgrades.join(', ')} *[#{points}]*")
+        output.push("_#{pilot.name}_ #{ship_to_icon(pilot)}: #{upgrades.join(', ')} *[#{points}]*")
         total_points += points
 
     output[0] += " *[#{total_points}]*"
@@ -130,9 +117,8 @@ controller.hears('(.*)', ['direct_message', 'direct_mention'], (bot, message) ->
         unique = if card.unique then ':unique:' else ''
         text.push("#{unique}*#{card.slot}* [#{card.points}]")
         if card.ship
-            icon = if icon_map[card.ship] then icon_map[card.ship] + ' ' else ''
             slots = (":#{slot.toLowerCase()}:" for slot in card.slots).join(' ')
-            text.push("#{icon}#{card.ship} - PS#{card.skill} - #{slots}")
+            text.push("#{ship_to_icon(card)}#{card.ship} - PS#{card.skill} - #{slots}")
         text.push(card.text)
     return bot.reply(message, text.join('\n'))
 )

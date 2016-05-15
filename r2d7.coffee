@@ -115,6 +115,10 @@ for title_name, title of exportObj.titles
     title.slot = 'Title'
     fixIcons(title)
     add_card(title)
+for pilot_name, pilot of exportObj.pilots
+    pilot.slot = 'Pilot'
+    fixIcons(pilot)
+    add_card(pilot)
 
 # Card Lookup
 controller.hears('(.*)', ['direct_message', 'direct_mention'], (bot, message) ->
@@ -125,6 +129,10 @@ controller.hears('(.*)', ['direct_message', 'direct_mention'], (bot, message) ->
     for card in card_lookup[lookup]
         unique = if card.unique then ':unique:' else ''
         text.push("#{unique}*#{card.slot}* [#{card.points}]")
+        if card.ship
+            icon = if icon_map[card.ship] then icon_map[card.ship] + ' ' else ''
+            slots = (":#{slot.toLowerCase()}:" for slot in card.slots).join(' ')
+            text.push("#{icon}#{card.ship} - PS#{card.skill} - #{slots}")
         text.push(card.text)
     return bot.reply(message, text.join('\n'))
 )

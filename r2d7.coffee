@@ -114,7 +114,7 @@ for pilot_name, pilot of exportObj.pilots
     add_card(pilot)
 
 # Card Lookup
-controller.hears('(.*)', ['direct_message', 'direct_mention'], (bot, message) ->
+card_lookup_cb = (bot, message) ->
     lookup = strip_name(message.match[1])
     if not card_lookup[lookup]
         return
@@ -130,4 +130,7 @@ controller.hears('(.*)', ['direct_message', 'direct_mention'], (bot, message) ->
             text.push("#{ship_to_icon(card)}#{card.ship} - PS#{card.skill} - #{slots}")
         text.push(card.text)
     return bot.reply(message, text.join('\n'))
-)
+
+controller.hears('(.*)', ['direct_message', 'direct_mention'], card_lookup_cb)
+# Handle non-@ mentions
+controller.hears('^[rR]2-[dD]7: +(.*)$', ['ambient'], card_lookup_cb)

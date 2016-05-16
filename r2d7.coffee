@@ -9,9 +9,11 @@ bot.startRTM((err, bot, payload) ->
         throw new Error('Could not connect to slack!')
 )
 
+name_to_emoji = (name) ->
+    return name.toLowerCase().replace(/[ -]/g, '')
+
 ship_to_icon = (pilot) ->
-    name = pilot.ship.replace(/[ -]/g, '')
-    return ":#{name}:"
+    return ":#{name_to_emoji(pilot.ship)}:"
 
 # For some reason there's a > at the end of the message
 controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, message) ->
@@ -117,8 +119,8 @@ controller.hears('(.*)', ['direct_message', 'direct_mention'], (bot, message) ->
     for card in card_lookup[lookup]
         unique = if card.unique then ':unique:' else ''
         text.push("#{unique}*#{card.slot}* [#{card.points}]")
-        if card.ship
-            slots = (":#{slot.toLowerCase()}:" for slot in card.slots).join(' ')
+        if card.skill  # skill field is (hopefully) unique to pilots
+            slots = (":#{name_to_emoji(slot)}:" for slot in card.slots).join(' ')
             slots = slots.replace(/:bomb:/g, ':xbomb:')
             text.push("#{ship_to_icon(card)}#{card.ship} - PS#{card.skill} - #{slots}")
         text.push(card.text)

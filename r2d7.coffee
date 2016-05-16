@@ -88,10 +88,13 @@ fixIcons = (data) ->
             .replace(/<span class="card-restriction">/g, '_')
             .replace(/<\/span>/g, '_')
 
+strip_name = (name) ->
+    return name.toLowerCase().replace(/["]/g, '').replace(/\ \(.*\)$/, '')
+
 # Build a lookup object
 card_lookup = {}
 add_card = (data) ->
-    name = data.name.toLowerCase().replace(/\ \(.*\)$/, '')
+    name = strip_name(data.name)
     card_lookup[name] = card_lookup[name] || []
     card_lookup[name].push(data)
 for upgrade_name, upgrade of exportObj.upgrades
@@ -112,7 +115,7 @@ for pilot_name, pilot of exportObj.pilots
 
 # Card Lookup
 controller.hears('(.*)', ['direct_message', 'direct_mention'], (bot, message) ->
-    lookup = message.match[1].trim().toLowerCase()
+    lookup = strip_name(message.match[1])
     if not card_lookup[lookup]
         return
     text = []

@@ -122,6 +122,8 @@ controller.hears('(.*)', ['direct_message', 'direct_mention'], (bot, message) ->
     for card in card_lookup[lookup]
         unique = if card.unique then ':unique:' else ''
         text.push("#{unique}*#{card.slot}* [#{card.points}]")
+        if card.limited
+            text.push("_Limited._")
         if card.skill  # skill field is (hopefully) unique to pilots
             slots = (":#{name_to_emoji(slot)}:" for slot in card.slots).join(' ')
             slots = slots.replace(/:bomb:/g, ':xbomb:')

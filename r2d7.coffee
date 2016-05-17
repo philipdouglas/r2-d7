@@ -129,9 +129,11 @@ card_lookup_cb = (bot, message) ->
         if card.limited
             text.push("_Limited._")
         if card.skill  # skill field is (hopefully) unique to pilots
+            ship = exportObj.ships[card.ship]
             line = [
                 "#{faction_to_emoji(card.faction)} #{ship_to_icon(card)}#{card.ship}",
-                "PS#{card.skill}",
+                "PS#{card.skill} [#{ship.attack}#{ship.agility}#{ship.hull}#{ship.shields}]",
+                (":#{name_to_emoji(action)}:" for action in ship.actions).join(' '),
             ]
             if card.slots.length > 0
                 slots = (":#{name_to_emoji(slot)}:" for slot in card.slots).join(' ')

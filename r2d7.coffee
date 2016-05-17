@@ -15,6 +15,13 @@ name_to_emoji = (name) ->
 ship_to_icon = (pilot) ->
     return ":#{name_to_emoji(pilot.ship)}:"
 
+faction_to_emoji = (faction) ->
+    switch faction
+        when 'Scum and Villainy' then return ':scum:'
+        when 'Rebel Alliance' then return ':rebels:'
+        when 'Galactic Empire' then return ':imperials:'
+
+
 # For some reason there's a > at the end of the message
 controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, message) ->
     pieces = message.match[1].split('&amp;')
@@ -24,10 +31,7 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, mes
 
     serialized = serialized.slice(5)
     ships = serialized.split(';')
-    switch decodeURI(pieces[0].split('=')[1])
-        when 'Scum and Villainy' then faction = ':scum:'
-        when 'Rebel Alliance' then faction = ':rebels:'
-        when 'Galactic Empire' then faction = ':imperials:'
+    faction = faction_to_emoji(decodeURI(pieces[0].split('=')[1]))
     output = ["*#{decodeURI(pieces[2].split('=')[1])}* #{faction}"]
     total_points = 0
     for ship in ships
@@ -125,9 +129,15 @@ card_lookup_cb = (bot, message) ->
         if card.limited
             text.push("_Limited._")
         if card.skill  # skill field is (hopefully) unique to pilots
-            slots = (":#{name_to_emoji(slot)}:" for slot in card.slots).join(' ')
-            slots = slots.replace(/:bomb:/g, ':xbomb:')
-            text.push("#{ship_to_icon(card)}#{card.ship} - PS#{card.skill} - #{slots}")
+            line = [
+                "#{faction_to_emoji(card.faction)} #{ship_to_icon(card)}#{card.ship}",
+                "PS#{card.skill}",
+            ]
+            if card.slots.length > 0
+                slots = (":#{name_to_emoji(slot)}:" for slot in card.slots).join(' ')
+                slots = slots.replace(/:bomb:/g, ':xbomb:')
+                line.push(slots)
+            text.push(line.join(' - '))
         text.push(card.text)
     return bot.reply(message, text.join('\n'))
 

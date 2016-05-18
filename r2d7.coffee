@@ -18,8 +18,11 @@ ship_to_icon = (pilot) ->
 faction_to_emoji = (faction) ->
     switch faction
         when 'Scum and Villainy' then return ':scum:'
-        when 'Rebel Alliance' then return ':rebels:'
-        when 'Galactic Empire' then return ':imperials:'
+        when 'Rebel Alliance' then return ':rebel:'
+        when 'Galactic Empire' then return ':empire:'
+        when 'Galactic Empire' then return ':empire:'
+        when 'Resistance' then return ':resistance:'
+        when 'First Order' then return ':first_order:'
 
 
 # For some reason there's a > at the end of the message

@@ -25,17 +25,22 @@ faction_to_emoji = (faction) ->
         when 'First Order' then return ':first_order:'
 
 
+#http://geordanr.github.io/xwing/?f=Rebel%20Alliance&d=v4!s!162:-1,-1:-1:-1:&sn=Unnamed%20Squadron
+
 # For some reason there's a > at the end of the message
 controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>', ["ambient", "direct_mention", "direct_message"], (bot, message) ->
-    pieces = message.match[1].split('&amp;')
-    serialized = pieces[1].split('=')[1]
-    if not /v4!s!/.test(serialized)
-        return bot.reply(message, "I don't understand URLs before v4.")
+    url = require('url')
+    Entities = require('html-entities').XmlEntities
+    entities = new Entities();
+    parsed = url.parse(entities.decode(message.match[1]), parseQueryString=true)
+    console.log(parsed.query)
+    data = parsed.query.d
 
-    serialized = serialized.slice(5)
-    ships = serialized.split(';')
-    faction = faction_to_emoji(decodeURI(pieces[0].split('=')[1]))
-    output = ["*#{decodeURI(pieces[2].split('=')[1]) or 'Nameless Squadron'}* #{faction}"]
+    for data_chunk in data.split('!')
+        if /^\d/.test(data_chunk)
+            ships = data_chunk.split(';')
+    faction = faction_to_emoji(parsed.query.f)
+    output = ["*#{parsed.query.sn or 'Nameless Squadron'}* #{faction}"]
     total_points = 0
     for ship in ships
         if not ship then continue

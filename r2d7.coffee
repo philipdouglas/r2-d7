@@ -146,6 +146,8 @@ card_lookup_cb = (bot, message) ->
                 stats += ":energy#{ship.energy}:"
             stats += ":agility#{ship.agility}::hull#{ship.hull}::shield#{ship.shields}:"
             line.push(stats)
+            if ship.attack_icon
+                line.push(":#{ship.attack_icon.replace(/xwing-miniatures-font-/, '')}:")
 
             line.push((":#{name_to_emoji(action)}:" for action in ship.actions).join(' '))
             if card.slots.length > 0

@@ -132,12 +132,13 @@ card_lookup_cb = (bot, message) ->
     text = []
     for card in card_lookup[lookup]
         unique = if card.unique then ':unique:' else ' '
-        text.push(":#{card.slot}:#{unique}*#{card.name}* [#{card.points}]")
+        slot = if card.slot == 'Pilot' then ship_to_icon(card) else ":#{name_to_emoji(card.slot)}:"
+        text.push("#{slot}#{unique}*#{card.name}* [#{card.points}]")
         if card.limited
             text.push("_Limited._")
         if card.skill  # skill field is (hopefully) unique to pilots
             ship = exportObj.ships[card.ship]
-            line = ["#{faction_to_emoji(card.faction)} #{ship_to_icon(card)}#{card.ship}"]
+            line = ["#{faction_to_emoji(card.faction)} #{card.ship}"]
 
             stats = ":skill#{card.skill}:"
             if ship.attack

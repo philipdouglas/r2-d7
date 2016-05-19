@@ -10,7 +10,7 @@ bot.startRTM((err, bot, payload) ->
 )
 
 name_to_emoji = (name) ->
-    return name.toLowerCase().replace(/[ -\/]/g, '')
+    return name.toLowerCase().replace(/\ \(.*\)$/, '').replace(/[ -\/]/g, '')
 
 ship_to_icon = (pilot) ->
     return ":#{name_to_emoji(pilot.ship)}:"

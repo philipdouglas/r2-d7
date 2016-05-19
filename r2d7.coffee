@@ -26,7 +26,7 @@ faction_to_emoji = (faction) ->
 
 
 # For some reason there's a > at the end of the message
-controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, message) ->
+controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>', ["ambient", "direct_mention", "direct_message"], (bot, message) ->
     pieces = message.match[1].split('&amp;')
     serialized = pieces[1].split('=')[1]
     if not /v4!s!/.test(serialized)

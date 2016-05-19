@@ -72,7 +72,7 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>', ["ambient", "direct_men
                 when 'u'
                     # Hacked support for Tie/X1
                     upgrade = exportObj.upgradesById[extra_id]
-                    if upgrade.slot == 'System' and 'TIE/x1' in upgrades
+                    if upgrade and upgrade.slot == 'System' and 'TIE/x1' in upgrades
                         points -= Math.min(4, upgrade.points)
                     add_upgrade(upgrade)
                 when 't' then add_upgrade(exportObj.titlesById[extra_id])

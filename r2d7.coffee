@@ -131,8 +131,8 @@ card_lookup_cb = (bot, message) ->
         return
     text = []
     for card in card_lookup[lookup]
-        unique = if card.unique then ':unique:' else ''
-        text.push("#{unique}*#{card.slot}* [#{card.points}]")
+        unique = if card.unique then ':unique:' else ' '
+        text.push(":#{card.slot}:#{unique}*#{card.name}* [#{card.points}]")
         if card.limited
             text.push("_Limited._")
         if card.skill  # skill field is (hopefully) unique to pilots

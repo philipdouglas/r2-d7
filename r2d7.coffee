@@ -35,7 +35,7 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>$', ["ambient"], (bot, mes
     serialized = serialized.slice(5)
     ships = serialized.split(';')
     faction = faction_to_emoji(decodeURI(pieces[0].split('=')[1]))
-    output = ["*#{decodeURI(pieces[2].split('=')[1])}* #{faction}"]
+    output = ["*#{decodeURI(pieces[2].split('=')[1]) or 'Nameless Squadron'}* #{faction}"]
     total_points = 0
     for ship in ships
         if not ship then continue

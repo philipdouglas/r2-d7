@@ -33,7 +33,6 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>', ["ambient", "direct_men
     Entities = require('html-entities').XmlEntities
     entities = new Entities();
     parsed = url.parse(entities.decode(message.match[1]), parseQueryString=true)
-    console.log(parsed.query)
     data = parsed.query.d
 
     for data_chunk in data.split('!')

@@ -101,6 +101,8 @@ fixIcons = (data) ->
 
 strip_name = (name) ->
     return name.toLowerCase().replace(/[-]/g, ' ').replace(/["]/g, '').replace(/\ \(.*\)$/, '')
+strip_name_say = (name) ->
+    return name.replace(/\ \(.*\)$/, '')
 
 # Build a lookup object
 card_lookup = {}
@@ -151,7 +153,7 @@ card_lookup_cb = (bot, message) ->
         for card in card_lookup[match]
             unique = if card.unique then ':unique:' else ' '
             slot = if card.slot == 'Pilot' then ship_to_icon(card) else ":#{name_to_emoji(card.slot)}:"
-            text.push("#{slot}#{unique}*#{card.name}* [#{card.points}]")
+            text.push("#{slot}#{unique}*#{strip_name_say(card.name)}* [#{card.points}]")
             if card.limited
                 text.push("_Limited._")
             if card.skill  # skill field is (hopefully) unique to pilots

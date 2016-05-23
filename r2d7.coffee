@@ -100,14 +100,16 @@ fixIcons = (data) ->
             .replace(/<\/span>/g, '_')
 
 strip_name = (name) ->
-    return name.toLowerCase().replace(/["]/g, '').replace(/\ \(.*\)$/, '')
+    return name.toLowerCase().replace(/[-]/g, ' ').replace(/["]/g, '').replace(/\ \(.*\)$/, '')
 
 # Build a lookup object
 card_lookup = {}
-add_card = (data) ->
-    name = strip_name(data.name)
+add_card_name = (name, data) ->
     card_lookup[name] = card_lookup[name] || []
     card_lookup[name].push(data)
+add_card = (data) ->
+    name = strip_name(data.name)
+    add_card_name(name, data)
 for upgrade_name, upgrade of exportObj.upgrades
     fixIcons(upgrade)
     add_card(upgrade)
@@ -124,39 +126,55 @@ for pilot_name, pilot of exportObj.pilots
     fixIcons(pilot)
     add_card(pilot)
 
+alias_map = {
+    'fcs': 'fire control system',
+    'apl': 'anti pursuit lasers',
+    'atc': 'advanced targeting computer',
+    'ptl': 'push the limit',
+}
+
 # Card Lookup
 card_lookup_cb = (bot, message) ->
     lookup = strip_name(message.match[1])
-    if not card_lookup[lookup]
+    matches = []
+    if lookup.length > 2
+        matches = matches.concat(Object.keys(card_lookup).filter((key) ->
+            return ///#{lookup}///.test(key))
+        )
+    if alias_map[lookup] and alias_map[lookup] not in matches
+        matches.push(alias_map[lookup])
+
+    if matches.length < 1
         return
     text = []
-    for card in card_lookup[lookup]
-        unique = if card.unique then ':unique:' else ' '
-        slot = if card.slot == 'Pilot' then ship_to_icon(card) else ":#{name_to_emoji(card.slot)}:"
-        text.push("#{slot}#{unique}*#{card.name}* [#{card.points}]")
-        if card.limited
-            text.push("_Limited._")
-        if card.skill  # skill field is (hopefully) unique to pilots
-            ship = exportObj.ships[card.ship]
-            line = ["#{faction_to_emoji(card.faction)} #{card.ship}"]
+    for match in matches
+        for card in card_lookup[match]
+            unique = if card.unique then ':unique:' else ' '
+            slot = if card.slot == 'Pilot' then ship_to_icon(card) else ":#{name_to_emoji(card.slot)}:"
+            text.push("#{slot}#{unique}*#{card.name}* [#{card.points}]")
+            if card.limited
+                text.push("_Limited._")
+            if card.skill  # skill field is (hopefully) unique to pilots
+                ship = exportObj.ships[card.ship]
+                line = ["#{faction_to_emoji(card.faction)} #{card.ship}"]
 
-            stats = ":skill#{card.skill}:"
-            if ship.attack
-                stats += ":attack#{ship.attack}:"
-            if ship.energy
-                stats += ":energy#{ship.energy}:"
-            stats += ":agility#{ship.agility}::hull#{ship.hull}::shield#{ship.shields}:"
-            line.push(stats)
-            if ship.attack_icon
-                line.push(":#{ship.attack_icon.replace(/xwing-miniatures-font-/, '')}:")
+                stats = ":skill#{card.skill}:"
+                if ship.attack
+                    stats += ":attack#{ship.attack}:"
+                if ship.energy
+                    stats += ":energy#{ship.energy}:"
+                stats += ":agility#{ship.agility}::hull#{ship.hull}::shield#{ship.shields}:"
+                line.push(stats)
+                if ship.attack_icon
+                    line.push(":#{ship.attack_icon.replace(/xwing-miniatures-font-/, '')}:")
 
-            line.push((":#{name_to_emoji(action)}:" for action in ship.actions).join(' '))
-            if card.slots.length > 0
-                slots = (":#{name_to_emoji(slot)}:" for slot in card.slots).join(' ')
-                slots = slots.replace(/:bomb:/g, ':xbomb:')
-                line.push(slots)
-            text.push(line.join(' - '))
-        text.push(card.text)
+                line.push((":#{name_to_emoji(action)}:" for action in ship.actions).join(' '))
+                if card.slots.length > 0
+                    slots = (":#{name_to_emoji(slot)}:" for slot in card.slots).join(' ')
+                    slots = slots.replace(/:bomb:/g, ':xbomb:')
+                    line.push(slots)
+                text.push(line.join(' - '))
+            text.push(card.text)
     return bot.reply(message, text.join('\n'))
 
 controller.hears('(.*)', ['direct_message', 'direct_mention'], card_lookup_cb)

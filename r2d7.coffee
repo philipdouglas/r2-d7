@@ -153,6 +153,8 @@ card_lookup_cb = (bot, message) ->
         for card in card_lookup[match]
             unique = if card.unique then ':unique:' else ' '
             slot = if card.slot == 'Pilot' then ship_to_icon(card) else ":#{name_to_emoji(card.slot)}:"
+            if card.name == 'Emperor Palpatine'
+                slot += ":crew:"
             text.push("#{slot}#{unique}*#{strip_name_say(card.name)}* [#{card.points}]")
             if card.limited
                 text.push("_Limited._")

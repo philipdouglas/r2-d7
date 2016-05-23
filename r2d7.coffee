@@ -133,6 +133,8 @@ alias_map = {
     'apl': 'anti pursuit lasers',
     'atc': 'advanced targeting computer',
     'ptl': 'push the limit',
+    'hlc': 'heavy laser cannon',
+    'tlt': 'twin laser turret',
 }
 
 # Card Lookup

@@ -100,7 +100,7 @@ fixIcons = (data) ->
             .replace(/<\/span>/g, '_')
 
 strip_name = (name) ->
-    return name.toLowerCase().replace(/[-]/g, ' ').replace(/["]/g, '').replace(/\ \(.*\)$/, '')
+    return name.toLowerCase().replace(/[-]/g, ' ').replace(/\ \(.*\)$/, '').replace(/[^a-z0-9]/g, '')
 strip_name_say = (name) ->
     return name.replace(/\ \(.*\)$/, '')
 

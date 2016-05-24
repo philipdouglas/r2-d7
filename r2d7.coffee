@@ -163,8 +163,7 @@ card_lookup_cb = (bot, message) ->
             if card.name == 'Emperor Palpatine'
                 slot += ":crew:"
             text.push("#{slot}#{unique}*#{strip_name_say(card.name)}* [#{card.points}]")
-            if card.limited
-                text.push("_Limited._")
+
             if card.skill  # skill field is (hopefully) unique to pilots
                 ship = exportObj.ships[card.ship]
                 line = ["#{faction_to_emoji(card.faction)} #{card.ship}"]
@@ -184,6 +183,20 @@ card_lookup_cb = (bot, message) ->
                     slots = (":#{name_to_emoji(slot)}:" for slot in card.slots).join('')
                     line.push(slots)
                 text.push(line.join(' | '))
+
+            if card.attack or card.energy  # secondary weapon and energy stuff
+                line = []
+                if card.attack
+                    line.push(":attack::attack#{card.attack}:")
+                if card.range
+                    line.push("Range: #{card.range}")
+                if card.energy
+                    line.push(":energy::energy#{card.energy}:")
+                text.push(line.join(' | '))
+
+            if card.limited
+                text.push("_Limited._")
+
             text.push(card.text)
     return bot.reply(message, text.join('\n'))
 

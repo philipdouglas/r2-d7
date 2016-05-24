@@ -52,7 +52,7 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>', ["ambient", "direct_men
         add_upgrade = (upgrade) ->
             if upgrade is undefined
                 return
-            upgrades.push(strip_name_say(upgrade.name))
+            upgrades.push(upgrade.name)
             points += upgrade.points
 
         # Upgrade : Titles : Modifications : Extra Slots
@@ -78,7 +78,7 @@ controller.hears('geordanr\.github\.io\/xwing\/\?(.*)>', ["ambient", "direct_men
                 when 't' then add_upgrade(exportObj.titlesById[extra_id])
                 when 'm' then add_upgrade(exportObj.modificationsById[extra_id])
 
-        output.push("_#{strip_name_say(pilot.name)}_ #{ship_to_icon(pilot)}: #{upgrades.join(', ')} *[#{points}]*")
+        output.push("_#{pilot.name}_ #{ship_to_icon(pilot)}: #{upgrades.join(', ')} *[#{points}]*")
         total_points += points
 
     output[0] += " *[#{total_points}]*"

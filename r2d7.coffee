@@ -10,7 +10,7 @@ bot.startRTM((err, bot, payload) ->
 )
 
 name_to_emoji = (name) ->
-    return name.toLowerCase().replace(/\ \(.*\)$/, '').replace(/[ -\/]/g, '')
+    return name.toLowerCase().replace(/\ \(.*\)$/, '').replace(/[ -\/]/g, '').replace(/bomb/g, 'xbomb')
 
 ship_to_icon = (pilot) ->
     return ":#{name_to_emoji(pilot.ship)}:"
@@ -182,7 +182,6 @@ card_lookup_cb = (bot, message) ->
                 line.push((":#{name_to_emoji(action)}:" for action in ship.actions).join(' '))
                 if card.slots.length > 0
                     slots = (":#{name_to_emoji(slot)}:" for slot in card.slots).join('')
-                    slots = slots.replace(/:bomb:/g, ':xbomb:')
                     line.push(slots)
                 text.push(line.join(' | '))
             text.push(card.text)

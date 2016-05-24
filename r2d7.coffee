@@ -135,6 +135,11 @@ alias_map = {
     'ptl': 'push the limit',
     'hlc': 'heavy laser cannon',
     'tlt': 'twin laser turret',
+    'vi': 'veteran instincts',
+    'at': 'autothrusters',
+    'as': 'advanced sensors',
+    'acd': 'advanced cloaking device',
+    'eu': 'engine upgrade',
 }
 
 # Card Lookup

@@ -90,6 +90,9 @@ class CardLookup
             slots = (":#{utils.name_to_emoji(slot)}:" for slot in pilot.slots).join('')
             line.push(slots)
 
+        if ship.epic_points
+            line.push(":epic:#{ship.epic_points}")
+
         return line.join(' | ')
 
     make_callback: ->

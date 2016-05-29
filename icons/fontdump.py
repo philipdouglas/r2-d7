@@ -9,6 +9,7 @@ fonts = {
         'attack-180': '>',
         'attack': '%',
         'energy': '(',
+        'epic': ')',
         'agility': 'e',
         'hull': '&',
         'shield': '*',

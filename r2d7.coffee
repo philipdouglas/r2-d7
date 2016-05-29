@@ -100,7 +100,7 @@ fixIcons = (data) ->
             .replace(/<\/span>/g, '_')
 
 strip_name = (name) ->
-    return name.toLowerCase().replace(/[-]/g, ' ').replace(/\ \(.*\)$/, '').replace(/[^a-z0-9 ]/g, '')
+    return name.toLowerCase().replace(/\ \(.*\)$/, '').replace(/[^a-z0-9]/g, '')
 strip_name_say = (name) ->
     return name.replace(/\ \(.*\)$/, '')
 
@@ -127,20 +127,49 @@ for pilot_name, pilot of exportObj.pilots
     pilot.slot = 'Pilot'
     fixIcons(pilot)
     add_card(pilot)
+for ship_name, ship of exportObj.ships
+    ship.slot = ship.name
+    add_card(ship)
 
 alias_map = {
-    'fcs': 'fire control system',
-    'apl': 'anti pursuit lasers',
-    'atc': 'advanced targeting computer',
-    'ptl': 'push the limit',
-    'hlc': 'heavy laser cannon',
-    'tlt': 'twin laser turret',
-    'vi': 'veteran instincts',
+    'fcs': 'firecontrolsystem',
+    'apl': 'antipursuitlasers',
+    'atc': 'advancedtargetingcomputer',
+    'ptl': 'pushthelimit',
+    'hlc': 'heavylasercannon',
+    'tlt': 'twinlaserturret',
+    'vi': 'veteraninstincts',
     'at': 'autothrusters',
-    'as': 'advanced sensors',
-    'acd': 'advanced cloaking device',
-    'eu': 'engine upgrade',
+    'as': 'advancedsensors',
+    'acd': 'advancedcloakingdevice',
+    'eu': 'engineupgrade',
 }
+
+build_ship_stats = (ship, pilot) ->
+    line = []
+    if pilot
+        ship.factions = [pilot.faction]
+    line.push((faction_to_emoji(faction) for faction in ship.factions).join(''))
+
+    stats = ''
+    if pilot
+        stats += ":skill#{pilot.skill}:"
+    if ship.attack
+        stats += ":attack#{ship.attack}:"
+    if ship.energy
+        stats += ":energy#{ship.energy}:"
+    stats += ":agility#{ship.agility}::hull#{ship.hull}::shield#{ship.shields}:"
+    line.push(stats)
+
+    if ship.attack_icon
+        line.push(":#{ship.attack_icon.replace(/xwing-miniatures-font-/, '')}:")
+
+    line.push((":#{name_to_emoji(action)}:" for action in ship.actions).join(' '))
+    if pilot and pilot.slots.length > 0
+        slots = (":#{name_to_emoji(slot)}:" for slot in pilot.slots).join('')
+        line.push(slots)
+
+    return line.join(' | ')
 
 # Card Lookup
 card_lookup_cb = (bot, message) ->
@@ -162,29 +191,16 @@ card_lookup_cb = (bot, message) ->
             slot = if card.slot == 'Pilot' then ship_to_icon(card) else ":#{name_to_emoji(card.slot)}:"
             if card.name == 'Emperor Palpatine'
                 slot += ":crew:"
-            text.push("#{slot}#{unique}*#{strip_name_say(card.name)}* [#{card.points}]")
+            points  = if card.points is not undefined then "[#{card.points}]" else ''
+            text.push("#{slot}#{unique}*#{strip_name_say(card.name)}* #{points}")
 
             if card.skill  # skill field is (hopefully) unique to pilots
-                ship = exportObj.ships[card.ship]
-                line = ["#{faction_to_emoji(card.faction)} #{card.ship}"]
+                text.push(build_ship_stats(exportObj.ships[card.ship], card))
 
-                stats = ":skill#{card.skill}:"
-                if ship.attack
-                    stats += ":attack#{ship.attack}:"
-                if ship.energy
-                    stats += ":energy#{ship.energy}:"
-                stats += ":agility#{ship.agility}::hull#{ship.hull}::shield#{ship.shields}:"
-                line.push(stats)
-                if ship.attack_icon
-                    line.push(":#{ship.attack_icon.replace(/xwing-miniatures-font-/, '')}:")
+            else if card.maneuvers  # Ship
+                text.push(build_ship_stats(card))
 
-                line.push((":#{name_to_emoji(action)}:" for action in ship.actions).join(' '))
-                if card.slots.length > 0
-                    slots = (":#{name_to_emoji(slot)}:" for slot in card.slots).join('')
-                    line.push(slots)
-                text.push(line.join(' | '))
-
-            if card.attack or card.energy  # secondary weapon and energy stuff
+            else if card.attack or card.energy  # secondary weapon and energy stuff
                 line = []
                 if card.attack
                     line.push(":attack::attack#{card.attack}:")
@@ -197,7 +213,8 @@ card_lookup_cb = (bot, message) ->
             if card.limited
                 text.push("_Limited._")
 
-            text.push(card.text)
+            if card.text
+                text.push(card.text)
     return bot.reply(message, text.join('\n'))
 
 controller.hears('(.*)', ['direct_message', 'direct_mention'], card_lookup_cb)

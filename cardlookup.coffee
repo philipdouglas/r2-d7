@@ -166,11 +166,22 @@ class CardLookup
     }
 
     build_maneuver: (ship) ->
+        # check for blank columns
+        cols = []
+        for bearing in [0..(ship.maneuvers[0].length - 1)]
+            empty = true
+            for distance in [(ship.maneuvers.length - 1)..0]
+                if ship.maneuvers[distance][bearing]
+                    empty = false
+            if not empty
+                cols.push(bearing)
+        console.log(cols)
+
         lines = []
         for distance in [(ship.maneuvers.length - 1)..0]
             line = ["#{distance} "]
             no_bearings = true
-            for bearing in [0..(ship.maneuvers[0].length - 1)]
+            for bearing in cols
                 difficulty = ship.maneuvers[distance][bearing]
                 if difficulty == 0
                     line.push(':blank:')

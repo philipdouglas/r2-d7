@@ -171,6 +171,41 @@ build_ship_stats = (ship, pilot) ->
 
     return line.join(' | ')
 
+difficulties = {
+    0: 'blank',
+    1: '', # Default black icons are white for out purposes
+    2: 'green',
+    3: 'red',
+}
+bearings = {
+    0: 'turnleft',
+    1: 'bankleft',
+    2: 'straight',
+    3: 'bankright',
+    4: 'turnright',
+    5: 'kturn',
+    6: 'sloopleft',
+    7: 'sloopright',
+    8: 'trollleft',
+    9: 'trollright',
+}
+
+build_maneuver = (ship) ->
+    lines = []
+    for distance in [(ship.maneuvers.length - 1)..0]
+        line = ["#{distance} "]
+        no_bearings = true
+        for bearing in [0..(ship.maneuvers[0].length - 1)]
+            difficulty = ship.maneuvers[distance][bearing]
+            switch difficulty
+                when 0 then line.push(':blank:')
+                else
+                    no_bearings = false
+                    line.push(":#{difficulties[difficulty]}#{bearings[bearing]}:")
+        if not no_bearings
+            lines.push(line.join(''))
+    return lines
+
 # Card Lookup
 card_lookup_cb = (bot, message) ->
     lookup = strip_name(message.match[1])
@@ -199,6 +234,8 @@ card_lookup_cb = (bot, message) ->
 
             else if card.maneuvers  # Ship
                 text.push(build_ship_stats(card))
+                for line in build_maneuver(card)
+                    text.push(line)
 
             else if card.attack or card.energy  # secondary weapon and energy stuff
                 line = []

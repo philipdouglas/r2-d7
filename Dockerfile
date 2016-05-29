@@ -14,7 +14,7 @@ RUN npm --no-color -g install iced-coffee-script
 # Build js files
 COPY *.coffee /usr/src/app/
 RUN cat cards-common.coffee cards-en.coffee > cards-combined.coffee
-RUN iced -c r2d7.coffee cards-combined.coffee
+RUN iced -c r2d7.coffee cards-combined.coffee cardlookup.coffee utils.coffee listprinter.coffee
 
 #set startup commands
 CMD ["node", "r2d7.js"]

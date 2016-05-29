@@ -143,6 +143,7 @@ alias_map = {
     'as': 'advancedsensors',
     'acd': 'advancedcloakingdevice',
     'eu': 'engineupgrade',
+    'tap': 'tieadvancedprototype',
 }
 
 build_ship_stats = (ship, pilot) ->

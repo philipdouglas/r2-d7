@@ -147,7 +147,7 @@ class CardLookup
 
     difficulties: {
         0: 'blank',
-        1: '', # Default black icons are white for out purposes
+        1: '', # Default black icons are white for our purposes
         2: 'green',
         3: 'red',
     }
@@ -172,11 +172,12 @@ class CardLookup
             no_bearings = true
             for bearing in [0..(ship.maneuvers[0].length - 1)]
                 difficulty = ship.maneuvers[distance][bearing]
-                switch difficulty
-                    when 0 then line.push(':blank:')
-                    else
-                        no_bearings = false
-                        line.push(":#{@difficulties[difficulty]}#{@bearings[bearing]}:")
+                if difficulty == 0
+                    line.push(':blank:')
+                else
+                    no_bearings = false
+                    bearing = if distance == 0 then 'stop' else @bearings[bearing]
+                    line.push(":#{@difficulties[difficulty]}#{bearing}:")
             if not no_bearings
                 lines.push(line.join(''))
         return lines

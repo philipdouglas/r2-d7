@@ -85,9 +85,9 @@ class CardLookup
         if ship.attack_icon
             line.push(":#{ship.attack_icon.replace(/xwing-miniatures-font-/, '')}:")
 
-        line.push((":#{utils.name_to_emoji(action)}:" for action in ship.actions).join(' '))
+        line.push((utils.name_to_emoji(action) for action in ship.actions).join(' '))
         if pilot and pilot.slots.length > 0
-            slots = (":#{utils.name_to_emoji(slot)}:" for slot in pilot.slots).join('')
+            slots = (utils.name_to_emoji(slot) for slot in pilot.slots).join('')
             line.push(slots)
 
         if ship.epic_points
@@ -114,10 +114,10 @@ class CardLookup
             for match in matches
                 for card in self.card_lookup[match]
                     unique = if card.unique then ':unique:' else ' '
-                    slot = if card.slot == 'Pilot' then utils.ship_to_icon(card) else ":#{utils.name_to_emoji(card.slot)}:"
+                    slot = if card.slot == 'Pilot' then utils.ship_to_icon(card) else utils.name_to_emoji(card.slot)
                     if card.name == 'Emperor Palpatine'
                         slot += ":crew:"
-                    points  = if card.points is not undefined then "[#{card.points}]" else ''
+                    points = if card.points is undefined then '' else "[#{card.points}]"
                     text.push("#{slot}#{unique}*#{self.strip_name_say(card.name)}* #{points}")
 
                     if card.skill  # skill field is (hopefully) unique to pilots

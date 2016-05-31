@@ -20,6 +20,8 @@ class CardLookup
         'ei': 'experimentalinterface',
         'k4': 'k4securitydroid',
         'stressbot': 'r3a2',
+        'countesskturn': 'countessryad',
+        'countesskturns': 'countessryad',
     }
 
     constructor: (data) ->

@@ -19,6 +19,7 @@ class CardLookup
         'sd': 'stealthdevice',
         'ei': 'experimentalinterface',
         'k4': 'k4securitydroid',
+        'stressbot': 'r3a2',
     }
 
     constructor: (data) ->

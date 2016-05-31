@@ -22,7 +22,7 @@ class CardLookup
         'stressbot': 'r3a2',
         'countesskturn': 'countessryad',
         'countesskturns': 'countessryad',
-        'countessgreenkturns': 'countessryad',
+        'countessgreenkturn': 'countessryad',
     }
 
     constructor: (data) ->

@@ -14,6 +14,12 @@ class CardLookup
         'acd': 'advancedcloakingdevice',
         'eu': 'engineupgrade',
         'tap': 'tieadvancedprototype',
+        'atc': 'advancedtargetingcomputer',
+        'ac': 'accuracycorrector',
+        'abt': 'autoblasterturret',
+        'sd': 'stealthdevice',
+        'ei': 'experimentalinterface',
+        'k4': 'k4securitydroid',
     }
 
     constructor: (data) ->

@@ -175,6 +175,8 @@ class CardLookup
     }
 
     build_maneuver: (ship) ->
+        if ship.maneuvers is undefined or ship.maneuvers.length == 0
+            return []
         # check for blank columns
         cols = []
         for bearing in [0..(ship.maneuvers[0].length - 1)]

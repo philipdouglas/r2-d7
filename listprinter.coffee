@@ -32,7 +32,10 @@ class ListPrinter
                 points += pilot.points
                 upgrades = []
 
-                add_upgrade = (upgrade) ->
+                add_upgrade = (cards, card_id) ->
+                    if card_id == -1
+                        return
+                    upgrade = cards[card_id]
                     if upgrade is undefined
                         upgrades.push("*Unrecognised Upgrade*")
                         return
@@ -42,13 +45,13 @@ class ListPrinter
                 # Upgrade : Titles : Modifications : Extra Slots
                 for upgrade_id in ship[1].split(',')
                     upgrade_id = parseInt(upgrade_id)
-                    add_upgrade(self.data.upgradesById[upgrade_id])
+                    add_upgrade(self.data.upgradesById, upgrade_id)
                 for title_id in ship[2].split(',')
                     title_id = parseInt(title_id)
-                    add_upgrade(self.data.titlesById[title_id])
+                    add_upgrade(self.data.titlesById, title_id)
                 for mod_id in ship[3].split(',')
                     mod_id = parseInt(mod_id)
-                    add_upgrade(self.data.modificationsById[mod_id])
+                    add_upgrade(self.data.modificationsById, mod_id)
                 for extra in ship[4].split(',')
                     extra = extra.split('.')
                     extra_id = parseInt(extra[1])
@@ -58,9 +61,9 @@ class ListPrinter
                             upgrade = self.data.upgradesById[extra_id]
                             if upgrade and upgrade.slot == 'System' and 'TIE/x1' in upgrades
                                 points -= Math.min(4, upgrade.points)
-                            add_upgrade(upgrade)
-                        when 't' then add_upgrade(self.data.titlesById[extra_id])
-                        when 'm' then add_upgrade(self.data.modificationsById[extra_id])
+                            add_upgrade(self.data.upgradesById, extra_id)
+                        when 't' then add_upgrade(self.data.titlesById, extra_id)
+                        when 'm' then add_upgrade(self.data.modificationsById, extra_id)
 
                 output.push("#{utils.ship_to_icon(pilot)} _#{pilot.name}_: #{upgrades.join(', ')} *[#{points}]*")
                 total_points += points

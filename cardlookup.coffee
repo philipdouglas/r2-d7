@@ -186,7 +186,6 @@ class CardLookup
                     empty = false
             if not empty
                 cols.push(bearing)
-        console.log(cols)
 
         lines = []
         for distance in [(ship.maneuvers.length - 1)..0]

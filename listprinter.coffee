@@ -26,11 +26,15 @@ class ListPrinter
                 points = 0
                 ship = ship.split(':')
                 pilot = self.data.pilotsById[ship[0]]
+                if pilot is undefined
+                    output.push(":question: *_Unrecognised Ship ID_*")
+                    continue
                 points += pilot.points
                 upgrades = []
 
                 add_upgrade = (upgrade) ->
                     if upgrade is undefined
+                        upgrades.push("*Unrecognised Upgrade*")
                         return
                     upgrades.push(upgrade.name)
                     points += upgrade.points

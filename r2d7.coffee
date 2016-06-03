@@ -7,7 +7,7 @@ bot.startRTM((err, bot, payload) ->
 )
 
 #Help
-controller.hears('help', ["ambient", "direct_mention", "direct_message"], (bot, message) ->
+controller.hears('^help$', ["ambient", "direct_mention", "direct_message"], (bot, message) ->
     bot.reply(message, "I am R2-D7, xwingtmg.slack.com's bot.\n
         *List Printing:* If you paste a (Yet Another) X-Wing Miniatures Squad Builder permalink into a channel I'm in
         (or direct message me one), I will print a summary of the list.\n

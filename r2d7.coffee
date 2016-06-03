@@ -6,6 +6,7 @@ bot.startRTM((err, bot, payload) ->
         throw new Error('Could not connect to slack!')
 )
 
+require('./xwing-shim')
 exportObj = require('./cards-combined')
 exportObj.cardLoaders.English()
 

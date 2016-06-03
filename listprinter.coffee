@@ -58,7 +58,7 @@ class ListPrinter
                         when 't' then add_upgrade(self.data.titlesById[extra_id])
                         when 'm' then add_upgrade(self.data.modificationsById[extra_id])
 
-                output.push("_#{pilot.name}_ #{utils.ship_to_icon(pilot)}: #{upgrades.join(', ')} *[#{points}]*")
+                output.push("#{utils.ship_to_icon(pilot)} _#{pilot.name}_: #{upgrades.join(', ')} *[#{points}]*")
                 total_points += points
 
             output[0] += " *[#{total_points}]*"

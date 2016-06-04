@@ -11,9 +11,12 @@ controller.hears('^help$', ["ambient", "direct_mention", "direct_message"], (bot
     bot.reply(message, "I am R2-D7, xwingtmg.slack.com's bot.\n
         *List Printing:* If you paste a (Yet Another) X-Wing Miniatures Squad Builder permalink into
         a channel I'm in (or direct message me one), I will print a summary of the list.\n
-        *Card Lookup:* Say something to me (<@r2-d7> something) and I will describe any upgrades,
-        ships or pilots that match what you said. If you only want cards in a particular slot or
-        ship, begin your lookup with the emoji for that ship or slot. (eg. @r2-d7: :crew: rey)\n
+        *Card Lookup:* Say something to me (_<@r2-d7>: something_) and I will describe any upgrades,
+        ships or pilots that match what you said.\n
+        If you only want cards in a particular slot or ship, begin your lookup with the emoji for
+        that ship or slot. (eg. _<@r2-d7>: :crew: rey_)\n
+        You can also search for cards by points value in a particular slot. Eg. _<@r2-d7> :crew: <=3_.
+        =, <, >, <= and >= are supported.
     ")
 )
 

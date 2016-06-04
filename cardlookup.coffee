@@ -1,4 +1,6 @@
 utils = require('./utils')
+Entities = require('html-entities').XmlEntities
+entities = new Entities();
 
 class CardLookup
     alias_map: {
@@ -106,38 +108,59 @@ class CardLookup
 
         return line.join(' | ')
 
+    make_points_filter: (operator, filter) ->
+        filter = parseInt(filter)
+        return (value) ->
+            if value is undefined
+                return false
+            switch operator
+                when '=', '==' then return value == filter
+                when '>' then return value > filter
+                when '<' then return value < filter
+                when '>=' then return value >= filter
+                when '<=' then return value <= filter
+
     make_callback: ->
         # Frigging Javascript
         self = this
         return (bot, message) ->
-            pattern = /(?::([^:]+):)?(.+)/
-            match = pattern.exec(message.match[1])
-            filter = match[1]
-            console.log(filter)
+            pattern = /(?::([^:]+):)? *(?:([^=><].+)|([=><][=><]?)(\d+))/
+            match = pattern.exec(entities.decode(message.match[1]))
+            slot_filter = match[1]
 
-            lookup = self.strip_card_name(match[2])
-            console.log(lookup)
-            matches = []
-            if lookup.length > 2
-                matches = matches.concat(Object.keys(self.card_lookup).filter((key) ->
-                    return ///#{lookup}///.test(key))
-                )
-            if self.alias_map[lookup] and self.alias_map[lookup] not in matches
-                matches.push(self.alias_map[lookup])
+            if match[2]
+                lookup = self.strip_card_name(match[2])
+                matches = []
+                if lookup.length > 2
+                    matches = matches.concat(Object.keys(self.card_lookup).filter((key) ->
+                        return ///#{lookup}///.test(key))
+                    )
+                if self.alias_map[lookup] and self.alias_map[lookup] not in matches
+                    matches.push(self.alias_map[lookup])
+                    points_filter = undefined
+            else
+                if not slot_filter
+                    return bot.reply(message,
+                        "You need to specify a slot to search by points value.")
+                matches = Object.keys(self.card_lookup)
+                points_filter = self.make_points_filter(match[3], match[4])
 
             if matches.length < 1
                 return
             text = []
             for match in matches
                 for card in self.card_lookup[match]
-                    if filter and card.slot != filter
+                    if slot_filter and card.slot != slot_filter
+                        continue
+                    if points_filter and not points_filter(card.points)
                         continue
 
                     unique = if card.unique then ':unique:' else ' '
+                    slot = ":#{card.slot}:"
                     if card.name == 'Emperor Palpatine'
                         slot += ":crew:"
                     points = if card.points is undefined then '' else "[#{card.points}]"
-                    text.push(":#{card.slot}:#{unique}*#{self.strip_name_say(card.name)}* #{points}")
+                    text.push("#{slot}#{unique}*#{self.strip_name_say(card.name)}* #{points}")
 
                     if card.ship_card
                         text.push(self.build_ship_stats(card.ship_card, card))

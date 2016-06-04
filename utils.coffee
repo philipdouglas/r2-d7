@@ -1,5 +1,8 @@
+exports.strip_name = (name) ->
+    return name.toLowerCase().replace(/\ \(.*\)$/, '').replace(/[ -\/]/g, '')
+
 exports.name_to_emoji = (name) ->
-    name = ":#{name.toLowerCase().replace(/\ \(.*\)$/, '').replace(/[ -\/]/g, '')}:"
+    name = ":#{exports.strip_name(name)}:"
     return name.replace(/:bomb:/g, ':xbomb:')
 
 exports.ship_to_icon = (pilot) ->

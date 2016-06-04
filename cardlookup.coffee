@@ -40,7 +40,8 @@ class CardLookup
             @fix_icons(title)
             @add_card(title)
         for pilot_name, pilot of @data.pilots
-            pilot.slot = 'Pilot'
+            pilot.ship_card = @data.ships[pilot.ship]
+            pilot.slot = pilot.ship_card.name
             @fix_icons(pilot)
             @add_card(pilot)
         for ship_name, ship of @data.ships
@@ -52,7 +53,8 @@ class CardLookup
         @card_lookup[name].push(data)
 
     add_card: (data) ->
-        name = @strip_name(data.name)
+        name = @strip_card_name(data.name)
+        data.slot = utils.strip_name(data.slot)
         @add_card_name(name, data)
 
     fix_icons: (data) ->
@@ -69,7 +71,7 @@ class CardLookup
                 .replace(/<span class="card-restriction">/g, '_')
                 .replace(/<\/span>/g, '_')
 
-    strip_name: (name) ->
+    strip_card_name: (name) ->
         return name.toLowerCase().replace(/\ \(.*\)$/, '').replace(/[^a-z0-9]/g, '')
 
     strip_name_say: (name) ->
@@ -108,7 +110,13 @@ class CardLookup
         # Frigging Javascript
         self = this
         return (bot, message) ->
-            lookup = self.strip_name(message.match[1])
+            pattern = /(?::([^:]+):)?(.+)/
+            match = pattern.exec(message.match[1])
+            filter = match[1]
+            console.log(filter)
+
+            lookup = self.strip_card_name(match[2])
+            console.log(lookup)
             matches = []
             if lookup.length > 2
                 matches = matches.concat(Object.keys(self.card_lookup).filter((key) ->
@@ -122,15 +130,17 @@ class CardLookup
             text = []
             for match in matches
                 for card in self.card_lookup[match]
+                    if filter and card.slot != filter
+                        continue
+
                     unique = if card.unique then ':unique:' else ' '
-                    slot = if card.slot == 'Pilot' then utils.ship_to_icon(card) else utils.name_to_emoji(card.slot)
                     if card.name == 'Emperor Palpatine'
                         slot += ":crew:"
                     points = if card.points is undefined then '' else "[#{card.points}]"
-                    text.push("#{slot}#{unique}*#{self.strip_name_say(card.name)}* #{points}")
+                    text.push(":#{card.slot}:#{unique}*#{self.strip_name_say(card.name)}* #{points}")
 
-                    if card.skill  # skill field is (hopefully) unique to pilots
-                        text.push(self.build_ship_stats(self.data.ships[card.ship], card))
+                    if card.ship_card
+                        text.push(self.build_ship_stats(card.ship_card, card))
 
                     else if card.maneuvers  # Ship
                         text.push(self.build_ship_stats(card))

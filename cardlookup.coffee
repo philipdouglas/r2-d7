@@ -127,6 +127,8 @@ class CardLookup
             pattern = /(?::([^:]+):)? *(?:([^=><].+)|([=><][=><]?)(\d+))/
             match = pattern.exec(entities.decode(message.match[1]))
             slot_filter = match[1]
+            if slot_filter == 'xbomb'
+                slot_filter = 'bomb'
 
             if match[2]
                 lookup = self.strip_card_name(match[2])
@@ -156,7 +158,7 @@ class CardLookup
                         continue
 
                     unique = if card.unique then ':unique:' else ' '
-                    slot = ":#{card.slot}:"
+                    slot = utils.name_to_emoji(card.slot)
                     if card.name == 'Emperor Palpatine'
                         slot += ":crew:"
                     points = if card.points is undefined then '' else "[#{card.points}]"

@@ -43,6 +43,9 @@ class CardLookup
             @add_card(title)
         for pilot_name, pilot of @data.pilots
             pilot.ship_card = @data.ships[pilot.ship]
+            if pilot.ship_override
+                pilot.ship_card = Object.assign({}, pilot.ship_card)
+                pilot.ship_card = Object.assign(pilot.ship_card, pilot.ship_override)
             pilot.slot = pilot.ship_card.name
             @fix_icons(pilot)
             @add_card(pilot)

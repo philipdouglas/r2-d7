@@ -33,7 +33,7 @@ class ListPrinter
                 upgrades = []
 
                 add_upgrade = (cards, card_id) ->
-                    if card_id == -1
+                    if card_id == -1 or card_id == ''
                         return
                     upgrade = cards[card_id]
                     if upgrade is undefined

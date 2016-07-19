@@ -80,12 +80,24 @@ exportObj.translations.English =
         epic: "epic"
         limited: "limited"
     byCSSSelector:
-        '.xwing-card-browser .translate.sort-cards-by': 'Sort cards by'
+        # Warnings
+        '.unreleased-content-used .translated': 'This squad uses unreleased content!'
+        '.epic-content-used .translated': 'This squad uses Epic content!'
+        '.illegal-epic-too-many-small-ships .translated': 'You may not field more than 12 of the same type Small ship!'
+        '.illegal-epic-too-many-large-ships .translated': 'You may not field more than 6 of the same type Large ship!'
+        '.collection-invalid .translated': 'You cannot field this list with your collection!'
+        # Type selector
+        '.game-type-selector option[value="standard"]': 'Standard'
+        '.game-type-selector option[value="custom"]': 'Custom'
+        '.game-type-selector option[value="epic"]': 'Epic'
+        '.game-type-selector option[value="team-epic"]': 'Team Epic'
+        # Card browser
         '.xwing-card-browser option[value="name"]': 'Name'
         '.xwing-card-browser option[value="source"]': 'Source'
         '.xwing-card-browser option[value="type-by-points"]': 'Type (by Points)'
         '.xwing-card-browser option[value="type-by-name"]': 'Type (by Name)'
         '.xwing-card-browser .translate.select-a-card': 'Select a card from the list at the left.'
+        '.xwing-card-browser .translate.sort-cards-by': 'Sort cards by'
         # Info well
         '.info-well .info-ship td.info-header': 'Ship'
         '.info-well .info-skill td.info-header': 'Skill'
@@ -405,8 +417,14 @@ exportObj.cardLoaders.English = () ->
             text: '''When attacking or defending, you may spend a target lock you have on the enemy ship to add 1 %FOCUS% result to your roll.'''
         'Shara Bey':
             text: '''When another friendly ship at Range 1-2 is attacking, it may treat your blue target lock tokens as its own.'''
+        'Thane Kyrell':
+            text: '''After an enemy ship in your firing arc at Range 1-3 attacks another friendly ship, you may perform a free action.'''
+        'Braylen Stramm':
+            text: '''After you execute a maneuver, you may roll an attack die.  On a %HIT% or %CRIT% result, remove 1 stress token from your ship.'''
         '"Quickdraw"':
             text: '''Once per round, when you lose a shield token, you may perform a primary weapon attack.'''
+        '"Backdraft"':
+            text: '''When attacking a ship inside your auxiliary firing arc, you may add 1 %CRIT% result.'''
         'Fenn Rau':
             text: '''When attacking or defending, if the enemy ship is at Range 1, you may roll 1 additional die.'''
         'Kad Solus':
@@ -734,13 +752,13 @@ exportObj.cardLoaders.English = () ->
         'Ordnance Experts':
             text: '''Once per round, when a friendly ship at Range 1-3 performs an attack with a %TORPEDO% or %MISSILE% secondary weapon, it may change 1 of its blank results to a %HIT% result.'''
         'Docking Clamps':
-            text: '''%GOZANTIONLY% %LIMITED%%LINEBREAK%You may attach 4 up to TIE fighters, TIE interceptors, TIE bombers, or TIE Advanced to this ship.  All attached ships must have the same ship type.'''
+            text: '''%GOZANTIONLY% %LIMITED%%LINEBREAK%You may attach up to 4 TIE fighters, TIE interceptors, TIE bombers, or TIE Advanced to this ship.  All attached ships must have the same ship type.'''
         '"Zeb" Orrelios':
             text: """%REBELONLY%%LINEBREAK%Enemy ships inside your firing arc that you are touching are not considered to be touching you when either you or they activate during the Combat phase."""
         'Kanan Jarrus':
             text: """%REBELONLY%%LINEBREAK%Once per round, after a friendly ship at Range 1-2 executes a white maneuver, you may remove 1 stress token from that ship."""
         'Reinforced Deflectors':
-            text: """%LARGESHIPONLY%%LINEBREAK%After you suffer 3 or more damage from an attack, recover one shield (up to your shield value)."""
+            text: """%LARGESHIPONLY%%LINEBREAK%After defending, if you suffered a combination of 3 or more damage and critical damage during the attack, recover 1 shield (up to your shield value)."""
         'Dorsal Turret':
             text: """<strong>Attack:</strong> Attack 1 ship (even a ship outside your firing arc).%LINEBREAK%If the target of this attack is at Range 1, roll 1 additional attack die."""
         'Targeting Astromech':
@@ -783,6 +801,14 @@ exportObj.cardLoaders.English = () ->
             text: """During the Combat phase, when you spend a focus token, you may receive 1 stress token to assign 1 focus token to your ship."""
         'Systems Officer':
             text: '''%IMPERIALONLY%%LINEBREAK%After you execute a green maneuver, choose another friendly ship at Range 1.  That ship may acquire a target lock.'''
+        'Tail Gunner':
+            text: '''When attacking from your rear-facing auxiliary firing arc, reduce the defender's agility by 1 (to a minimum of "0").'''
+        'R3 Astromech':
+            text: '''Once per round, when attacking with a primary weapon, you may cancel 1 of your %FOCUS% results during the "Modify Attack Dice" step to assign 1 evade token to your ship.'''
+        'Collision Detector':
+            text: '''When performing a boost, barrel roll, or decloak, your ship and maneuver template can overlap obstacles.%LINEBREAK%When rolling for obstacle damage, ignore all %CRIT% results.'''
+        'Sensor Cluster':
+            text: '''When defending, you may spend a focus token to change 1 of your blank results to an %EVADE% result.'''
 
     modification_translations =
         "Stealth Device":
@@ -835,6 +861,8 @@ exportObj.cardLoaders.English = () ->
             text: '''You can acquire target locks on ships at Range 3 and beyond.  You cannot acquire target locks on ships at Range 1-2.  You can equip this card only if you have %TORPEDO% and %MISSILE% in your upgrade bar.'''
         "Guidance Chips":
             text: """Once per round, when attacking with a %TORPEDO% or %MISSILE% secondary weapon, you may change 1 die result to a %HIT% result (or a %CRIT% result if your primary weapon value is "3" or higher)."""
+        'Vectored Thrusters':
+            text: '''%SMALLSHIPONLY%%LINEBREAK%Your action bar gains the %BARRELROLL% action icon.'''
 
     title_translations =
         "Slave I":

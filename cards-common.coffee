@@ -2,7 +2,6 @@
 exportObj = exports ? this
 
 exportObj.unreleasedExpansions = [
-    "Imperial Veterans Expansion Pack"
     "Heroes of the Resistance Expansion Pack"
     "ARC-170 Expansion Pack"
     "Special Forces TIE Expansion Pack"
@@ -821,7 +820,13 @@ exportObj.basicCardData = ->
                 'Target Lock'
                 'Barrel Roll'
             ]
-            maneuvers: []
+            maneuvers: [
+                [ 0, 0, 0, 0, 0, 0, 0, 0 ]
+                [ 3, 2, 2, 2, 3, 0, 0, 0 ]
+                [ 1, 1, 2, 1, 1, 0, 0, 0 ]
+                [ 3, 1, 2, 1, 3, 0, 3, 3 ]
+                [ 0, 0, 1, 0, 0, 0, 0, 0 ]
+            ]
         'Protectorate Starfighter':
             name: 'Protectorate Starfighter'
             factions: ["Scum and Villainy"]
@@ -3755,7 +3760,7 @@ exportObj.basicCardData = ->
             points: 28
         }
         {
-            name: 'Unspoiled PS4 ARC-170 Pilot'
+            name: 'Thane Kyrell'
             id: 206
             unique: true
             faction: 'Rebel Alliance'
@@ -3766,10 +3771,10 @@ exportObj.basicCardData = ->
                 'Crew'
                 'Astromech'
             ]
-            points: 100
+            points: 26
         }
         {
-            name: 'Unspoiled PS3 ARC-170 Pilot'
+            name: 'Braylen Stramm'
             id: 207
             unique: true
             faction: 'Rebel Alliance'
@@ -3780,7 +3785,7 @@ exportObj.basicCardData = ->
                 'Crew'
                 'Astromech'
             ]
-            points: 100
+            points: 25
         }
         {
             name: '"Quickdraw"'
@@ -3798,18 +3803,19 @@ exportObj.basicCardData = ->
             points: 29
         }
         {
-            name: 'Unspoiled PS7 TIE/sf Pilot'
+            name: '"Backdraft"'
             id: 209
             unique: true
             faction: 'Galactic Empire'
             ship: 'TIE/sf Fighter'
             skill: 7
             slots: [
+                'Elite'
                 'System'
                 'Missile'
                 'Tech'
             ]
-            points: 100
+            points: 27
         }
         {
             name: 'Unspoiled PS5 TIE/sf Pilot'
@@ -3825,7 +3831,7 @@ exportObj.basicCardData = ->
             points: 100
         }
         {
-            name: 'Unspoiled PS3 TIE/sf Pilot'
+            name: 'Zeta Specialist'
             id: 211
             faction: 'Galactic Empire'
             ship: 'TIE/sf Fighter'
@@ -3835,7 +3841,7 @@ exportObj.basicCardData = ->
                 'Missile'
                 'Tech'
             ]
-            points: 100
+            points: 23
         }
         {
             name: 'Fenn Rau'
@@ -5351,6 +5357,31 @@ exportObj.basicCardData = ->
             points: 2
             slot: 'Crew'
         }
+        {
+            name: 'Tail Gunner'
+            id: 184
+            slot: 'Crew'
+            limited: true
+            points: 2
+        }
+        {
+            name: 'R3 Astromech'
+            id: 185
+            slot: 'Astromech'
+            points: 2
+        }
+        {
+            name: 'Collision Detector'
+            id: 186
+            slot: 'System'
+            points: 0
+        }
+        {
+            name: 'Sensor Cluster'
+            id: 187
+            slot: 'Tech'
+            points: 2
+        }
     ]
 
     modificationsById: [
@@ -5535,6 +5566,15 @@ exportObj.basicCardData = ->
             name: "Guidance Chips"
             id: 25
             points: 0
+        }
+        {
+            name: 'Vectored Thrusters'
+            id: 26
+            points: 2
+            restriction_func: (ship) ->
+                not ((ship.data.large ? false) or (ship.data.huge ? false))
+            modifier_func: (stats) ->
+                stats.actions.push 'Barrel Roll' if 'Barrel Roll' not in stats.actions
         }
     ]
 

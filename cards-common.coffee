@@ -5370,6 +5370,7 @@ exportObj.basicCardData = ->
             slot: 'Astromech'
             points: 2
         }
+<<<<<<< HEAD
         {
             name: 'Collision Detector'
             id: 186
@@ -5382,6 +5383,8 @@ exportObj.basicCardData = ->
             slot: 'Tech'
             points: 2
         }
+=======
+>>>>>>> origin/master
     ]
 
     modificationsById: [

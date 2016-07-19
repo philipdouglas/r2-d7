@@ -805,10 +805,13 @@ exportObj.cardLoaders.English = () ->
             text: '''When attacking from your rear-facing auxiliary firing arc, reduce the defender's agility by 1 (to a minimum of "0").'''
         'R3 Astromech':
             text: '''Once per round, when attacking with a primary weapon, you may cancel 1 of your %FOCUS% results during the "Modify Attack Dice" step to assign 1 evade token to your ship.'''
+<<<<<<< HEAD
         'Collision Detector':
             text: '''When performing a boost, barrel roll, or decloak, your ship and maneuver template can overlap obstacles.%LINEBREAK%When rolling for obstacle damage, ignore all %CRIT% results.'''
         'Sensor Cluster':
             text: '''When defending, you may spend a focus token to change 1 of your blank results to an %EVADE% result.'''
+=======
+>>>>>>> origin/master
 
     modification_translations =
         "Stealth Device":

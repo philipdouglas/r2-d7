@@ -3933,18 +3933,19 @@ exportObj.basicCardData = ->
             points: 38
         }
         {
-            name: 'Asajj ???'
+            name: 'Asajj Ventress'
             id: 219
             unique: true
             faction: 'Scum and Villainy'
             ship: 'Lancer-class Pursuit Craft'
             skill: 6
             slots: [
+                'Elite'
                 'Crew'
                 'Illicit'
                 'Illicit'
             ]
-            points: 100
+            points: 37
         }
         {
             name: 'Sabine Wren (Scum)'
@@ -5393,6 +5394,44 @@ exportObj.basicCardData = ->
             faction: 'Scum and Villainy'
             points: 1
         }
+        {
+            name: 'Ketsu Onyo'
+            id: 189
+            slot: 'Crew'
+            faction: 'Scum and Villainy'
+            unique: true
+            points: 1
+        }
+        {
+            name: 'Latts Razzi'
+            id: 190
+            slot: 'Crew'
+            faction: 'Scum and Villainy'
+            unique: true
+            points: 2
+        }
+        {
+            name: 'IG-88D'
+            id: 191
+            slot: 'Crew'
+            faction: 'Scum and Villainy'
+            unique: true
+            points: 1
+        }
+        {
+            name: 'Rigged Cargo Chute'
+            id: 192
+            slot: 'Illicit'
+            points: 1
+            restriction_func: (ship) ->
+                ship.data.large ? false
+        }
+        {
+            name: 'Seismic Torpedo'
+            id: 193
+            slot: 'Torpedo'
+            points: 2
+        }
     ]
 
     modificationsById: [
@@ -5586,6 +5625,25 @@ exportObj.basicCardData = ->
                 not ((ship.data.large ? false) or (ship.data.huge ? false))
             modifier_func: (stats) ->
                 stats.actions.push 'Barrel Roll' if 'Barrel Roll' not in stats.actions
+        }
+        {
+            name: 'Smuggling Compartment'
+            id: 27
+            points: 0
+            confersAddons: [
+                {
+                    type: exportObj.Upgrade
+                    slot: "Illicit"
+                }
+                {
+                    type: exportObj.RestrictedModification
+                    filter_func: (mod) ->
+                        mod.points <= 3
+                }
+            ]
+            limited: true
+            restriction_func: (ship) ->
+                ship.data.name in ['YT-1300', 'YT-2400']
         }
     ]
 

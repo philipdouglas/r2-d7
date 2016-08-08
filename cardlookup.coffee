@@ -130,7 +130,7 @@ class CardLookup
         return (bot, message) ->
             pattern = /(?::([^:]+):)? *(?:([^=><].+)|([=><][=><]?) *(\d+))/
             match = pattern.exec(entities.decode(message.match[1]))
-            slot_filter = match[1].toLowerCase()
+            slot_filter = (match[1] || '').toLowerCase()
             if slot_filter == 'xbomb'
                 slot_filter = 'bomb'
 

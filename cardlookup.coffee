@@ -165,58 +165,60 @@ class CardLookup
 
         return text
 
+    main: (bot, message) ->
+        incoming = entities.decode(message.match[1])
+        # If the mention was mid line, we need to extract the search
+        match = /<@U16V61GP6>(.*)/.exec(incoming)
+        # Warning: This hard codes the id of r2-d7, so it will break on other slacks
+        if match
+            incoming = match[1]
+        pattern = /(?::([^:]+):)? *(?:([^=><].+)|([=><][=><]?) *(\d+))/
+        match = pattern.exec(incoming)
+        slot_filter = match[1]
+        if slot_filter
+            slot_filter = slot_filter.toLowerCase()
+        if slot_filter == 'xbomb'
+            slot_filter = 'bomb'
+
+        if match[2]
+            lookup = @strip_card_name(match[2])
+            matches = []
+            if lookup.length > 2
+                matches = matches.concat(Object.keys(@card_lookup).filter((key) ->
+                    return ///#{lookup}///.test(key))
+                )
+            if @alias_map[lookup] and @alias_map[lookup] not in matches
+                matches.push(@alias_map[lookup])
+                points_filter = undefined
+        else
+            if not slot_filter
+                return bot.reply(message,
+                    "You need to specify a slot to search by points value.")
+            matches = Object.keys(@card_lookup)
+            points_filter = @make_points_filter(match[3], match[4])
+
+        if matches.length < 1
+            return
+        text = []
+        for match in matches
+            for card in @card_lookup[match]
+                if slot_filter and card.slot != slot_filter
+                    continue
+                if points_filter and not points_filter(card.points)
+                    continue
+
+                text = text.concat(@print_card(card))
+
+                if card.applies_condition
+                    condition = @data.conditionsByCanonicalName[card.applies_condition]
+                    text = text.concat(@print_card(condition))
+
+        return bot.reply(message, text.join('\n'))
+
     make_callback: ->
-        # Frigging Javascript
         self = this
         return (bot, message) ->
-            incoming = entities.decode(message.match[1])
-            # If the mention was mid line, we need to extract the search
-            match = /<@U16V61GP6>(.*)/.exec(incoming)
-            # Warning: This hard codes the id of r2-d7, so it will break on other slacks
-            if match
-                incoming = match[1]
-            pattern = /(?::([^:]+):)? *(?:([^=><].+)|([=><][=><]?) *(\d+))/
-            match = pattern.exec(incoming)
-            slot_filter = match[1]
-            if slot_filter
-                slot_filter = slot_filter.toLowerCase()
-            if slot_filter == 'xbomb'
-                slot_filter = 'bomb'
-
-            if match[2]
-                lookup = self.strip_card_name(match[2])
-                matches = []
-                if lookup.length > 2
-                    matches = matches.concat(Object.keys(self.card_lookup).filter((key) ->
-                        return ///#{lookup}///.test(key))
-                    )
-                if self.alias_map[lookup] and self.alias_map[lookup] not in matches
-                    matches.push(self.alias_map[lookup])
-                    points_filter = undefined
-            else
-                if not slot_filter
-                    return bot.reply(message,
-                        "You need to specify a slot to search by points value.")
-                matches = Object.keys(self.card_lookup)
-                points_filter = self.make_points_filter(match[3], match[4])
-
-            if matches.length < 1
-                return
-            text = []
-            for match in matches
-                for card in self.card_lookup[match]
-                    if slot_filter and card.slot != slot_filter
-                        continue
-                    if points_filter and not points_filter(card.points)
-                        continue
-
-                    text = text.concat(self.print_card(card))
-
-                    if card.applies_condition
-                        condition = self.data.conditionsByCanonicalName[card.applies_condition]
-                        text = text.concat(self.print_card(condition))
-
-            return bot.reply(message, text.join('\n'))
+            return self.main(bot, message)
 
     difficulties: {
         0: 'blank',

@@ -30,6 +30,10 @@ class CardLookup
     constructor: (data) ->
         @data = data
         @card_lookup = {}
+        for condition_name, condition of @data.conditions
+            condition.slot = 'Condition'
+            @fix_icons(condition)
+            @add_card(condition)
         for upgrade_name, upgrade of @data.upgrades
             @fix_icons(upgrade)
             @add_card(upgrade)
@@ -57,10 +61,10 @@ class CardLookup
         @card_lookup[name] = @card_lookup[name] || []
         @card_lookup[name].push(data)
 
-    add_card: (data) ->
-        name = @strip_card_name(data.name)
-        data.slot = utils.strip_name(data.slot)
-        @add_card_name(name, data)
+    add_card: (card) ->
+        name = @strip_card_name(card.name)
+        card.slot = utils.strip_name(card.slot)
+        @add_card_name(name, card)
 
     fix_icons: (data) ->
         if data.text?
@@ -124,6 +128,43 @@ class CardLookup
                 when '>=' then return value >= filter
                 when '<=' then return value <= filter
 
+    print_card: (card) ->
+        text = []
+        unique = if card.unique then ':unique:' else ' '
+        slot = utils.name_to_emoji(card.slot)
+        if card.slot == 'condition'
+            slot = ':copyright:'
+        if card.name == 'Emperor Palpatine'
+            slot += ":crew:"
+        points = if card.points is undefined then '' else "[#{card.points}]"
+        text.push("#{slot}#{unique}*#{@strip_name_say(card.name)}* #{points}")
+
+        if card.ship_card
+            text.push(@build_ship_stats(card.ship_card, card))
+
+        else if card.maneuvers  # Ship
+            text.push(@build_ship_stats(card))
+            for line in @build_maneuver(card)
+                text.push(line)
+
+        else if card.attack or card.energy  # secondary weapon and energy stuff
+            line = []
+            if card.attack
+                line.push(":attack::attack#{card.attack}:")
+            if card.range
+                line.push("Range: #{card.range}")
+            if card.energy
+                line.push(":energy::energy#{card.energy}:")
+            text.push(line.join(' | '))
+
+        if card.limited
+            text.push("_Limited._")
+
+        if card.text
+            text.push(card.text)
+
+        return text
+
     make_callback: ->
         # Frigging Javascript
         self = this
@@ -169,36 +210,12 @@ class CardLookup
                     if points_filter and not points_filter(card.points)
                         continue
 
-                    unique = if card.unique then ':unique:' else ' '
-                    slot = utils.name_to_emoji(card.slot)
-                    if card.name == 'Emperor Palpatine'
-                        slot += ":crew:"
-                    points = if card.points is undefined then '' else "[#{card.points}]"
-                    text.push("#{slot}#{unique}*#{self.strip_name_say(card.name)}* #{points}")
+                    text = text.concat(self.print_card(card))
 
-                    if card.ship_card
-                        text.push(self.build_ship_stats(card.ship_card, card))
+                    if card.applies_condition
+                        condition = self.data.conditionsByCanonicalName[card.applies_condition]
+                        text = text.concat(self.print_card(condition))
 
-                    else if card.maneuvers  # Ship
-                        text.push(self.build_ship_stats(card))
-                        for line in self.build_maneuver(card)
-                            text.push(line)
-
-                    else if card.attack or card.energy  # secondary weapon and energy stuff
-                        line = []
-                        if card.attack
-                            line.push(":attack::attack#{card.attack}:")
-                        if card.range
-                            line.push("Range: #{card.range}")
-                        if card.energy
-                            line.push(":energy::energy#{card.energy}:")
-                        text.push(line.join(' | '))
-
-                    if card.limited
-                        text.push("_Limited._")
-
-                    if card.text
-                        text.push(card.text)
             return bot.reply(message, text.join('\n'))
 
     difficulties: {

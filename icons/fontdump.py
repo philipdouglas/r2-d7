@@ -66,6 +66,7 @@ fonts = {
         'tiesffighter': "S",
         'awing': "a",
         'bwing': "b",
+        'arc170': "c",
         'vt49decimator': "d",
         'ewing': "e",
         'firespray31': "f",

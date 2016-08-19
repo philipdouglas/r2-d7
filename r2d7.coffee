@@ -36,6 +36,6 @@ controller.hears(
 
 CardLookup = require('./cardlookup')
 card_lookup_cb = new CardLookup(exportObj).make_callback()
-controller.hears('(.*)', ['direct_message', 'direct_mention'], card_lookup_cb)
+controller.hears('(.*)', ['direct_message', 'direct_mention', 'mention'], card_lookup_cb)
 # Handle non-@ mentions
 controller.hears('^[rR]2-[dD]7: +(.*)$', ['ambient'], card_lookup_cb)

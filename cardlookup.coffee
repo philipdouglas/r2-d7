@@ -128,8 +128,14 @@ class CardLookup
         # Frigging Javascript
         self = this
         return (bot, message) ->
+            incoming = entities.decode(message.match[1])
+            # If the mention was mid line, we need to extract the search
+            match = /<@U16V61GP6>(.*)/.exec(incoming)
+            # Warning: This hard codes the id of r2-d7, so it will break on other slacks
+            if match
+                incoming = match[1]
             pattern = /(?::([^:]+):)? *(?:([^=><].+)|([=><][=><]?) *(\d+))/
-            match = pattern.exec(entities.decode(message.match[1]))
+            match = pattern.exec(incoming)
             slot_filter = match[1]
             if slot_filter
                 slot_filter = slot_filter.toLowerCase()

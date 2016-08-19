@@ -187,7 +187,7 @@ class CardLookup
         if match[2]
             lookup = @strip_card_name(match[2])
             matches = []
-            if lookup.length > 2
+            if lookup.length > 2 or /r\d/.exec(lookup)
                 matches = matches.concat(Object.keys(@card_lookup).filter((key) ->
                     return ///#{lookup}///.test(key))
                 )

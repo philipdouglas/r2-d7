@@ -80,6 +80,7 @@ class CardLookup
                 .replace(/<span class="card-restriction">/g, '_')
                 .replace(/<\/span>/g, '_')
                 .replace(/__/g, ' ')  # When italics are next to each, slack gets confused
+                .replace(/&deg;/g, '°')
 
     strip_card_name: (name) ->
         return name.toLowerCase().replace(/\ \(.*\)$/, '').replace(/[^a-z0-9]/g, '')

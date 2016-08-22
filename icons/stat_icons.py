@@ -3,7 +3,7 @@ import os
 from PIL import Image, ImageFont, ImageDraw, ImageOps, ImageFilter
 
 stat_ranges = {
-    'skill': ([str(num) for num in range(0, 10)], '#CD6D2D'),
+    'skill': ([str(num) for num in range(0, 12)], '#CD6D2D'),
     'attack': (['-'] + [str(num) for num in range(0, 7)], '#EF232B'),
     'energy': ([str(num) for num in range(0, 17)], '#C7B5E2'),
     'agility': ([str(num) for num in range(0, 5)], '#6BBE44'),

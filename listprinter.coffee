@@ -37,13 +37,15 @@ class ListPrinter
                 if upgrade is undefined
                     upgrades.push("*Unrecognised Upgrade*")
                     return
+                if upgrade.name == 'Veteran Instincts'
+                    skill += 2
                 upgrades.push(upgrade.name)
                 points += upgrade.points
 
             # Upgrade : Titles : Modifications : Extra Slots
             for upgrade_id in ship[1].split(',')
                 upgrade_id = parseInt(upgrade_id)
-                add_upgrade(@data.upgradesById, upgrade_id)
+                uprgade = add_upgrade(@data.upgradesById, upgrade_id)
             for title_id in ship[2].split(',')
                 title_id = parseInt(title_id)
                 add_upgrade(@data.titlesById, title_id)

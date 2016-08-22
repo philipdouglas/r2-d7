@@ -27,6 +27,7 @@ class ListPrinter
                 output.push(":question: *_Unrecognised Ship ID_*")
                 continue
             points += pilot.points
+            skill = pilot.skill
             upgrades = []
 
             add_upgrade = (cards, card_id) ->
@@ -62,7 +63,10 @@ class ListPrinter
                     when 't' then add_upgrade(@data.titlesById, extra_id)
                     when 'm' then add_upgrade(@data.modificationsById, extra_id)
 
-            output.push("#{utils.ship_to_icon(pilot)} _#{pilot.name}_: #{upgrades.join(', ')} *[#{points}]*")
+            output.push(
+                "#{utils.ship_to_icon(pilot)}:skill#{skill}: _#{pilot.name}_:" +
+                " #{upgrades.join(', ')} *[#{points}]*"
+            )
             total_points += points
 
         output[0] += " *[#{total_points}]*"

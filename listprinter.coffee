@@ -39,7 +39,10 @@ class ListPrinter
                     return
                 if upgrade.name == 'Veteran Instincts'
                     skill += 2
-                upgrades.push(upgrade.name)
+                if upgrade.name == 'Adaptability'
+                    upgrades.push("#{upgrade.name}:skill_1:")
+                else
+                    upgrades.push(upgrade.name)
                 points += upgrade.points
 
             # Upgrade : Titles : Modifications : Extra Slots

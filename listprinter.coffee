@@ -39,6 +39,10 @@ class ListPrinter
                     return
                 if upgrade.name == 'Veteran Instincts'
                     skill += 2
+                console.log(upgrade)
+                console.log(upgrades)
+                if upgrade.slot.toLowerCase() == 'system' and 'TIE/x1' in upgrades
+                    points -= Math.min(4, upgrade.points)
                 if upgrade.name == 'Adaptability'
                     upgrades.push("#{upgrade.name}:skill_1:")
                 else
@@ -62,8 +66,6 @@ class ListPrinter
                     when 'u'
                         # Hacked support for Tie/X1
                         upgrade = @data.upgradesById[extra_id]
-                        if upgrade and upgrade.slot == 'System' and 'TIE/x1' in upgrades
-                            points -= Math.min(4, upgrade.points)
                         add_upgrade(@data.upgradesById, extra_id)
                     when 't' then add_upgrade(@data.titlesById, extra_id)
                     when 'm' then add_upgrade(@data.modificationsById, extra_id)

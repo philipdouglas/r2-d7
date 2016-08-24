@@ -40,6 +40,6 @@ CardLookup = require('./cardlookup')
 card_lookup_cb = new CardLookup(exportObj).make_callback()
 controller.hears('(.*)', ['direct_message', 'direct_mention', 'mention'], card_lookup_cb)
 controller.hears([
-    '^[rR]2-[dD]7: +(.*)$',  # Non @ mentions
+    '^[rR]2-[dD](7|test):? +(.*)$',  # Non @ mentions
     '\\[\\[(.*)\\]\\]',  # [[]] syntax
 ], ['ambient'], card_lookup_cb)

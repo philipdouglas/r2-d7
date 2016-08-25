@@ -184,15 +184,17 @@ class CardLookup
             slot_filter = 'bomb'
 
         if match[2]
-            lookup = @strip_card_name(match[2])
+            # Handle multiple [[]]s in one message
+            lookups = (@strip_card_name(lookup) for lookup in incoming.split(/\]\][^\[]*\[\[/))
             matches = []
-            if lookup.length > 2 or /r\d/.exec(lookup)
-                matches = matches.concat(Object.keys(@card_lookup).filter((key) ->
-                    return ///#{lookup}///.test(key))
-                )
-            if @alias_map[lookup] and @alias_map[lookup] not in matches
-                matches.push(@alias_map[lookup])
-                points_filter = undefined
+            for lookup in lookups
+                if lookup.length > 2 or /r\d/.exec(lookup)
+                    matches = matches.concat(Object.keys(@card_lookup).filter((key) ->
+                        return ///#{lookup}///.test(key))
+                    )
+                if @alias_map[lookup] and @alias_map[lookup] not in matches
+                    matches.push(@alias_map[lookup])
+                    points_filter = undefined
         else
             if not slot_filter
                 return bot.reply(message,
@@ -202,7 +204,7 @@ class CardLookup
 
         if matches.length < 1
             return
-        text = []
+        cards = []
         for match in matches
             for card in @card_lookup[match]
                 if slot_filter and card.slot != slot_filter
@@ -210,11 +212,18 @@ class CardLookup
                 if points_filter and not points_filter(card.points)
                     continue
 
-                text = text.concat(@print_card(card))
+                # CoffeeScript doesn't play nicely with the ES6 Set
+                if card not in cards
+                    cards.push(card)
 
                 if card.applies_condition
                     condition = @data.conditionsByCanonicalName[card.applies_condition]
-                    text = text.concat(@print_card(condition))
+                    if condition not in cards
+                        cards.push(condition)
+
+        text = []
+        for card in cards
+            text = text.concat(@print_card(card))
 
         return bot.reply(message, text.join('\n'))
 

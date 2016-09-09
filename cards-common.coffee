@@ -5874,6 +5874,10 @@ exportObj.basicCardData = ->
             id: 202
             slot: 'Illicit'
             points: 1
+            restriction_func: (ship) ->
+                ship.data.large ? false
+            modifier_func: (stats) ->
+                stats.actions.push 'SLAM' if 'SLAM' not in stats.actions
         }
     ]
 

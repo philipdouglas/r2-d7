@@ -413,10 +413,10 @@ exportObj.cardLoaders.English = () ->
             text: """When attacking or defending, if you have a focus token, you may change 1 of your %FOCUS% results to a %HIT% or %EVADE% result."""
         "Rey":
             text: """When attacking or defending, if the enemy ship is inside of your firing arc, you may reroll up to 2 of your blank results."""
-        "Han Solo (TFA)":
-            text: """When you are placed during setup, you can be placed anywhere in the play area beyond Range 3 of enemy ships."""
-        "Chewbacca (TFA)":
-            text: """After another friendly ship at Range 1-3 is destroyed (but has not fled the battlefield), you may perform an attack."""
+        'Han Solo (TFA)':
+            text: '''When you are placed during setup, you can be placed anywhere in the play area beyond Range 3 of enemy ships.'''
+        'Chewbacca (TFA)':
+            text: '''After another friendly ship at Range 1-3 is destroyed (but has not fled the battlefield), you may perform an attack.'''
         'Norra Wexley':
             text: '''When attacking or defending, you may spend a target lock you have on the enemy ship to add 1 %FOCUS% result to your roll.'''
         'Shara Bey':
@@ -858,7 +858,7 @@ exportObj.cardLoaders.English = () ->
         'Finn':
             text: '''%REBELONLY%%LINEBREAK%When attacking with a primary weapon or defending, if the enemy ship is inside your firing arc, you may add 1 blank result to your roll.'''
         'Rey':
-            text: '''%REBELONLY%%LINEBREAK%At the start of the End phase, you may place 1 of your ship\'s focus tokens on this card.  At the start of the Combat phase, you may assign 1 of those tokens to your ship.'''
+            text: '''%REBELONLY%%LINEBREAK%At the start of the End phase, you may place 1 of your ship's focus tokens on this card.  At the start of the Combat phase, you may assign 1 of those tokens to your ship.'''
         'Burnout SLAM':
             text: '''%LARGESHIPONLY%%LINEBREAK%Your action bar gains the %SLAM% action icon.%LINEBREAK%After you perform a SLAM action, discard this card.'''
 

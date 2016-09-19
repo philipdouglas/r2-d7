@@ -413,10 +413,10 @@ exportObj.cardLoaders.English = () ->
             text: """When attacking or defending, if you have a focus token, you may change 1 of your %FOCUS% results to a %HIT% or %EVADE% result."""
         "Rey":
             text: """When attacking or defending, if the enemy ship is inside of your firing arc, you may reroll up to 2 of your blank results."""
-        "Han Solo (TFA)":
-            text: """When you are placed during setup, you can be placed anywhere in the play area beyond Range 3 of enemy ships."""
-        "Chewbacca (TFA)":
-            text: """After another friendly ship at Range 1-3 is destroyed (but has not fled the battlefield), you may perform an attack."""
+        'Han Solo (TFA)':
+            text: '''When you are placed during setup, you can be placed anywhere in the play area beyond Range 3 of enemy ships.'''
+        'Chewbacca (TFA)':
+            text: '''After another friendly ship at Range 1-3 is destroyed (but has not fled the battlefield), you may perform an attack.'''
         'Norra Wexley':
             text: '''When attacking or defending, you may spend a target lock you have on the enemy ship to add 1 %FOCUS% result to your roll.'''
         'Shara Bey':
@@ -454,6 +454,12 @@ exportObj.cardLoaders.English = () ->
             text: '''At the start of the Activation phase, you may remove 1 stress token from 1 other friendly ship at Range 1-2.'''
         '''"Duchess"''':
             text: '''While you have the "Adaptive Ailerons" Upgrade card equipped, you may choose to ignore its card ability.'''
+        'Nien Nunb':
+            text: '''When you receive a stress token, if there is an enemy ship inside your firing arc at Range 1, you may discard that stress token.'''
+        '"Snap" Wexley':
+            text: '''After you execute a 2-, 3-, or 4-speed maneuver, if you are not touching a ship, you may perform a free boost action.'''
+        'Jess Pava':
+            text: '''When attacking or defending, you may reroll 1 of your dice for each other friendly ship at Range 1.'''
 
     upgrade_translations =
         "Ion Cannon Turret":
@@ -858,9 +864,17 @@ exportObj.cardLoaders.English = () ->
         'Finn':
             text: '''%REBELONLY%%LINEBREAK%When attacking with a primary weapon or defending, if the enemy ship is inside your firing arc, you may add 1 blank result to your roll.'''
         'Rey':
-            text: '''%REBELONLY%%LINEBREAK%At the start of the End phase, you may place 1 of your ship\'s focus tokens on this card.  At the start of the Combat phase, you may assign 1 of those tokens to your ship.'''
+            text: '''%REBELONLY%%LINEBREAK%At the start of the End phase, you may place 1 of your ship's focus tokens on this card.  At the start of the Combat phase, you may assign 1 of those tokens to your ship.'''
         'Burnout SLAM':
             text: '''%LARGESHIPONLY%%LINEBREAK%Your action bar gains the %SLAM% action icon.%LINEBREAK%After you perform a SLAM action, discard this card.'''
+        'Primed Thrusters':
+            text: '''%SMALLSHIPONLY%%LINEBREAK%Stress tokens do not prevent you from performing boost or barrel roll actions unless you have 3 or more stress tokens.'''
+        'Pattern Analyzer':
+            text: '''When executing a maneuver, you may resolve the "Check Pilot Stress" step after the "Perform Action" step (instead of before that step).'''
+        'Snap Shot':
+            text: '''After an enemy ship executes a maneuver, you may perform this attack against that ship.  <strong>Attack:</strong> Attack 1 ship.  You cannot modify your attack dice and cannot attack again this phase.'''
+        'M9-G8':
+            text: '''%REBELONLY%%LINEBREAK%When a ship you have locked is attacking, you may choose 1 attack die.  The attacker must reroll that die.%LINEBREAK%You can acquire target locks on other friendly ships.'''
 
     modification_translations =
         "Stealth Device":

@@ -168,15 +168,10 @@ class CardLookup
 
         return text
 
-    main: (bot, message) ->
-        incoming = entities.decode(message.match[1])
-        # If the mention was mid line, we need to extract the search
-        match = /<@U16V61GP6>(.*)/.exec(incoming)
-        # Warning: This hard codes the id of r2-d7, so it will break on other slacks
-        if match
-            incoming = match[1]
+    lookup: (term) ->
+        matches = []
         pattern = /(?::([^:]+):)? *(?:([^=><].+)|([=><][=><]?) *(\d+))/
-        match = pattern.exec(incoming)
+        match = pattern.exec(term)
         slot_filter = match[1]
         if slot_filter
             slot_filter = slot_filter.toLowerCase()
@@ -184,17 +179,14 @@ class CardLookup
             slot_filter = 'bomb'
 
         if match[2]
-            # Handle multiple [[]]s in one message
-            lookups = (@strip_card_name(lookup) for lookup in incoming.split(/\]\][^\[]*\[\[/))
-            matches = []
-            for lookup in lookups
-                if lookup.length > 2 or /r\d/.exec(lookup)
-                    matches = matches.concat(Object.keys(@card_lookup).filter((key) ->
-                        return ///#{lookup}///.test(key))
-                    )
-                if @alias_map[lookup] and @alias_map[lookup] not in matches
-                    matches.push(@alias_map[lookup])
-                    points_filter = undefined
+            lookup = @strip_card_name(match[2])
+            if lookup.length > 2 or /r\d/.exec(lookup)
+                matches = matches.concat(Object.keys(@card_lookup).filter((key) ->
+                    return ///#{lookup}///.test(key))
+                )
+            if @alias_map[lookup] and @alias_map[lookup] not in matches
+                matches.push(@alias_map[lookup])
+                points_filter = undefined
         else
             if not slot_filter
                 return bot.reply(message,
@@ -202,8 +194,6 @@ class CardLookup
             matches = Object.keys(@card_lookup)
             points_filter = @make_points_filter(match[3], match[4])
 
-        if matches.length < 1
-            return
         cards = []
         for match in matches
             for card in @card_lookup[match]
@@ -212,14 +202,27 @@ class CardLookup
                 if points_filter and not points_filter(card.points)
                     continue
 
-                # CoffeeScript doesn't play nicely with the ES6 Set
-                if card not in cards
-                    cards.push(card)
+                cards.push(card)
 
                 if card.applies_condition
                     condition = @data.conditionsByCanonicalName[card.applies_condition]
-                    if condition not in cards
-                        cards.push(condition)
+                    cards.push(condition)
+        return cards
+
+    main: (bot, message) ->
+        incoming = entities.decode(message.match[1])
+        # If the mention was mid line, we need to extract the search
+        match = /<@U16V61GP6>(.*)/.exec(incoming)
+        # Warning: This hard codes the id of r2-d7, so it will break on other slacks
+        if match
+            incoming = match[1]
+        cards = []
+        # Handle multiple [[]]s in one message
+        for lookup in incoming.split(/\]\][^\[]*\[\[/)
+            for card in @lookup(lookup)
+                # CoffeeScript doesn't play nicely with the ES6 Set
+                if card not in cards
+                    cards.push(card)
 
         text = []
         for card in cards

@@ -5,7 +5,10 @@ from PIL import Image, ImageFont, ImageDraw, ImageOps, ImageFilter
 stat_ranges = {
     'skill': ([str(num) for num in range(0, 12)] + ['±1'], '#CD6D2D'),
     'attack': (['-'] + [str(num) for num in range(0, 7)], '#EF232B'),
-    'energy': ([str(num) for num in range(0, 17)], '#C7B5E2'),
+    'energy': (
+        [str(num) for num in range(0, 17)] + ['+{}'.format(num) for num in range(1, 5)],
+        '#C7B5E2',
+    ),
     'agility': ([str(num) for num in range(0, 5)], '#6BBE44'),
     'hull': ([str(num) for num in range(0, 17)], '#B6B335'),
     'shield': ([str(num) for num in range(0, 17)], '#7ED3E5'),
@@ -41,4 +44,5 @@ for stat, bits in stat_ranges.items():
 
         # write into file
         number = number.replace('±', '_')
+        number = number.replace('+', 'plus')
         background.save("numbers/{}.png".format('{}{}'.format(stat, number)))

@@ -92,6 +92,9 @@ class CardLookup
     strip_name_say: (name) ->
         return name.replace(/\ \(.*\)$/, '')
 
+    energy_to_emoji: (energy) ->
+        return ":energy#{String(energy).replace(/\+/g, 'plus')}:"
+
     build_ship_stats: (ship, pilot) ->
         line = []
         if pilot
@@ -104,7 +107,7 @@ class CardLookup
         if ship.attack
             stats += ":attack#{ship.attack}:"
         if ship.energy
-            stats += ":energy#{ship.energy}:"
+            stats += @energy_to_emoji(ship.energy)
         stats += ":agility#{ship.agility}::hull#{ship.hull}::shield#{ship.shields}:"
         line.push(stats)
 
@@ -157,7 +160,7 @@ class CardLookup
             if card.range
                 line.push("Range: #{card.range}")
             if card.energy
-                line.push(":energy::energy#{card.energy}:")
+                line.push(":energy:#{@energy_to_emoji(card.energy)}")
             text.push(line.join(' | '))
 
         if card.limited

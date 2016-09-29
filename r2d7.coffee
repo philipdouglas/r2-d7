@@ -13,7 +13,7 @@ controller.hears('^help$', ["ambient", "direct_mention", "direct_message"], (bot
         a channel I'm in (or direct message me one), I will print a summary of the list.\n
         *Card Lookup:* Say something to me (_<@r2-d7>: something_) and I will describe any upgrades,
         ships or pilots that match what you said.\n
-        You can also lookup a card by enlosing its name in double square brackets. (Eg. Why not try
+        You can also lookup a card by enclosing its name in double square brackets. (Eg. Why not try
         [[Engine Upgrade]])\n
         If you only want cards in a particular slot or ship, begin your lookup with the emoji for
         that ship or slot. (eg. _<@r2-d7>: :crew: rey_)\n

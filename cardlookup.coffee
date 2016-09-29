@@ -164,8 +164,10 @@ class CardLookup
             text.push(line.join(' | '))
 
         if card.limited
-            text.push("_Limited._")
-
+            if /^\_/.exec(card.text)
+                card.text = card.text.replace(/^(_[^_]+)(_.*)/, '$1 Limited.$2')
+            else
+                text.push("_Limited._")
         if card.text
             text.push(card.text)
 

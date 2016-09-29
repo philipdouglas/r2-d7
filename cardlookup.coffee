@@ -175,7 +175,7 @@ class CardLookup
 
     lookup: (term) ->
         matches = []
-        pattern = /(?::([^:]+):)? *(?:([^=><].+)|([=><][=><]?) *(\d+))/
+        pattern = /\ *(?::([^:]+):)? *(?:([^=><].+)|([=><][=><]?) *(\d+)) */
         match = pattern.exec(term)
         slot_filter = match[1]
         if slot_filter

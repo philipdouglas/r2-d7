@@ -21,7 +21,7 @@ class ShipLister
         if not match
             return
 
-        factions = utils.emoji_to_faction(match[1])
+        factions = utils.emoji_to_faction(match[1].toLowerCase())
         if factions
             return @faction_ships(factions)
 

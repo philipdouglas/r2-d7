@@ -822,7 +822,7 @@ exportObj.basicCardData = ->
             ]
         'TIE/sf Fighter':
             name: 'TIE/sf Fighter'
-            factions: ["Galactic Empire"]
+            factions: ["First Order"]
             attack: 2
             agility: 2
             hull: 3

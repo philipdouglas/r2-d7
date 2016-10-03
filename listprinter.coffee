@@ -39,8 +39,6 @@ class ListPrinter
                     return
                 if upgrade.name == 'Veteran Instincts'
                     skill += 2
-                console.log(upgrade)
-                console.log(upgrades)
                 if upgrade.slot.toLowerCase() == 'system' and 'TIE/x1' in upgrades
                     points -= Math.min(4, upgrade.points)
                 if upgrade.name == 'Adaptability'
@@ -77,13 +75,13 @@ class ListPrinter
             total_points += points
 
         output[0] += " *[#{total_points}]*"
-        return bot.reply(message, output.join('\n'))
+        bot.reply(message, output.join('\n'))
 
     make_callback: ->
         # Frigging Javascript
         self = this
         return (bot, message) ->
-            return self.main(bot, message)
+            self.main(bot, message)
 
 
 module.exports = ListPrinter

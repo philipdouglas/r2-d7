@@ -13,6 +13,14 @@ exports.faction_to_emoji = (faction) ->
         when 'Scum and Villainy' then return ':scum:'
         when 'Rebel Alliance' then return ':rebel:'
         when 'Galactic Empire' then return ':empire:'
-        when 'Galactic Empire' then return ':empire:'
         when 'Resistance' then return ':resistance:'
         when 'First Order' then return ':first_order:'
+
+exports.emoji_to_faction = (emoji) ->
+    switch emoji
+        when ':scum:' then return ['Scum and Villainy']
+        when ':rebel:' then return ['Rebel Alliance', 'Resistance']
+        when ':empire:' then return ['Galactic Empire', 'First Order']
+        when ':resistance:' then return ['Resistance']
+        when ':first_order:' then return ['First Order']
+        else false

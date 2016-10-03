@@ -45,8 +45,15 @@ controller.hears(
 
 CardLookup = require('./cardlookup')
 card_lookup_cb = new CardLookup(exportObj).make_callback()
-controller.hears('(.*)', ['direct_message', 'direct_mention', 'mention'], card_lookup_cb)
+ShipLister = require('./shiplister')
+ship_lister_cb = new ShipLister(exportObj).make_callback()
+
+multi_callback = (bot, message) ->
+    if not ship_lister_cb(bot, message)
+        card_lookup_cb(bot, message)
+
+controller.hears('(.*)', ['direct_message', 'direct_mention', 'mention'], multi_callback)
 controller.hears([
     '^[rR]2-[dD](?:7|test):? +(.*)$',  # Non @ mentions
     '\\[\\[(.*)\\]\\]',  # [[]] syntax
-], ['ambient'], card_lookup_cb)
+], ['ambient'], multi_callback)

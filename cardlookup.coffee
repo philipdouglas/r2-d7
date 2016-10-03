@@ -233,12 +233,12 @@ class CardLookup
         for card in cards
             text = text.concat(@print_card(card))
 
-        return bot.reply(message, text.join('\n'))
+        bot.reply(message, text.join('\n'))
 
     make_callback: ->
         self = this
         return (bot, message) ->
-            return self.main(bot, message)
+            self.main(bot, message)
 
     difficulties: {
         0: 'blank',

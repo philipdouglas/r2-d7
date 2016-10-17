@@ -43,11 +43,11 @@ class CardLookup
             @fix_icons(modification)
             @add_card(modification)
         for title_name, title of @data.titles
+            title.slot = 'Title'
+            @fix_icons(title)
             # Purge 2 of the Heavy Scyk copies
             if /\"Heavy Scyk\" Interceptor \((Torpedo|Missile)\)/.exec(title_name)
                 continue
-            title.slot = 'Title'
-            @fix_icons(title)
             @add_card(title)
         for pilot_name, pilot of @data.pilots
             pilot.ship_card = @data.ships[pilot.ship]

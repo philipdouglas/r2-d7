@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "botkit": "~0.2.2",
-    "html-entities": "^1.2.0"
+    "html-entities": "^1.2.0",
+    "clone": "~2.0.0"
   }
 }

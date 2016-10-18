@@ -1,6 +1,7 @@
 utils = require('./utils')
 Entities = require('html-entities').XmlEntities
 entities = new Entities();
+clone = require('clone');
 
 class CardLookup
     alias_map: {
@@ -98,6 +99,7 @@ class CardLookup
     build_ship_stats: (ship, pilot) ->
         line = []
         if pilot
+            ship = clone(ship)
             ship.factions = [pilot.faction]
         line.push((utils.faction_to_emoji(faction) for faction in ship.factions).join(''))
 

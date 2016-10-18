@@ -229,6 +229,10 @@ class CardLookup
                 if card not in cards
                     cards.push(card)
 
+        if cards.length > 10
+            bot.reply(message, 'Your search matched more than 10 cards, please be more specific.')
+            return
+
         text = []
         for card in cards
             text = text.concat(@print_card(card))

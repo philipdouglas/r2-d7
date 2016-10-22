@@ -2,7 +2,7 @@ BotKit = require('botkit')
 BeepBoop = require('beepboop-botkit')
 
 controller = BotKit.slackbot({debug: true})
-beepboop = BeepBoop.start(controller)
+beepboop = BeepBoop.start(controller, {debug: true})
 
 
 

@@ -90,3 +90,4 @@ icons/maneuvers/*.png
 icons/fonticons/*.png
 icons/numbers/*.png
 update.ps1
+env.list

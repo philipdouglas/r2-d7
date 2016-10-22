@@ -1,10 +1,8 @@
 BotKit = require('botkit')
+BeepBoop = require('beepboop-botkit')
+
 controller = BotKit.slackbot({debug: false})
-bot = controller.spawn({token: process.env.SLACK_TOKEN})
-bot.startRTM((err, bot, payload) ->
-    if err
-        throw new Error('Could not connect to slack!')
-)
+beepboop = BeepBoop.start(controller)
 
 #Help
 help_text = "I am R2-D7, xwingtmg.slack.com's bot.\n

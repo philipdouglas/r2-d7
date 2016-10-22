@@ -23,9 +23,10 @@ controller.hears('^help$', ["ambient", "direct_mention", "direct_message"], (bot
     bot.reply(message, help_text))
 controller.on('team_join', (bot, message) ->
     bot.api.im.open({user: message.user.id}, (err, response) ->
-        dm_channel = response.channel.id
-        bot.say({channel: dm_channel, text: 'Welcome to xwingtmg.slack.com!'})
-        bot.say({channel: dm_channel, text: help_text})
+        if response.channel.id
+            dm_channel = response.channel.id
+            bot.say({channel: dm_channel, text: 'Welcome to xwingtmg.slack.com!'})
+            bot.say({channel: dm_channel, text: help_text})
     )
 )
 # On joining a new team

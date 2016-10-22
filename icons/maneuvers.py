@@ -23,30 +23,35 @@ colours = {
     'red': '#E61713',
 }
 
-size = (128, 128)
 
-if not os.path.exists('maneuvers'):
-    os.mkdir('maneuvers')
+def main():
+    size = (128, 128)
 
-for font, glyphs in fonts.items():
-    font = ImageFont.truetype(font, 128)
-    for name, glyph in glyphs.items():
-        for colour_name, colour in colours.items():
-            im = Image.new("RGBA", (300, 300), (255, 255, 255, 0))
+    if not os.path.exists('emoji'):
+        os.mkdir('emoji')
 
-            draw = ImageDraw.Draw(im)
-            draw.text((100, 100), glyph, font=font, fill=colour)
+    for font, glyphs in fonts.items():
+        font = ImageFont.truetype(font, 128)
+        for name, glyph in glyphs.items():
+            for colour_name, colour in colours.items():
+                im = Image.new("RGBA", (300, 300), (255, 255, 255, 0))
 
-            # remove unneccessory whitespaces if needed
-            im = im.crop(ImageOps.invert(im.convert('RGB')).getbbox())
+                draw = ImageDraw.Draw(im)
+                draw.text((100, 100), glyph, font=font, fill=colour)
 
-            # im = ImageOps.invert(im)
-            im.thumbnail(size, Image.ANTIALIAS)
+                # remove unneccessory whitespaces if needed
+                im = im.crop(ImageOps.invert(im.convert('RGB')).getbbox())
 
-            background = Image.new('RGBA', size, (255, 255, 255, 0))
-            background.paste(
-                im,
-                ((size[0] - im.size[0]) // 2, (size[1] - im.size[1]) // 2))
+                # im = ImageOps.invert(im)
+                im.thumbnail(size, Image.ANTIALIAS)
 
-            # write into file
-            background.save("maneuvers/{}{}.png".format(colour_name, name))
+                background = Image.new('RGBA', size, (255, 255, 255, 0))
+                background.paste(
+                    im,
+                    ((size[0] - im.size[0]) // 2, (size[1] - im.size[1]) // 2))
+
+                # write into file
+                background.save("emoji/{}{}.png".format(colour_name, name))
+
+if __name__ == '__main__':
+    main()

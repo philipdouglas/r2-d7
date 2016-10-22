@@ -6,12 +6,12 @@ stat_ranges = {
     'skill': ([str(num) for num in range(0, 12)] + ['±1'], '#CD6D2D'),
     'attack': (['-'] + [str(num) for num in range(0, 7)], '#EF232B'),
     'energy': (
-        [str(num) for num in range(0, 17)] + ['+{}'.format(num) for num in range(1, 5)],
+        [str(num) for num in range(0, 6)] + ['+{}'.format(num) for num in range(1, 5)],
         '#C7B5E2',
     ),
     'agility': ([str(num) for num in range(0, 5)], '#6BBE44'),
-    'hull': ([str(num) for num in range(0, 17)], '#B6B335'),
-    'shield': ([str(num) for num in range(0, 17)], '#7ED3E5'),
+    'hull': ([str(num) for num in range(0, 13)], '#B6B335'),
+    'shield': ([str(num) for num in range(0, 7)], '#7ED3E5'),
 }
 
 size = (128, 128)

@@ -4,6 +4,8 @@ BeepBoop = require('beepboop-botkit')
 controller = BotKit.slackbot({debug: false})
 beepboop = BeepBoop.start(controller)
 
+
+
 #Help
 help_text = "I am R2-D7, xwingtmg.slack.com's bot.\n
     *List Printing:* If you paste a (Yet Another) X-Wing Miniatures Squad Builder permalink into
@@ -26,6 +28,10 @@ controller.on('team_join', (bot, message) ->
         bot.say({channel: dm_channel, text: help_text})
     )
 )
+# On joining a new team
+controller.on('bot_channel_join', function (bot, message) {
+    bot.reply(message, help_text)
+})
 
 require('./xwing-shim')
 exportObj = require('./cards-combined')

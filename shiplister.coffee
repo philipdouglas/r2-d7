@@ -13,7 +13,8 @@ class ShipLister
                 continue
             for faction in factions
                 if faction in ship.factions
-                    ships.push(ship)
+                    if ship not in ships
+                        ships.push(ship)
         return (utils.name_to_emoji(ship.name) for ship in ships).join('')
 
     list: (search) ->

@@ -3791,7 +3791,7 @@ exportObj.basicCardData = ->
                 shields: 5
         }
         {
-            name: "Resistance???"
+            name: "Resistance Sympathizer"
             id: 203
             faction: "Resistance"
             ship: "YT-1300"
@@ -3802,6 +3802,11 @@ exportObj.basicCardData = ->
                 "Crew"
                 "Crew"
             ]
+            ship_override:
+                attack: 3
+                agility: 1
+                hull: 8
+                shields: 5
         }
         {
             name: 'Norra Wexley'
@@ -5953,6 +5958,18 @@ exportObj.basicCardData = ->
             id: 212
             slot: 'Tech'
             points: 1
+        }
+        {
+            name: 'Hotshot Co-pilot'
+            id: 213
+            slot: 'Crew'
+            points: 4
+        }
+        {
+            name: 'Trick Shot'
+            id: 214
+            slot: 'Elite'
+            points: 0
         }
     ]
 

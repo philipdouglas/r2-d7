@@ -28,10 +28,6 @@ controller.on('team_join', (bot, message) ->
             bot.say({channel: dm_channel, text: help_text})
     )
 )
-# On joining a new team
-controller.on('bot_channel_join', (bot, message) ->
-    bot.reply(message, help_text)
-)
 
 require('./xwing-shim')
 exportObj = require('./cards-combined')

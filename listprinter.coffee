@@ -29,6 +29,7 @@ class ListPrinter
             points += pilot.points
             skill = pilot.skill
             upgrades = []
+            pilots = @data.pilots
 
             add_upgrade = (cards, card_id) ->
                 if card_id == -1 or isNaN(card_id)
@@ -41,10 +42,13 @@ class ListPrinter
                     skill += 2
                 if upgrade.slot.toLowerCase() == 'system' and 'TIE/x1' in upgrades
                     points -= Math.min(4, upgrade.points)
+                upgrade_link = utils.wiki_link(
+                    upgrade.name,
+                    upgrade.slot.toLowerCase() == 'crew' and upgrade.name of pilots
+                )
                 if upgrade.name == 'Adaptability'
-                    upgrades.push("#{upgrade.name}:skill_1:")
-                else
-                    upgrades.push(upgrade.name)
+                    upgrade_link += ":skill_1:"
+                upgrades.push(upgrade_link)
                 points += upgrade.points
 
             # Upgrade : Titles : Modifications : Extra Slots
@@ -69,13 +73,18 @@ class ListPrinter
                     when 'm' then add_upgrade(@data.modificationsById, extra_id)
 
             output.push(
-                "#{utils.ship_to_icon(pilot)}:skill#{skill}: _#{pilot.name}_:" +
+                "#{utils.ship_to_icon(pilot)}:skill#{skill}: _#{utils.wiki_link(pilot.name)}_:" +
                 " #{upgrades.join(', ')} *[#{points}]*"
             )
             total_points += points
 
         output[0] += " *[#{total_points}]*"
-        bot.reply(message, output.join('\n'))
+        bot.reply(message, {
+            text: output.join('\n'),
+            # A fudge to get botkit to use postMessage which supports link formatting
+            attachments: [],
+            unfurl_links: false,
+        })
 
     make_callback: ->
         # Frigging Javascript

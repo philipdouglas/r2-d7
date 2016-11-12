@@ -24,3 +24,9 @@ exports.emoji_to_faction = (emoji) ->
         when ':resistance:' then return ['Resistance']
         when ':first_order:' then return ['First Order']
         else false
+
+exports.wiki_link = (card_name, crew_of_pilot) ->
+    underscore_name = card_name.replace(/\ /g, '_').replace(/\(Scum\)/, '(S&V)')
+    if crew_of_pilot
+        underscore_name += '_(Crew)'
+    return "<http://xwing-miniatures.wikia.com/wiki/#{underscore_name}|#{card_name}>"

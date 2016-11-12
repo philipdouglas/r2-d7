@@ -17,7 +17,6 @@ class ShipLister
         return (utils.name_to_emoji(ship.name) for ship in ships).join('')
 
     list: (search) ->
-        match = /(:[^:]+:)/.exec(search)
         if not match
             return
 

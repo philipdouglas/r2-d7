@@ -26,7 +26,11 @@ exports.emoji_to_faction = (emoji) ->
         else false
 
 exports.wiki_link = (card_name, crew_of_pilot) ->
-    underscore_name = card_name.replace(/\ /g, '_').replace(/\(Scum\)/, '(S&V)')
+    underscore_name = card_name
+        .replace(/\ /g, '_')
+        # YASB and the wiki use different name conventions
+        .replace(/\(Scum\)/, '(S&V)')
+        .replace(/\((PS9|TFA)\)/, '(HOR)')
     if crew_of_pilot
         underscore_name += '_(Crew)'
     return "<http://xwing-miniatures.wikia.com/wiki/#{underscore_name}|#{card_name}>"

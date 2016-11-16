@@ -4,6 +4,7 @@
   "dependencies": {
     "beepboop-botkit": "^1.4.1",
     "botkit": "~0.2.2",
+    "capitalize": "^1.0.0",
     "clone": "~2.0.0",
     "html-entities": "^1.2.0"
   }

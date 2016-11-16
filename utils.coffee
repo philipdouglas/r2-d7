@@ -1,3 +1,5 @@
+capitalize = require('capitalize')
+
 exports.strip_name = (name) ->
     return name.toLowerCase().replace(/\ \(.*\)$/, '').replace(/[ -\/]/g, '')
 
@@ -26,11 +28,12 @@ exports.emoji_to_faction = (emoji) ->
         else false
 
 exports.wiki_link = (card_name, crew_of_pilot) ->
-    underscore_name = card_name
+    underscore_name = capitalize.words(card_name)
         .replace(/\ /g, '_')
         # YASB and the wiki use different name conventions
         .replace(/\(Scum\)/, '(S&V)')
         .replace(/\((PS9|TFA)\)/, '(HOR)')
+        .replace(/-Wing/, '-wing')
     if crew_of_pilot
         underscore_name += '_(Crew)'
     return "<http://xwing-miniatures.wikia.com/wiki/#{underscore_name}|#{card_name}>"

@@ -9,14 +9,14 @@ class ListPrinter
         @data = data
 
     main: (bot, message) ->
-        parsed = url.parse(entities.decode(message.match[1]), parseQueryString=true)
+        parsed = url.parse(entities.decode(message.match[2]), parseQueryString=true)
         data = parsed.query.d
 
         for data_chunk in data.split('!')
             if /^\d/.test(data_chunk)
                 ships = data_chunk.split(';')
         faction = utils.faction_to_emoji(parsed.query.f)
-        output = ["*#{parsed.query.sn or 'Nameless Squadron'}* #{faction}"]
+        output = ["#{faction} *<#{message.match[1]}|#{parsed.query.sn or 'Nameless Squadron'}>*"]
         total_points = 0
         for ship in ships
             if not ship then continue

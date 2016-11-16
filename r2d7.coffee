@@ -38,7 +38,7 @@ listprinter_cb = new ListPrinter(exportObj).make_callback()
 controller.hears(
     # http://geordanr.github.io/xwing/?f=Rebel%20Alliance&d=v4!s!162:-1,-1:-1:-1:&sn=Unnamed%20Squadron
     # slack wraps URLs in <>
-    'geordanr\.github\.io\/xwing\/\?(.*)>',
+    '<(https?://geordanr\.github\.io\/xwing\/\?(.*))>',
     ["ambient", "direct_mention", "direct_message"],
     listprinter_cb
 )

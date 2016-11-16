@@ -188,9 +188,17 @@ class CardLookup
         if match[2]
             lookup = @strip_card_name(match[2])
             if lookup.length > 2 or /r\d/.exec(lookup)
+                self = this
+                regex = ///\b#{lookup}(?:'s)?\b///
                 matches = matches.concat(Object.keys(@card_lookup).filter((key) ->
-                    return ///#{lookup}///.test(key))
+                    for card in self.card_lookup[key]
+                        return regex.test(card.name.toLowerCase()))
                 )
+                if matches.length == 0
+                    regex = ///#{lookup}///
+                    matches = matches.concat(Object.keys(@card_lookup).filter((key) ->
+                        return regex.test(key))
+                    )
             if @alias_map[lookup] and @alias_map[lookup] not in matches
                 matches.push(@alias_map[lookup])
                 points_filter = undefined

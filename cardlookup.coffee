@@ -27,6 +27,8 @@ class CardLookup
         'countesskturns': 'countessryad',
         'countessgreenkturn': 'countessryad',
         'bmst': 'blackmarketslicertools',
+        'snuggling': 'smugglingcompartment',
+        'snugglingcompartment': 'smugglingcompartment',
     }
 
     constructor: (data) ->

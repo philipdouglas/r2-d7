@@ -2,7 +2,6 @@
 exportObj = exports ? this
 
 exportObj.unreleasedExpansions = [
-    "Heroes of the Resistance Expansion Pack"
     "Sabine's TIE Fighter Expansion Pack"
     "Upsilon-class Shuttle Expansion Pack"
     "Quadjumper Expansion Pack"
@@ -904,7 +903,12 @@ exportObj.basicCardData = ->
                 'Barrel Roll'
                 'Focus'
             ]
-            maneuvers: []
+            maneuvers: [
+                [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+                [ 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 3, 3, 3 ]
+                [ 1, 2, 2, 2, 1, 0, 3, 3, 0, 0, 0, 0, 0 ]
+                [ 0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+            ]
         'U-Wing':
             name: 'U-Wing'
             factions: ["Rebel Alliance"]
@@ -3628,7 +3632,7 @@ exportObj.basicCardData = ->
         }
         {
             name: "Maarek Stele (TIE Defender)"
-            canonical_name: 'maarekstele-swx52'
+            canonical_name: 'maarekstele'
             id: 193
             unique: true
             faction: "Galactic Empire"
@@ -3795,7 +3799,7 @@ exportObj.basicCardData = ->
             id: 203
             faction: "Resistance"
             ship: "YT-1300"
-            skill: 5
+            skill: 3
             points: 38
             slots: [
                 "Missile"
@@ -4029,7 +4033,7 @@ exportObj.basicCardData = ->
         }
         {
             name: 'Sabine Wren (Scum)'
-            canonical_name: "sabinewren-swx56"
+            canonical_name: "sabinewren"
             id: 220
             unique: true
             faction: 'Scum and Villainy'
@@ -4070,7 +4074,7 @@ exportObj.basicCardData = ->
         {
             name: 'Sabine Wren (TIE Fighter)'
             id: 223
-            canonical_name: "sabinewren-swx59"
+            canonical_name: "sabinewren"
             unique: true
             faction: 'Rebel Alliance'
             ship: 'TIE Fighter'
@@ -4168,7 +4172,7 @@ exportObj.basicCardData = ->
             points: 30
         }
         {
-            name: 'Const???'
+            name: 'Constable Zuvio'
             id: 230
             unique: true
             faction: 'Scum and Villainy'
@@ -4181,7 +4185,7 @@ exportObj.basicCardData = ->
                 'Tech'
                 'Illicit'
             ]
-            points: 100
+            points: 19
         }
         {
             name: 'Sarco Plank'
@@ -4215,7 +4219,7 @@ exportObj.basicCardData = ->
             points: 17
         }
         {
-            name: 'Jakku ???'
+            name: 'Jakku Gunrunner'
             id: 233
             faction: 'Scum and Villainy'
             ship: 'Quadjumper'
@@ -4226,9 +4230,8 @@ exportObj.basicCardData = ->
                 'Tech'
                 'Illicit'
             ]
-            points: 100
+            points: 15
         }
-
         {
             name: 'Cassian Andor'
             id: 234
@@ -4388,7 +4391,7 @@ exportObj.basicCardData = ->
         {
             name: "R2-D2"
             aka: [ "R2-D2 (Crew)" ]
-            canonical_name: 'r2d2-swx22'
+            canonical_name: 'r2d2'
             id: 3
             unique: true
             slot: "Astromech"
@@ -4795,7 +4798,7 @@ exportObj.basicCardData = ->
         {
             name: "R2-D2 (Crew)"
             aka: [ "R2-D2" ]
-            canonical_name: 'r2d2'
+            canonical_name: 'r2d2-swx22'
             id: 62
             unique: true
             slot: "Crew"
@@ -5839,8 +5842,7 @@ exportObj.basicCardData = ->
         {
             name: 'A Score to Settle'
             id: 197
-            # uncomment when we know what A Debt to Pay does
-            # applies_condition: 'A Debt to Pay'.canonicalize()
+            applies_condition: 'A Debt to Pay'.canonicalize()
             slot: 'Elite'
             unique: true
             points: 0
@@ -5970,6 +5972,12 @@ exportObj.basicCardData = ->
             id: 214
             slot: 'Elite'
             points: 0
+        }
+        {
+            name: '''Scavenger Crane'''
+            id: 215
+            slot: 'Illicit'
+            points: 2
         }
     ]
 
@@ -6197,6 +6205,12 @@ exportObj.basicCardData = ->
             ship: 'TIE Fighter'
             faction: 'Rebel Alliance'
             points: 1
+        }
+        {
+            name: 'Spacetug Tractor Array'
+            id: 30
+            ship: 'Quadjumper'
+            points: 2
         }
     ]
 

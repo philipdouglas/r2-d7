@@ -3,7 +3,7 @@ Entities = require('html-entities').XmlEntities
 entities = new Entities();
 
 utils = require('./utils')
-x1_link = utils.wiki_link('TIE/x1', False)
+x1_link = utils.wiki_link('TIE/x1', false)
 
 class ListPrinter
     constructor: (data) ->

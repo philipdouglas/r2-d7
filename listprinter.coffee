@@ -3,6 +3,7 @@ Entities = require('html-entities').XmlEntities
 entities = new Entities();
 
 utils = require('./utils')
+x1_link = utils.wiki_link('TIE/x1', False)
 
 class ListPrinter
     constructor: (data) ->
@@ -40,7 +41,7 @@ class ListPrinter
                     return
                 if upgrade.name == 'Veteran Instincts'
                     skill += 2
-                if upgrade.slot.toLowerCase() == 'system' and 'TIE/x1' in upgrades
+                if upgrade.slot.toLowerCase() == 'system' and x1_link in upgrades
                     points -= Math.min(4, upgrade.points)
                 upgrade_link = utils.wiki_link(
                     upgrade.name,

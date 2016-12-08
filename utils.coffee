@@ -30,6 +30,7 @@ exports.emoji_to_faction = (emoji) ->
 exports.wiki_link = (card_name, crew_of_pilot) ->
     underscore_name = capitalize.words(card_name)
         .replace(/\ /g, '_')
+        .replace(/"/g, '')
         # YASB and the wiki use different name conventions
         .replace(/\(Scum\)/, '(S&V)')
         .replace(/\((PS9|TFA)\)/, '(HOR)')

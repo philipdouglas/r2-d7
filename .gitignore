@@ -90,3 +90,5 @@ update.ps1
 env.list
 icons/emoji/*.png
 *.pyc
+*.sublime-workspace
+*.sublime-project

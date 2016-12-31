@@ -31,7 +31,6 @@ controller.on('team_join', (bot, message) ->
 
 # Auto update
 fs = require('fs')
-vm = require('vm')
 request = require('request')
 yasb_hash = null
 yasb_url = 'https://raw.githubusercontent.com/geordanr/xwing/gh-pages/javascripts/xwing.js'

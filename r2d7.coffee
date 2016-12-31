@@ -75,7 +75,6 @@ controller.on('tick', (bot, event) ->
     ticks += 1
     if ticks % 600 != 0
         return
-    console.log('tick')
     if yasb_hash is null
         return
     request.head(yasb_url).on('response', (response) ->

@@ -14,7 +14,6 @@ RUN npm --no-color -g install iced-coffee-script
 # Build js files
 COPY *.coffee /usr/src/app/
 RUN iced -c *.coffee
-ADD https://raw.githubusercontent.com/geordanr/xwing/gh-pages/javascripts/xwing.js /usr/src/app/
 
 #set startup commands
 CMD ["node", "r2d7.js"]

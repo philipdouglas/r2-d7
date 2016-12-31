@@ -30,7 +30,9 @@ controller.on('team_join', (bot, message) ->
 )
 
 require('./xwing-shim')
-exportObj = require('./cards-combined')
+global['window'] = require('mock-browser').mocks.MockBrowser.createWindow()
+global['$'] = require('jquery')
+exportObj = require('./xwing')
 exportObj.cardLoaders.English()
 
 ListPrinter = require('./listprinter')

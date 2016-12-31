@@ -17,7 +17,9 @@ class ListPrinter
             if /^\d/.test(data_chunk)
                 ships = data_chunk.split(';')
         faction = utils.faction_to_emoji(parsed.query.f)
-        output = ["#{faction} *<#{message.match[1]}|#{parsed.query.sn or 'Nameless Squadron'}>*"]
+        list_url = utils.make_link(
+            message.match[1], parsed.query.sn or 'Nameless Squadron')
+        output = ["#{faction} *#{list_url}*"]
         total_points = 0
         for ship in ships
             if not ship then continue

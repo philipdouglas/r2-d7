@@ -36,4 +36,12 @@ exports.wiki_link = (card_name, crew_of_pilot) ->
         .replace(/-Wing/, '-wing')
     if crew_of_pilot
         underscore_name += '_(Crew)'
-    return "<http://xwing-miniatures.wikia.com/wiki/#{underscore_name}|#{card_name}>"
+    url = "http://xwing-miniatures.wikia.com/wiki/#{underscore_name}"
+    return exports.make_link(url, card_name)
+
+exports.make_link = (url, name) ->
+    name = name
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+    return "<#{url}|#{name}>"

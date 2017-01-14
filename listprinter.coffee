@@ -6,7 +6,7 @@ utils = require('./utils')
 x1_link = utils.wiki_link('TIE/x1', false)
 
 class ListPrinter
-    constructor: (data) ->
+    set_data: (data) ->
         @data = data
 
     main: (bot, message) ->

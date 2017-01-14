@@ -3,7 +3,7 @@ Entities = require('html-entities').XmlEntities
 entities = new Entities();
 
 class ShipLister
-    constructor: (data) ->
+    set_data: (data) ->
         @data = data
 
     faction_ships: (factions) ->

@@ -31,7 +31,7 @@ class CardLookup
         'snugglingcompartment': 'smugglingcompartment',
     }
 
-    constructor: (data) ->
+    set_data: (data) ->
         @data = data
         @card_lookup = {}
         for condition_name, condition of @data.conditions

@@ -147,7 +147,11 @@ class CardLookup
         if card.name == 'Emperor Palpatine'
             slot += ":crew:"
         points = if card.points is undefined then '' else "[#{card.points}]"
-        text.push("#{slot}#{unique}*#{@strip_name_say(card.name)}* #{points}")
+        name_link = utils.wiki_link(
+            card.name,
+            card.slot.toLowerCase() == 'crew' and card.name of @data.pilots
+        )
+        text.push("#{slot}#{unique}*#{@strip_name_say(name_link)}* #{points}")
 
         if card.ship_card
             text.push(@build_ship_stats(card.ship_card, card))

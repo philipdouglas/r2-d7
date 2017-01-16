@@ -34,7 +34,11 @@ exports.wiki_link = (card_name, crew_of_pilot) ->
         .replace(/\(Scum\)/, '(S&V)')
         .replace(/\((PS9|TFA)\)/, '(HOR)')
         .replace(/-Wing/, '-wing')
-    if crew_of_pilot
+    # Stupid Nien Nunb is a stupid special case
+    if underscore_name == 'Nien_Nunb'
+        if not crew_of_pilot
+            underscore_name += '_(T-70_X-Wing)'
+    else if crew_of_pilot
         underscore_name += '_(Crew)'
     url = "http://xwing-miniatures.wikia.com/wiki/#{underscore_name}"
     return exports.make_link(url, card_name)

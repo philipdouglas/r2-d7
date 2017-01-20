@@ -156,7 +156,7 @@ class CardLookup
         if card.ship_card
             text.push(@build_ship_stats(card.ship_card, card))
 
-        else if card.maneuvers  # Ship
+        else if card.actions  # Ship
             text.push(@build_ship_stats(card))
             for line in @build_maneuver(card)
                 text.push(line)

@@ -30,11 +30,6 @@ class ShipLister
 
     main: (bot, message) ->
         incoming = entities.decode(message.match[1])
-        # If the mention was mid line, we need to extract the search
-        match = /<@U16V61GP6>(.*)/.exec(incoming)
-        # Warning: This hard codes the id of r2-d7, so it will break on other slacks
-        if match
-            incoming = match[1]
         # Handle multiple [[]]s in one message
         output = false
         for search in incoming.split(/\]\][^\[]*\[\[/)

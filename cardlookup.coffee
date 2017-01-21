@@ -52,6 +52,10 @@ class CardLookup
             if /\"Heavy Scyk\" Interceptor \((Torpedo|Missile)\)/.exec(title_name)
                 continue
             @add_card(title)
+        for ship_name, ship of @data.ships
+            ship.slot = ship.name
+            ship.pilots = []
+            @add_card(ship)
         for pilot_name, pilot of @data.pilots
             pilot.ship_card = @data.ships[pilot.ship]
             if pilot.ship_override
@@ -60,9 +64,10 @@ class CardLookup
             pilot.slot = pilot.ship_card.name
             @fix_icons(pilot)
             @add_card(pilot)
-        for ship_name, ship of @data.ships
-            ship.slot = ship.name
-            @add_card(ship)
+
+            # Add pilot to it's ship so we can list pilots for ships
+            @data.ships[pilot.ship].pilots.push(pilot)
+
 
     add_card_name: (name, data) ->
         @card_lookup[name] = @card_lookup[name] || []
@@ -92,8 +97,6 @@ class CardLookup
     strip_card_name: (name) ->
         return name.toLowerCase().replace(/\ \(.*\)$/, '').replace(/[^a-z0-9]/g, '')
 
-    strip_name_say: (name) ->
-        return name.replace(/\ \(.*\)$/, '')
 
     energy_to_emoji: (energy) ->
         return ":energy#{String(energy).replace(/\+/g, 'plus')}:"
@@ -128,6 +131,24 @@ class CardLookup
 
         return line.join(' | ')
 
+    pilot_compare: (a, b) ->
+        if b.skill > a.skill
+            return -1
+        else if a.skill > b.skill
+            return 1
+        else
+            return 0
+
+    short_pilot: (pilot) ->
+        unique = if pilot.unique then '• ' else ''
+        elite = if "Elite" in pilot.slots then ' :elite:' else ''
+        return ":skill#{pilot.skill}:#{unique}#{@format_name(pilot)}#{elite}"
+
+    list_pilots: (ship) ->
+        pilots = ship.pilots.sort(@pilot_compare)
+        pilots = (@short_pilot(pilot) for pilot in ship.pilots)
+        return pilots.join(', ')
+
     make_points_filter: (operator, filter) ->
         filter = parseInt(filter)
         return (value) ->
@@ -140,18 +161,20 @@ class CardLookup
                 when '>=' then return value >= filter
                 when '<=' then return value <= filter
 
+    format_name: (card) ->
+        return utils.wiki_link(
+            card.name,
+            card.slot.toLowerCase() == 'crew' and card.name of @data.pilots
+        )
+
     print_card: (card) ->
         text = []
-        unique = if card.unique then ':unique:' else ' '
+        unique = if card.unique then ' • ' else ' '
         slot = utils.name_to_emoji(card.slot)
         if card.name == 'Emperor Palpatine'
             slot += ":crew:"
         points = if card.points is undefined then '' else "[#{card.points}]"
-        name_link = utils.wiki_link(
-            card.name,
-            card.slot.toLowerCase() == 'crew' and card.name of @data.pilots
-        )
-        text.push("#{slot}#{unique}*#{@strip_name_say(name_link)}* #{points}")
+        text.push("#{slot}#{unique}*#{@format_name(card)}* #{points}")
 
         if card.ship_card
             text.push(@build_ship_stats(card.ship_card, card))
@@ -160,6 +183,7 @@ class CardLookup
             text.push(@build_ship_stats(card))
             for line in @build_maneuver(card)
                 text.push(line)
+            text.push(@list_pilots(card))
 
         else if card.attack or card.energy  # secondary weapon and energy stuff
             line = []

@@ -1,7 +1,10 @@
 capitalize = require('capitalize')
 
+exports.strip_name_say = (name) ->
+    return name.replace(/\ \(.*\)$/, '')
+
 exports.strip_name = (name) ->
-    return name.toLowerCase().replace(/\ \(.*\)$/, '').replace(/[ -\/]/g, '')
+    return exports.strip_name_say(name.toLowerCase()).replace(/[ -\/]/g, '')
 
 exports.name_to_emoji = (name) ->
     name = ":#{exports.strip_name(name)}:"
@@ -48,4 +51,4 @@ exports.make_link = (url, name) ->
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
-    return "<#{url}|#{name}>"
+    return "<#{url}|#{exports.strip_name_say(name)}>"

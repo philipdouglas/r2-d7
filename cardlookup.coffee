@@ -104,9 +104,7 @@ class CardLookup
     build_ship_stats: (ship, pilot) ->
         line = []
         if pilot
-            ship = clone(ship)
-            ship.factions = [pilot.faction]
-        line.push((utils.faction_to_emoji(faction) for faction in ship.factions).join(''))
+            line.push(utils.faction_to_emoji(pilot.faction))
 
         stats = ''
         if pilot
@@ -145,9 +143,13 @@ class CardLookup
         return ":skill#{pilot.skill}:#{unique}#{@format_name(pilot)}#{elite}"
 
     list_pilots: (ship) ->
+        factions = {}
         pilots = ship.pilots.sort(@pilot_compare)
-        pilots = (@short_pilot(pilot) for pilot in ship.pilots)
-        return pilots.join(', ')
+        for pilot in ship.pilots
+            if pilot.faction not of factions
+                factions[pilot.faction] = []
+            factions[pilot.faction].push(@short_pilot(pilot))
+        return ("#{utils.faction_to_emoji(faction)} #{pilots.join(', ')}" for faction, pilots of factions)
 
     make_points_filter: (operator, filter) ->
         filter = parseInt(filter)
@@ -181,9 +183,8 @@ class CardLookup
 
         else if card.actions  # Ship
             text.push(@build_ship_stats(card))
-            for line in @build_maneuver(card)
-                text.push(line)
-            text.push(@list_pilots(card))
+            Array::push.apply(text, @build_maneuver(card))
+            Array::push.apply(text, @list_pilots(card))
 
         else if card.attack or card.energy  # secondary weapon and energy stuff
             line = []

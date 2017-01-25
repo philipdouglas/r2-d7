@@ -58,16 +58,16 @@ class CardLookup
             @add_card(ship)
         for pilot_name, pilot of @data.pilots
             pilot.ship_card = @data.ships[pilot.ship]
+
+            # Add pilot to it's ship so we can list pilots for ships
+            pilot.ship_card.pilots.push(pilot)
+
             if pilot.ship_override
                 pilot.ship_card = Object.assign({}, pilot.ship_card)
                 pilot.ship_card = Object.assign(pilot.ship_card, pilot.ship_override)
             pilot.slot = pilot.ship_card.name
             @fix_icons(pilot)
             @add_card(pilot)
-
-            # Add pilot to it's ship so we can list pilots for ships
-            @data.ships[pilot.ship].pilots.push(pilot)
-
 
     add_card_name: (name, data) ->
         @card_lookup[name] = @card_lookup[name] || []
@@ -96,7 +96,6 @@ class CardLookup
 
     strip_card_name: (name) ->
         return name.toLowerCase().replace(/\ \(.*\)$/, '').replace(/[^a-z0-9]/g, '')
-
 
     energy_to_emoji: (energy) ->
         return ":energy#{String(energy).replace(/\+/g, 'plus')}:"
@@ -164,6 +163,8 @@ class CardLookup
                 when '<=' then return value <= filter
 
     format_name: (card) ->
+        if card.actions
+            return card.name
         return utils.wiki_link(
             card.name,
             card.slot.toLowerCase() == 'crew' and card.name of @data.pilots

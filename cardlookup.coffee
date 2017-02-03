@@ -304,6 +304,9 @@ class CardLookup
         7: 'sloopright',
         8: 'trollleft',
         9: 'trollright',
+        10: 'reversebankleft',
+        11: 'reversestraight',
+        12: 'reversebankright',
     }
 
     build_maneuver: (ship) ->

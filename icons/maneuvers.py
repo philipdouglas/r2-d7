@@ -15,6 +15,9 @@ fonts = {
         'bankright': "9",
         'trollleft': ":",
         'trollright': ";",
+        'reversebankleft': "J",
+        'reversestraight': "K",
+        'reversebankright': "L",
     },
 }
 colours = {

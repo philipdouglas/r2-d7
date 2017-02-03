@@ -45,6 +45,7 @@ fonts = {
         'title': "t",
         'unique': "u",
         'recover': "v",
+        'condition': '\u00B0',
     },
     "xwing-miniatures-ships.ttf": {
         'gr75mediumtransport': "1",
@@ -65,6 +66,7 @@ fonts = {
         'tieadvancedprototype': "R",
         'tiesffighter': "S",
         'tiestriker': 'T',
+        'upsilonclassshuttle': 'U',
         'awing': "a",
         'bwing': "b",
         'arc170': "c",
@@ -81,6 +83,7 @@ fonts = {
         'g1astarfighter': "n",
         'yt2400freighter': "o",
         'jumpmaster5000': "p",
+        'quadjumper': "q",
         'kihraxzfighter': "r",
         'm3ainterceptor': "s",
         'yv666': "t",

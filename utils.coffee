@@ -39,6 +39,8 @@ exports.wiki_link = (card_name, crew_of_pilot, wiki_name) ->
         .replace(/\(Scum\)/, '(S&V)')
         .replace(/\((PS9|TFA)\)/, '(HOR)')
         .replace(/-Wing/, '-wing')
+        .replace(/\/V/, '/v')
+        .replace(/\/X/, '/x')
     # Stupid Nien Nunb is a stupid special case
     if fudged_name == 'Nien_Nunb'
         if not crew_of_pilot

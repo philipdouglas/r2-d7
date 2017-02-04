@@ -84,6 +84,7 @@ class CardLookup
                 .replace(/<i class="xwing-miniatures-font xwing-miniatures-font-/g, ':')
                 .replace(/"><\/i>/g, ':')
                 .replace(/:bomb:/g, ':xbomb:')  # bomb is already an emoji
+                .replace(/:shield:/g, ':xshield:')  # shield is already an emoji as well
                 .replace(/<br \/><br \/>/g, '\n')
                 .replace(/<strong>/g, '*')
                 .replace(/<\/strong>/g, '*')

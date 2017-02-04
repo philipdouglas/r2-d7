@@ -1,7 +1,8 @@
-utils = require('./utils')
+clone = require('clone')
 Entities = require('html-entities').XmlEntities
-entities = new Entities();
-clone = require('clone');
+entities = new Entities()
+fs = require('fs')
+utils = require('./utils')
 
 class CardLookup
     alias_map: {
@@ -69,6 +70,12 @@ class CardLookup
             @fix_icons(pilot)
             @add_card(pilot)
 
+        # Add damage cards
+        @add_damage_cards(
+            JSON.parse(fs.readFileSync('./damage-deck-core.json')), 'Original')
+        @add_damage_cards(
+            JSON.parse(fs.readFileSync('./damage-deck-core-tfa.json')), 'TFA')
+
     add_card_name: (name, data) ->
         @card_lookup[name] = @card_lookup[name] || []
         @card_lookup[name].push(data)
@@ -77,6 +84,13 @@ class CardLookup
         name = @strip_card_name(card.name)
         card.slot = utils.strip_name(card.slot)
         @add_card_name(name, card)
+
+    add_damage_cards: (cards, deck) ->
+        for card in cards
+            card.slot = 'crit'
+            card.deck = deck
+            @fix_icons(card)
+            @add_card(card)
 
     fix_icons: (data) ->
         if data.text?
@@ -94,6 +108,12 @@ class CardLookup
                 .replace(/<\/span>/g, '_')
                 .replace(/__/g, ' ')  # When italics are next to each, slack gets confused
                 .replace(/&deg;/g, '°')
+                # Guido's data syntax
+                .replace(/\[Hit\]/g, ':hit:')
+                .replace(/\[Critical Hit\]/g, ':crit:')
+                .replace(/\[Turn Left\]/g, ':turnleft:')
+                .replace(/\[Turn Right\]/g, ':turnright:')
+                .replace(/\[Straight\]/g, ':straight:')
 
     strip_card_name: (name) ->
         return name.toLowerCase().replace(/\ \(.*\)$/, '').replace(/[^a-z0-9]/g, '')
@@ -164,7 +184,7 @@ class CardLookup
                 when '<=' then return value <= filter
 
     format_name: (card) ->
-        if card.actions
+        if card.actions or card.slot == 'crit'
             return card.name
         return utils.wiki_link(
             card.name,
@@ -178,7 +198,8 @@ class CardLookup
         if card.name == 'Emperor Palpatine'
             slot += ":crew:"
         points = if card.points is undefined then '' else "[#{card.points}]"
-        text.push("#{slot}#{unique}*#{@format_name(card)}* #{points}")
+        deck = if card.deck then "(#{card.deck})" else ''
+        text.push("#{slot}#{unique}*#{@format_name(card)}* #{points}#{deck}")
 
         if card.ship_card
             text.push(@build_ship_stats(card.ship_card, card))

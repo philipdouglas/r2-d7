@@ -11,6 +11,9 @@ RUN npm --no-color install
 # Install iced coffee with -g so we can call it later
 RUN npm --no-color -g install iced-coffee-script
 
+# Copy JSON
+COPY *.json /usr/src/app/
+
 # Build js files
 COPY *.coffee /usr/src/app/
 RUN iced -c *.coffee

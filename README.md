@@ -6,4 +6,5 @@ slack.
 
 Written in CoffeeScript.
 
-Uses card data from geordanr/xwing.
+Uses card data from <a href="https://github.com/geordanr/xwing/">geordanr/xwing</a>.
+Damage card data from <a href="https://github.com/guidokessels/xwing-data">guidokessels/xwing-data</a>.

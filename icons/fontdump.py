@@ -45,7 +45,7 @@ fonts = {
         'title': "t",
         'unique': "u",
         'recover': "v",
-        'condition': '\u00B0',
+        # 'condition': '\u00B0',
     },
     "xwing-miniatures-ships.ttf": {
         'gr75mediumtransport': "1",

@@ -8,7 +8,7 @@ exports.strip_name = (name) ->
 
 exports.name_to_emoji = (name) ->
     name = ":#{exports.strip_name(name)}:"
-    return name.replace(/:bomb:/g, ':xbomb:')
+    return name.replace(/:bomb:/g, ':xbomb:').replace(/:shield:/g, ':xshield:')
 
 exports.ship_to_icon = (pilot) ->
     return exports.name_to_emoji(pilot.ship)

@@ -224,6 +224,10 @@ class CardLookup
                 card.text = card.text.replace(/^(_[^_]+)(_.*)/, '$1 Limited.$2')
             else
                 text.push("_Limited._")
+
+        if card.type  # Damage card
+            text.push("_*#{card.type}*_")
+
         if card.text
             text.push(card.text)
 

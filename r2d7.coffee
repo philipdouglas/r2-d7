@@ -7,8 +7,9 @@ beepboop = BeepBoop.start(controller, {debug: false})
 
 #Help
 help_text = "I am R2-D7, xwingtmg.slack.com's bot.\n
-    *List Printing:* If you paste a (Yet Another) X-Wing Miniatures Squad Builder permalink into
-    a channel I'm in (or direct message me one), I will print a summary of the list.\n
+    *List Printing:* If you paste a (Yet Another) X-Wing Miniatures Squad
+    Builder or xwing-builder.co.uk permalink into a channel I'm in (or direct
+    message me one), I will print a summary of the list.\n
     *Card Lookup:* Say something to me (_<@r2-d7>: something_) and I will describe any upgrades,
     ships or pilots that match what you said.\n
     You can also lookup a card by enclosing its name in double square brackets. (Eg. Why not try
@@ -30,8 +31,8 @@ controller.on('team_join', (bot, message) ->
 )
 
 # Set up handler classes
-ListPrinter = require('./listprinter')
-list_printer = new ListPrinter()
+XWSPrinter = require('./xwslistprinter')
+xws_printer = new XWSPrinter()
 CardLookup = require('./cardlookup')
 card_lookup = new CardLookup()
 ShipLister = require('./shiplister')
@@ -44,11 +45,13 @@ multi_callback = (bot, message) ->
         card_lookup_cb(bot, message)
 
 controller.hears(
-    # http://geordanr.github.io/xwing/?f=Rebel%20Alliance&d=v4!s!162:-1,-1:-1:-1:&sn=Unnamed%20Squadron
     # slack wraps URLs in <>
-    '<(https?://geordanr\.github\.io\/xwing\/\?(.*))>',
+    [
+        '<(https?://(geordanr)\\.github\\.io/xwing/\\?(.*))>',
+        '<(https?://(xwing-builder)\\.co\\.uk/view/(\\d+)[^>|]*)[>|]',
+    ]
     ["ambient", "direct_mention", "direct_message"],
-    list_printer.make_callback()
+    xws_printer.make_callback()
 )
 
 controller.hears('(.*)', ['direct_message', 'direct_mention', 'mention'], multi_callback)
@@ -80,7 +83,7 @@ download_yasb = () ->
             console.error('Failed to reload xwing.js')
             process.exit()
         exportObj.cardLoaders.English()
-        list_printer.set_data(exportObj)
+        xws_printer.set_data(exportObj)
         card_lookup.set_data(exportObj)
         ship_lister.set_data(exportObj)
     )

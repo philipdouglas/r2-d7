@@ -300,12 +300,13 @@ class CardLookup
         for card in cards
             text = text.concat(@print_card(card))
 
-        bot.reply(message, {
-            text: text.join('\n'),
-            # A fudge to get botkit to use postMessage which supports link formatting
-            attachments: [],
-            unfurl_links: false,
-        })
+        if text
+            bot.reply(message, {
+                text: text.join('\n'),
+                # A fudge to get botkit to use postMessage which supports link formatting
+                attachments: [],
+                unfurl_links: false,
+            })
 
     make_callback: ->
         self = this

@@ -30,7 +30,35 @@ exports.emoji_to_faction = (emoji) ->
         when ':first_order:' then return ['First Order']
         else false
 
-exports.wiki_link = (card_name, crew_of_pilot, wiki_name) ->
+exports.unxws_faction = (xws) ->
+    switch xws
+        when 'scum' then return 'Scum and Villainy'
+        when 'rebel' then return 'Rebel Alliance'
+        when 'imperial' then return 'Galactic Empire'
+        else false
+
+exports.unxws_slot = (xws) ->
+    switch xws
+        when 'turret' then return 'Turret'
+        when 'torpedo' then return 'Torpedo'
+        when 'amd' then return 'Astromech'
+        when 'ept' then return 'Elite'
+        when 'missile' then return 'Missile'
+        when 'crew' then return 'Crew'
+        when 'cannon' then return 'Cannon'
+        when 'bomb' then return 'Bomb'
+        when 'system' then return 'System'
+        when 'cargo' then return 'Cargo'
+        when 'hardpoint' then return 'Hardpoint'
+        when 'team' then return 'Team'
+        when 'illicit' then return 'Illicit'
+        when 'samd' then return 'Salvaged Astromech'
+        when 'tech' then return 'Tech'
+        when 'mod' then return 'Modification'
+        when 'title' then return 'Title'
+        else false
+
+exports.wiki_link = (card_name, crew_of_pilot, wiki_name = false) ->
     if not wiki_name
         wiki_name = card_name
     fudged_name = capitalize.words(wiki_name)

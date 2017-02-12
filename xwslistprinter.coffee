@@ -26,6 +26,7 @@ class XWSPrinter
             pilot_card = pilots[pilot.name][0]
             points += pilot_card.points
             skill = pilot_card.skill
+            ship = if pilot.ship == 'sabinestiefighter' then 'tiefighter' else pilot.ship
 
             cards = []
             for slot, upgrades of pilot.upgrades
@@ -60,7 +61,7 @@ class XWSPrinter
                 points += upgrade.points
 
             output.push(
-                ":#{pilot.ship}::skill#{skill}:" +
+                ":#{ship}::skill#{skill}:" +
                 " _#{utils.wiki_link(pilot_card.name)}_:" +
                 " #{upgrades.join(', ')}" +
                 " *[#{points}]*"

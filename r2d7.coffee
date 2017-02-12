@@ -49,6 +49,7 @@ controller.hears(
     [
         '<(https?://(geordanr)\\.github\\.io/xwing/\\?(.*))>',
         '<(https?://(xwing-builder)\\.co\\.uk/view/(\\d+)[^>|]*)[>|]',
+        '({.*})',
     ]
     ["ambient", "direct_mention", "direct_message"],
     xws_printer.make_callback()

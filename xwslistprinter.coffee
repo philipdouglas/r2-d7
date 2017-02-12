@@ -78,24 +78,34 @@ class XWSPrinter
         else if message.match[2] == 'xwing-builder'
             xws_url = "http://xwing-builder.co.uk/xws/#{message.match[3]}?dl=1"
         else
-            console.log("What is this? #{message.match[1]}")
-            return
-
-        xws_url = entities.decode(xws_url)
-
-        request({url: xws_url, json: true}, (error, response, body) ->
-            if error || response.statusCode != 200 || 'message' of body
-                bot.reply(message, "Error retrieving XWS: #{body['message']}")
+            try
+                xws = JSON.parse(message.match[1])
+            catch e
                 return
-            output = self.print_xws(message.match[1], body)
 
+        if xws_url
+            xws_url = entities.decode(xws_url)
+
+            request({url: xws_url, json: true}, (error, response, body) ->
+                if error || response.statusCode != 200 || 'message' of body
+                    bot.reply(message, "Error retrieving XWS: #{body['message']}")
+                    return
+
+                bot.reply(message, {
+                    text: self.print_xws(message.match[1], body).join('\n'),
+                    # A fudge to get botkit to use postMessage which supports link formatting
+                    attachments: [],
+                    unfurl_links: false,
+                })
+            )
+        else
+            link = xws.vendor[Object.keys(xws.vendor)[0]].link
             bot.reply(message, {
-                text: output.join('\n'),
+                text: self.print_xws(link, xws).join('\n'),
                 # A fudge to get botkit to use postMessage which supports link formatting
                 attachments: [],
                 unfurl_links: false,
             })
-        )
 
     make_callback: ->
         # Frigging Javascript

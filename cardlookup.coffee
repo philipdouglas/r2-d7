@@ -140,8 +140,12 @@ class CardLookup
             line.push(":#{ship.attack_icon.replace(/xwing-miniatures-font-/, '')}:")
 
         line.push((utils.name_to_emoji(action) for action in ship.actions).join(' '))
-        if pilot and pilot.slots.length > 0
-            slots = (utils.name_to_emoji(slot) for slot in pilot.slots).join('')
+        if pilot
+            slots = pilot.slots
+        else
+            slots = ship.pilots.sort(@pilot_compare)[0].slots
+        if slots
+            slots = (utils.name_to_emoji(slot) for slot in slots).join('')
             line.push(slots)
 
         if ship.epic_points

@@ -69,12 +69,14 @@ exports.wiki_link = (card_name, crew_of_pilot, wiki_name = false) ->
         .replace(/-Wing/, '-wing')
         .replace(/\/V/, '/v')
         .replace(/\/X/, '/x')
-    # Stupid Nien Nunb is a stupid special case
-    if fudged_name == 'Nien_Nunb'
-        if not crew_of_pilot
-            fudged_name += '_(T-70_X-Wing)'
-    else if crew_of_pilot
+    if crew_of_pilot
         fudged_name += '_(Crew)'
+    # Stupid Nien Nunb is a stupid special case
+    else if fudged_name == 'Nien_Nunb'
+        fudged_name += '_(T-70_X-Wing)'
+    # All Hera's are suffixed on the wiki
+    else if fudged_name == 'Hera_Syndulla'
+        fudged_name += '_(VCX-100)'
     url = "http://xwing-miniatures.wikia.com/wiki/#{fudged_name}"
     return exports.make_link(url, card_name)
 

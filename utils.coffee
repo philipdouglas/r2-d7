@@ -77,6 +77,8 @@ exports.wiki_link = (card_name, crew_of_pilot, wiki_name = false) ->
     # All Hera's are suffixed on the wiki
     else if fudged_name == 'Hera_Syndulla'
         fudged_name += '_(VCX-100)'
+    else if /"Heavy_Scyk"_Interceptor/.test(fudged_name)
+        fudged_name = '"Heavy_Scyk"_Interceptor'
     url = "http://xwing-miniatures.wikia.com/wiki/#{fudged_name}"
     return exports.make_link(url, card_name)
 

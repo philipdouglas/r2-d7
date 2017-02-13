@@ -77,6 +77,8 @@ class XWSPrinter
             xws_url = "https://yasb-xws.herokuapp.com/?#{message.match[3]}"
         else if message.match[2] == 'xwing-builder'
             xws_url = "http://xwing-builder.co.uk/xws/#{message.match[3]}?dl=1"
+        else if message.match[2]
+            xws_url = "http://x-wing.fabpsb.net/permalink.php?sq=#{message.match[3]}&xws=1"
         else
             try
                 xws = JSON.parse(message.match[1])

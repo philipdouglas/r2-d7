@@ -49,6 +49,7 @@ controller.hears(
     [
         '<(https?://(geordanr)\\.github\\.io/xwing/\\?(.*))>',
         '<(https?://(xwing-builder)\\.co\\.uk/view/(\\d+)[^>|]*)[>|]',
+        '<(https?://x-wing\\.(fabpsb)\\.net/permalink\\.php\\?sq=([a-z0-9]+))>',
         '({.*})',
     ]
     ["ambient", "direct_mention", "direct_message"],

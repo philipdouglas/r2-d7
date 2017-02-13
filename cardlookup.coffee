@@ -239,9 +239,9 @@ class CardLookup
 
     lookup: (term) ->
         matches = []
-        pattern = /\ *(?::([^:]+):)? *(?:([^=><].+)|([=><][=><]?) *(\d+)) */
+        pattern = /\ *(?::([^:]+):)? *(?:([^=><:]+)|([=><][=><]?) *(\d+)) *(?::([^:]+):)? */
         match = pattern.exec(term)
-        slot_filter = match[1]
+        slot_filter = match[1] or match[5]
         if slot_filter
             slot_filter = slot_filter.toLowerCase()
         if slot_filter == 'xbomb'

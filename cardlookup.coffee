@@ -223,7 +223,7 @@ class CardLookup
                 line.push(":energy:#{@energy_to_emoji(card.energy)}")
             text.push(line.join(' | '))
 
-        if card.limited
+        if card.limited and not /Limited/.test(card.text)
             if /^\_/.exec(card.text)
                 card.text = card.text.replace(/^(_[^_]+)(_.*)/, '$1 Limited.$2')
             else

@@ -7,8 +7,8 @@ beepboop = BeepBoop.start(controller, {debug: false})
 
 #Help
 help_text = "I am R2-D7, xwingtmg.slack.com's bot.\n
-    *List Printing:* If you paste a (Yet Another) X-Wing Miniatures Squad
-    Builder or xwing-builder.co.uk permalink into a channel I'm in (or direct
+    *List Printing:* If you paste a (Yet Another) Squad Builder, Fab's or
+    xwing-builder.co.uk permalink into a channel I'm in (or direct
     message me one), I will print a summary of the list.\n
     *Card Lookup:* Say something to me (_<@r2-d7>: something_) and I will describe any upgrades,
     ships or pilots that match what you said.\n
@@ -19,7 +19,7 @@ help_text = "I am R2-D7, xwingtmg.slack.com's bot.\n
     You can also search for cards by points value in a particular slot. Eg. _<@r2-d7> :crew: <=3_.
     =, <, >, <= and >= are supported.
 "
-controller.hears('^help$', ["ambient", "direct_mention", "direct_message"], (bot, message) ->
+controller.hears(['^help$'], ["direct_mention", "direct_message"], (bot, message) ->
     bot.reply(message, help_text))
 controller.on('team_join', (bot, message) ->
     bot.api.im.open({user: message.user.id}, (err, response) ->

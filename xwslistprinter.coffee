@@ -23,10 +23,13 @@ class XWSPrinter
             points = 0
             if pilots[pilot.name].length > 1
                 console.log(pilots[pilot.name])
-            pilot_card = pilots[pilot.name][0]
+            ship = if pilot.ship == 'sabinestiefighter' then 'tiefighter' else pilot.ship
+            pilot_card = null
+            for pilot_card in pilots[pilot.name]
+                if pilot_card.ship.canonicalize() == ship
+                    break
             points += pilot_card.points
             skill = pilot_card.skill
-            ship = if pilot.ship == 'sabinestiefighter' then 'tiefighter' else pilot.ship
 
             cards = []
             for slot, upgrades of pilot.upgrades

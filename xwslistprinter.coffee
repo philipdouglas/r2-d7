@@ -61,7 +61,7 @@ class XWSPrinter
                 points += upgrade.points
 
             output.push(
-                ":#{utils.ship_to_icon(pilot_card)}::skill#{skill}:" +
+                "#{utils.ship_to_icon(pilot_card)}:skill#{skill}:" +
                 " _#{utils.wiki_link(pilot_card.name)}_:" +
                 " #{upgrades.join(', ')}" +
                 " *[#{points}]*"

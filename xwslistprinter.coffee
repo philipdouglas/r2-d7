@@ -23,7 +23,7 @@ class XWSPrinter
             points = 0
             pilot_card = null
             for pilot_card in pilots[pilot.name]
-                if pilot_card.ship.canonicalize() == ship
+                if pilot_card.ship.canonicalize() == pilot.ship
                     break
             points += pilot_card.points
             skill = pilot_card.skill

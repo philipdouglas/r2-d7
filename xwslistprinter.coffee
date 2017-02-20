@@ -21,9 +21,6 @@ class XWSPrinter
         pilots = @data.pilotsByFactionCanonicalName[utils.unxws_faction(list.faction)]
         for pilot in list.pilots
             points = 0
-            if pilots[pilot.name].length > 1
-                console.log(pilots[pilot.name])
-            ship = if pilot.ship == 'sabinestiefighter' then 'tiefighter' else pilot.ship
             pilot_card = null
             for pilot_card in pilots[pilot.name]
                 if pilot_card.ship.canonicalize() == ship
@@ -64,7 +61,7 @@ class XWSPrinter
                 points += upgrade.points
 
             output.push(
-                ":#{ship}::skill#{skill}:" +
+                ":#{utils.ship_to_icon(pilot_card)}::skill#{skill}:" +
                 " _#{utils.wiki_link(pilot_card.name)}_:" +
                 " #{upgrades.join(', ')}" +
                 " *[#{points}]*"

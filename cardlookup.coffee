@@ -249,7 +249,7 @@ class CardLookup
 
         if match[2]
             lookup = @strip_card_name(match[2])
-            if lookup.length > 2 or /r\d/.exec(lookup)
+            if lookup.length > 2 or /[a-z]\d/.exec(lookup)
                 self = this
                 regex = ///\b#{lookup}(?:'s)?\b///
                 matches = matches.concat(Object.keys(@card_lookup).filter((key) ->

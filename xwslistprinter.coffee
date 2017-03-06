@@ -3,7 +3,6 @@ request = require('request')
 Entities = require('html-entities').XmlEntities
 entities = new Entities()
 utils = require('./utils')
-x1_link = utils.wiki_link('TIE/x1', false)
 
 
 class XWSPrinter
@@ -29,6 +28,7 @@ class XWSPrinter
             skill = pilot_card.skill
 
             cards = []
+            tiex1 = false
             for slot, upgrades of pilot.upgrades
                 for upgrade in upgrades
                     if slot == 'mod'
@@ -37,6 +37,8 @@ class XWSPrinter
                         if upgrade == 'heavyscykinterceptor'
                             cards.push(@data.titlesByCanonicalName[upgrade][0])
                         else
+                            if upgrade == 'tiex1'
+                                tiex1 = true
                             cards.push(@data.titlesByCanonicalName[upgrade])
                     else
                         slot_cards = @data.upgradesBySlotCanonicalName[utils.unxws_slot(slot)]
@@ -49,7 +51,7 @@ class XWSPrinter
                     return
                 if upgrade.name == 'Veteran Instincts'
                     skill += 2
-                if upgrade.slot.toLowerCase() == 'system' and x1_link in upgrades
+                if upgrade.slot.toLowerCase() == 'system' and tiex1
                     points -= Math.min(4, upgrade.points)
                 upgrade_link = utils.wiki_link(
                     upgrade.name,

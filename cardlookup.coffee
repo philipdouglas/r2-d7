@@ -208,7 +208,7 @@ class CardLookup
         if card.ship_card
             text.push(@build_ship_stats(card.ship_card, card))
 
-        else if card.actions  # Ship
+        else if card.pilots  # Ship
             text.push(@build_ship_stats(card))
             Array::push.apply(text, @build_maneuver(card))
             Array::push.apply(text, @list_pilots(card))

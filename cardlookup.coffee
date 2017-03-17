@@ -199,8 +199,9 @@ class CardLookup
         text = []
         unique = if card.unique then ' • ' else ' '
         slot = utils.name_to_emoji(card.slot)
-        if card.name == 'Emperor Palpatine'
-            slot += ":crew:"
+        for extra_slot in (card.also_occupies_upgrades or [])
+            if extra_slot not in (card.unequips_upgrades or [])
+                slot += utils.name_to_emoji(extra_slot)
         points = if card.points is undefined then '' else "[#{card.points}]"
         deck = if card.deck then "(#{card.deck})" else ''
         text.push("#{slot}#{unique}*#{@format_name(card)}* #{points}#{deck}")

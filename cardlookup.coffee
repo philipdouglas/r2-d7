@@ -67,6 +67,8 @@ class CardLookup
                 pilot.ship_card = Object.assign({}, pilot.ship_card)
                 pilot.ship_card = Object.assign(pilot.ship_card, pilot.ship_override)
             pilot.slot = pilot.ship_card.name
+            if pilot.points == 100
+                pilot.points = '?'
             @fix_icons(pilot)
             @add_card(pilot)
 
@@ -164,7 +166,7 @@ class CardLookup
     short_pilot: (pilot) ->
         unique = if pilot.unique then '• ' else ''
         elite = if "Elite" in pilot.slots then ' :elite:' else ''
-        return ":skill#{pilot.skill}:#{unique}#{@format_name(pilot)}#{elite}"
+        return ":skill#{pilot.skill}:#{unique}#{@format_name(pilot)}#{elite} [#{pilot.points}]"
 
     list_pilots: (ship) ->
         factions = {}
@@ -173,7 +175,7 @@ class CardLookup
             if pilot.faction not of factions
                 factions[pilot.faction] = []
             factions[pilot.faction].push(@short_pilot(pilot))
-        return ("#{utils.faction_to_emoji(faction)} #{pilots.join(', ')}" for faction, pilots of factions)
+        return ("#{utils.faction_to_emoji(faction)} #{pilots.join(', ')}" for faction, pilots of factions )
 
     make_points_filter: (operator, filter) ->
         filter = parseInt(filter)

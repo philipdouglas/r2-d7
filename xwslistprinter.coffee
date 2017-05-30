@@ -29,6 +29,7 @@ class XWSPrinter
 
             cards = []
             tiex1 = false
+            vaskai = false
             for slot, upgrades of pilot.upgrades
                 for upgrade in upgrades
                     if slot == 'mod'
@@ -39,6 +40,8 @@ class XWSPrinter
                         else
                             if upgrade == 'tiex1'
                                 tiex1 = true
+                            else if upgrade == 'vaskai'
+                                vaskai = true
                             cards.push(@data.titlesByCanonicalName[upgrade])
                     else
                         slot_cards = @data.upgradesBySlotCanonicalName[utils.unxws_slot(slot)]
@@ -48,7 +51,7 @@ class XWSPrinter
             for upgrade in cards
                 if upgrade is undefined
                     upgrades.push("*Unrecognised Upgrade*")
-                    return
+                    continue
                 if upgrade.name == 'Veteran Instincts'
                     skill += 2
                 if upgrade.slot.toLowerCase() == 'system' and tiex1
@@ -60,7 +63,11 @@ class XWSPrinter
                 if upgrade.name == 'Adaptability'
                     upgrade_link += ":skill_1:"
                 upgrades.push(upgrade_link)
-                points += upgrade.points
+                if vaskai
+                    points += max(0, upgrade.points - 1)
+                else
+                    points += upgrade.points
+
 
             output.push(
                 "#{utils.ship_to_icon(pilot_card)}:skill#{skill}:" +

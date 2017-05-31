@@ -63,10 +63,10 @@ class XWSPrinter
                 if upgrade.name == 'Adaptability'
                     upgrade_link += ":skill_1:"
                 upgrades.push(upgrade_link)
-                if vaksai
-                    points += max(0, upgrade.points - 1)
-                else
-                    points += upgrade.points
+                cost = upgrade.points
+                if vaksai and cost > 1
+                    cost -= 1
+                points += cost
 
 
             output.push(

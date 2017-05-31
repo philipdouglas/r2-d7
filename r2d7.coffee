@@ -104,7 +104,3 @@ controller.on('tick', (bot, event) ->
             download_yasb()
     )
 )
-
-
-
-

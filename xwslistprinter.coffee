@@ -64,7 +64,7 @@ class XWSPrinter
                     upgrade_link += ":skill_1:"
                 upgrades.push(upgrade_link)
                 cost = upgrade.points
-                if vaksai and cost > 1
+                if vaksai and cost >= 1
                     cost -= 1
                 points += cost
 

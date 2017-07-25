@@ -285,8 +285,12 @@ class CardLookup
                 cards.push(card)
 
                 if card.applies_condition
-                    condition = @data.conditionsByCanonicalName[card.applies_condition]
-                    cards.push(condition)
+                    conditions = card.applies_condition
+                    if not conditions instanceof Array
+                        conditions = [conditions]
+                    for condition in conditions
+                        condition = @data.conditionsByCanonicalName[condition]
+                        cards.push(condition)
         return cards
 
     main: (bot, message) ->

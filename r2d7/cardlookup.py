@@ -41,7 +41,7 @@ class CardLookup(BotCore):
         #TODO pilots
 
         #TODO secondary weapon/energy
-        if 'attack' in card:
+        if 'attack' in card or 'energy' in card:
             line = []
             if 'attack' in card:
                 attack_size = self.name_to_icon(f"attack{card['attack']}")

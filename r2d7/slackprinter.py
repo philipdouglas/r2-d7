@@ -8,6 +8,7 @@ class SlackPrinter(BotCore):
     def name_to_icon(name):
         if name in ['bomb', 'shield']:
             name = 'x' + name
+        name = name.replace('+', 'plus')
         return f":{name.lower()}:"
 
     @staticmethod
@@ -25,4 +26,5 @@ class SlackPrinter(BotCore):
         """
         text = re.sub(r'<\/?strong>', '*', text)
         text = re.sub(r'(<br \/>)+', '\n', text)
+        text = re.sub(r'\[([^\]]+)\]', ':\\1:', text)
         return text

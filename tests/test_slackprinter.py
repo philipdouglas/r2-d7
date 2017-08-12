@@ -22,6 +22,8 @@ convert_html_tests = [
     ('<strong>Action:</strong> test', '*Action:* test'),
     ('<br /><br />', '\n'),
     ('<br />', '\n'),
+    ('[evade] test', ':evade: test'),
+    ('[evade] test [focus]', ':evade: test :focus:'),
 ]
 @pytest.mark.parametrize('before, after', convert_html_tests)
 def test_convert_html(before, after):

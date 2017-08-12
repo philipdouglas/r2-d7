@@ -31,6 +31,14 @@ print_card_tests = {
         '_C-ROC Cruiser only._',
         '*Attack (energy):* Spend 2 energy from this card to perform this attack against 1 ship (even a ship outside of your firing arc).',
     ],
+    'upgrades.brighthope': [
+        ':title: • *Bright Hope* [5]',
+        #TODO the card actually says +2 (:energyplus2:)
+        ':energy::energy2:',
+        #TODO the card actually says GR-75 only.
+        '_GR-75 Medium Transport only._',
+        'A reinforce token assigned to your fore section acts as 2 :Evade: results (instead of one).',
+    ]
     # 'firespray31': [
     #     ':firespray31: *Firespray-31*',
     #     ':attack3::agility2::hull6::shield4: | :attack-frontback: | :focus: :targetlock: :evade: | :cannon::xbomb::crew::missile:',

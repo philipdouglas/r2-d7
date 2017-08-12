@@ -92,3 +92,6 @@ icons/emoji/*.png
 *.pyc
 *.sublime-workspace
 *.sublime-project
+env*
+.cache
+r2d7.egg-info

@@ -9,6 +9,7 @@ class SlackPrinter(BotCore):
         if name in ['bomb', 'shield']:
             name = 'x' + name
         name = name.replace('+', 'plus')
+        name = re.sub(r'[^a-zA-Z0-9]', '', name)
         return f":{name.lower()}:"
 
     @staticmethod

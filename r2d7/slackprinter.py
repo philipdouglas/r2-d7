@@ -6,11 +6,14 @@ from r2d7.core import BotCore
 class SlackPrinter(BotCore):
     @staticmethod
     def name_to_icon(name):
+        name = name.lower()
+        name = re.sub(r'[^a-zA-Z0-9]', '', name)
+        name = name.replace('+', 'plus')
         if name in ['bomb', 'shield']:
             name = 'x' + name
-        name = name.replace('+', 'plus')
-        name = re.sub(r'[^a-zA-Z0-9]', '', name)
-        return f":{name.lower()}:"
+        if name == 'scumandvillainy':
+            name = 'scum'
+        return f":{name}:"
 
     @staticmethod
     def bold(text):

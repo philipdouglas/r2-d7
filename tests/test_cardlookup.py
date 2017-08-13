@@ -58,6 +58,34 @@ print_card_tests = {
         ':empire: :skill3:Bounty Hunter [33], :skill5:• Krassis Trelix [36], :skill7:• Kath Scarlet :elite: [38], :skill8:• Boba Fett :elite: [39]',
         ':scum: :skill5:Mandalorian Mercenary :elite: [35], :skill6:• Emon Azzameen [36], :skill7:• Kath Scarlet :elite: [38], :skill8:• Boba Fett :elite: [39]',
     ],
+    'quadjumper': [
+        ':quadjumper: *Quadjumper*',
+        ':attack2::agility2::hull5::shield0: | :barrelroll: :focus: | :xbomb::crew::illicit::tech:',
+        '3 :blank::bankleft::greenstraight::bankright::blank::blank::blank::blank::blank::blank:',
+        '2 :turnleft::greenbankleft::greenstraight::greenbankright::turnright::redsloopleft::redsloopright::blank::blank::blank:',
+        '1 :turnleft::blank::straight::blank::turnright::blank::blank::redreversebankleft::redreversestraight::redreversebankright:',
+        ':scum: :skill1:Jakku Gunrunner [15], :skill3:• Unkar Plutt [17], :skill5:• Sarco Plank :elite: [18], :skill7:• Constable Zuvio :elite: [19]',
+    ],
+    'yv666': [
+        ':yv666: *YV-666*',
+        ':attack3::agility1::hull6::shield6: | :attack-180: | :focus: :targetlock: | :cannon::missile::crew::crew::crew::illicit:',
+        '4 :blank::blank::straight::blank::blank:',
+        '3 :turnleft::bankleft::greenstraight::bankright::turnright:',
+        '2 :redturnleft::bankleft::greenstraight::bankright::redturnright:',
+        '1 :blank::greenbankleft::greenstraight::greenbankright::blank:',
+        '0 :blank::blank::redstop::blank::blank:',
+        ':scum: :skill2:Trandoshan Slaver [29], :skill5:• Latts Razzi [33], :skill6:• Moralo Eval [34], :skill7:• Bossk :elite: [35]',
+    ],
+    'rey': [
+        ':yt1300: • *Rey* [45]',
+        ':resistance: | :skill8::attack3::agility1::hull8::shield5: | :attack-turret: | :focus: :targetlock: | :elite::missile::crew::crew:',
+        'When attacking or defending, if the enemy ship is inside your firing arc, you may reroll up to 2 of your blank results.',
+    ],
+    'quinnjast': [
+        ':m3ainterceptor: • *Quinn Jast* [18]',
+        ':scum: | :skill6::attack2::agility3::hull2::shield1: | :focus: :targetlock: :barrelroll: :evade: | :elite:',
+        'At the start of the Combat phase, you may receive a weapons disabled token to flip one of your discarded :Torpedo: or :Missile: Upgrade cards faceup.',
+    ],
 }
 
 @pytest.mark.parametrize('name, expected', print_card_tests.items())

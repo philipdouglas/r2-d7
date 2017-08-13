@@ -7,6 +7,7 @@ name_to_icon_tests = [
     ('shield', ':xshield:'),
     ('Elite', ':elite:'),
     ('target lock', ':targetlock:'),
+    ('Scum And Villainy', ':scum:'),
 ]
 
 @pytest.mark.parametrize('name, icon', name_to_icon_tests)

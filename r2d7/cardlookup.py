@@ -7,17 +7,48 @@ from r2d7.core import BotCore
 class CardLookup(BotCore):
     _lookup_data = None
 
+    _processing_order = (
+        'upgrades',
+        'ships',
+        'pilots',
+        'conditions'
+    )
+
     def lookup(self, lookup):
         if self._lookup_data is None:
             self._lookup_data = {}
-            for group, cards in self.data.items():
+            self._name_to_xws = {}
+            for group in self._processing_order:
+                cards = self.data[group]
                 for name, card in cards.items():
                     if 'slot' not in card:
                         if group == 'conditions':
                             card['slot'] = 'condition'
                         elif group == 'ships':
                             card['slot'] = card['xws']
+                    if group == 'pilots':
+                        card['ship_card'] = self._lookup_data[
+                            self._name_to_xws[card['ship']]]
+
+                        # Add pilot to it's ship so we can list pilots for ships
+                        card['ship_card'].setdefault('pilots', []).append(
+                            card)
+
+                        # Give ship slots if it doesn't have them
+                        try:
+                            skill = int(card['skill'])
+                            if card['ship_card'].get('_slot_skill', 13) > skill:
+                                card['ship_card']['_slot_skill'] = skill
+                                card['ship_card']['slots'] = card['slots']
+                        except ValueError:
+                            pass
+
+                        #TODO handle ORS nonsense
+
+                        card['slot'] = card['ship_card']['xws']
+
                     self._lookup_data[name] = card
+                    self._name_to_xws[card['name']] = card['xws']
 
         for name, card in self._lookup_data.items():
             if lookup in name:
@@ -33,7 +64,8 @@ class CardLookup(BotCore):
 
     def ship_stats(self, ship, pilot=None):
         line = []
-        #TODO pilot faction
+        if pilot and 'faction' in pilot:
+            line.append(self.name_to_icon(pilot['faction']))
 
         stats = ''
         if pilot:
@@ -51,7 +83,14 @@ class CardLookup(BotCore):
             line.append(' '.join(
                 self.name_to_icon(action) for action in ship['actions']))
 
-        #TODO slots
+        slots = None
+        if pilot and 'slots' in pilot:
+            slots = pilot['slots']
+        elif 'slots' in ship:
+            slots = ship['slots']
+        if slots:
+            line.append(''.join(self.name_to_icon(slot) for slot in slots))
+
 
         #TODO epic_points
 
@@ -82,14 +121,19 @@ class CardLookup(BotCore):
 
 
     def maneuvers(self, card):
+        # Find the longest row
+        longest = max(len(row) for row in card['maneuvers'])
         # Check for blank columns so we can skip them
         # (eg. a ship with sloops but no k-turn)
         cols = []
-        for bearing in range(len(card['maneuvers'][0])):
+        for bearing in range(longest):
             empty = True
             for distance in card['maneuvers']:
-                if distance[bearing] != 0:
-                    empty = False
+                try:
+                    if distance[bearing] != 0:
+                        empty = False
+                except IndexError:
+                    continue
             if not empty:
                 cols.append(bearing)
 
@@ -98,7 +142,10 @@ class CardLookup(BotCore):
             line = [f"{distance} "]
             no_bearings = True
             for bearing in cols:
-                difficulty = card['maneuvers'][distance][bearing]
+                try:
+                    difficulty = card['maneuvers'][distance][bearing]
+                except IndexError:
+                    difficulty = 0
                 move = self.difficulties[difficulty]
                 if difficulty != 0:
                     no_bearings = False
@@ -119,7 +166,9 @@ class CardLookup(BotCore):
         #TODO name links
         text.append(f"{slot}{unique}{self.bold(card['name'])}{points}")
 
-        if 'size' in card:
+        if 'ship_card' in card:
+            text.append(self.ship_stats(card['ship_card'], card))
+        elif 'size' in card:  # A ship
             text.append(self.ship_stats(card))
         if 'maneuvers' in card:
             text += self.maneuvers(card)
@@ -138,9 +187,9 @@ class CardLookup(BotCore):
                 line.append(f"{self.name_to_icon('energy')}{attack_size}")
             text.append(' | '.join(line))
 
-        if 'ship' in card:
-            for ship in card['ship']:
-                text.append(self.italics(f"{ship} only."))
+        if 'ship' in card and 'ship_card' not in card:
+            ship = card['ship'] if isinstance(card['ship'], str) else card['ship'][0]
+            text.append(self.italics(f"{ship} only."))
 
         if card.get('limited', False):
             text.append(self.italics('Limited.'))

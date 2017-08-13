@@ -62,6 +62,10 @@ class CardLookup(BotCore):
         string = re.sub(r'[^a-zA-Z0-9]', '', string)
         return string
 
+    _frontback = ('firespray31', 'arc170')
+    _180 = ('yv666', 'auzituck')
+    _turret = ('kwing', 'yt1300', 'jumpmaster5000', 'vt49decimator')
+
     def ship_stats(self, ship, pilot=None):
         line = []
         if pilot and 'faction' in pilot:
@@ -78,6 +82,15 @@ class CardLookup(BotCore):
         line.append(stats)
 
         #TODO attack icon - missing from guidos data
+        attack_type = None
+        if ship['xws'] in self._frontback:
+            attack_type = 'frontback'
+        elif ship['xws'] in self._180:
+            attack_type = '180'
+        elif ship['xws'] in self._turret:
+            attack_type = 'turret'
+        if attack_type:
+            line.append(self.name_to_icon(f"attack-{attack_type}", hypens=True))
 
         if 'actions' in ship:
             line.append(' '.join(

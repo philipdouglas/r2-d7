@@ -5,9 +5,12 @@ from r2d7.core import BotCore
 
 class SlackPrinter(BotCore):
     @staticmethod
-    def name_to_icon(name):
+    def name_to_icon(name, hypens=False):
         name = name.lower()
-        name = re.sub(r'[^a-zA-Z0-9]', '', name)
+        if hypens:
+            name = re.sub(r'[^a-zA-Z0-9\-]', '', name)
+        else:
+            name = re.sub(r'[^a-zA-Z0-9]', '', name)
         name = name.replace('+', 'plus')
         if name in ['bomb', 'shield']:
             name = 'x' + name

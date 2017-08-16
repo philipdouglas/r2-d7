@@ -202,6 +202,7 @@ class CardLookup
 
         # Avoid crashing if a bad card gets passed
         if not card
+            console.log("Warning, undefined card passed to print_card.")
             return []
 
         unique = if card.unique then ' • ' else ' '
@@ -291,12 +292,10 @@ class CardLookup
 
                 if card.applies_condition
                     conditions = card.applies_condition
-                    if not conditions instanceof Array
+                    if typeof conditions is 'string'
                         conditions = [conditions]
                     for condition in conditions
-                        console.log(condition)
                         condition = @data.conditionsByCanonicalName[condition]
-                        console.log(condition)
                         cards.push(condition)
         return cards
 

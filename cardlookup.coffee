@@ -198,6 +198,7 @@ class CardLookup
         )
 
     print_card: (card) ->
+        console.log("Printing #{card}")
         text = []
         unique = if card.unique then ' • ' else ' '
         slot = utils.name_to_emoji(card.slot)
@@ -276,6 +277,7 @@ class CardLookup
 
         cards = []
         for match in matches
+            console.log("Looking up #{match}")
             for card in @card_lookup[match]
                 if slot_filter and card.slot != slot_filter
                     continue

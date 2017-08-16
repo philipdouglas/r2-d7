@@ -198,8 +198,12 @@ class CardLookup
         )
 
     print_card: (card) ->
-        console.log("Printing #{card}")
         text = []
+
+        # Avoid crashing if a bad card gets passed
+        if not card
+            return []
+
         unique = if card.unique then ' • ' else ' '
         slot = utils.name_to_emoji(card.slot)
         for extra_slot in (card.also_occupies_upgrades or [])
@@ -277,7 +281,6 @@ class CardLookup
 
         cards = []
         for match in matches
-            console.log("Looking up #{match}")
             for card in @card_lookup[match]
                 if slot_filter and card.slot != slot_filter
                     continue
@@ -291,7 +294,9 @@ class CardLookup
                     if not conditions instanceof Array
                         conditions = [conditions]
                     for condition in conditions
+                        console.log(condition)
                         condition = @data.conditionsByCanonicalName[condition]
+                        console.log(condition)
                         cards.push(condition)
         return cards
 

@@ -5,7 +5,7 @@ from r2d7.core import BotCore
 
 class SlackPrinter(BotCore):
     @staticmethod
-    def name_to_icon(name, hypens=False):
+    def iconify(name, hypens=False):
         name = name.lower()
         if hypens:
             name = re.sub(r'[^a-zA-Z0-9\-]', '', name)
@@ -14,8 +14,12 @@ class SlackPrinter(BotCore):
         name = name.replace('+', 'plus')
         if name in ['bomb', 'shield']:
             name = 'x' + name
-        if name == 'scumandvillainy':
+        elif name == 'rebelalliance':
+            name = 'rebel'
+        elif name == 'scumandvillainy':
             name = 'scum'
+        elif name == 'galacticempire':
+            name = 'empire'
         return f":{name}:"
 
     @staticmethod
@@ -33,5 +37,6 @@ class SlackPrinter(BotCore):
         """
         text = re.sub(r'<\/?strong>', '*', text)
         text = re.sub(r'(<br \/>)+', '\n', text)
+        text = re.sub(r'\[Koiogran Turn\]', ':kturn:', text)
         text = re.sub(r'\[([^\]]+)\]', ':\\1:', text)
         return text

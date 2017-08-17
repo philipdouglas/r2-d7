@@ -86,6 +86,11 @@ print_card_tests = {
         ':scum: | :skill6::attack2::agility3::hull2::shield1: | :focus: :targetlock: :barrelroll: :evade: | :elite:',
         'At the start of the Combat phase, you may receive a weapons disabled token to flip one of your discarded :Torpedo: or :Missile: Upgrade cards faceup.',
     ],
+    'countessryad': [
+        ':tiedefender: • *Countess Ryad* [34]',
+        ':empire: | :skill5::attack3::agility3::hull3::shield3: | :focus: :targetlock: :barrelroll: | :elite::cannon::missile:',
+        'When you reveal a :Straight: maneuver, you may treat it as a :kturn: maneuver.',
+    ]
 }
 
 @pytest.mark.parametrize('name, expected', print_card_tests.items())

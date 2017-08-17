@@ -69,16 +69,16 @@ class CardLookup(BotCore):
     def ship_stats(self, ship, pilot=None):
         line = []
         if pilot and 'faction' in pilot:
-            line.append(self.name_to_icon(pilot['faction']))
+            line.append(self.iconify(pilot['faction']))
 
         stats = ''
         if pilot:
-            stats += self.name_to_icon(f"skill{pilot['skill']}")
+            stats += self.iconify(f"skill{pilot['skill']}")
         for stat in ('attack', 'energy', 'agility', 'hull', 'shields'):
             if stat in ship:
                 # legacy naming
                 icon_name = 'shield' if stat == 'shields' else stat
-                stats += self.name_to_icon(f"{icon_name}{ship[stat]}")
+                stats += self.iconify(f"{icon_name}{ship[stat]}")
         line.append(stats)
 
         #TODO attack icon - missing from guidos data
@@ -90,11 +90,11 @@ class CardLookup(BotCore):
         elif ship['xws'] in self._turret:
             attack_type = 'turret'
         if attack_type:
-            line.append(self.name_to_icon(f"attack-{attack_type}", hypens=True))
+            line.append(self.iconify(f"attack-{attack_type}", hypens=True))
 
         if 'actions' in ship:
             line.append(' '.join(
-                self.name_to_icon(action) for action in ship['actions']))
+                self.iconify(action) for action in ship['actions']))
 
         slots = None
         if pilot and 'slots' in pilot:
@@ -102,7 +102,7 @@ class CardLookup(BotCore):
         elif 'slots' in ship:
             slots = ship['slots']
         if slots:
-            line.append(''.join(self.name_to_icon(slot) for slot in slots))
+            line.append(''.join(self.iconify(slot) for slot in slots))
 
 
         #TODO epic_points
@@ -163,21 +163,42 @@ class CardLookup(BotCore):
                 if difficulty != 0:
                     no_bearings = False
                     move += 'stop' if distance == 0 else self.bearings[bearing]
-                line.append(self.name_to_icon(move))
+                line.append(self.iconify(move))
             if not no_bearings:
                 lines.append(''.join(line))
         return lines
+
+    def list_pilots(self, ship):
+        factions = {}
+        pilots = sorted(ship['pilots'], key=lambda pilot: pilot['skill'])
+        for pilot in pilots:
+            skill = self.iconify(f"skill{pilot['skill']}")
+            unique = '• ' if pilot.get('unique', False) else ''
+            elite = ' ' + self.iconify('elite') if 'Elite' in pilot['slots'] else ''
+            name = self.format_name(pilot)
+            text = f"{skill}{unique}{name}{elite} [{pilot['points']}]"
+            factions.setdefault(pilot['faction'], []).append(text)
+        return [f"{self.iconify(faction)} {', '.join(pilots)}"
+                for faction, pilots in factions.items()]
+
+    def format_name(self, card):
+        if 'actions' in card or card['slot'] == 'crit':
+            return card['name']
+        else:
+            #TODO links
+            return card['name']
 
 
     def print_card(self, card):
         text = []
         unique = ' • ' if card.get('unique', False) else ' '
-        slot = self.name_to_icon(card['slot'])
+        slot = self.iconify(card['slot'])
         #TODO handle multi slot cards
         points = f" [{card['points']}]" if 'points' in card else ''
         #TODO handle deck
         #TODO name links
-        text.append(f"{slot}{unique}{self.bold(card['name'])}{points}")
+        name = self.bold(self.format_name(card))
+        text.append(f"{slot}{unique}{name}{points}")
 
         if 'ship_card' in card:
             text.append(self.ship_stats(card['ship_card'], card))
@@ -186,18 +207,19 @@ class CardLookup(BotCore):
         if 'maneuvers' in card:
             text += self.maneuvers(card)
 
-        #TODO pilots
+        if 'pilots' in card:
+            text += self.list_pilots(card)
 
         elif 'attack' in card or 'energy' in card:
             line = []
             if 'attack' in card:
-                attack_size = self.name_to_icon(f"attack{card['attack']}")
-                line.append(f"{self.name_to_icon('attack')}{attack_size}")
+                attack_size = self.iconify(f"attack{card['attack']}")
+                line.append(f"{self.iconify('attack')}{attack_size}")
             if 'range' in card:
                 line.append(f"Range: {card['range']}")
             if 'energy' in card:
-                attack_size = self.name_to_icon(f"energy{card['energy']}")
-                line.append(f"{self.name_to_icon('energy')}{attack_size}")
+                attack_size = self.iconify(f"energy{card['energy']}")
+                line.append(f"{self.iconify('energy')}{attack_size}")
             text.append(' | '.join(line))
 
         if 'ship' in card and 'ship_card' not in card:

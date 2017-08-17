@@ -1,18 +1,19 @@
 import pytest
 from r2d7.slackprinter import SlackPrinter
 
-name_to_icon_tests = [
+iconify_tests = [
     ('firespray31', ':firespray31:'),
     ('bomb', ':xbomb:'),
     ('shield', ':xshield:'),
     ('Elite', ':elite:'),
     ('target lock', ':targetlock:'),
     ('Scum And Villainy', ':scum:'),
+    ('Galactic Empire', ':empire:'),
 ]
 
-@pytest.mark.parametrize('name, icon', name_to_icon_tests)
-def test_name_to_icon(name, icon):
-    assert SlackPrinter.name_to_icon(name) == icon
+@pytest.mark.parametrize('name, icon', iconify_tests)
+def test_iconify(name, icon):
+    assert SlackPrinter.iconify(name) == icon
 
 def test_bold():
     assert SlackPrinter.bold('test') == '*test*'
@@ -26,6 +27,7 @@ convert_html_tests = [
     ('<br />', '\n'),
     ('[evade] test', ':evade: test'),
     ('[evade] test [focus]', ':evade: test :focus:'),
+    ('[Koiogran Turn]', ':kturn:'),
 ]
 @pytest.mark.parametrize('before, after', convert_html_tests)
 def test_convert_html(before, after):

@@ -14,6 +14,53 @@ class CardLookup(BotCore):
         'conditions'
     )
 
+    _action_order = (
+        'Focus',
+        'Recover',
+        'Reinforce',
+        'Target Lock',
+        'Barrel Roll',
+        'Boost',
+        'Evade',
+        'Cloak',
+        'Coordinate',
+        'Jam',
+        'SLAM',
+        'Rotate Arc',
+    )
+    @classmethod
+    def _action_key(cls, action):
+        try:
+            return cls._action_order.index(action)
+        except ValueError:
+            #TODO log an error?
+            return 100
+
+    _slot_order = (
+        'Elite',
+        'System',
+        'Cannon',
+        'Turret',
+        'Torpedo',
+        'Missile',
+        'Crew',
+        'Astromech',
+        'Salvaged Astromech',
+        'Bomb',
+        'Tech',
+        'Illicit',
+        'Hardpoint',
+        'Team',
+        'Cargo',
+    )
+    @classmethod
+    def _slot_key(cls, slot):
+        try:
+            return cls._slot_order.index(slot)
+        except ValueError:
+            #TODO log an error?
+            return 100
+
     def lookup(self, lookup):
         if self._lookup_data is None:
             self._lookup_data = {}
@@ -34,6 +81,8 @@ class CardLookup(BotCore):
                         card['ship_card'].setdefault('pilots', []).append(
                             card)
 
+                        card['slots'].sort(key=self._slot_key)
+
                         # Give ship slots if it doesn't have them
                         try:
                             skill = int(card['skill'])
@@ -46,6 +95,10 @@ class CardLookup(BotCore):
                         #TODO handle ORS nonsense
 
                         card['slot'] = card['ship_card']['xws']
+                    elif group == 'ships':
+                        card['actions'].sort(key=self._action_key)
+
+
 
                     self._lookup_data[name] = card
                     self._name_to_xws[card['name']] = card['xws']

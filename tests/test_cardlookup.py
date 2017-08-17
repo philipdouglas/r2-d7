@@ -50,7 +50,8 @@ print_card_tests = {
     ],
     'firespray31': [
         ':firespray31: *Firespray-31*',
-        ':attack3::agility2::hull6::shield4: | :attack-frontback: | :focus: :targetlock: :evade: | :cannon::xbomb::crew::missile:',
+        # The card actually has bomb before crew, but that contradicts other cards
+        ':attack3::agility2::hull6::shield4: | :attack-frontback: | :focus: :targetlock: :evade: | :cannon::missile::crew::xbomb:',
         '4 :blank::blank::straight::blank::blank::redkturn:',
         '3 :turnleft::bankleft::straight::bankright::turnright::redkturn:',
         '2 :turnleft::bankleft::greenstraight::bankright::turnright::blank:',
@@ -60,7 +61,7 @@ print_card_tests = {
     ],
     'quadjumper': [
         ':quadjumper: *Quadjumper*',
-        ':attack2::agility2::hull5::shield0: | :barrelroll: :focus: | :xbomb::crew::illicit::tech:',
+        ':attack2::agility2::hull5::shield0: | :focus: :barrelroll: | :crew::xbomb::tech::illicit:',
         '3 :blank::bankleft::greenstraight::bankright::blank::blank::blank::blank::blank::blank:',
         '2 :turnleft::greenbankleft::greenstraight::greenbankright::turnright::redsloopleft::redsloopright::blank::blank::blank:',
         '1 :turnleft::blank::straight::blank::turnright::blank::blank::redreversebankleft::redreversestraight::redreversebankright:',

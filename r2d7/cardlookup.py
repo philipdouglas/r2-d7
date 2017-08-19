@@ -1,3 +1,4 @@
+import copy
 import re
 import unicodedata
 
@@ -67,41 +68,44 @@ class CardLookup(BotCore):
             self._name_to_xws = {}
             for group in self._processing_order:
                 cards = self.data[group]
-                for name, card in cards.items():
-                    if 'slot' not in card:
-                        if group == 'conditions':
-                            card['slot'] = 'condition'
+                for name, cards in cards.items():
+                    for card in cards:
+                        if 'slot' not in card:
+                            if group == 'conditions':
+                                card['slot'] = 'condition'
+                            elif group == 'ships':
+                                card['slot'] = card['xws']
+                        if group == 'pilots':
+                            card['ship_card'] = self._lookup_data[
+                                self._name_to_xws[card['ship']]]
+
+                            # Add pilot to it's ship so we can list ship pilots
+                            card['ship_card'].setdefault('pilots', []).append(
+                                card)
+
+                            if 'ship_override' in card:
+                                card['ship_card'] = copy.copy(card['ship_card'])
+                                card['ship_card'].update(card['ship_override'])
+
+                            card['slots'].sort(key=self._slot_key)
+
+                            # Give ship slots if it doesn't have them
+                            try:
+                                skill = int(card['skill'])
+                                if card['ship_card'].get('_slot_skill', 13) > skill:
+                                    card['ship_card']['_slot_skill'] = skill
+                                    card['ship_card']['slots'] = card['slots']
+                            except ValueError:
+                                pass
+
+                            card['slot'] = card['ship_card']['xws']
                         elif group == 'ships':
-                            card['slot'] = card['xws']
-                    if group == 'pilots':
-                        card['ship_card'] = self._lookup_data[
-                            self._name_to_xws[card['ship']]]
-
-                        # Add pilot to it's ship so we can list pilots for ships
-                        card['ship_card'].setdefault('pilots', []).append(
-                            card)
-
-                        card['slots'].sort(key=self._slot_key)
-
-                        # Give ship slots if it doesn't have them
-                        try:
-                            skill = int(card['skill'])
-                            if card['ship_card'].get('_slot_skill', 13) > skill:
-                                card['ship_card']['_slot_skill'] = skill
-                                card['ship_card']['slots'] = card['slots']
-                        except ValueError:
-                            pass
-
-                        #TODO handle ORS nonsense
-
-                        card['slot'] = card['ship_card']['xws']
-                    elif group == 'ships':
-                        card['actions'].sort(key=self._action_key)
+                            card['actions'].sort(key=self._action_key)
 
 
 
-                    self._lookup_data[name] = card
-                    self._name_to_xws[card['name']] = card['xws']
+                        self._lookup_data[name] = card
+                        self._name_to_xws[card['name']] = card['xws']
 
         for name, card in self._lookup_data.items():
             if lookup in name:

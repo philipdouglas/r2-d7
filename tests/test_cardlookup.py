@@ -91,6 +91,10 @@ print_card_tests = {
         ':tiedefender: • *Countess Ryad* [34]',
         ':empire: | :skill5::attack3::agility3::hull3::shield3: | :focus: :targetlock: :barrelroll: | :elite::cannon::missile:',
         'When you reveal a :Straight: maneuver, you may treat it as a :kturn: maneuver.',
+    ],
+    'outerrimsmuggler': [
+        ':yt1300: *Outer Rim Smuggler* [27]',
+        ':rebel: | :skill1::attack2::agility1::hull6::shield4: | :attack-turret: | :focus: :targetlock: | :crew::crew:',
     ]
 }
 
@@ -99,7 +103,7 @@ def test_print_card(name, expected):
     bot = DummyBot()
     result = list(bot.lookup(name))
     # TODO this is dangerous
-    assert bot.print_card(result[0]) == expected
+    assert '\n'.join(bot.print_card(result[0])) == '\n'.join(expected)
 
 
 partial_canonicalize_tests = {

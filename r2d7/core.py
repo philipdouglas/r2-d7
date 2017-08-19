@@ -47,8 +47,7 @@ class BotCore():
                     continue
 
                 with path.open(encoding='utf-8') as json_file:
-                    raw_data = json.load(json_file)
-                    self._data[path.name.split('.')[0]] = {
-                        datum['xws']: datum for datum in raw_data
-                    }
+                    self._data[path.name.split('.')[0]] = group = {}
+                    for datum in json.load(json_file):
+                        group.setdefault(datum['xws'], []).append(datum)
         return self._data

@@ -3,12 +3,6 @@ import pytest
 from r2d7.core import BotCore
 
 
-# @pytest.mark.parametrize('name, stripped', [
-#     ('Kath Scarlett', 'Kath Scarlett'),
-#     ('"Dutch" Vander', '"Dutch" Vander')
-# ]
-# def test_
-
 data_files = [
     'conditions',
     # 'damage-deck-core',
@@ -26,5 +20,5 @@ def test_data():
     for filename in data_files:
         assert filename in data
 
-    assert data['ships']['xwing']['name'] == 'X-Wing'
-    assert data['conditions']['adebttopay']['id'] == 3
+    assert data['ships']['xwing'][0]['name'] == 'X-Wing'
+    assert data['conditions']['adebttopay'][0]['id'] == 3

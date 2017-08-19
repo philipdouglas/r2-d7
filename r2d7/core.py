@@ -1,6 +1,11 @@
 import json
 from pathlib import Path
 import re
+import unicodedata
+
+
+class BotException(Exception):
+    pass
 
 
 class BotCore():
@@ -8,24 +13,20 @@ class BotCore():
         pass
 
     def handle_message(self, message):
-        raise NotImplemented()
-
-    # @classmethod
-    # def strip_name(name):
-    #     return re.sub(r' \(.*\)$', name, )
+        raise NotImplementedError()
 
     # Printer methods
     @staticmethod
     def name_to_icon(name):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     @staticmethod
     def bold(text):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     @staticmethod
     def italics(text):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     @staticmethod
     def convert_html(text):
@@ -51,3 +52,11 @@ class BotCore():
                     for datum in json.load(json_file):
                         group.setdefault(datum['xws'], []).append(datum)
         return self._data
+
+    @staticmethod
+    def partial_canonicalize(string):
+        #TODO handle special cases https://github.com/elistevens/xws-spec
+        string = string.lower()
+        string = unicodedata.normalize('NFKD', string)
+        string = re.sub(r'[^a-zA-Z0-9]', '', string)
+        return string

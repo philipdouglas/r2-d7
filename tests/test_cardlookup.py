@@ -95,7 +95,8 @@ print_card_tests = {
     'outerrimsmuggler': [
         ':yt1300: *Outer Rim Smuggler* [27]',
         ':rebel: | :skill1::attack2::agility1::hull6::shield4: | :attack-turret: | :focus: :targetlock: | :crew::crew:',
-    ]
+    ],
+    # Adaptability
 }
 
 @pytest.mark.parametrize('name, expected', print_card_tests.items())
@@ -103,14 +104,4 @@ def test_print_card(name, expected):
     bot = DummyBot()
     result = list(bot.lookup(name))
     # TODO this is dangerous
-    assert '\n'.join(bot.print_card(result[0])) == '\n'.join(expected)
-
-
-partial_canonicalize_tests = {
-    'X-Wing': 'xwing',
-    'T-70 X-Wing': 't70xwing',
-    'Veteran instincts': 'veteraninstincts',
-}
-@pytest.mark.parametrize('before, after', partial_canonicalize_tests.items())
-def test_partial_canonicalize(before, after):
-    assert CardLookup.partial_canonicalize(before) == after
+    assert bot.print_card(result[0]) == expected

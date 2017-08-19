@@ -1,6 +1,5 @@
 import copy
 import re
-import unicodedata
 
 from r2d7.core import BotCore
 
@@ -110,14 +109,6 @@ class CardLookup(BotCore):
         for name, card in self._lookup_data.items():
             if lookup in name:
                 yield card
-
-    @staticmethod
-    def partial_canonicalize(string):
-        #TODO handle special cases https://github.com/elistevens/xws-spec
-        string = string.lower()
-        string = unicodedata.normalize('NFKD', string)
-        string = re.sub(r'[^a-zA-Z0-9]', '', string)
-        return string
 
     _frontback = ('firespray31', 'arc170')
     _180 = ('yv666', 'auzituck')
@@ -289,7 +280,6 @@ class CardLookup(BotCore):
         #TODO damage card type
 
         if 'text' in card:
-            #TODO emoji in text
             text.append(self.convert_html(card['text']))
 
         return text

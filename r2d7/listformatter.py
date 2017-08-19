@@ -36,7 +36,7 @@ class ListFormatter(BotCore):
 
     def print(self, xws):
         #TODO list url
-        output = [f"{self.iconify(xws['faction'])} {self.bold(xws['name'])}"]
+        output = [f"{self.iconify(xws['faction'])} {self.bold(xws['name'])} "]
         total_points = 0
 
         for pilot in xws['pilots']:
@@ -83,18 +83,16 @@ class ListFormatter(BotCore):
                     cost -= 1
                 points += cost
 
-            points_text = f"[{points}]"
             output.append(
                 self.iconify(pilot_card['ship']) +
                 self.iconify(f"skill{skill}") +
                 f" {self.italics(pilot_card['name'])}:" +
                 f" {', '.join(upgrades)}" +
-                f" {self.bold(points_text)}"
+                ' ' + self.bold(f"[{points}]")
             )
             total_points += points
 
-        total_text = f"[{total_points}]"
-        output[0] += f" {self.bold(total_text)}"
+        output[0] += self.bold(f"[{total_points}]")
         return output
 
     def handle_message(self, message):

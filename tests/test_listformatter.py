@@ -11,6 +11,39 @@ get_xws_tests = (
         "http://geordanr.github.io/xwing/?f=Scum%20and%20Villainy&d=v4!s!248::50:-1:&sn=Sunny%20B!&obs=",
         {"faction":"scum","pilots":[{"name":"sunnybounder","ship":"m3ainterceptor","upgrades":{"title":["lightscykinterceptor"]}}],"vendor":{"yasb":{"builder":"(Yet Another) X-Wing Miniatures Squad Builder","builder_url":"https://geordanr.github.io/xwing","link":"https://geordanr.github.io/xwing/?f=Scum%20and%20Villainy&d=v4!s!248::50:-1:&sn=Sunny%20B!&obs="}},"version":"0.3.0","name":"Sunny B!"},
     ),
+    (
+        "http://xwing-builder.co.uk/view/747933/sunny-b",
+        {
+            "version": "0.3.0",
+            "name": "Sunny B!",
+            "faction": "scum",
+            "points": 12,
+            "pilots": [
+                {
+                    "name": "sunnybounder",
+                    "ship": "m3ainterceptor",
+                    "points": 12,
+                    "upgrades": {
+                        "title": [
+                            "lightscykinterceptor"
+                        ]
+                    }
+                }
+            ],
+            "vendor": {
+                "voidstate": {
+                    "squadron_id": 747933,
+                    "link": "http://xwing-builder.co.uk/view/747933/sunny-b",
+                    "builder": "Voidstate's Unofficial X-Wing Squadron Builder",
+                    "builder_link": "http://xwing-builder.co.uk/build"
+                }
+            }
+        }
+    ),
+    (
+        'http://x-wing.fabpsb.net/permalink.php?sq=z63f47',
+        {"description":"","faction":"scum","pilots":[{"name":"sunnybounder","points":12,"ship":"m3ascykinterceptor","upgrades":{"title":["lightscykinterceptor"]}}],"points":12,"vendor":{"fab":{"builder":"Fabs Squadrons generator","builder_link":"http://x-wing.fabpsb.net/","link":"http://x-wing.fabpsb.net/permalink?sq=z63f47"}},"version":"1.0.0"}
+    ),
 )
 
 @pytest.mark.parametrize('url, expected', get_xws_tests)
@@ -24,6 +57,45 @@ print_tests = (
         [
             #TODO links
             ':scum: *Sunny B!* *[12]*',
+            ':m3ainterceptor::skill1: _Sunny Bounder_: "Light Scyk" Interceptor *[12]*',
+        ],
+    ),
+    (
+        {
+            "version": "0.3.0",
+            "name": "Sunny B!",
+            "faction": "scum",
+            "points": 12,
+            "pilots": [
+                {
+                    "name": "sunnybounder",
+                    "ship": "m3ainterceptor",
+                    "points": 12,
+                    "upgrades": {
+                        "title": [
+                            "lightscykinterceptor"
+                        ]
+                    }
+                }
+            ],
+            "vendor": {
+                "voidstate": {
+                    "squadron_id": 747933,
+                    "link": "http://xwing-builder.co.uk/view/747933/sunny-b",
+                    "builder": "Voidstate's Unofficial X-Wing Squadron Builder",
+                    "builder_link": "http://xwing-builder.co.uk/build"
+                }
+            }
+        },
+        [
+            ':scum: *Sunny B!* *[12]*',
+            ':m3ainterceptor::skill1: _Sunny Bounder_: "Light Scyk" Interceptor *[12]*',
+        ],
+    ),
+    (
+        {"description":"","faction":"scum","pilots":[{"name":"sunnybounder","points":12,"ship":"m3ascykinterceptor","upgrades":{"title":["lightscykinterceptor"]}}],"points":12,"vendor":{"fab":{"builder":"Fabs Squadrons generator","builder_link":"http://x-wing.fabpsb.net/","link":"http://x-wing.fabpsb.net/permalink?sq=z63f47"}},"version":"1.0.0"},
+        [
+            ':scum: *Nameless Squadron* *[12]*',
             ':m3ainterceptor::skill1: _Sunny Bounder_: "Light Scyk" Interceptor *[12]*',
         ],
     ),

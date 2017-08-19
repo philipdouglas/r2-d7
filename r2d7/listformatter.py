@@ -21,8 +21,14 @@ class ListFormatter(BotCore):
         else:
             raise ValueError(f"Unrecognised URL: {message}")
 
+        xws_url = None
         if match[2] == 'geordanr':
             xws_url = f"https://yasb-xws.herokuapp.com/?{match[3]}"
+        elif match[2] == 'xwing-builder':
+            xws_url = f"http://xwing-builder.co.uk/xws/{match[3]}?dl=1"
+        elif match[2] == 'fabpsb':
+            xws_url = f"http://x-wing.fabpsb.net/permalink.php?sq={match[3]}&xws=1"
+
         #TODO other builders
 
         if xws_url:
@@ -36,7 +42,8 @@ class ListFormatter(BotCore):
 
     def print(self, xws):
         #TODO list url
-        output = [f"{self.iconify(xws['faction'])} {self.bold(xws['name'])} "]
+        name = self.bold(xws.get('name', 'Nameless Squadron'))
+        output = [f"{self.iconify(xws['faction'])} {name} "]
         total_points = 0
 
         for pilot in xws['pilots']:

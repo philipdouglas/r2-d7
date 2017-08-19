@@ -1,7 +1,7 @@
 import copy
 import re
 
-from r2d7.core import BotCore
+from r2d7.core import BotCore, BotException
 
 
 class CardLookup(BotCore):
@@ -61,54 +61,59 @@ class CardLookup(BotCore):
             #TODO log an error?
             return 100
 
+    def _init_lookup_data(self):
+        self._lookup_data = {}
+        self._name_to_xws = {}
+        for group in self._processing_order:
+            cards = self.data[group]
+            for name, cards in cards.items():
+                for card in cards:
+                    if 'slot' not in card:
+                        if group == 'conditions':
+                            card['slot'] = 'condition'
+                        elif group == 'ships':
+                            card['slot'] = card['xws']
+                    if group == 'pilots':
+                        ships = self._lookup_data[
+                            self._name_to_xws[card['ship']]]
+                        if len(ships) > 1:
+                            raise BotException(f"Duplicate ship found: {ships}")
+                        card['ship_card'] = ships[0]
+
+                        # Add pilot to it's ship so we can list ship pilots
+                        card['ship_card'].setdefault('pilots', []).append(
+                            card)
+
+                        if 'ship_override' in card:
+                            card['ship_card'] = copy.copy(card['ship_card'])
+                            card['ship_card'].update(card['ship_override'])
+
+                        card['slots'].sort(key=self._slot_key)
+
+                        # Give ship slots if it doesn't have them
+                        try:
+                            skill = int(card['skill'])
+                            if card['ship_card'].get('_slot_skill', 13) > skill:
+                                card['ship_card']['_slot_skill'] = skill
+                                card['ship_card']['slots'] = card['slots']
+                        except ValueError:
+                            pass
+
+                        card['slot'] = card['ship_card']['xws']
+                    elif group == 'ships':
+                        card['actions'].sort(key=self._action_key)
+
+                    self._lookup_data.setdefault(name, []).append(card)
+                    self._name_to_xws[card['name']] = card['xws']
+
     def lookup(self, lookup):
         if self._lookup_data is None:
-            self._lookup_data = {}
-            self._name_to_xws = {}
-            for group in self._processing_order:
-                cards = self.data[group]
-                for name, cards in cards.items():
-                    for card in cards:
-                        if 'slot' not in card:
-                            if group == 'conditions':
-                                card['slot'] = 'condition'
-                            elif group == 'ships':
-                                card['slot'] = card['xws']
-                        if group == 'pilots':
-                            card['ship_card'] = self._lookup_data[
-                                self._name_to_xws[card['ship']]]
+            self._init_lookup_data()
 
-                            # Add pilot to it's ship so we can list ship pilots
-                            card['ship_card'].setdefault('pilots', []).append(
-                                card)
-
-                            if 'ship_override' in card:
-                                card['ship_card'] = copy.copy(card['ship_card'])
-                                card['ship_card'].update(card['ship_override'])
-
-                            card['slots'].sort(key=self._slot_key)
-
-                            # Give ship slots if it doesn't have them
-                            try:
-                                skill = int(card['skill'])
-                                if card['ship_card'].get('_slot_skill', 13) > skill:
-                                    card['ship_card']['_slot_skill'] = skill
-                                    card['ship_card']['slots'] = card['slots']
-                            except ValueError:
-                                pass
-
-                            card['slot'] = card['ship_card']['xws']
-                        elif group == 'ships':
-                            card['actions'].sort(key=self._action_key)
-
-
-
-                        self._lookup_data[name] = card
-                        self._name_to_xws[card['name']] = card['xws']
-
-        for name, card in self._lookup_data.items():
-            if lookup in name:
-                yield card
+        for name, cards in self._lookup_data.items():
+            for card in cards:
+                if lookup in name:
+                    yield card
 
     _frontback = ('firespray31', 'arc170')
     _180 = ('yv666', 'auzituck')
@@ -151,7 +156,6 @@ class CardLookup(BotCore):
             slots = ship['slots']
         if slots:
             line.append(''.join(self.iconify(slot) for slot in slots))
-
 
         #TODO epic_points
 
@@ -238,6 +242,9 @@ class CardLookup(BotCore):
 
 
     def print_card(self, card):
+        is_ship = 'size' in card
+        is_pilot = 'ship_card' in card
+
         text = []
         unique = ' • ' if card.get('unique', False) else ' '
         slot = self.iconify(card['slot'])
@@ -248,9 +255,9 @@ class CardLookup(BotCore):
         name = self.bold(self.format_name(card))
         text.append(f"{slot}{unique}{name}{points}")
 
-        if 'ship_card' in card:
+        if is_pilot:
             text.append(self.ship_stats(card['ship_card'], card))
-        elif 'size' in card:  # A ship
+        elif is_ship:
             text.append(self.ship_stats(card))
         if 'maneuvers' in card:
             text += self.maneuvers(card)
@@ -270,13 +277,23 @@ class CardLookup(BotCore):
                 line.append(f"{self.iconify('energy')}{attack_size}")
             text.append(' | '.join(line))
 
-        if 'ship' in card and 'ship_card' not in card:
+        restrictions = []
+        if 'ship' in card and not is_pilot:
             ship = card['ship'] if isinstance(card['ship'], str) else card['ship'][0]
-            text.append(self.italics(f"{ship} only."))
+            restrictions.append(f"{ship} only.")
 
         if card.get('limited', False):
-            text.append(self.italics('Limited.'))
+            restrictions.append('Limited.')
 
+        if 'faction' in card and not (is_ship or is_pilot):
+            #TODO data doesn't understand multi faction cards (PRS)
+            faction = card['faction'].split(' ')[0]
+            if faction == 'Galactic':
+                faction = 'Imperial'
+            restrictions.append(f"{faction} only.")
+
+        if restrictions:
+            text.append(self.italics(' '.join(restrictions)))
         #TODO damage card type
 
         if 'text' in card:

@@ -38,5 +38,6 @@ class SlackPrinter(BotCore):
         text = re.sub(r'<\/?strong>', '*', text)
         text = re.sub(r'(<br \/>)+', '\n', text)
         text = re.sub(r'\[Koiogran Turn\]', ':kturn:', text)
+        text = re.sub(r'\[Bomb\]', ':xbomb:', text)
         text = re.sub(r'\[([^\]]+)\]', ':\\1:', text)
         return text

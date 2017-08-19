@@ -77,7 +77,12 @@ print_card_tests = {
         '0 :blank::blank::redstop::blank::blank:',
         ':scum: :skill2:Trandoshan Slaver [29], :skill5:• Latts Razzi [33], :skill6:• Moralo Eval [34], :skill7:• Bossk :elite: [35]',
     ],
-    'rey': [
+    'rey.0': [
+        ':crew: • *Rey* [2]',
+        '_Rebel only._',
+        'At the start of the End phase, you may place 1 of your ship\'s focus tokens on this card. At the start of the Combat phase, you may assign 1 of those tokens to your ship.',
+    ],
+    'rey.1': [
         ':yt1300: • *Rey* [45]',
         ':resistance: | :skill8::attack3::agility1::hull8::shield5: | :attack-turret: | :focus: :targetlock: | :elite::missile::crew::crew:',
         'When attacking or defending, if the enemy ship is inside your firing arc, you may reroll up to 2 of your blank results.',
@@ -96,12 +101,41 @@ print_card_tests = {
         ':yt1300: *Outer Rim Smuggler* [27]',
         ':rebel: | :skill1::attack2::agility1::hull6::shield4: | :attack-turret: | :focus: :targetlock: | :crew::crew:',
     ],
-    # Adaptability
+    'r3astromech': [
+        ':astromech: *R3 Astromech* [2]',
+        'Once per round, when attacking with a primary weapon, you may cancel 1 of your :Focus: results during the "Modify Attack Dice" step to assign 1 evade token to your ship.',
+    ],
+    'adaptability.0': [
+        ':elite: *Adaptability (-1)* [0]',
+        'Decrease your pilot skill value by 1.'
+    ],
+    'adaptability.1': [
+        ':elite: *Adaptability (+1)* [0]',
+        'Increase your pilot skill value by 1.'
+    ],
+    'bombloadout': [
+        ':torpedo: *Bomb Loadout* [0]',
+        '_Y-Wing only. Limited._',
+        'Your upgrade bar gains the :xbomb: icon.',
+    ],
+    'fleetofficer': [
+        ':crew: *Fleet Officer* [3]',
+        '_Imperial only._',
+        '*Action:* Choose up to 2 friendly ships within Range 1-2 and assign 1 focus token to each of those ships. Then receive 1 stress token.',
+    ]
 }
 
 @pytest.mark.parametrize('name, expected', print_card_tests.items())
 def test_print_card(name, expected):
     bot = DummyBot()
-    result = list(bot.lookup(name))
+    bot._init_lookup_data()
+    if '.' in name:
+        name, num = name.split('.')
+    else:
+        num = 0
+    card = bot._lookup_data[name][int(num)]
+    # result = list(bot.lookup(name))
     # TODO this is dangerous
-    assert bot.print_card(result[0]) == expected
+    assert bot.print_card(card) == expected
+
+#TODO tests for lookup

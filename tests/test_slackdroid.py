@@ -1,5 +1,5 @@
 import pytest
-from r2d7.slackprinter import SlackDroid
+from r2d7.slackdroid import SlackDroid
 
 iconify_tests = [
     ('firespray31', ':firespray31:'),

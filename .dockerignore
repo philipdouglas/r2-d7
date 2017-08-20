@@ -1,0 +1,5 @@
+env*
+icons
+*/__pycache__
+Dockerfile
+env.list

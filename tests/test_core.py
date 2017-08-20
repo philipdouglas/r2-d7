@@ -1,6 +1,6 @@
 import pytest
 
-from r2d7.core import BotCore
+from r2d7.core import DroidCore
 
 
 data_files = [
@@ -15,7 +15,7 @@ data_files = [
 ]
 
 def test_data():
-    bot = BotCore()
+    bot = DroidCore()
     data = bot.data
     for filename in data_files:
         assert filename in data
@@ -32,4 +32,4 @@ partial_canonicalize_tests = {
 }
 @pytest.mark.parametrize('before, after', partial_canonicalize_tests.items())
 def test_partial_canonicalize(before, after):
-    assert BotCore.partial_canonicalize(before) == after
+    assert DroidCore.partial_canonicalize(before) == after

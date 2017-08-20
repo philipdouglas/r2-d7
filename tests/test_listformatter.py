@@ -1,9 +1,9 @@
 import pytest
 
 from r2d7.listformatter import ListFormatter
-from r2d7.slackprinter import SlackPrinter
+from r2d7.slackdroid import SlackDroid
 
-class DummyBot(ListFormatter, SlackPrinter):
+class DummyBot(ListFormatter, SlackDroid):
     pass
 
 get_xws_tests = (

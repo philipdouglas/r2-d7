@@ -1,10 +1,10 @@
 import copy
 import re
 
-from r2d7.core import BotCore, BotException
+from r2d7.core import DroidCore, DroidException
 
 
-class CardLookup(BotCore):
+class CardLookup(DroidCore):
     _lookup_data = None
 
     _processing_order = (
@@ -77,7 +77,7 @@ class CardLookup(BotCore):
                         ships = self._lookup_data[
                             self._name_to_xws[card['ship']]]
                         if len(ships) > 1:
-                            raise BotException(f"Duplicate ship found: {ships}")
+                            raise DroidException(f"Duplicate ship found: {ships}")
                         card['ship_card'] = ships[0]
 
                         # Add pilot to it's ship so we can list ship pilots

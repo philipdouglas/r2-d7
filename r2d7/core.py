@@ -4,14 +4,11 @@ import re
 import unicodedata
 
 
-class BotException(Exception):
+class DroidException(Exception):
     pass
 
 
-class BotCore():
-    def __init__(self):
-        pass
-
+class DroidCore():
     def handle_message(self, message):
         raise NotImplementedError()
 

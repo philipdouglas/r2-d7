@@ -1,9 +1,9 @@
 import pytest
 
 from r2d7.cardlookup import CardLookup
-from r2d7.slackprinter import SlackPrinter
+from r2d7.slackdroid import SlackDroid
 
-class DummyBot(CardLookup, SlackPrinter):
+class DummyBot(CardLookup, SlackDroid):
     pass
 
 print_card_tests = {

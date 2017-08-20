@@ -1,11 +1,15 @@
+import logging
 import re
+from html import unescape
 
 import requests
 
-from r2d7.core import BotCore, BotException
+from r2d7.core import DroidCore, DroidException
+
+logger = logging.getLogger(__name__)
 
 
-class ListFormatter(BotCore):
+class ListFormatter(DroidCore):
     _regexes = (
         re.compile(r'(https?://(geordanr)\.github\.io/xwing/\?(.*))'),
         re.compile(r'(https?://(xwing-builder)\.co\.uk/view/(\d+)[^>|]*)'),
@@ -28,15 +32,19 @@ class ListFormatter(BotCore):
             xws_url = f"http://xwing-builder.co.uk/xws/{match[3]}?dl=1"
         elif match[2] == 'fabpsb':
             xws_url = f"http://x-wing.fabpsb.net/permalink.php?sq={match[3]}&xws=1"
-
         #TODO other builders
 
         if xws_url:
+            xws_url = unescape(xws_url)
+            logging.info(f"Requesting {xws_url}")
             response = requests.get(xws_url)
             if response.status_code != 200:
-                raise BotException(
+                raise DroidException(
                     f"Got {response.status_code} GETing f{xws_url}.")
-            return response.json()
+            data = response.json()
+            if 'message' in data:
+                raise DroidException(f"YASB error: ({data['message']}")
+            return data
 
         #TODO handle raw XWS
 
@@ -102,6 +110,6 @@ class ListFormatter(BotCore):
         output[0] += self.bold(f"[{total_points}]")
         return output
 
-    def handle_message(self, message):
+    def handle_url(self, message):
         xws = self.get_xws(message)
         return self.print(xws)

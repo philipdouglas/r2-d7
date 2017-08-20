@@ -66,6 +66,7 @@ class CardLookup(DroidCore):
             return 100
 
     def _init_lookup_data(self):
+        next_id = 0
         self._lookup_data = {}
         self._name_to_xws = {}
         for group in self._processing_order:
@@ -107,23 +108,62 @@ class CardLookup(DroidCore):
                     elif group == 'ships':
                         card['actions'].sort(key=self._action_key)
 
+                    card['_id'] = next_id
+                    next_id += 1
                     self._lookup_data.setdefault(name, []).append(card)
                     self._name_to_xws[card['name']] = card['xws']
+
+    _multi_lookup_pattern = re.compile(r'\]\][^\[]*\[\[')
+    #TODO this is slack specific
+    _filter_pattern = re.compile(
+        r' *(?:(:[^:]+:))? *(?:([^=><:]*[^=><: ][^=><:]*)|([=><][=><]?)'
+        r' *(\d+)) *(?:(:[^:]+:))? *'
+    )
 
     def lookup(self, lookup):
         if self._lookup_data is None:
             self._init_lookup_data()
 
-        for name, cards in self._lookup_data.items():
-            for card in cards:
-                if lookup in name:
+        cards_yielded = set()
+        for lookup in self._multi_lookup_pattern.split(lookup):
+            matches = []
+            match = self._filter_pattern.match(lookup)
+            slot_filter = match[1] or match[5]
+            points_filter = None
+
+            if match[2]:
+                lookup = self.partial_canonicalize(match[2])
+                if len(lookup) > 2 or re.match(r'[a-z]\d', lookup):
+                    #TODO Do exact matches
+                    matches = [key for key in self._lookup_data.keys()
+                               if lookup in key]
+                #TODO aliases
+            else:
+                if not slot_filter:
+                    raise DroidException(
+                        'You need to specify a slot to search by points value.')
+                matches = self._lookup_data.keys()
+                operator = match[3]
+                operand = match[4]
+
+                points_filter = lambda value: eval(f"{value}{operator}{operand}")
+
+            for match in matches:
+                for card in self._lookup_data[match]:
+                    if card['_id'] in cards_yielded:
+                        continue
+                    if slot_filter and self.iconify(card['slot']) != slot_filter:
+                        continue
+                    if points_filter and not points_filter(card['points']):
+                        continue
+
+                    cards_yielded.add(card['_id'])
                     yield card
+                    #TODO conditions
 
     _frontback = ('firespray31', 'arc170')
     _180 = ('yv666', 'auzituck')
     _turret = ('kwing', 'yt1300', 'jumpmaster5000', 'vt49decimator')
-
-
 
     def ship_stats(self, ship, pilot=None):
         line = []
@@ -149,7 +189,7 @@ class CardLookup(DroidCore):
         elif ship['xws'] in self._turret:
             attack_type = 'turret'
         if attack_type:
-            line.append(self.iconify(f"attack-{attack_type}", hypens=True))
+            line.append(self.iconify(f"attack-{attack_type}", hyphens=True))
 
         if 'actions' in ship:
             line.append(' '.join(
@@ -246,9 +286,13 @@ class CardLookup(DroidCore):
         else:
             return self.wiki_link(
                 card['name'],
-                card['slot'] == 'Crew' and card['xws'] in self.data['pilots']
+                (
+                    card['slot'] == 'Crew' and (
+                        card['xws'] in self.data['pilots'] or
+                        card['xws'] == 'r2d2-swx22'
+                    )
+                )
             )
-
 
     def print_card(self, card):
         is_ship = 'size' in card
@@ -312,6 +356,6 @@ class CardLookup(DroidCore):
 
     def handle_lookup(self, lookup):
         output = []
-        for card in self.lookup(self.partial_canonicalize(lookup)):
+        for card in self.lookup(lookup):
             output += self.print_card(card)
         return output

@@ -38,9 +38,9 @@ class SlackDroid(DroidCore):
         self.send_message(channel_id, ':alarm: ' + err_msg)
 
     @staticmethod
-    def iconify(name, hypens=False):
+    def iconify(name, hyphens=False):
         name = name.lower()
-        if hypens:
+        if hyphens:
             name = re.sub(r'[^a-zA-Z0-9\-]', '', name)
         else:
             name = re.sub(r'[^a-zA-Z0-9]', '', name)

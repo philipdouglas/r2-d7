@@ -121,6 +121,11 @@ print_card_tests = {
         ':crew: *<http://xwing-miniatures.wikia.com/wiki/Fleet_Officer|Fleet Officer>* [3]',
         '_Imperial only._',
         '*Action:* Choose up to 2 friendly ships within Range 1-2 and assign 1 focus token to each of those ships. Then receive 1 stress token.',
+    ],
+    'r2d2-swx22': [
+        ':crew: • *<http://xwing-miniatures.wikia.com/wiki/R2-D2_(Crew)|R2-D2>* [4]',
+        '_Rebel only._',
+        'At the end of the End phase, if you have no shields, you may recover 1 shield and roll 1 attack die.  On a :Hit: result, randomly flip 1 of your facedown Damage cards faceup and resolve it.',
     ]
 }
 
@@ -132,7 +137,30 @@ def test_print_card(name, expected):
         name, num = name.split('.')
     else:
         num = 0
+    assert name in bot._lookup_data
+    assert len(bot._lookup_data[name]) > int(num)
     card = bot._lookup_data[name][int(num)]
     assert bot.print_card(card) == expected
 
-#TODO tests for lookup
+lookup_tests = {
+    'sunny bounder': [('sunnybounder', 'm3ainterceptor')],
+    'Rey': [('rey', 'Crew'), ('rey', 'yt1300')],
+    'han solo': [
+        ('hansolo', 'Crew'), ('hansolo', 'yt1300'), ('hansolo-swx57', 'yt1300')
+    ],
+    'xwing': [('xwing', 'xwing'), ('t70xwing', 't70xwing')],
+    ':crew: Rey': [('rey', 'Crew')],
+    'Rey :crew:': [('rey', 'Crew')],
+    ':astromech: r2d2': [('r2d2', 'Astromech')],
+    ':elite: >3': [
+        ('expose', 'Elite'), ('opportunist', 'Elite'), ('expertise', 'Elite')
+    ],
+    ':crew: rey]]   [[finn': [('rey', 'Crew'), ('finn', 'Crew')],
+    ':crew: rey]]   [[finn]] [[:astromech: r2d2]]': [
+        ('rey', 'Crew'), ('finn', 'Crew'), ('r2d2', 'Astromech')],
+}
+@pytest.mark.parametrize('lookup, expected', lookup_tests.items())
+def test_lookup(lookup, expected):
+    bot = DummyBot()
+    actual = [(card['xws'], card['slot']) for card in bot.lookup(lookup)]
+    assert actual == expected

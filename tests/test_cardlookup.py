@@ -8,31 +8,31 @@ class DummyBot(CardLookup, SlackDroid):
 
 print_card_tests = {
     'veteraninstincts': [
-        ':elite: *Veteran Instincts* [1]',
+        ':elite: *<http://xwing-miniatures.wikia.com/wiki/Veteran_Instincts|Veteran Instincts>* [1]',
         'Increase your pilot skill value by 2.',
     ],
     'tactician': [
-        ':crew: *Tactician* [2]',
+        ':crew: *<http://xwing-miniatures.wikia.com/wiki/Tactician|Tactician>* [2]',
         '_Limited._',
         'After you perform an attack against a ship inside your firing arc at Range 2, that ship receives 1 stress token.',
     ],
     'rage': [
-        ':elite: *Rage* [1]',
+        ':elite: *<http://xwing-miniatures.wikia.com/wiki/Rage|Rage>* [1]',
         '*Action:* Assign 1 focus token to your ship and receive 2 stress tokens. Until the end of the round, when attacking, you may reroll up to 3 attack dice.',
     ],
     'snapshot': [
-        ':elite: *Snap Shot* [2]',
+        ':elite: *<http://xwing-miniatures.wikia.com/wiki/Snap_Shot|Snap Shot>* [2]',
         ':attack::attack2: | Range: 1',
         'After an enemy ship executes a maneuver, you may perform this attack against that ship.\n*Attack:* Attack 1 ship. You cannot modify your attack dice and cannot attack again this phase.',
     ],
     'heavylaserturret': [
-        ':hardpoint: *Heavy Laser Turret* [5]',
+        ':hardpoint: *<http://xwing-miniatures.wikia.com/wiki/Heavy_Laser_Turret|Heavy Laser Turret>* [5]',
         ':attack::attack4: | Range: 2-3 | :energy::energy2:',
         '_C-ROC Cruiser only._',
         '*Attack (energy):* Spend 2 energy from this card to perform this attack against 1 ship (even a ship outside of your firing arc).',
     ],
     'brighthope': [
-        ':title: • *Bright Hope* [5]',
+        ':title: • *<http://xwing-miniatures.wikia.com/wiki/Bright_Hope|Bright Hope>* [5]',
         #TODO the card actually says +2 (:energyplus2:)
         ':energy::energy2:',
         #TODO the card actually says GR-75 only.
@@ -46,7 +46,7 @@ print_card_tests = {
         '3 :turnleft::bankleft::straight::bankright::turnright::blank:',
         '2 :turnleft::bankleft::greenstraight::bankright::turnright::blank:',
         '1 :blank::greenbankleft::greenstraight::greenbankright::blank::blank:',
-        ':rebel: :skill2:Rookie Pilot [21], :skill3:• Tarn Mison [23], :skill4:Red Squadron Pilot [23], :skill5:• Biggs Darklighter [25], :skill5:• "Hobbie" Klivian [25], :skill6:• Garven Dreis [26], :skill7:• Jek Porkins :elite: [26], :skill8:• Luke Skywalker :elite: [28], :skill8:• Wes Janson :elite: [29], :skill9:• Wedge Antilles :elite: [29]',
+        ':rebel: :skill2:<http://xwing-miniatures.wikia.com/wiki/Rookie_Pilot|Rookie Pilot> [21], :skill3:• <http://xwing-miniatures.wikia.com/wiki/Tarn_Mison|Tarn Mison> [23], :skill4:<http://xwing-miniatures.wikia.com/wiki/Red_Squadron_Pilot|Red Squadron Pilot> [23], :skill5:• <http://xwing-miniatures.wikia.com/wiki/Biggs_Darklighter|Biggs Darklighter> [25], :skill5:• <http://xwing-miniatures.wikia.com/wiki/"Hobbie"_Klivian|&quot;Hobbie&quot; Klivian> [25], :skill6:• <http://xwing-miniatures.wikia.com/wiki/Garven_Dreis|Garven Dreis> [26], :skill7:• <http://xwing-miniatures.wikia.com/wiki/Jek_Porkins|Jek Porkins> :elite: [26], :skill8:• <http://xwing-miniatures.wikia.com/wiki/Luke_Skywalker|Luke Skywalker> :elite: [28], :skill8:• <http://xwing-miniatures.wikia.com/wiki/Wes_Janson|Wes Janson> :elite: [29], :skill9:• <http://xwing-miniatures.wikia.com/wiki/Wedge_Antilles|Wedge Antilles> :elite: [29]',
     ],
     'firespray31': [
         ':firespray31: *Firespray-31*',
@@ -56,16 +56,15 @@ print_card_tests = {
         '3 :turnleft::bankleft::straight::bankright::turnright::redkturn:',
         '2 :turnleft::bankleft::greenstraight::bankright::turnright::blank:',
         '1 :blank::greenbankleft::greenstraight::greenbankright::blank::blank:',
-        ':empire: :skill3:Bounty Hunter [33], :skill5:• Krassis Trelix [36], :skill7:• Kath Scarlet :elite: [38], :skill8:• Boba Fett :elite: [39]',
-        ':scum: :skill5:Mandalorian Mercenary :elite: [35], :skill6:• Emon Azzameen [36], :skill7:• Kath Scarlet :elite: [38], :skill8:• Boba Fett :elite: [39]',
-    ],
+':empire: :skill3:<http://xwing-miniatures.wikia.com/wiki/Bounty_Hunter|Bounty Hunter> [33], :skill5:• <http://xwing-miniatures.wikia.com/wiki/Krassis_Trelix|Krassis Trelix> [36], :skill7:• <http://xwing-miniatures.wikia.com/wiki/Kath_Scarlet|Kath Scarlet> :elite: [38], :skill8:• <http://xwing-miniatures.wikia.com/wiki/Boba_Fett|Boba Fett> :elite: [39]',
+':scum: :skill5:<http://xwing-miniatures.wikia.com/wiki/Mandalorian_Mercenary|Mandalorian Mercenary> :elite: [35], :skill6:• <http://xwing-miniatures.wikia.com/wiki/Emon_Azzameen|Emon Azzameen> [36], :skill7:• <http://xwing-miniatures.wikia.com/wiki/Kath_Scarlet|Kath Scarlet> :elite: [38], :skill8:• <http://xwing-miniatures.wikia.com/wiki/Boba_Fett|Boba Fett> :elite: [39]',    ],
     'quadjumper': [
         ':quadjumper: *Quadjumper*',
         ':attack2::agility2::hull5::shield0: | :focus: :barrelroll: | :crew::xbomb::tech::illicit:',
         '3 :blank::bankleft::greenstraight::bankright::blank::blank::blank::blank::blank::blank:',
         '2 :turnleft::greenbankleft::greenstraight::greenbankright::turnright::redsloopleft::redsloopright::blank::blank::blank:',
         '1 :turnleft::blank::straight::blank::turnright::blank::blank::redreversebankleft::redreversestraight::redreversebankright:',
-        ':scum: :skill1:Jakku Gunrunner [15], :skill3:• Unkar Plutt [17], :skill5:• Sarco Plank :elite: [18], :skill7:• Constable Zuvio :elite: [19]',
+        ':scum: :skill1:<http://xwing-miniatures.wikia.com/wiki/Jakku_Gunrunner|Jakku Gunrunner> [15], :skill3:• <http://xwing-miniatures.wikia.com/wiki/Unkar_Plutt|Unkar Plutt> [17], :skill5:• <http://xwing-miniatures.wikia.com/wiki/Sarco_Plank|Sarco Plank> :elite: [18], :skill7:• <http://xwing-miniatures.wikia.com/wiki/Constable_Zuvio|Constable Zuvio> :elite: [19]',
     ],
     'yv666': [
         ':yv666: *YV-666*',
@@ -75,51 +74,51 @@ print_card_tests = {
         '2 :redturnleft::bankleft::greenstraight::bankright::redturnright:',
         '1 :blank::greenbankleft::greenstraight::greenbankright::blank:',
         '0 :blank::blank::redstop::blank::blank:',
-        ':scum: :skill2:Trandoshan Slaver [29], :skill5:• Latts Razzi [33], :skill6:• Moralo Eval [34], :skill7:• Bossk :elite: [35]',
+        ':scum: :skill2:<http://xwing-miniatures.wikia.com/wiki/Trandoshan_Slaver|Trandoshan Slaver> [29], :skill5:• <http://xwing-miniatures.wikia.com/wiki/Latts_Razzi|Latts Razzi> [33], :skill6:• <http://xwing-miniatures.wikia.com/wiki/Moralo_Eval|Moralo Eval> [34], :skill7:• <http://xwing-miniatures.wikia.com/wiki/Bossk|Bossk> :elite: [35]',
     ],
     'rey.0': [
-        ':crew: • *Rey* [2]',
+        ':crew: • *<http://xwing-miniatures.wikia.com/wiki/Rey_(Crew)|Rey>* [2]',
         '_Rebel only._',
         'At the start of the End phase, you may place 1 of your ship\'s focus tokens on this card. At the start of the Combat phase, you may assign 1 of those tokens to your ship.',
     ],
     'rey.1': [
-        ':yt1300: • *Rey* [45]',
+        ':yt1300: • *<http://xwing-miniatures.wikia.com/wiki/Rey|Rey>* [45]',
         ':resistance: | :skill8::attack3::agility1::hull8::shield5: | :attack-turret: | :focus: :targetlock: | :elite::missile::crew::crew:',
         'When attacking or defending, if the enemy ship is inside your firing arc, you may reroll up to 2 of your blank results.',
     ],
     'quinnjast': [
-        ':m3ainterceptor: • *Quinn Jast* [18]',
+        ':m3ainterceptor: • *<http://xwing-miniatures.wikia.com/wiki/Quinn_Jast|Quinn Jast>* [18]',
         ':scum: | :skill6::attack2::agility3::hull2::shield1: | :focus: :targetlock: :barrelroll: :evade: | :elite:',
         'At the start of the Combat phase, you may receive a weapons disabled token to flip one of your discarded :Torpedo: or :Missile: Upgrade cards faceup.',
     ],
     'countessryad': [
-        ':tiedefender: • *Countess Ryad* [34]',
+        ':tiedefender: • *<http://xwing-miniatures.wikia.com/wiki/Countess_Ryad|Countess Ryad>* [34]',
         ':empire: | :skill5::attack3::agility3::hull3::shield3: | :focus: :targetlock: :barrelroll: | :elite::cannon::missile:',
         'When you reveal a :Straight: maneuver, you may treat it as a :kturn: maneuver.',
     ],
     'outerrimsmuggler': [
-        ':yt1300: *Outer Rim Smuggler* [27]',
+        ':yt1300: *<http://xwing-miniatures.wikia.com/wiki/Outer_Rim_Smuggler|Outer Rim Smuggler>* [27]',
         ':rebel: | :skill1::attack2::agility1::hull6::shield4: | :attack-turret: | :focus: :targetlock: | :crew::crew:',
     ],
     'r3astromech': [
-        ':astromech: *R3 Astromech* [2]',
+        ':astromech: *<http://xwing-miniatures.wikia.com/wiki/R3_Astromech|R3 Astromech>* [2]',
         'Once per round, when attacking with a primary weapon, you may cancel 1 of your :Focus: results during the "Modify Attack Dice" step to assign 1 evade token to your ship.',
     ],
     'adaptability.0': [
-        ':elite: *Adaptability (-1)* [0]',
+        ':elite: *<http://xwing-miniatures.wikia.com/wiki/Adaptability|Adaptability (-1)>* [0]',
         'Decrease your pilot skill value by 1.'
     ],
     'adaptability.1': [
-        ':elite: *Adaptability (+1)* [0]',
+        ':elite: *<http://xwing-miniatures.wikia.com/wiki/Adaptability|Adaptability (+1)>* [0]',
         'Increase your pilot skill value by 1.'
     ],
     'bombloadout': [
-        ':torpedo: *Bomb Loadout* [0]',
+        ':torpedo: *<http://xwing-miniatures.wikia.com/wiki/Bomb_Loadout|Bomb Loadout>* [0]',
         '_Y-Wing only. Limited._',
         'Your upgrade bar gains the :xbomb: icon.',
     ],
     'fleetofficer': [
-        ':crew: *Fleet Officer* [3]',
+        ':crew: *<http://xwing-miniatures.wikia.com/wiki/Fleet_Officer|Fleet Officer>* [3]',
         '_Imperial only._',
         '*Action:* Choose up to 2 friendly ships within Range 1-2 and assign 1 focus token to each of those ships. Then receive 1 stress token.',
     ]
@@ -134,8 +133,6 @@ def test_print_card(name, expected):
     else:
         num = 0
     card = bot._lookup_data[name][int(num)]
-    # result = list(bot.lookup(name))
-    # TODO this is dangerous
     assert bot.print_card(card) == expected
 
 #TODO tests for lookup

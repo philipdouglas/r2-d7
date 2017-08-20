@@ -51,7 +51,7 @@ def test_get_xws(url, expected):
     bot = DummyBot()
     assert bot.get_xws(url) == expected
 
-print_tests = (
+print_xws_tests = (
     (
         {"faction":"scum","pilots":[{"name":"sunnybounder","ship":"m3ainterceptor","upgrades":{"title":["lightscykinterceptor"]}}],"vendor":{"yasb":{"builder":"(Yet Another) X-Wing Miniatures Squad Builder","builder_url":"https://geordanr.github.io/xwing","link":"https://geordanr.github.io/xwing/?f=Scum%20and%20Villainy&d=v4!s!248::50:-1:&sn=Sunny%20B!&obs="}},"version":"0.3.0","name":"Sunny B!"},
         [
@@ -115,7 +115,7 @@ print_tests = (
     ),
 )
 
-@pytest.mark.parametrize('xws, expected', print_tests)
-def test_print(xws, expected):
+@pytest.mark.parametrize('xws, expected', print_xws_tests)
+def test_print_xws(xws, expected):
     bot = DummyBot()
-    assert bot.print(xws) == expected
+    assert bot.print_xws(xws) == expected

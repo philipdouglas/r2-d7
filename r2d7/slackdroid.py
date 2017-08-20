@@ -1,3 +1,4 @@
+import html
 import logging
 import re
 
@@ -9,17 +10,16 @@ logger = logging.getLogger(__name__)
 
 HELP_TEXT = """\
 I am R2-D7, xwingtmg.slack.com's bot.
-*List Printing:* If you paste a (Yet Another) Squad Builder, Fab's or xwing-builder.co.uk permalink into a channel I'm in (or direct
-message me one), I will print a summary of the list.
-*Card Lookup:* Say something to me (_<@{0}>: something_) and I will describe any upgrades, ships or pilots that match what you said.
-You can also lookup a card by enclosing its name in double square brackets. (Eg. Why not try [[Engine Upgrade]])
-If you only want cards in a particular slot or ship, begin your lookup with the emoji for that ship or slot. (eg. _<@{0}>: :crew: rey_)
-You can also search for cards by points value in a particular slot. Eg. _<@{0}> :crew: <=3_. =, <, >, <= and >= are supported.
+*List Printing:* If you paste a (Yet Another) Squad Builder, Fab's or xwing-builder.co.uk permalink into a channel I'm in (or direct message me one), I will print a summary of the list.
+*Card Lookup:* Type something surrounded by square brackets and I will describe any upgrades, ships or pilots that match what you said. (Eg. Why not try [[Engine Upgrade]])
+If you only want cards in a particular slot or ship, begin your lookup with the emoji for that ship or slot. (eg. _[[:crew: rey]]_)
+You can also search for cards by points value in a particular slot. Eg. _[[:crew: <=3]]_. =, <, >, <= and >= are supported.
 """
 
 
 class SlackDroid(DroidCore):
     def __init__(self, slack_clients=None):
+        super().__init__()
         self.clients = slack_clients
 
     def send_message(self, channel_id, msg):
@@ -27,8 +27,8 @@ class SlackDroid(DroidCore):
         if isinstance(channel_id, dict):
             channel_id = channel_id['id']
         logger.debug('Sending msg: %s to channel: %s' % (msg, channel_id))
-        channel = self.clients.rtm.server.channels.find(channel_id)
-        channel.send_message(msg)
+        self.clients.web.chat.post_message(
+            channel_id, msg, as_user=True, unfurl_links=False)
 
     def write_help_message(self, channel_id):
         bot_uid = self.clients.bot_user_id()
@@ -63,14 +63,60 @@ class SlackDroid(DroidCore):
     def italics(text):
         return f"_{text}_"
 
-    @staticmethod
-    def convert_html(text):
+    _data_to_emoji = {
+        re.compile(r'\[Koiogran Turn\]'): ':kturn:',
+        re.compile(r'\[Turn Right\]'): ':turnright:',
+        re.compile(r'\[Turn Left\]'): ':turnleft:',
+        re.compile(r'\[Bank Right\]'): ':bankright:',
+        re.compile(r'\[Bank Left\]'): ':bankleft:',
+        re.compile(r'\[Segnor\'s Loop Left\]'): ':sloopleft:',
+        re.compile(r'\[Segnor\'s Loop Right\]'): ':sloopright:',
+        re.compile(r'\[Tallon Roll Left\]'): ':trollleft:',
+        re.compile(r'\[Tallon Roll Right\]'): ':trollright:',
+        re.compile(r'\[Critical Hit\]'): ':crit:',
+        re.compile(r'\[Bomb\]'): ':xbomb:',
+    }
+
+    @classmethod
+    def convert_html(cls, text):
         """
         The data has HTML formatting tags, convert them to slack formatting.
         """
+        for regex, sub in cls._data_to_emoji.items():
+            text = regex.sub(sub, text)
         text = re.sub(r'<\/?strong>', '*', text)
         text = re.sub(r'(<br \/>)+', '\n', text)
-        text = re.sub(r'\[Koiogran Turn\]', ':kturn:', text)
-        text = re.sub(r'\[Bomb\]', ':xbomb:', text)
         text = re.sub(r'\[([^\]]+)\]', ':\\1:', text)
         return text
+
+    @classmethod
+    def wiki_link(cls, card_name, crew_of_pilot, wiki_name=False):
+        if not wiki_name:
+            wiki_name = card_name
+        fudged_name = wiki_name.title()
+        fudged_name = re.sub(r' ', '_', fudged_name)
+        # Data and the wiki use different name conventions
+        #TODO work out the fudges for xwing-data
+        # fudged_name = re.sub(r'\(Scum\)', '(S&V)', fudged_name)
+        # fudged_name = re.sub(r'\((PS9|TFA)\)', '(HOR)', fudged_name)
+        fudged_name = re.sub(r'-Wing', '-wing', fudged_name)
+        fudged_name = re.sub(r'\/V', '/v', fudged_name)
+        fudged_name = re.sub(r'\/X', '/x', fudged_name)
+        fudged_name = re.sub(r'_\([-+]1\)', '', fudged_name)
+        if crew_of_pilot:
+            fudged_name += '_(Crew)'
+        # Stupid Nien Nunb is a stupid special case
+        elif fudged_name == 'Nien_Nunb':
+            fudged_name += '_(T-70_X-Wing)'
+        # All Hera's are suffixed on the wiki
+        elif fudged_name == 'Hera_Syndulla':
+            fudged_name += '_(VCX-100)'
+        elif re.match(r'"Heavy_Scyk"_Interceptor', fudged_name):
+            fudged_name = '"Heavy_Scyk"_Interceptor'
+        url = f"http://xwing-miniatures.wikia.com/wiki/{fudged_name}"
+        return cls.link(url, card_name)
+
+    @staticmethod
+    def link(url, name):
+        name = html.escape(name)
+        return f"<{url}|{name}>"

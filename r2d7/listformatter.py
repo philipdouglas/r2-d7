@@ -10,6 +10,10 @@ logger = logging.getLogger(__name__)
 
 
 class ListFormatter(DroidCore):
+    def __init__(self):
+        super().__init__()
+        self.register_handler(r'<(https?://[^>]+)>', self.handle_url)
+
     _regexes = (
         re.compile(r'(https?://(geordanr)\.github\.io/xwing/\?(.*))'),
         re.compile(r'(https?://(xwing-builder)\.co\.uk/view/(\d+)[^>|]*)'),
@@ -48,7 +52,7 @@ class ListFormatter(DroidCore):
 
         #TODO handle raw XWS
 
-    def print(self, xws):
+    def print_xws(self, xws):
         #TODO list url
         name = self.bold(xws.get('name', 'Nameless Squadron'))
         output = [f"{self.iconify(xws['faction'])} {name} "]
@@ -112,4 +116,4 @@ class ListFormatter(DroidCore):
 
     def handle_url(self, message):
         xws = self.get_xws(message)
-        return self.print(xws)
+        return self.print_xws(xws)

@@ -9,6 +9,12 @@ class DroidException(Exception):
 
 
 class DroidCore():
+    def __init__(self):
+        self._handlers = {}
+
+    def register_handler(self, pattern, method):
+        self._handlers[re.compile(pattern)] = method
+
     def handle_message(self, message):
         raise NotImplementedError()
 
@@ -28,6 +34,14 @@ class DroidCore():
     @staticmethod
     def convert_html(text):
         return text
+
+    @classmethod
+    def wiki_link(cls, card_name, crew_of_pilot, wiki_name=False):
+        raise NotImplementedError()
+
+    @staticmethod
+    def link(url, name):
+        raise NotImplementedError()
 
     _data = None
 

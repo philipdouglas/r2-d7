@@ -14,12 +14,13 @@ from r2d7.slack.bot import SlackBot
 from r2d7.slack.bot import spawn_bot
 
 from r2d7.listformatter import ListFormatter
+from r2d7.cardlookup import CardLookup
 from r2d7.slackdroid import SlackDroid
 
 logger = logging.getLogger(__name__)
 
 
-class SlackDroid(SlackDroid, ListFormatter): pass
+class Droid(SlackDroid, ListFormatter, CardLookup): pass
 
 
 def main():
@@ -41,7 +42,7 @@ def main():
     else:
         # only want to run a single instance of the bot in dev mode
         bot = SlackBot(slack_token)
-    bot.start({}, SlackDroid)
+    bot.start({}, Droid)
 
 if __name__ == "__main__":
     main()

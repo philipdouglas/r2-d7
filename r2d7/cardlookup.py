@@ -5,6 +5,10 @@ from r2d7.core import DroidCore, DroidException
 
 
 class CardLookup(DroidCore):
+    def __init__(self):
+        super().__init__()
+        self.register_handler(r'\[\[(.*)\]\]', self.handle_lookup)
+
     _lookup_data = None
 
     _processing_order = (
@@ -118,6 +122,8 @@ class CardLookup(DroidCore):
     _frontback = ('firespray31', 'arc170')
     _180 = ('yv666', 'auzituck')
     _turret = ('kwing', 'yt1300', 'jumpmaster5000', 'vt49decimator')
+
+
 
     def ship_stats(self, ship, pilot=None):
         line = []
@@ -234,11 +240,14 @@ class CardLookup(DroidCore):
                 for faction, pilots in factions.items()]
 
     def format_name(self, card):
-        if 'actions' in card or card['slot'] == 'crit':
+        # There's no wiki pages for ships or crits
+        if 'size' in card or card['slot'] == 'crit':
             return card['name']
         else:
-            #TODO links
-            return card['name']
+            return self.wiki_link(
+                card['name'],
+                card['slot'] == 'Crew' and card['xws'] in self.data['pilots']
+            )
 
 
     def print_card(self, card):
@@ -301,8 +310,8 @@ class CardLookup(DroidCore):
 
         return text
 
-    def handle_message(self, message):
+    def handle_lookup(self, lookup):
         output = []
-        for card in self.lookup(self.partial_canonicalize(message)):
+        for card in self.lookup(self.partial_canonicalize(lookup)):
             output += self.print_card(card)
         return output

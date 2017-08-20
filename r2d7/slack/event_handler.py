@@ -48,10 +48,11 @@ class RtmEventHandler(object):
                     self.bot.write_help_message(event['channel'])
 
             # Watches
-            response = None
-            match = re.search('<(https?://[^>]+)>', msg_txt)
-            if match:
-                response = self.bot.handle_url(match[1])
+            response = []
+            for regex, handle_method in self.bot._handlers.items():
+                match = regex.search(msg_txt)
+                if match:
+                    response += handle_method(match[1])
 
             if response:
                 self.bot.send_message(event['channel'], '\n'.join(response))

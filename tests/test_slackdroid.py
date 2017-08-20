@@ -28,6 +28,15 @@ convert_html_tests = [
     ('[evade] test', ':evade: test'),
     ('[evade] test [focus]', ':evade: test :focus:'),
     ('[Koiogran Turn]', ':kturn:'),
+    ('[Turn Right]', ':turnright:'),
+    ('[Turn Left]', ':turnleft:'),
+    ('[Bank Right]', ':bankright:'),
+    ('[Bank Left]', ':bankleft:'),
+    ('[Segnor\'s Loop Left]', ':sloopleft:'),
+    ('[Segnor\'s Loop Right]', ':sloopright:'),
+    ('[Tallon Roll Left]', ':trollleft:'),
+    ('[Tallon Roll Right]', ':trollright:'),
+    ('[Critical Hit]', ':crit:'),
     ('[Bomb]', ':xbomb:'),
 ]
 @pytest.mark.parametrize('before, after', convert_html_tests)

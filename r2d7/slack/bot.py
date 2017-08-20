@@ -24,6 +24,7 @@ class SlackBot(object):
         Args:
             token (str): Slack API Bot User token (for development token set in env)
         """
+        super().__init__()
         self.last_ping = 0
         self.keep_running = True
         if token is not None:

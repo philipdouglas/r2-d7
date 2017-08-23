@@ -209,7 +209,7 @@ class CardLookup(DroidCore):
 
     difficulties = {
         0: 'blank',
-        1: '', # Default black icons are white for our purposes
+        1: '',  # Default black icons are white for our purposes
         2: 'green',
         3: 'red',
     }
@@ -229,7 +229,6 @@ class CardLookup(DroidCore):
         11: 'reversestraight',
         12: 'reversebankright',
     }
-
 
     def maneuvers(self, card):
         # Find the longest row
@@ -312,7 +311,8 @@ class CardLookup(DroidCore):
             text.append(self.ship_stats(card['ship_card'], card))
         elif is_ship:
             text.append(self.ship_stats(card))
-        if 'maneuvers' in card:
+        # New ships have empty manuevers lists so don't try and print them
+        if card.get('maneuvers', None):
             text += self.maneuvers(card)
 
         if 'pilots' in card:

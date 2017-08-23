@@ -8,6 +8,7 @@ class CardLookup(DroidCore):
     def __init__(self):
         super().__init__()
         self.register_handler(r'\[\[(.*)\]\]', self.handle_lookup)
+        self.register_dm_handler(r'(.*)', self.handle_lookup)
 
     _lookup_data = None
 

@@ -11,9 +11,13 @@ class DroidException(Exception):
 class DroidCore():
     def __init__(self):
         self._handlers = {}
+        self._dm_handlers = {}
 
     def register_handler(self, pattern, method):
         self._handlers[re.compile(pattern)] = method
+
+    def register_dm_handler(self, pattern, method):
+        self._dm_handlers[re.compile(pattern)] = method
 
     def handle_message(self, message):
         raise NotImplementedError()

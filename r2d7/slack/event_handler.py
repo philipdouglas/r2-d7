@@ -43,16 +43,23 @@ class RtmEventHandler(object):
             msg_txt = event['text']
 
             # Direct responses
+            response = []
             if self.clients.is_bot_mention(msg_txt) or self._is_direct_message(event['channel']):
                 if 'help' in msg_txt:
                     self.bot.write_help_message(event['channel'])
+                else:
+                    for regex, handle_method in self.bot._dm_handlers.items():
+                        match = regex.search(msg_txt)
+                        if match:
+                            response += handle_method(match[1])
 
-            # Watches
-            response = []
-            for regex, handle_method in self.bot._handlers.items():
-                match = regex.search(msg_txt)
-                if match:
-                    response += handle_method(match[1])
+            # Don't handle if the dm_handlers have already got it
+            if not response:
+                # Watches
+                for regex, handle_method in self.bot._handlers.items():
+                    match = regex.search(msg_txt)
+                    if match:
+                        response += handle_method(match[1])
 
             if response:
                 self.bot.send_message(event['channel'], '\n'.join(response))

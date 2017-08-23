@@ -22,22 +22,22 @@ def test_italics():
     assert SlackDroid.italics('test') == '_test_'
 
 convert_html_tests = [
-    ('<strong>Action:</strong> test', '*Action:* test'),
-    ('<br /><br />', '\n'),
-    ('<br />', '\n'),
-    ('[evade] test', ':evade: test'),
-    ('[evade] test [focus]', ':evade: test :focus:'),
-    ('[Koiogran Turn]', ':kturn:'),
-    ('[Turn Right]', ':turnright:'),
-    ('[Turn Left]', ':turnleft:'),
-    ('[Bank Right]', ':bankright:'),
-    ('[Bank Left]', ':bankleft:'),
-    ('[Segnor\'s Loop Left]', ':sloopleft:'),
-    ('[Segnor\'s Loop Right]', ':sloopright:'),
-    ('[Tallon Roll Left]', ':trollleft:'),
-    ('[Tallon Roll Right]', ':trollright:'),
-    ('[Critical Hit]', ':crit:'),
-    ('[Bomb]', ':xbomb:'),
+    ('<strong>Action:</strong> test', ['*Action:* test']),
+    ('before<br /><br />after', ['before', 'after']),
+    ('<br />', []),
+    ('[evade] test', [':evade: test']),
+    ('[evade] test [focus]', [':evade: test :focus:']),
+    ('[Koiogran Turn]', [':kturn:']),
+    ('[Turn Right]', [':turnright:']),
+    ('[Turn Left]', [':turnleft:']),
+    ('[Bank Right]', [':bankright:']),
+    ('[Bank Left]', [':bankleft:']),
+    ('[Segnor\'s Loop Left]', [':sloopleft:']),
+    ('[Segnor\'s Loop Right]', [':sloopright:']),
+    ('[Tallon Roll Left]', [':trollleft:']),
+    ('[Tallon Roll Right]', [':trollright:']),
+    ('[Critical Hit]', [':crit:']),
+    ('[Bomb]', [':xbomb:']),
 ]
 @pytest.mark.parametrize('before, after', convert_html_tests)
 def test_convert_html(before, after):

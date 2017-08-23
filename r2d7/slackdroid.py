@@ -85,9 +85,9 @@ class SlackDroid(DroidCore):
         for regex, sub in cls._data_to_emoji.items():
             text = regex.sub(sub, text)
         text = re.sub(r'<\/?strong>', '*', text)
-        text = re.sub(r'(<br \/>)+', '\n', text)
         text = re.sub(r'\[([^\]]+)\]', ':\\1:', text)
-        return text
+        lines = re.split(r'(?:<br \/>)+', text)
+        return [line for line in lines if line != '']
 
     @classmethod
     def wiki_link(cls, card_name, crew_of_pilot, wiki_name=False):

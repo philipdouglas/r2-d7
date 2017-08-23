@@ -23,7 +23,8 @@ print_card_tests = {
     'snapshot': [
         ':elite: *<http://xwing-miniatures.wikia.com/wiki/Snap_Shot|Snap Shot>* [2]',
         ':attack::attack2: | Range: 1',
-        'After an enemy ship executes a maneuver, you may perform this attack against that ship.\n*Attack:* Attack 1 ship. You cannot modify your attack dice and cannot attack again this phase.',
+        'After an enemy ship executes a maneuver, you may perform this attack against that ship.',
+        '*Attack:* Attack 1 ship. You cannot modify your attack dice and cannot attack again this phase.',
     ],
     'heavylaserturret': [
         ':hardpoint: *<http://xwing-miniatures.wikia.com/wiki/Heavy_Laser_Turret|Heavy Laser Turret>* [5]',
@@ -126,7 +127,13 @@ print_card_tests = {
         ':crew: • *<http://xwing-miniatures.wikia.com/wiki/R2-D2_(Crew)|R2-D2>* [4]',
         '_Rebel only._',
         'At the end of the End phase, if you have no shields, you may recover 1 shield and roll 1 attack die.  On a :Hit: result, randomly flip 1 of your facedown Damage cards faceup and resolve it.',
-    ]
+    ],
+    'mimicked': [
+        ':condition: • *<http://xwing-miniatures.wikia.com/wiki/Mimicked|Mimicked>*',
+        '"Thweek" is treated as having your pilot ability.',
+        '"Thweek" cannot apply a Condition card by using your pilot ability.',
+        '"Thweek" does not lose your pilot ability if you are destroyed.',
+    ],
 }
 
 @pytest.mark.parametrize('name, expected', print_card_tests.items())
@@ -164,6 +171,10 @@ lookup_tests = {
     'test': [
         ('awingtestpilot', 'Title'), ('sienartestpilot', 'tieadvprototype')],
     'fcs': [('firecontrolsystem', 'System')],
+    'thweek': [
+        ('thweek', 'starviper'),
+        ('mimicked', 'condition'), ('shadowed', 'condition')
+    ],
 }
 @pytest.mark.parametrize('lookup, expected', lookup_tests.items())
 def test_lookup(lookup, expected):

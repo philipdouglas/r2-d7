@@ -1,4 +1,5 @@
 import copy
+from itertools import chain
 import re
 
 from r2d7.core import DroidCore, DroidException
@@ -196,7 +197,12 @@ class CardLookup(DroidCore):
 
                     cards_yielded.add(card['_id'])
                     yield card
-                    #TODO conditions
+
+                    if 'conditions' in card:
+                        for condition in chain.from_iterable(
+                                self.data['conditions'].values()):
+                            if condition['name'] in card['conditions']:
+                                yield condition
 
     _frontback = ('firespray31', 'arc170')
     _180 = ('yv666', 'auzituck')
@@ -387,7 +393,7 @@ class CardLookup(DroidCore):
         #TODO damage card type
 
         if 'text' in card:
-            text.append(self.convert_html(card['text']))
+            text += self.convert_html(card['text'])
 
         return text
 

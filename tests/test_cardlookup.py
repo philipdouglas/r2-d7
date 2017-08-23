@@ -158,6 +158,11 @@ lookup_tests = {
     ':crew: rey]]   [[finn': [('rey', 'Crew'), ('finn', 'Crew')],
     ':crew: rey]]   [[finn]] [[:astromech: r2d2]]': [
         ('rey', 'Crew'), ('finn', 'Crew'), ('r2d2', 'Astromech')],
+    'han': [
+        ('hansolo', 'Crew'), ('hansolo', 'yt1300'), ('hansolo-swx57', 'yt1300')
+    ],
+    'test': [
+        ('awingtestpilot', 'Title'), ('sienartestpilot', 'tieadvprototype')],
 }
 @pytest.mark.parametrize('lookup, expected', lookup_tests.items())
 def test_lookup(lookup, expected):

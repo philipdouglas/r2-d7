@@ -135,9 +135,16 @@ class CardLookup(DroidCore):
             if match[2]:
                 lookup = self.partial_canonicalize(match[2])
                 if len(lookup) > 2 or re.match(r'[a-z]\d', lookup):
-                    #TODO Do exact matches
-                    matches = [key for key in self._lookup_data.keys()
-                               if lookup in key]
+                    exact = re.compile(f'\\b{lookup}(?:\'s)?\\b', re.IGNORECASE)
+                    matches = [
+                        key for key, cards in self._lookup_data.items() if any(
+                            exact.search(card['name']) for card in cards
+                        )
+                    ]
+                    if not matches:
+                        print("No exactsies")
+                        matches = [key for key in self._lookup_data.keys()
+                                   if lookup in key]
                 #TODO aliases
             else:
                 if not slot_filter:

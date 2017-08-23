@@ -66,6 +66,34 @@ class CardLookup(DroidCore):
             #TODO log an error?
             return 100
 
+    _aliases = {
+        'fcs': 'firecontrolsystem',
+        'apl': 'antipursuitlasers',
+        'atc': 'advancedtargetingcomputer',
+        'ptl': 'pushthelimit',
+        'hlc': 'heavylasercannon',
+        'tlt': 'twinlaserturret',
+        'vi': 'veteraninstincts',
+        'at': 'autothrusters',
+        'as': 'advancedsensors',
+        'acd': 'advancedcloakingdevice',
+        'eu': 'engineupgrade',
+        'tap': 'tieadvancedprototype',
+        'ac': 'accuracycorrector',
+        'abt': 'autoblasterturret',
+        'sd': 'stealthdevice',
+        'ei': 'experimentalinterface',
+        'k4': 'k4securitydroid',
+        'stressbot': 'r3a2',
+        'countesskturn': 'countessryad',
+        'countesskturns': 'countessryad',
+        'countessgreenkturn': 'countessryad',
+        'bmst': 'blackmarketslicertools',
+        'snuggling': 'smugglingcompartment',
+        'snugglingcompartment': 'smugglingcompartment',
+    }
+
+
     def _init_lookup_data(self):
         next_id = 0
         self._lookup_data = {}
@@ -145,7 +173,8 @@ class CardLookup(DroidCore):
                         print("No exactsies")
                         matches = [key for key in self._lookup_data.keys()
                                    if lookup in key]
-                #TODO aliases
+                if lookup in self._aliases:
+                    matches.append(self._aliases[lookup])
             else:
                 if not slot_filter:
                     raise DroidException(

@@ -163,6 +163,7 @@ lookup_tests = {
     ],
     'test': [
         ('awingtestpilot', 'Title'), ('sienartestpilot', 'tieadvprototype')],
+    'fcs': [('firecontrolsystem', 'System')],
 }
 @pytest.mark.parametrize('lookup, expected', lookup_tests.items())
 def test_lookup(lookup, expected):

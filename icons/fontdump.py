@@ -52,11 +52,13 @@ fonts = {
         'cr90corvette': "2",
         'raiderclasscorvette': "3",
         'gozanticlasscruiser': "4",
+        'croccruiser': "5",
         'tieadvanced': "A",
         'tiebomber': "B",
         'tiedefender': "D",
         'tiefighter': "F",
         'vcx100': "G",
+        'scurrgh6bomber': "H",
         'tieinterceptor': "I",
         'lancerclasspursuitcraft': "L",
         'protectoratestarfighter': "M",
@@ -93,6 +95,8 @@ fonts = {
         'xwing': "x",
         'ywing': "y",
         'z95headhunter': "z",
+        'auzituckgunship': '@',
+        'tieaggressor': '`',
     }
 }
 

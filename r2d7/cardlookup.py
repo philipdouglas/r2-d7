@@ -191,10 +191,10 @@ class CardLookup(DroidCore):
                     raise DroidException(
                         'You need to specify a slot to search by points value.')
                 matches = self._lookup_data.keys()
-                operator = match[3]
+                operator = '==' if match[3] == '=' else match[3]
                 operand = match[4]
 
-                points_filter = lambda value: eval(f"{value}{operator}{operand}")
+                points_filter = lambda val: eval(f"{val}{operator}{operand}")
 
             for match in matches:
                 for card in self._lookup_data[match]:

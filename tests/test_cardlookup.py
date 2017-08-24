@@ -186,7 +186,8 @@ lookup_tests = {
         ('iontorpedoes', 'Torpedo'),
         ('plasmatorpedoes', 'Torpedo'),
         ('seismictorpedo', 'Torpedo'),
-    ]
+    ],
+    ':crew: = 8': [('emperorpalpatine', 'Crew')],
 }
 @pytest.mark.parametrize('lookup, expected', lookup_tests.items())
 def test_lookup(lookup, expected):

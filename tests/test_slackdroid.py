@@ -24,6 +24,7 @@ def test_italics():
 
 convert_html_tests = [
     ('<strong>Action:</strong> test', ['*Action:* test']),
+    ('<em>Phantom</em> test', ['_Phantom_ test']),
     ('before<br /><br />after', ['before', 'after']),
     ('<br />', []),
     ('[evade] test', [':evade: test']),

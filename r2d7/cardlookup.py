@@ -1,8 +1,12 @@
 import copy
+from html import unescape
 from itertools import chain
+import logging
 import re
 
 from r2d7.core import DroidCore, DroidException
+
+logger = logging.getLogger(__name__)
 
 
 class CardLookup(DroidCore):
@@ -154,12 +158,19 @@ class CardLookup(DroidCore):
         if self._lookup_data is None:
             self._init_lookup_data()
 
+        lookup = unescape(lookup)
+        logger.debug(f"Looking up: {repr(lookup)}")
+
         cards_yielded = set()
         for lookup in self._multi_lookup_pattern.split(lookup):
             matches = []
-            match = self._filter_pattern.match(lookup)
-            slot_filter = match[1] or match[5]
+            slot_filter = None
             points_filter = None
+            search = lookup
+            match = self._filter_pattern.match(lookup)
+
+            if match:
+                slot_filter = match[1] or match[5]
 
             if match[2]:
                 lookup = self.partial_canonicalize(match[2])
@@ -171,7 +182,6 @@ class CardLookup(DroidCore):
                         )
                     ]
                     if not matches:
-                        print("No exactsies")
                         matches = [key for key in self._lookup_data.keys()
                                    if lookup in key]
                 if lookup in self._aliases:

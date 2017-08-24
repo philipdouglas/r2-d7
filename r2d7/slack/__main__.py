@@ -24,7 +24,7 @@ class Droid(SlackDroid, ListFormatter, CardLookup): pass
 
 
 def main():
-    log_level = os.getenv("LOG_LEVEL", "INFO")
+    log_level = os.getenv("LOG_LEVEL", "DEBUG")
     logging.basicConfig(
         format='%(asctime)s - %(levelname)s: %(message)s',
         level=log_level

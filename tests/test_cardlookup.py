@@ -149,6 +149,7 @@ def test_print_card(name, expected):
     card = bot._lookup_data[name][int(num)]
     assert bot.print_card(card) == expected
 
+
 lookup_tests = {
     'sunny bounder': [('sunnybounder', 'm3ainterceptor')],
     'Rey': [('rey', 'Crew'), ('rey', 'yt1300')],
@@ -175,6 +176,7 @@ lookup_tests = {
         ('thweek', 'starviper'),
         ('mimicked', 'condition'), ('shadowed', 'condition')
     ],
+    ':astromech: &gt; 3': [('r2d2', 'Astromech')],
 }
 @pytest.mark.parametrize('lookup, expected', lookup_tests.items())
 def test_lookup(lookup, expected):

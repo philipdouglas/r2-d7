@@ -168,9 +168,9 @@ class CardLookup(DroidCore):
             points_filter = None
             search = lookup
             match = self._filter_pattern.match(lookup)
-
-            if match:
-                slot_filter = match[1] or match[5]
+            if not match:
+                match = (None, None, lookup, None, None, None)
+            slot_filter = match[1] or match[5]
 
             if match[2]:
                 lookup = self.partial_canonicalize(match[2])

@@ -177,6 +177,8 @@ lookup_tests = {
         ('mimicked', 'condition'), ('shadowed', 'condition')
     ],
     ':astromech: &gt; 3': [('r2d2', 'Astromech')],
+    ':focus:': [],
+    ':imperial:': [('imperialtrainee', 'tiestriker')],
 }
 @pytest.mark.parametrize('lookup, expected', lookup_tests.items())
 def test_lookup(lookup, expected):

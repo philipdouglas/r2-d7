@@ -27,7 +27,8 @@ class ListFormatter(DroidCore):
             if match:
                 break
         else:
-            raise ValueError(f"Unrecognised URL: {message}")
+            logger.debug(f"Unrecognised URL: {message}")
+            return None
 
         xws_url = None
         if match[2] == 'geordanr':
@@ -116,4 +117,6 @@ class ListFormatter(DroidCore):
 
     def handle_url(self, message):
         xws = self.get_xws(message)
-        return self.print_xws(xws)
+        if xws:
+            return self.print_xws(xws)
+        return []

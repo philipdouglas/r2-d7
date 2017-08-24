@@ -9,6 +9,7 @@ iconify_tests = [
     ('target lock', ':targetlock:'),
     ('Scum And Villainy', ':scum:'),
     ('Galactic Empire', ':empire:'),
+    ('First Order', ':first_order:'),
 ]
 
 @pytest.mark.parametrize('name, icon', iconify_tests)

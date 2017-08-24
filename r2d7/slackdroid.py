@@ -53,6 +53,8 @@ class SlackDroid(DroidCore):
             name = 'scum'
         elif name == 'galacticempire':
             name = 'empire'
+        elif name == 'firstorder':
+            name = 'first_order'
         return f":{name}:"
 
     @staticmethod

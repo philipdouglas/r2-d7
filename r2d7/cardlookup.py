@@ -175,7 +175,7 @@ class CardLookup(DroidCore):
             if match[2]:
                 lookup = self.partial_canonicalize(match[2])
                 if len(lookup) > 2 or re.match(r'[a-z]\d', lookup):
-                    exact = re.compile(f'\\b{lookup}(?:\'s)?\\b', re.IGNORECASE)
+                    exact = re.compile(f'\\b{lookup}(?:[\'e]?s)?\\b', re.IGNORECASE)
                     matches = [
                         key for key, cards in self._lookup_data.items() if any(
                             exact.search(card['name']) for card in cards

@@ -179,6 +179,14 @@ lookup_tests = {
     ':astromech: &gt; 3': [('r2d2', 'Astromech')],
     ':focus:': [],
     ':imperial:': [('imperialtrainee', 'tiestriker')],
+    'torpedo': [
+        ('protontorpedoes', 'Torpedo'),
+        ('advprotontorpedoes', 'Torpedo'),
+        ('flechettetorpedoes', 'Torpedo'),
+        ('iontorpedoes', 'Torpedo'),
+        ('plasmatorpedoes', 'Torpedo'),
+        ('seismictorpedo', 'Torpedo'),
+    ]
 }
 @pytest.mark.parametrize('lookup, expected', lookup_tests.items())
 def test_lookup(lookup, expected):

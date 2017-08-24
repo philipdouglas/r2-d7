@@ -72,15 +72,16 @@ class ListFormatter(DroidCore):
             cards = []
             tiex1 = False
             vaksai = False
-            for slot, upgrades in pilot['upgrades'].items():
-                for upgrade in upgrades:
-                    #TODO heavy scyk
-                    try:
-                        cards.append(self.data['upgrades'][upgrade][0])
-                    except KeyError:
-                        cards.append(None)
-                    tiex1 = tiex1 or upgrade == 'tiex1'
-                    vaksai = vaksai or upgrade == 'vaksai'
+            if 'upgrades' in pilot:
+                for slot, upgrades in pilot['upgrades'].items():
+                    for upgrade in upgrades:
+                        #TODO heavy scyk
+                        try:
+                            cards.append(self.data['upgrades'][upgrade][0])
+                        except KeyError:
+                            cards.append(None)
+                        tiex1 = tiex1 or upgrade == 'tiex1'
+                        vaksai = vaksai or upgrade == 'vaksai'
 
             upgrades = []
             for upgrade in cards:
@@ -103,13 +104,16 @@ class ListFormatter(DroidCore):
                     cost -= 1
                 points += cost
 
-            output.append(
+            ship_line = (
                 self.iconify(pilot_card['ship']) +
                 self.iconify(f"skill{skill}") +
-                f" {self.italics(pilot_card['name'])}:" +
-                f" {', '.join(upgrades)}" +
-                ' ' + self.bold(f"[{points}]")
+                f" {self.italics(pilot_card['name'])}"
             )
+            if upgrades:
+                ship_line += ':' + f" {', '.join(upgrades)}"
+            ship_line += ' ' + self.bold(f"[{points}]")
+
+            output.append(ship_line)
             total_points += points
 
         output[0] += self.bold(f"[{total_points}]")
@@ -117,6 +121,7 @@ class ListFormatter(DroidCore):
 
     def handle_url(self, message):
         xws = self.get_xws(message)
+        logger.debug(xws)
         if xws:
             return self.print_xws(xws)
         return []

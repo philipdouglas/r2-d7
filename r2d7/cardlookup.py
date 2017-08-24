@@ -407,8 +407,14 @@ class CardLookup(DroidCore):
 
         return text
 
+
     def handle_lookup(self, lookup):
         output = []
+        count = 0
         for card in self.lookup(lookup):
+            count += 1
+            if count > 10:
+                return ['Your search matched more than 10 cards, please be '
+                        'more specific.']
             output += self.print_card(card)
         return output

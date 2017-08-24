@@ -185,3 +185,9 @@ def test_lookup(lookup, expected):
     bot = DummyBot()
     actual = [(card['xws'], card['slot']) for card in bot.lookup(lookup)]
     assert actual == expected
+
+
+def test_card_limit():
+    bot = DummyBot()
+    assert bot.handle_lookup('squadron') == [
+        'Your search matched more than 10 cards, please be more specific.']

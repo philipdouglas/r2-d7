@@ -113,6 +113,13 @@ print_xws_tests = (
             ':tieadvanced::skill9: _Darth Vader_: Accuracy Corrector, TIE/x1 *[29]*',
         ],
     ),
+    (
+        {'faction': 'rebel', 'pilots': [{'name': 'braylenstramm', 'ship': 'arc170'}], 'version': '0.3.0', 'name': 'No upgrades'},
+        [
+            ':rebel: *No upgrades* *[25]*',
+            ':arc170::skill3: _Braylen Stramm_ *[25]*',
+        ]
+    )
 )
 
 @pytest.mark.parametrize('xws, expected', print_xws_tests)

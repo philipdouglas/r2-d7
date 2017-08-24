@@ -121,5 +121,4 @@ class SlackDroid(DroidCore):
 
     @staticmethod
     def link(url, name):
-        name = html.escape(name)
         return f"<{url}|{name}>"

@@ -1,3 +1,4 @@
+import asyncio
 import logging
 from pathlib import Path
 import re
@@ -63,14 +64,23 @@ class DroidCore():
     VERSION_RE = re.compile(r'xwing-data@([\d\.]+)')
     check_frequency = 900  # 15 minutes
 
-    def load_data(self):
+    @classmethod
+    def get_file(cls, filename):
+        return filename, requests.get(f"{cls.BASE_URL}{filename}.js")
+
+    async def _load_data(self):
         self._data = {}
         self.data_version = None
-        for filename in self.DATA_FILES:
-            #TODO damage cards
-            #TODO reference cards
-            file_url = f"{self.BASE_URL}{filename}.js"
-            res = requests.get(file_url)
+        loop = asyncio.get_event_loop()
+        futures = [
+            loop.run_in_executor(
+                None,
+                self.get_file,
+                filename,
+            )
+            for filename in self.DATA_FILES
+        ]
+        for filename, res in await asyncio.gather(*futures):
             if res.status_code != 200:
                 raise DroidException(
                     f"Got {res.status_code} GETing {file_url}.")
@@ -84,6 +94,11 @@ class DroidCore():
             self._data[filename] = group = {}
             for datum in res.json():
                 group.setdefault(datum['xws'], []).append(datum)
+
+
+    def load_data(self):
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(self._load_data())
 
     _last_checked_version = None
 

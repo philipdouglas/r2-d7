@@ -151,6 +151,11 @@ print_card_tests = {
         'You may treat the *Attack (target lock):* header as *Attack (focus):*.',
         'When an attack instructs you to spend a target lock, you may spend a focus token instead.',
     ],
+    'tactician': [
+        ':crew: *<http://xwing-miniatures.wikia.com/wiki/Tactician|Tactician>* [2]',
+        '_Limited._',
+        'After you perform an attack against a ship inside your firing arc at Range 2, that ship receives 1 stress token.',
+    ]
 }
 
 @pytest.mark.parametrize('name, expected', print_card_tests.items())

@@ -1,8 +1,12 @@
+import logging
 from pathlib import Path
 import re
+import time
 import unicodedata
 
 import requests
+
+logger = logging.getLogger(__name__)
 
 
 class DroidException(Exception):
@@ -56,6 +60,8 @@ class DroidCore():
         'upgrades',
         'conditions',
     )
+    VERSION_RE = re.compile(r'xwing-data@([\d\.]+)')
+    check_frequency = 900  # 15 minutes
 
     def load_data(self):
         self._data = {}
@@ -64,23 +70,41 @@ class DroidCore():
             #TODO damage cards
             #TODO reference cards
             file_url = f"{self.BASE_URL}{filename}.js"
-            response = requests.get(file_url)
-            if response.status_code != 200:
+            res = requests.get(file_url)
+            if res.status_code != 200:
                 raise DroidException(
-                    f"Got {response.status_code} GETing {file_url}.")
+                    f"Got {res.status_code} GETing {file_url}.")
 
             if self.data_version is None:
-                match = re.search(r'xwing-data@([\d\.]+)\/', response.url)
+                match = self.VERSION_RE.search(res.url)
                 self.data_version = match.group(1)
+                self._last_checked_version = time.time()
+                logger.info(f"Loaded xwing-data version {self.data_version}")
 
             self._data[filename] = group = {}
-            for datum in response.json():
+            for datum in res.json():
                 group.setdefault(datum['xws'], []).append(datum)
+
+    _last_checked_version = None
+
+    def needs_update(self):
+        if (time.time() - self._last_checked_version) < self.check_frequency:
+            logger.debug("Checked version recently.")
+            return False
+
+        res = requests.head(self.BASE_URL)
+        if res.status_code != 302:
+            logger.warning(f"Got {res.status_code} checking data version.")
+            return False
+
+        current_version = self.VERSION_RE.search(res.headers['Location'])[1]
+        logger.debug(f"Current xwing-data version: {current_version}")
+        self._last_checked_version = time.time()
+        return self.data_version != current_version
 
     @property
     def data(self):
         if self._data is None:
-            #TODO load from the internet!
             self.load_data()
         return self._data
 

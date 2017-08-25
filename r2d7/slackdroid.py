@@ -21,6 +21,7 @@ class SlackDroid(DroidCore):
     def __init__(self, slack_clients=None):
         super().__init__()
         self.clients = slack_clients
+        self.load_data()
 
     def send_message(self, channel_id, msg):
         # in the case of Group and Private channels, RTM channel payload is a complex dictionary

@@ -42,6 +42,10 @@ class RtmEventHandler(object):
         if ('user' in event) and (not self.clients.is_message_from_me(event['user'])):
             msg_txt = event['text']
 
+            # Check for new data
+            if self.bot.needs_update():
+                self.bot.load_data()
+
             # Direct responses
             response = []
             if self.clients.is_bot_mention(msg_txt) or self._is_direct_message(event['channel']):

@@ -33,3 +33,10 @@ partial_canonicalize_tests = {
 @pytest.mark.parametrize('before, after', partial_canonicalize_tests.items())
 def test_partial_canonicalize(before, after):
     assert DroidCore.partial_canonicalize(before) == after
+
+
+def test_needs_update():
+    bot = DroidCore()
+    bot.load_data()
+    assert bot.data_version is not None
+    assert not bot.needs_update()

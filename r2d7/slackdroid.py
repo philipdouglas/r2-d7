@@ -93,11 +93,10 @@ class SlackDroid(DroidCore):
         return [line for line in lines if line != '']
 
     @classmethod
-    def wiki_link(cls, card_name, crew_of_pilot, wiki_name=False):
+    def wiki_link(cls, card_name, crew_of_pilot=False, wiki_name=False):
         if not wiki_name:
             wiki_name = card_name
-        fudged_name = wiki_name.title()
-        fudged_name = re.sub(r' ', '_', fudged_name)
+        fudged_name = re.sub(r' ', '_', wiki_name)
         # Data and the wiki use different name conventions
         #TODO work out the fudges for xwing-data
         # fudged_name = re.sub(r'\(Scum\)', '(S&V)', fudged_name)

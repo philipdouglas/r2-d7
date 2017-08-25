@@ -9,6 +9,19 @@ from r2d7.core import DroidCore, DroidException
 logger = logging.getLogger(__name__)
 
 
+def long_substr(data):
+    """
+    From: https://stackoverflow.com/a/2894073/1424112
+    """
+    substr = ''
+    if len(data) > 1 and len(data[0]) > 0:
+        for i in range(len(data[0])):
+            for j in range(len(data[0])-i+1):
+                if j > len(substr) and all(data[0][i:i+j] in x for x in data):
+                    substr = data[0][i:i+j]
+    return substr
+
+
 class CardLookup(DroidCore):
     def __init__(self):
         super().__init__()
@@ -143,6 +156,7 @@ class CardLookup(DroidCore):
                         card['actions'].sort(key=self._action_key)
 
                     card['_id'] = next_id
+                    card['_group'] = group
                     next_id += 1
                     self._lookup_data.setdefault(name, []).append(card)
                     self._name_to_xws[card['name']] = card['xws']
@@ -333,7 +347,7 @@ class CardLookup(DroidCore):
 
     def format_name(self, card):
         # There's no wiki pages for ships or crits
-        if 'size' in card or card['slot'] == 'crit':
+        if card['_group'] == 'ships' or card['slot'] == 'crit':
             return card['name']
         else:
             return self.wiki_link(
@@ -346,9 +360,25 @@ class CardLookup(DroidCore):
                 )
             )
 
+    def ship_restriction(self, card):
+        """
+        Deal with the special cases in ship restrictions.
+        """
+        if isinstance(card['ship'], str):
+            restriction = card['ship']
+        elif len(card['ship']) == 1:
+            restriction = card['ship'][0]
+        else:
+            restriction = long_substr(card['ship'])
+            # If the longest common substring isn't a whole word, list the ship
+            # names instead
+            if not re.search(f"(^|\\W){restriction}(\\W|$)", card['ship'][0]):
+                restriction = ' and '.join(card['ship'])
+        return f"{restriction} only."
+
     def print_card(self, card):
-        is_ship = 'size' in card
-        is_pilot = 'ship_card' in card
+        is_ship = card['_group'] == 'ships'
+        is_pilot = card['_group'] == 'pilots'
 
         text = []
         unique = ' • ' if card.get('unique', False) else ' '
@@ -379,17 +409,20 @@ class CardLookup(DroidCore):
             if 'range' in card:
                 line.append(f"Range: {card['range']}")
             if 'energy' in card:
-                attack_size = self.iconify(f"energy{card['energy']}")
-                line.append(f"{self.iconify('energy')}{attack_size}")
+                energy_size = self.iconify(f"energy{card['energy']}")
+                line.append(f"{self.iconify('energy')}{energy_size}")
             text.append(' | '.join(line))
 
         restrictions = []
         if 'ship' in card and not is_pilot:
-            ship = card['ship'] if isinstance(card['ship'], str) else card['ship'][0]
-            restrictions.append(f"{ship} only.")
+            restrictions.append(self.ship_restriction(card))
 
         if card.get('limited', False):
             restrictions.append('Limited.')
+
+        if 'size' in card and card['_group'] == 'upgrades':
+            sizes = [size.title() for size in card['size']]
+            restrictions.append(f"{' and '.join(sizes)} ship only.")
 
         if 'faction' in card and not (is_ship or is_pilot):
             #TODO data doesn't understand multi faction cards (PRS)

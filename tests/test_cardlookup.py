@@ -57,8 +57,8 @@ print_card_tests = {
         '3 :turnleft::bankleft::straight::bankright::turnright::redkturn:',
         '2 :turnleft::bankleft::greenstraight::bankright::turnright::blank:',
         '1 :blank::greenbankleft::greenstraight::greenbankright::blank::blank:',
-':empire: :skill3:<http://xwing-miniatures.wikia.com/wiki/Bounty_Hunter|Bounty Hunter> [33], :skill5:• <http://xwing-miniatures.wikia.com/wiki/Krassis_Trelix|Krassis Trelix> [36], :skill7:• <http://xwing-miniatures.wikia.com/wiki/Kath_Scarlet|Kath Scarlet> :elite: [38], :skill8:• <http://xwing-miniatures.wikia.com/wiki/Boba_Fett|Boba Fett> :elite: [39]',
-':scum: :skill5:<http://xwing-miniatures.wikia.com/wiki/Mandalorian_Mercenary|Mandalorian Mercenary> :elite: [35], :skill6:• <http://xwing-miniatures.wikia.com/wiki/Emon_Azzameen|Emon Azzameen> [36], :skill7:• <http://xwing-miniatures.wikia.com/wiki/Kath_Scarlet|Kath Scarlet> :elite: [38], :skill8:• <http://xwing-miniatures.wikia.com/wiki/Boba_Fett|Boba Fett> :elite: [39]',    ],
+        ':empire: :skill3:<http://xwing-miniatures.wikia.com/wiki/Bounty_Hunter|Bounty Hunter> [33], :skill5:• <http://xwing-miniatures.wikia.com/wiki/Krassis_Trelix|Krassis Trelix> [36], :skill7:• <http://xwing-miniatures.wikia.com/wiki/Kath_Scarlet|Kath Scarlet> :elite: [38], :skill8:• <http://xwing-miniatures.wikia.com/wiki/Boba_Fett|Boba Fett> :elite: [39]',
+        ':scum: :skill5:<http://xwing-miniatures.wikia.com/wiki/Mandalorian_Mercenary|Mandalorian Mercenary> :elite: [35], :skill6:• <http://xwing-miniatures.wikia.com/wiki/Emon_Azzameen|Emon Azzameen> [36], :skill7:• <http://xwing-miniatures.wikia.com/wiki/Kath_Scarlet|Kath Scarlet> :elite: [38], :skill8:• <http://xwing-miniatures.wikia.com/wiki/Boba_Fett|Boba Fett> :elite: [39]',    ],
     'quadjumper': [
         ':quadjumper: *Quadjumper*',
         ':attack2::agility2::hull5::shield0: | :focus: :barrelroll: | :crew::xbomb::tech::illicit:',
@@ -138,7 +138,40 @@ print_card_tests = {
         ':tiephantom: • *<http://xwing-miniatures.wikia.com/wiki/"Whisper"|"Whisper">* [32]',
         ':empire: | :skill7::attack4::agility2::hull2::shield2: | :focus: :barrelroll: :evade: :cloak: | :elite::system::crew:',
         'After you perform an attack that hits, you may assign 1 focus token to your ship.',
-    ]
+    ],
+    'tiex1': [
+        ':title: *<http://xwing-miniatures.wikia.com/wiki/TIE/x1|TIE/x1>* [0]',
+        '_TIE Advanced only._',
+        'Your upgrade bar gains the :System: upgrade icon.',
+        'If you equip a :System: upgrade, its squad point cost is reduced by 4 (to a minimum of 0).',
+    ],
+    'automatedprotocols': [
+        ':modification: *<http://xwing-miniatures.wikia.com/wiki/Automated_Protocols|Automated Protocols>* [5]',
+        '_Huge ship only._',
+        'Once per round, after you perform an action that is not a recover or reinforce action, you may spend 1 energy to perform a free recover or reinforce action.',
+    ],
+    'deadeye': [
+        ':elite: *<http://xwing-miniatures.wikia.com/wiki/Deadeye|Deadeye>* [1]',
+        '_Small ship only._',
+        'You may treat the *Attack (target lock):* header as *Attack (focus):*.',
+        'When an attack instructs you to spend a target lock, you may spend a focus token instead.',
+    ],
+    'tactician': [
+        ':crew: *<http://xwing-miniatures.wikia.com/wiki/Tactician|Tactician>* [2]',
+        '_Limited._',
+        'After you perform an attack against a ship inside your firing arc at Range 2, that ship receives 1 stress token.',
+    ],
+    'twinionenginemkii': [
+        ':modification: *<http://xwing-miniatures.wikia.com/wiki/Twin_Ion_Engine_Mk._II|Twin Ion Engine Mk. II>* [1]',
+        '_TIE only._',
+        'You may treat all bank maneuvers (:bankleft: or :bankright:) as green maneuvers.',
+    ],
+    'smugglingcompartment': [
+        ':modification: *<http://xwing-miniatures.wikia.com/wiki/Smuggling_Compartment|Smuggling Compartment>* [0]',
+        '_YT-1300 and YT-2400 only. Limited._',
+        'Your upgrade bar gains the :Illicit: upgrade icon.',
+        'You may equip 1 additional Modification upgrade that costs 3 or fewer squad points.',
+    ],
 }
 
 @pytest.mark.parametrize('name, expected', print_card_tests.items())

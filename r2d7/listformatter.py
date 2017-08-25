@@ -54,8 +54,14 @@ class ListFormatter(DroidCore):
         #TODO handle raw XWS
 
     def print_xws(self, xws):
-        #TODO list url
-        name = self.bold(xws.get('name', 'Nameless Squadron'))
+        name = xws.get('name', 'Nameless Squadron')
+        if 'vendor' in xws:
+            if len(list(xws['vendor'].keys())) > 1:
+                logger.warning(f"More than one vendor found! {xws['vendor']}")
+            vendor = list(xws['vendor'].values())[0]
+            if 'link' in vendor:
+                name = self.link(vendor['link'], name)
+        name = self.bold(name)
         output = [f"{self.iconify(xws['faction'])} {name} "]
         total_points = 0
 
@@ -94,8 +100,16 @@ class ListFormatter(DroidCore):
                     skill += 2
                 if tiex1 and upgrade['slot'] == 'System':
                     points -= min(4, upgrade['points'])
-                #TODO upgrade links
-                upgrade_text = upgrade['name']
+                self.wiki_link(upgrade['name'])
+                upgrade_text = self.wiki_link(
+                    upgrade['name'],
+                    (
+                        upgrade['slot'] == 'Crew' and (
+                            upgrade['xws'] in self.data['pilots'] or
+                            upgrade['xws'] == 'r2d2-swx22'
+                        )
+                    )
+                )
                 if upgrade['name'] == 'Adaptability':
                     upgrade_text += self.iconify('skill_1')
                 upgrades.append(upgrade_text)
@@ -107,7 +121,7 @@ class ListFormatter(DroidCore):
             ship_line = (
                 self.iconify(pilot_card['ship']) +
                 self.iconify(f"skill{skill}") +
-                f" {self.italics(pilot_card['name'])}"
+                f" {self.italics(self.wiki_link(pilot_card['name']))}"
             )
             if upgrades:
                 ship_line += ':' + f" {', '.join(upgrades)}"

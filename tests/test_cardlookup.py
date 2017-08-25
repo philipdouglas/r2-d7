@@ -134,6 +134,12 @@ print_card_tests = {
         '"Thweek" cannot apply a Condition card by using your pilot ability.',
         '"Thweek" does not lose your pilot ability if you are destroyed.',
     ],
+    'tiex1': [
+        ':title: *<http://xwing-miniatures.wikia.com/wiki/TIE/x1|TIE/x1>* [0]',
+        '_TIE Advanced only._',
+        'Your upgrade bar gains the :System: upgrade icon.',
+        'If you equip a :System: upgrade, its squad point cost is reduced by 4 (to a minimum of 0).',
+    ],
 }
 
 @pytest.mark.parametrize('name, expected', print_card_tests.items())

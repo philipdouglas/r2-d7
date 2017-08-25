@@ -3,8 +3,15 @@ import pytest
 from r2d7.cardlookup import CardLookup
 from r2d7.slackdroid import SlackDroid
 
-class DummyBot(CardLookup, SlackDroid):
-    pass
+
+@pytest.fixture(scope="module")
+def testbot():
+    class TestBot(CardLookup, SlackDroid):
+        pass
+    bot = TestBot()
+    bot._init_lookup_data()
+    return bot
+
 
 print_card_tests = {
     'veteraninstincts': [
@@ -175,17 +182,15 @@ print_card_tests = {
 }
 
 @pytest.mark.parametrize('name, expected', print_card_tests.items())
-def test_print_card(name, expected):
-    bot = DummyBot()
-    bot._init_lookup_data()
+def test_print_card(testbot, name, expected):
     if '.' in name:
         name, num = name.split('.')
     else:
         num = 0
-    assert name in bot._lookup_data
-    assert len(bot._lookup_data[name]) > int(num)
-    card = bot._lookup_data[name][int(num)]
-    assert bot.print_card(card) == expected
+    assert name in testbot._lookup_data
+    assert len(testbot._lookup_data[name]) > int(num)
+    card = testbot._lookup_data[name][int(num)]
+    assert testbot.print_card(card) == expected
 
 
 lookup_tests = {
@@ -228,13 +233,11 @@ lookup_tests = {
     ':crew: = 8': [('emperorpalpatine', 'Crew')],
 }
 @pytest.mark.parametrize('lookup, expected', lookup_tests.items())
-def test_lookup(lookup, expected):
-    bot = DummyBot()
-    actual = [(card['xws'], card['slot']) for card in bot.lookup(lookup)]
+def test_lookup(testbot, lookup, expected):
+    actual = [(card['xws'], card['slot']) for card in testbot.lookup(lookup)]
     assert actual == expected
 
 
-def test_card_limit():
-    bot = DummyBot()
-    assert bot.handle_lookup('squadron') == [
+def test_card_limit(testbot):
+    assert testbot.handle_lookup('squadron') == [
         'Your search matched more than 10 cards, please be more specific.']

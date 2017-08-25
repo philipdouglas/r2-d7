@@ -3,8 +3,15 @@ import pytest
 from r2d7.listformatter import ListFormatter
 from r2d7.slackdroid import SlackDroid
 
-class DummyBot(ListFormatter, SlackDroid):
-    pass
+
+@pytest.fixture(scope="module")
+def testbot():
+    class TestBot(ListFormatter, SlackDroid):
+        pass
+    bot = TestBot()
+    bot.data  # init data
+    return bot
+
 
 get_xws_tests = (
     (
@@ -47,9 +54,8 @@ get_xws_tests = (
 )
 
 @pytest.mark.parametrize('url, expected', get_xws_tests)
-def test_get_xws(url, expected):
-    bot = DummyBot()
-    assert bot.get_xws(url) == expected
+def test_get_xws(testbot, url, expected):
+    assert testbot.get_xws(url) == expected
 
 print_xws_tests = (
     (
@@ -123,6 +129,5 @@ print_xws_tests = (
 )
 
 @pytest.mark.parametrize('xws, expected', print_xws_tests)
-def test_print_xws(xws, expected):
-    bot = DummyBot()
-    assert bot.print_xws(xws) == expected
+def test_print_xws(testbot, xws, expected):
+    assert testbot.print_xws(xws) == expected

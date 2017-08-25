@@ -16,12 +16,11 @@ data_files = [
 
 def test_data():
     bot = DroidCore()
-    data = bot.data
     for filename in data_files:
-        assert filename in data
+        assert filename in bot.data
 
-    assert data['ships']['xwing'][0]['name'] == 'X-Wing'
-    assert data['conditions']['adebttopay'][0]['id'] == 3
+    assert bot.data['ships']['xwing'][0]['name'] == 'X-Wing'
+    assert bot.data['conditions']['adebttopay'][0]['id'] == 3
 
 
 

@@ -95,3 +95,4 @@ icons/emoji/*.png
 env*
 .cache
 r2d7.egg-info
+.coverage

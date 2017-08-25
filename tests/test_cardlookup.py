@@ -231,6 +231,7 @@ lookup_tests = {
         ('seismictorpedo', 'Torpedo'),
     ],
     ':crew: = 8': [('emperorpalpatine', 'Crew')],
+    'hot shot': [('hotshotblaster', 'Illicit'), ('hotshotcopilot', 'Crew')]
 }
 @pytest.mark.parametrize('lookup, expected', lookup_tests.items())
 def test_lookup(testbot, lookup, expected):

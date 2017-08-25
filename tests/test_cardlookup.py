@@ -143,7 +143,7 @@ print_card_tests = {
     'automatedprotocols': [
         ':modification: *<http://xwing-miniatures.wikia.com/wiki/Automated_Protocols|Automated Protocols>* [5]',
         '_Huge ship only._',
-        'Once per round, after you perform an action that is not a recover or reinforce action, you pay spend 1 energy to perform a free recover or reinforce action.',
+        'Once per round, after you perform an action that is not a recover or reinforce action, you may spend 1 energy to perform a free recover or reinforce action.',
     ],
     'deadeye': [
         ':elite: *<http://xwing-miniatures.wikia.com/wiki/Deadeye|Deadeye>* [1]',

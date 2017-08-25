@@ -140,6 +140,17 @@ print_card_tests = {
         'Your upgrade bar gains the :System: upgrade icon.',
         'If you equip a :System: upgrade, its squad point cost is reduced by 4 (to a minimum of 0).',
     ],
+    'automatedprotocols': [
+        ':modification: *<http://xwing-miniatures.wikia.com/wiki/Automated_Protocols|Automated Protocols>* [5]',
+        '_Huge ship only._',
+        'Once per round, after you perform an action that is not a recover or reinforce action, you pay spend 1 energy to perform a free recover or reinforce action.',
+    ],
+    'deadeye': [
+        ':elite: *<http://xwing-miniatures.wikia.com/wiki/Deadeye|Deadeye>* [1]',
+        '_Small ship only._',
+        'You may treat the *Attack (target lock):* header as *Attack (focus):*.',
+        'When an attack instructs you to spend a target lock, you may spend a focus token instead.',
+    ],
 }
 
 @pytest.mark.parametrize('name, expected', print_card_tests.items())

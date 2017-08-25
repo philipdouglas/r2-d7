@@ -143,6 +143,7 @@ class CardLookup(DroidCore):
                         card['actions'].sort(key=self._action_key)
 
                     card['_id'] = next_id
+                    card['_group'] = group
                     next_id += 1
                     self._lookup_data.setdefault(name, []).append(card)
                     self._name_to_xws[card['name']] = card['xws']
@@ -333,7 +334,7 @@ class CardLookup(DroidCore):
 
     def format_name(self, card):
         # There's no wiki pages for ships or crits
-        if 'size' in card or card['slot'] == 'crit':
+        if card['_group'] == 'ships' or card['slot'] == 'crit':
             return card['name']
         else:
             return self.wiki_link(
@@ -347,8 +348,8 @@ class CardLookup(DroidCore):
             )
 
     def print_card(self, card):
-        is_ship = 'size' in card
-        is_pilot = 'ship_card' in card
+        is_ship = card['_group'] == 'ships'
+        is_pilot = card['_group'] == 'pilots'
 
         text = []
         unique = ' • ' if card.get('unique', False) else ' '
@@ -379,8 +380,8 @@ class CardLookup(DroidCore):
             if 'range' in card:
                 line.append(f"Range: {card['range']}")
             if 'energy' in card:
-                attack_size = self.iconify(f"energy{card['energy']}")
-                line.append(f"{self.iconify('energy')}{attack_size}")
+                energy_size = self.iconify(f"energy{card['energy']}")
+                line.append(f"{self.iconify('energy')}{energy_size}")
             text.append(' | '.join(line))
 
         restrictions = []
@@ -390,6 +391,10 @@ class CardLookup(DroidCore):
 
         if card.get('limited', False):
             restrictions.append('Limited.')
+
+        if 'size' in card and card['_group'] == 'upgrades':
+            sizes = [size.title() for size in card['size']]
+            restrictions.append(f"{' or '.join(sizes)} ship only.")
 
         if 'faction' in card and not (is_ship or is_pilot):
             #TODO data doesn't understand multi faction cards (PRS)

@@ -233,8 +233,11 @@ class CardLookup(DroidCore):
                     if 'conditions' in card:
                         for condition in chain.from_iterable(
                                 self.data['conditions'].values()):
+                            if condition['_id'] in cards_yielded:
+                                continue
                             if condition['name'] in card['conditions']:
                                 yield condition
+                                cards_yielded.add(condition['_id'])
 
     _frontback = ('firespray31', 'arc170')
     _180 = ('yv666', 'auzituck')

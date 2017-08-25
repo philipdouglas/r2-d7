@@ -231,7 +231,12 @@ lookup_tests = {
         ('seismictorpedo', 'Torpedo'),
     ],
     ':crew: = 8': [('emperorpalpatine', 'Crew')],
-    'hot shot': [('hotshotblaster', 'Illicit'), ('hotshotcopilot', 'Crew')]
+    'hot shot': [('hotshotblaster', 'Illicit'), ('hotshotcopilot', 'Crew')],
+    'kylo': [
+        ('kyloren', 'Crew'), ('illshowyouthedarkside', 'condition'),
+        ('kyloren', 'upsilonclassshuttle'),
+        ('kylorensshuttle', 'Title'),
+    ]
 }
 @pytest.mark.parametrize('lookup, expected', lookup_tests.items())
 def test_lookup(testbot, lookup, expected):

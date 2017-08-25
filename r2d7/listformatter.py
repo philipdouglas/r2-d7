@@ -37,7 +37,6 @@ class ListFormatter(DroidCore):
             xws_url = f"http://xwing-builder.co.uk/xws/{match[3]}?dl=1"
         elif match[2] == 'fabpsb':
             xws_url = f"http://x-wing.fabpsb.net/permalink.php?sq={match[3]}&xws=1"
-        #TODO other builders
 
         if xws_url:
             xws_url = unescape(xws_url)
@@ -81,7 +80,6 @@ class ListFormatter(DroidCore):
             if 'upgrades' in pilot:
                 for slot, upgrades in pilot['upgrades'].items():
                     for upgrade in upgrades:
-                        #TODO heavy scyk
                         try:
                             cards.append(self.data['upgrades'][upgrade][0])
                         except KeyError:

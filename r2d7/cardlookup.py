@@ -394,7 +394,6 @@ class CardLookup(DroidCore):
         #TODO handle multi slot cards
         points = f" [{card['points']}]" if 'points' in card else ''
         #TODO handle deck
-        #TODO name links
         name = self.bold(self.format_name(card))
         text.append(f"{slot}{unique}{name}{points}")
 

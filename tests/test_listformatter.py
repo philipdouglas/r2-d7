@@ -61,7 +61,6 @@ print_xws_tests = (
     (
         {"faction":"scum","pilots":[{"name":"sunnybounder","ship":"m3ainterceptor","upgrades":{"title":["lightscykinterceptor"]}}],"vendor":{"yasb":{"builder":"(Yet Another) X-Wing Miniatures Squad Builder","builder_url":"https://geordanr.github.io/xwing","link":"https://geordanr.github.io/xwing/?f=Scum%20and%20Villainy&d=v4!s!248::50:-1:&sn=Sunny%20B!&obs="}},"version":"0.3.0","name":"Sunny B!"},
         [
-            #TODO links
             ':scum: *<https://geordanr.github.io/xwing/?f=Scum%20and%20Villainy&d=v4!s!248::50:-1:&sn=Sunny%20B!&obs=|Sunny B!>* *[12]*',
             ':m3ainterceptor::skill1: _<http://xwing-miniatures.wikia.com/wiki/Sunny_Bounder|Sunny Bounder>_: <http://xwing-miniatures.wikia.com/wiki/"Light_Scyk"_Interceptor|"Light Scyk" Interceptor> *[12]*',
         ],

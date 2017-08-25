@@ -93,7 +93,7 @@ class SlackDroid(DroidCore):
         return [line for line in lines if line != '']
 
     @classmethod
-    def wiki_link(cls, card_name, crew_of_pilot, wiki_name=False):
+    def wiki_link(cls, card_name, crew_of_pilot=False, wiki_name=False):
         if not wiki_name:
             wiki_name = card_name
         fudged_name = re.sub(r' ', '_', wiki_name)
@@ -120,5 +120,4 @@ class SlackDroid(DroidCore):
 
     @staticmethod
     def link(url, name):
-        name = html.escape(name)
         return f"<{url}|{name}>"

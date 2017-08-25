@@ -45,6 +45,8 @@ class RtmEventHandler(object):
             # Direct responses
             response = []
             if self.clients.is_bot_mention(msg_txt) or self._is_direct_message(event['channel']):
+                bot_id = self.clients.rtm.server.login_data['self']['id']
+                msg_txt = re.sub(f"<@{bot_id}>", '', msg_txt)
                 if 'help' in msg_txt:
                     self.bot.write_help_message(event['channel'])
                 else:

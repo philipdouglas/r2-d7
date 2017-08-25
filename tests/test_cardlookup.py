@@ -155,7 +155,18 @@ print_card_tests = {
         ':crew: *<http://xwing-miniatures.wikia.com/wiki/Tactician|Tactician>* [2]',
         '_Limited._',
         'After you perform an attack against a ship inside your firing arc at Range 2, that ship receives 1 stress token.',
-    ]
+    ],
+    'twinionenginemkii': [
+        ':modification: *<http://xwing-miniatures.wikia.com/wiki/Twin_Ion_Engine_Mk._II|Twin Ion Engine Mk. II>* [1]',
+        '_TIE only._',
+        'You may treat all bank maneuvers (:bankleft: or :bankright:) as green maneuvers.',
+    ],
+    'smugglingcompartment': [
+        ':modification: *<http://xwing-miniatures.wikia.com/wiki/Smuggling_Compartment|Smuggling Compartment>* [0]',
+        '_YT-1300 and YT-2400 only. Limited._',
+        'Your upgrade bar gains the :Illicit: upgrade icon.',
+        'You may equip 1 additional Modification upgrade that costs 3 or fewer squad points.',
+    ],
 }
 
 @pytest.mark.parametrize('name, expected', print_card_tests.items())

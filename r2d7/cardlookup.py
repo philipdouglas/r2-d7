@@ -239,7 +239,7 @@ class CardLookup(DroidCore):
                                 yield condition
                                 cards_yielded.add(condition['_id'])
 
-    _frontback = ('firespray31', 'arc170')
+    _frontback = ('firespray31', 'arc170', 'sheathipedeclassshuttle')
     _180 = ('yv666', 'auzituck')
     _turret = ('kwing', 'yt1300', 'jumpmaster5000', 'vt49decimator')
 

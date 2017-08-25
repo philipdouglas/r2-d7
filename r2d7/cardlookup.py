@@ -111,6 +111,10 @@ class CardLookup(DroidCore):
         'snugglingcompartment': 'smugglingcompartment',
     }
 
+    def load_data(self):
+        super().load_data()
+        self._init_lookup_data()
+
 
     def _init_lookup_data(self):
         next_id = 0
@@ -170,7 +174,7 @@ class CardLookup(DroidCore):
 
     def lookup(self, lookup):
         if self._lookup_data is None:
-            self._init_lookup_data()
+            self.load_data()
 
         lookup = unescape(lookup)
         logger.debug(f"Looking up: {repr(lookup)}")

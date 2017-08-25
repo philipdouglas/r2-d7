@@ -19,6 +19,7 @@ def test_data():
     for filename in data_files:
         assert filename in bot.data
 
+    assert bot.data_version is not None
     assert bot.data['ships']['xwing'][0]['name'] == 'X-Wing'
     assert bot.data['conditions']['adebttopay'][0]['id'] == 3
 

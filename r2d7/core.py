@@ -1,7 +1,8 @@
-import json
 from pathlib import Path
 import re
 import unicodedata
+
+import requests
 
 
 class DroidException(Exception):
@@ -48,24 +49,39 @@ class DroidCore():
         raise NotImplementedError()
 
     _data = None
+    BASE_URL = 'https://unpkg.com/xwing-data@latest/data/'
+    DATA_FILES = (
+        'pilots',
+        'ships',
+        'upgrades',
+        'conditions',
+    )
+
+    def load_data(self):
+        self._data = {}
+        self.data_version = None
+        for filename in self.DATA_FILES:
+            #TODO damage cards
+            #TODO reference cards
+            file_url = f"{self.BASE_URL}{filename}.js"
+            response = requests.get(file_url)
+            if response.status_code != 200:
+                raise DroidException(
+                    f"Got {response.status_code} GETing {file_url}.")
+
+            if self.data_version is None:
+                match = re.search(r'xwing-data@([\d\.]+)\/', response.url)
+                self.data_version = match.group(1)
+
+            self._data[filename] = group = {}
+            for datum in response.json():
+                group.setdefault(datum['xws'], []).append(datum)
 
     @property
     def data(self):
         if self._data is None:
-            self._data = {}
             #TODO load from the internet!
-            for path in Path('xwing-data/data').glob('*.js'):
-                if 'sources' in path.name:
-                    continue
-                #TODO canonicalise names for damage cards
-                #TODO reference cards
-                if 'damage-deck' in path.name or 'reference' in path.name:
-                    continue
-
-                with path.open(encoding='utf-8') as json_file:
-                    self._data[path.name.split('.')[0]] = group = {}
-                    for datum in json.load(json_file):
-                        group.setdefault(datum['xws'], []).append(datum)
+            self.load_data()
         return self._data
 
     @staticmethod

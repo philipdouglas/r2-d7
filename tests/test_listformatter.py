@@ -9,7 +9,7 @@ def testbot():
     class TestBot(ListFormatter, SlackDroid):
         pass
     bot = TestBot()
-    bot.data  # init data
+    bot.load_data()
     return bot
 
 

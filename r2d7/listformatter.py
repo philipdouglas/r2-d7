@@ -45,7 +45,7 @@ class ListFormatter(DroidCore):
             response = requests.get(xws_url)
             if response.status_code != 200:
                 raise DroidException(
-                    f"Got {response.status_code} GETing f{xws_url}.")
+                    f"Got {response.status_code} GETing {xws_url}.")
             data = response.json()
             if 'message' in data:
                 raise DroidException(f"YASB error: ({data['message']}")

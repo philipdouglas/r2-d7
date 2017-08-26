@@ -20,12 +20,36 @@ logger = logging.getLogger(__name__)
 class Droid(SlackDroid, ListFormatter, CardLookup): pass
 
 
-def spawn_bot():
-    return SlackBot()
+class BotSpawner():
+    def __init__(self):
+        self.droid = Droid()
+
+    def spawn_bot(self):
+        return SlackBot(self.droid)
+
+
+class Messager():
+    def __init__(self, clients):
+        self.clients = clients
+
+    def send_message(self, channel_id, msg):
+        # in the case of Group and Private channels, RTM channel payload is a complex dictionary
+        if isinstance(channel_id, dict):
+            channel_id = channel_id['id']
+        logger.debug('Sending msg: %s to channel: %s' % (msg, channel_id))
+        self.clients.web.chat.post_message(
+            channel_id, msg, as_user=True, unfurl_links=False)
+
+    def write_help_message(self, channel_id):
+        bot_uid = self.clients.bot_user_id()
+        self.send_message(channel_id, HELP_TEXT.format(bot_uid))
+
+    def write_error(self, channel_id, err_msg):
+        self.send_message(channel_id, ':alarm: ' + err_msg)
 
 
 class SlackBot(object):
-    def __init__(self, token=None, debug=False):
+    def __init__(self, droid, token=None, debug=False):
         """Creates Slacker Web and RTM clients with API Bot User token.
 
         Args:
@@ -37,6 +61,7 @@ class SlackBot(object):
         self.debug = debug
         if token is not None:
             self.clients = SlackClients(token)
+        self.droid = droid
 
     def start(self, resource):
         """Creates Slack Web and RTM clients for the given Resource
@@ -65,8 +90,13 @@ class SlackBot(object):
                     f"Failed to connect to {resource['resource']['SlackTeamName']}")
                 return
 
-            droid = Droid(self.clients)
-            event_handler = RtmEventHandler(self.clients, droid, debug=self.debug)
+            messager = Messager(self.clients)
+            event_handler = RtmEventHandler(
+                self.clients,
+                self.droid,
+                messager,
+                debug=self.debug
+            )
 
             while self.keep_running:
                 for event in self.clients.rtm.rtm_read():
@@ -76,7 +106,7 @@ class SlackBot(object):
                         logging.exception('Unexpected error:')
                         if self.debug:
                             err_msg = "I crashed, look at the log!"
-                            droid.write_error(event['channel'], err_msg)
+                            messager.write_error(event['channel'], err_msg)
                         continue
 
                 self._auto_ping()

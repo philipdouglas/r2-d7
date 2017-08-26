@@ -11,7 +11,7 @@ from beepboop import resourcer
 from beepboop import bot_manager
 
 from r2d7.slack.bot import SlackBot
-from r2d7.slack.bot import spawn_bot
+from r2d7.slack.bot import BotSpawner, Droid
 
 logger = logging.getLogger(__name__)
 
@@ -55,18 +55,22 @@ def main():
     slack_token = os.getenv("SLACK_TOKEN", "")
     logging.info("token: {}".format(slack_token))
 
+
+
     if slack_token == "":
         logging.info("SLACK_TOKEN env var not set, expecting token to be provided by Resourcer events")
         slack_token = None
-        bot = SlackBot()
-        botManager = bot_manager.BotManager(spawn_bot)
+        botManager = bot_manager.BotManager(BotSpawner().spawn_bot)
         res = resourcer.Resourcer(botManager)
         res.handlers(handler_funcs)
         res.start()
     else:
         # only want to run a single instance of the bot in dev mode
-        bot = SlackBot(slack_token, debug)
-    bot.start({})
+        bot = SlackBot(
+            droid=Droid(),
+            token=slack_token,
+            debug=debug)
+        bot.start({})
 
 if __name__ == "__main__":
     main()

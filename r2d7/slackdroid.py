@@ -18,30 +18,14 @@ You can also search for cards by points value in a particular slot. Eg. _[[:crew
 
 
 class SlackDroid(DroidCore):
-    def __init__(self, slack_clients):
+    def __init__(self):
         super().__init__()
-        self.clients = slack_clients
         self.load_data()
 
     filter_pattern = re.compile(
         r' *(?:(:[^:]+:))? *(?:([^=><:]*[^=><: ][^=><:]*)|([=><][=><]?)'
         r' *(\d+)) *(?:(:[^:]+:))? *'
     )
-
-    def send_message(self, channel_id, msg):
-        # in the case of Group and Private channels, RTM channel payload is a complex dictionary
-        if isinstance(channel_id, dict):
-            channel_id = channel_id['id']
-        logger.debug('Sending msg: %s to channel: %s' % (msg, channel_id))
-        self.clients.web.chat.post_message(
-            channel_id, msg, as_user=True, unfurl_links=False)
-
-    def write_help_message(self, channel_id):
-        bot_uid = self.clients.bot_user_id()
-        self.send_message(channel_id, HELP_TEXT.format(bot_uid))
-
-    def write_error(self, channel_id, err_msg):
-        self.send_message(channel_id, ':alarm: ' + err_msg)
 
     @staticmethod
     def iconify(name, hyphens=False):

@@ -11,9 +11,10 @@ logger = logging.getLogger(__name__)
 
 
 class RtmEventHandler(object):
-    def __init__(self, slack_clients, bot, debug):
+    def __init__(self, slack_clients, droid, messager, debug):
         self.clients = slack_clients
-        self.bot = bot
+        self.droid = droid
+        self.messager = messager
         self.debug = debug
 
     def handle(self, event):
@@ -25,16 +26,16 @@ class RtmEventHandler(object):
         # See https://api.slack.com/rtm for a full list of events
         if event_type == 'error':
             # error
-            self.bot.write_error(event['channel'], json.dumps(event))
+            self.messager.write_error(event['channel'], json.dumps(event))
         elif event_type == 'message':
             # message was sent to channel
             self._handle_message(event)
         elif event_type == 'channel_joined':
             # you joined a channel
-            self.bot.write_help_message(event['channel'])
+            self.messager.write_help_message(event['channel'])
         elif event_type == 'group_joined':
             # you joined a private group
-            self.bot.write_help_message(event['channel'])
+            self.messager.write_help_message(event['channel'])
         else:
             pass
 
@@ -44,20 +45,20 @@ class RtmEventHandler(object):
             msg_txt = event['text']
 
             # Check for new data
-            if self.bot.needs_update():
-                self.bot.load_data()
+            if self.droid.needs_update():
+                self.droid.load_data()
 
             # Direct responses
             response = []
             if self.clients.is_bot_mention(msg_txt) or self._is_direct_message(event['channel']):
-                bot_id = self.clients.rtm.server.login_data['self']['id']
-                msg_txt = re.sub(f"<@{bot_id}>", '', msg_txt)
+                droid_id = self.clients.rtm.server.login_data['self']['id']
+                msg_txt = re.sub(f"<@{droid_id}>", '', msg_txt)
                 if self.debug and msg_txt == '!crash':
                     raise Exception('Crashy crash!')
                 if 'help' in msg_txt:
-                    self.bot.write_help_message(event['channel'])
+                    self.message.write_help_message(event['channel'])
                 else:
-                    for regex, handle_method in self.bot._dm_handlers.items():
+                    for regex, handle_method in self.droid._dm_handlers.items():
                         match = regex.search(msg_txt)
                         if match:
                             response += handle_method(match[1])
@@ -65,13 +66,13 @@ class RtmEventHandler(object):
             # Don't handle if the dm_handlers have already got it
             if not response:
                 # Watches
-                for regex, handle_method in self.bot._handlers.items():
+                for regex, handle_method in self.droid._handlers.items():
                     match = regex.search(msg_txt)
                     if match:
                         response += handle_method(match[1])
 
             if response:
-                self.bot.send_message(event['channel'], '\n'.join(response))
+                self.messager.send_message(event['channel'], '\n'.join(response))
 
     def _is_direct_message(self, channel):
         """Check if channel is a direct message channel

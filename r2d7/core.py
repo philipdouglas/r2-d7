@@ -19,9 +19,6 @@ class DroidCore():
         self._handlers = {}
         self._dm_handlers = {}
 
-        #FIXME
-        asyncio.set_event_loop(asyncio.new_event_loop())
-
     def register_handler(self, pattern, method):
         self._handlers[re.compile(pattern)] = method
 

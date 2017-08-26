@@ -92,4 +92,7 @@ icons/emoji/*.png
 *.pyc
 *.sublime-workspace
 *.sublime-project
-env3
+env*
+.cache
+r2d7.egg-info
+.coverage

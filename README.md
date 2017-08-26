@@ -7,7 +7,6 @@ A bot for xwingtmg.slack.com.
 
 <a href="https://beepboophq.com/api/slack/auth/add-to-slack/3d08ff85a092464d83b0063bead84537"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
 
-Written in CoffeeScript.
+Written in Python.
 
-Uses card data from <a href="https://github.com/geordanr/xwing/">geordanr/xwing</a>.
-Damage card data from <a href="https://github.com/guidokessels/xwing-data">guidokessels/xwing-data</a>.
+Uses card data from <a href="https://github.com/guidokessels/xwing-data">guidokessels/xwing-data</a>.

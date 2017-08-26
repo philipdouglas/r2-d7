@@ -65,7 +65,7 @@ fonts = {
         'tiepunisher': "N",
         'tiefofighter': "O",
         'tiephantom': "P",
-        'tieadvancedprototype': "R",
+        'tieadvprototype': "R",
         'tiesffighter': "S",
         'tiestriker': 'T',
         'upsilonclassshuttle': 'U',

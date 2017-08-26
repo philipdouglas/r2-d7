@@ -85,7 +85,7 @@ class DroidCore():
         for filename, res in await asyncio.gather(*futures):
             if res.status_code != 200:
                 raise DroidException(
-                    f"Got {res.status_code} GETing {file_url}.")
+                    f"Got {res.status_code} GETing {res.url}.")
 
             if self.data_version is None:
                 match = self.VERSION_RE.search(res.url)

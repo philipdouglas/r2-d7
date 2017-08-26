@@ -124,6 +124,14 @@ print_xws_tests = (
             ':rebel: *No upgrades* *[25]*',
             ':arc170::skill3: _<http://xwing-miniatures.wikia.com/wiki/Braylen_Stramm|Braylen Stramm>_ *[25]*',
         ]
+    ),
+    # Unrecognised upgrade
+    (
+        {'faction': 'rebel', 'pilots': [{'name': 'braylenstramm', 'ship': 'arc170', "upgrades":{"crew":["captainpicard"]}}], 'version': '0.3.0', 'name': 'No upgrades'},
+        [
+            ':rebel: *No upgrades* *[25]*',
+            ':arc170::skill3: _<http://xwing-miniatures.wikia.com/wiki/Braylen_Stramm|Braylen Stramm>_: *Unrecognised Upgrade* *[25]*',
+        ]
     )
 )
 

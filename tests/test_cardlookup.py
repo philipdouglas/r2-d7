@@ -6,7 +6,7 @@ from r2d7.slackdroid import SlackDroid
 
 @pytest.fixture(scope="module")
 def testbot():
-    class TestBot(CardLookup, SlackDroid):
+    class TestBot(SlackDroid, CardLookup):
         pass
     bot = TestBot()
     bot.load_data()

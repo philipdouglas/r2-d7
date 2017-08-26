@@ -23,6 +23,11 @@ class SlackDroid(DroidCore):
         self.clients = slack_clients
         self.load_data()
 
+    filter_pattern = re.compile(
+        r' *(?:(:[^:]+:))? *(?:([^=><:]*[^=><: ][^=><:]*)|([=><][=><]?)'
+        r' *(\d+)) *(?:(:[^:]+:))? *'
+    )
+
     def send_message(self, channel_id, msg):
         # in the case of Group and Private channels, RTM channel payload is a complex dictionary
         if isinstance(channel_id, dict):

@@ -170,11 +170,9 @@ class CardLookup(DroidCore):
                     self._name_to_xws[card['name']] = card['xws']
 
     _multi_lookup_pattern = re.compile(r'\]\][^\[]*\[\[')
-    #TODO this is slack specific
-    _filter_pattern = re.compile(
-        r' *(?:(:[^:]+:))? *(?:([^=><:]*[^=><: ][^=><:]*)|([=><][=><]?)'
-        r' *(\d+)) *(?:(:[^:]+:))? *'
-    )
+    @property
+    def filter_pattern(self):
+        raise NotImplementedError()
 
     def lookup(self, lookup):
         if self._lookup_data is None:
@@ -189,7 +187,7 @@ class CardLookup(DroidCore):
             slot_filter = None
             points_filter = None
             search = lookup
-            match = self._filter_pattern.match(lookup)
+            match = self.filter_pattern.match(lookup)
             if not match:
                 match = (None, None, lookup, None, None, None)
             slot_filter = match[1] or match[5]

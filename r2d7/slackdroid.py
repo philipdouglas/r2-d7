@@ -18,10 +18,12 @@ You can also search for cards by points value in a particular slot. Eg. _[[:crew
 
 
 class SlackDroid(DroidCore):
-    def __init__(self, slack_clients=None):
+    def __init__(self):
         super().__init__()
-        self.clients = slack_clients
         self.load_data()
+
+    def set_clients(self, slack_clients):
+        self.clients = slack_clients
 
     filter_pattern = re.compile(
         r' *(?:(:[^:]+:))? *(?:([^=><:]*[^=><: ][^=><:]*)|([=><][=><]?)'

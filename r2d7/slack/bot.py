@@ -18,7 +18,7 @@ def spawn_bot():
 
 
 class SlackBot(object):
-    def __init__(self, token=None, debug=False):
+    def __init__(self, droid, token=None, debug=False):
         """Creates Slacker Web and RTM clients with API Bot User token.
 
         Args:
@@ -30,8 +30,9 @@ class SlackBot(object):
         self.debug = debug
         if token is not None:
             self.clients = SlackClients(token)
+        self.droid = droid
 
-    def start(self, resource, BotClass):
+    def start(self, resource):
         """Creates Slack Web and RTM clients for the given Resource
         using the provided API tokens and configuration, then connects websocket
         and listens for RTM events.
@@ -44,14 +45,15 @@ class SlackBot(object):
             res_access_token = resource['resource']['SlackBotAccessToken']
             self.clients = SlackClients(res_access_token)
 
+        self.droid.set_clients(self.clients)
+
         if self.clients.rtm.rtm_connect():
             logging.info(u'Connected {} to {} team at https://{}.slack.com'.format(
                 self.clients.rtm.server.username,
                 self.clients.rtm.server.login_data['team']['name'],
                 self.clients.rtm.server.domain))
 
-            bot = BotClass(self.clients)
-            event_handler = RtmEventHandler(self.clients, bot, debug=self.debug)
+            event_handler = RtmEventHandler(self.clients, self.droid, debug=self.debug)
 
             while self.keep_running:
                 for event in self.clients.rtm.rtm_read():
@@ -61,7 +63,7 @@ class SlackBot(object):
                         logging.exception('Unexpected error:')
                         if self.debug:
                             err_msg = "I crashed, look at the log!"
-                            bot.write_error(event['channel'], err_msg)
+                            self.droid.write_error(event['channel'], err_msg)
                         continue
 
                 self._auto_ping()

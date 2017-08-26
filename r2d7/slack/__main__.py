@@ -62,17 +62,20 @@ def main():
     slack_token = os.getenv("SLACK_TOKEN", "")
     logging.info("token: {}".format(slack_token))
 
+    droid = Droid()
+
     if slack_token == "":
         logging.info("SLACK_TOKEN env var not set, expecting token to be provided by Resourcer events")
         slack_token = None
-        botManager = bot_manager.BotManager(spawn_bot)
+        bot = SlackBot(droid)
+        botManager = bot_manager.BotManager(lambda: bot)
         res = resourcer.Resourcer(botManager)
         res.handlers(handler_funcs)
         res.start()
     else:
         # only want to run a single instance of the bot in dev mode
-        bot = SlackBot(slack_token, debug)
-    bot.start({}, Droid)
+        bot = SlackBot(droid, slack_token, debug)
+    bot.start({})
 
 if __name__ == "__main__":
     main()

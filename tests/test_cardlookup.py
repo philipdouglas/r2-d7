@@ -179,6 +179,19 @@ print_card_tests = (
         'Your upgrade bar gains the :Illicit: upgrade icon.',
         'You may equip 1 additional Modification upgrade that costs 3 or fewer squad points.',
     ]),
+    ('gr75mediumtransport.0', [
+        ':gr75mediumtransport: *GR-75 Medium Transport*',
+        ':energy4::agility0::hull8::shield4: | :recover: :reinforce: :coordinate: :jam: | :crew::crew::cargo::cargo::cargo: | :epic:2',
+        '4 :blank::straight::blank:',
+        '3 :blank::straight::blank:',
+        '2 :bankleft::straight::bankright:',
+        '1 :bankleft::straight::bankright:',
+        ':rebel: :skill3:<http://xwing-miniatures.wikia.com/wiki/GR-75_Medium_Transport|GR-75 Medium Transport> [30]',
+    ]),
+    ('gr75mediumtransport.1', [
+        ':gr75mediumtransport: *<http://xwing-miniatures.wikia.com/wiki/GR-75_Medium_Transport|GR-75 Medium Transport>* [30]',
+        ':rebel: | :skill3::energy4::agility0::hull8::shield4: | :recover: :reinforce: :coordinate: :jam: | :crew::crew::cargo::cargo::cargo: | :epic:2',
+    ]),
 )
 
 @pytest.mark.parametrize('name, expected', print_card_tests)
@@ -236,7 +249,7 @@ lookup_tests = {
         ('kyloren', 'Crew'), ('illshowyouthedarkside', 'condition'),
         ('kyloren', 'upsilonclassshuttle'),
         ('kylorensshuttle', 'Title'),
-    ]
+    ],
 }
 @pytest.mark.parametrize('lookup, expected', lookup_tests.items())
 def test_lookup(testbot, lookup, expected):

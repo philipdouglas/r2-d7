@@ -281,7 +281,8 @@ class CardLookup(DroidCore):
         if slots:
             line.append(''.join(self.iconify(slot) for slot in slots))
 
-        #TODO epic_points
+        if 'epic_points' in ship:
+            line.append(self.iconify('epic') + str(ship['epic_points']))
 
         return ' | '.join(line)
 

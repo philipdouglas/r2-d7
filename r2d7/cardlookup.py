@@ -260,7 +260,6 @@ class CardLookup(DroidCore):
                 stats += self.iconify(f"{icon_name}{ship[stat]}")
         line.append(stats)
 
-        #TODO attack icon - missing from guidos data
         attack_type = None
         if ship['xws'] in self._frontback:
             attack_type = 'frontback'
@@ -395,7 +394,6 @@ class CardLookup(DroidCore):
         is_pilot = card['_group'] == 'pilots'
 
         text = []
-        #TODO handle multi slot cards
         text.append(''.join((
             self.iconify(card['slot']),
             ' • ' if card.get('unique', False) else ' ',
@@ -440,7 +438,6 @@ class CardLookup(DroidCore):
             restrictions.append(f"{' and '.join(sizes)} ship only.")
 
         if 'faction' in card and not (is_ship or is_pilot):
-            #TODO data doesn't understand multi faction cards (PRS)
             faction = card['faction'].split(' ')[0]
             if faction == 'Galactic':
                 faction = 'Imperial'

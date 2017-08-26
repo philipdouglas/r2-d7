@@ -42,7 +42,6 @@ print_card_tests = (
     ('brighthope', [
         ':title: • *<http://xwing-miniatures.wikia.com/wiki/Bright_Hope|Bright Hope>* [5]',
         ':energy::energyplus2:',
-        #TODO the card actually says GR-75 only.
         '_GR-75 Medium Transport only._',
         'A reinforce token assigned to your fore section acts as 2 :Evade: results (instead of one).',
     ]),

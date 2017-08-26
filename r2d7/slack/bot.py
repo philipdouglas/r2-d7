@@ -10,7 +10,14 @@ import traceback
 from r2d7.slack.clients import SlackClients
 from r2d7.slack.event_handler import RtmEventHandler
 
+from r2d7.listformatter import ListFormatter
+from r2d7.cardlookup import CardLookup
+from r2d7.slackdroid import SlackDroid
+
 logger = logging.getLogger(__name__)
+
+
+class Droid(SlackDroid, ListFormatter, CardLookup): pass
 
 
 def spawn_bot():
@@ -18,7 +25,7 @@ def spawn_bot():
 
 
 class SlackBot(object):
-    def __init__(self, droid, token=None, debug=False):
+    def __init__(self, token=None, debug=False):
         """Creates Slacker Web and RTM clients with API Bot User token.
 
         Args:
@@ -30,7 +37,6 @@ class SlackBot(object):
         self.debug = debug
         if token is not None:
             self.clients = SlackClients(token)
-        self.droid = droid
 
     def start(self, resource):
         """Creates Slack Web and RTM clients for the given Resource
@@ -47,8 +53,6 @@ class SlackBot(object):
         else:
             logger.debug("No resource or access token found.")
 
-        self.droid.set_clients(self.clients)
-
         if self.clients.rtm.rtm_connect():
             try:
                 team_name = self.clients.rtm.server.login_data['team']['name']
@@ -61,7 +65,8 @@ class SlackBot(object):
                     f"Failed to connect to {resource['resource']['SlackTeamName']}")
                 return
 
-            event_handler = RtmEventHandler(self.clients, self.droid, debug=self.debug)
+            droid = Droid(self.clients)
+            event_handler = RtmEventHandler(self.clients, droid, debug=self.debug)
 
             while self.keep_running:
                 for event in self.clients.rtm.rtm_read():
@@ -71,7 +76,7 @@ class SlackBot(object):
                         logging.exception('Unexpected error:')
                         if self.debug:
                             err_msg = "I crashed, look at the log!"
-                            self.droid.write_error(event['channel'], err_msg)
+                            droid.write_error(event['channel'], err_msg)
                         continue
 
                 self._auto_ping()

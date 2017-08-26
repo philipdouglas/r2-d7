@@ -13,14 +13,7 @@ from beepboop import bot_manager
 from r2d7.slack.bot import SlackBot
 from r2d7.slack.bot import spawn_bot
 
-from r2d7.listformatter import ListFormatter
-from r2d7.cardlookup import CardLookup
-from r2d7.slackdroid import SlackDroid
-
 logger = logging.getLogger(__name__)
-
-
-class Droid(SlackDroid, ListFormatter, CardLookup): pass
 
 
 def on_message(ws, message):
@@ -62,19 +55,17 @@ def main():
     slack_token = os.getenv("SLACK_TOKEN", "")
     logging.info("token: {}".format(slack_token))
 
-    droid = Droid()
-
     if slack_token == "":
         logging.info("SLACK_TOKEN env var not set, expecting token to be provided by Resourcer events")
         slack_token = None
         bot = SlackBot(droid)
-        botManager = bot_manager.BotManager(lambda: bot)
+        botManager = bot_manager.BotManager(spawn_bot)
         res = resourcer.Resourcer(botManager)
         res.handlers(handler_funcs)
         res.start()
     else:
         # only want to run a single instance of the bot in dev mode
-        bot = SlackBot(droid, slack_token, debug)
+        bot = SlackBot(slack_token, debug)
     bot.start({})
 
 if __name__ == "__main__":

@@ -27,12 +27,7 @@ def on_message(ws, message):
 
     # Access the message type
     logger.info(message['type'])
-
-    # Access the config defined in the bot.yml (commented avoid error)
-    # print (message['resource']['MY_CUSTOM_CONFIG'])
-
-    pp = pprint.PrettyPrinter(indent=2)
-    pp.pprint(message)
+    logger.info(message)
 
 
 # Fires when an error occurred in the connection with the Beep Boop Resourcer server.

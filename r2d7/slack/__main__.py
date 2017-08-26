@@ -58,7 +58,7 @@ def main():
     if slack_token == "":
         logging.info("SLACK_TOKEN env var not set, expecting token to be provided by Resourcer events")
         slack_token = None
-        bot = SlackBot(droid)
+        bot = SlackBot()
         botManager = bot_manager.BotManager(spawn_bot)
         res = resourcer.Resourcer(botManager)
         res.handlers(handler_funcs)

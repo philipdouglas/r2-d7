@@ -54,7 +54,7 @@ class SlackBot(object):
                     self.clients.rtm.server.username,
                     team_name,
                     self.clients.rtm.server.domain))
-            except KeyError:
+            except TypeError:
                 logger.warning(
                     f"Failed to connect to {self.clients.rtm.server.domain}")
 

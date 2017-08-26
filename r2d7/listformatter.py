@@ -90,7 +90,6 @@ class ListFormatter(DroidCore):
             upgrades = []
             for upgrade in cards:
                 if upgrade is None:
-                    #TODO test this
                     upgrades.append(self.bold('Unrecognised Upgrade'))
                     continue
 

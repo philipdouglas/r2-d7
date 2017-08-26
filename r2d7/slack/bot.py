@@ -48,10 +48,15 @@ class SlackBot(object):
         self.droid.set_clients(self.clients)
 
         if self.clients.rtm.rtm_connect():
-            logging.info(u'Connected {} to {} team at https://{}.slack.com'.format(
-                self.clients.rtm.server.username,
-                self.clients.rtm.server.login_data['team']['name'],
-                self.clients.rtm.server.domain))
+            try:
+                team_name = self.clients.rtm.server.login_data['team']['name']
+                logging.info(u'Connected {} to {} team at https://{}.slack.com'.format(
+                    self.clients.rtm.server.username,
+                    team_name,
+                    self.clients.rtm.server.domain))
+            except KeyError:
+                logger.warning(
+                    f"Failed to connect to {self.clients.rtm.server.domain}")
 
             event_handler = RtmEventHandler(self.clients, self.droid, debug=self.debug)
 

@@ -1,6 +1,7 @@
+from html import unescape
 import logging
 import re
-from html import unescape
+import json
 
 import requests
 
@@ -13,6 +14,7 @@ class ListFormatter(DroidCore):
     def __init__(self):
         super().__init__()
         self.register_handler(r'<(https?://[^>]+)>', self.handle_url)
+        self.register_handler(r'({.*})', self.handle_json)
 
     _regexes = (
         re.compile(r'(https?://(geordanr)\.github\.io/xwing/\?(.*))'),
@@ -49,8 +51,6 @@ class ListFormatter(DroidCore):
             if 'message' in data:
                 raise DroidException(f"YASB error: ({data['message']}")
             return data
-
-        #TODO handle raw XWS
 
     def print_xws(self, xws):
         name = xws.get('name', 'Nameless Squadron')
@@ -129,6 +129,14 @@ class ListFormatter(DroidCore):
 
         output[0] += self.bold(f"[{total_points}]")
         return output
+
+    def handle_json(self, message):
+        try:
+            logging.debug("Parsing raw JSON")
+            return self.print_xws(json.loads(message))
+        except json.JSONDecodeError:
+            logging.debug("Invalid JSON")
+            return []
 
     def handle_url(self, message):
         xws = self.get_xws(message)

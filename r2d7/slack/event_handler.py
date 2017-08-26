@@ -11,9 +11,10 @@ logger = logging.getLogger(__name__)
 
 
 class RtmEventHandler(object):
-    def __init__(self, slack_clients, bot):
+    def __init__(self, slack_clients, bot, debug):
         self.clients = slack_clients
         self.bot = bot
+        self.debug = debug
 
     def handle(self, event):
 
@@ -51,6 +52,8 @@ class RtmEventHandler(object):
             if self.clients.is_bot_mention(msg_txt) or self._is_direct_message(event['channel']):
                 bot_id = self.clients.rtm.server.login_data['self']['id']
                 msg_txt = re.sub(f"<@{bot_id}>", '', msg_txt)
+                if self.debug and msg_txt == '!crash':
+                    raise Exception('Crashy crash!')
                 if 'help' in msg_txt:
                     self.bot.write_help_message(event['channel'])
                 else:

@@ -24,7 +24,8 @@ class Droid(SlackDroid, ListFormatter, CardLookup): pass
 
 
 def main():
-    log_level = os.getenv("LOG_LEVEL", "DEBUG")
+    debug = os.getenv('DEBUG', False)
+    log_level = 'DEBUG' if debug else 'INFO'
     logging.basicConfig(
         format='%(asctime)s - %(levelname)s: %(message)s',
         level=log_level
@@ -41,7 +42,7 @@ def main():
         res.start()
     else:
         # only want to run a single instance of the bot in dev mode
-        bot = SlackBot(slack_token)
+        bot = SlackBot(slack_token, debug)
     bot.start({}, Droid)
 
 if __name__ == "__main__":

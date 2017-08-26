@@ -18,7 +18,7 @@ def spawn_bot():
 
 
 class SlackBot(object):
-    def __init__(self, token=None):
+    def __init__(self, token=None, debug=False):
         """Creates Slacker Web and RTM clients with API Bot User token.
 
         Args:
@@ -27,6 +27,7 @@ class SlackBot(object):
         super().__init__()
         self.last_ping = 0
         self.keep_running = True
+        self.debug = debug
         if token is not None:
             self.clients = SlackClients(token)
 
@@ -50,16 +51,17 @@ class SlackBot(object):
                 self.clients.rtm.server.domain))
 
             bot = BotClass(self.clients)
-            event_handler = RtmEventHandler(self.clients, bot)
+            event_handler = RtmEventHandler(self.clients, bot, debug=self.debug)
 
             while self.keep_running:
                 for event in self.clients.rtm.rtm_read():
                     try:
                         event_handler.handle(event)
                     except:
-                        err_msg = traceback.format_exc()
-                        logging.error('Unexpected error: {}'.format(err_msg))
-                        bot.write_error(event['channel'], err_msg)
+                        logging.exception('Unexpected error:')
+                        if self.debug:
+                            err_msg = "I crashed, look at the log!"
+                            bot.write_error(event['channel'], err_msg)
                         continue
 
                 self._auto_ping()

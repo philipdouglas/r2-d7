@@ -57,8 +57,9 @@ class SlackBot(object):
                     team_name,
                     self.clients.rtm.server.domain))
             except TypeError:
-                logger.warning(
-                    f"Failed to connect to {self.clients.rtm.server.domain}")
+                logger.error(
+                    f"Failed to connect to {resource['resource']['SlackTeamName']}")
+                return
 
             event_handler = RtmEventHandler(self.clients, self.droid, debug=self.debug)
 
@@ -66,7 +67,7 @@ class SlackBot(object):
                 for event in self.clients.rtm.rtm_read():
                     try:
                         event_handler.handle(event)
-                    except:
+                    except Exception:
                         logging.exception('Unexpected error:')
                         if self.debug:
                             err_msg = "I crashed, look at the log!"

@@ -44,6 +44,8 @@ class SlackBot(object):
         if 'resource' in resource and 'SlackBotAccessToken' in resource['resource']:
             res_access_token = resource['resource']['SlackBotAccessToken']
             self.clients = SlackClients(res_access_token)
+        else:
+            logger.debug("No resource or access token found.")
 
         self.droid.set_clients(self.clients)
 

@@ -5,8 +5,8 @@ from r2d7.core import DroidCore
 
 data_files = [
     'conditions',
-    # 'damage-deck-core',
-    # 'damage-deck-core-tfa',
+    'damage-deck-core',
+    'damage-deck-core-tfa',
     'pilots',
     # 'reference-cards',
     'ships',

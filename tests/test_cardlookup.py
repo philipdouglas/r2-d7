@@ -192,6 +192,28 @@ print_card_tests = (
         ':gr75mediumtransport: *<http://xwing-miniatures.wikia.com/wiki/GR-75_Medium_Transport|GR-75 Medium Transport>* [30]',
         ':rebel: | :skill3::energy4::agility0::hull8::shield4: | :recover: :reinforce: :coordinate: :jam: | :crew::crew::cargo::cargo::cargo: | :epic:2',
     ]),
+    ('directhit.0', [
+        ':crit: *Direct Hit!* (Original)',
+        '_Ship_',
+        'This card counts as *2 damage* against your hull.',
+    ]),
+    pytest.param('directhit.1', [
+        ':crit: *Direct Hit!* (TFA)',
+        '_Ship_',
+        'This card counts as *2 damage* against your hull.',
+    ], marks=pytest.mark.xfail),
+    ('damagedsensorarray.0', [
+        ':crit: *Damaged Sensor Array* (Original)',
+        '_Ship_',
+        'You cannot perform the actions listed in your action bar.',
+        '*Action:* Roll 1 attack die. On a :Hit: results, flip this card facedown.',
+    ]),
+    ('damagedsensorarray.1', [
+        ':crit: *Damaged Sensor Array* (TFA)',
+        '_Ship_',
+        'You cannot perform any actions except actions listed on Damage cards.',
+        '*Action:* Roll 1 attack die. On a :Hit: or :crit: result, flip this card facedown.',
+    ]),
 )
 
 @pytest.mark.parametrize('name, expected', print_card_tests)

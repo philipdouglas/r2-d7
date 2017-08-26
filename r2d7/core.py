@@ -60,6 +60,8 @@ class DroidCore():
         'ships',
         'upgrades',
         'conditions',
+        'damage-deck-core',
+        'damage-deck-core-tfa',
     )
     VERSION_RE = re.compile(r'xwing-data@([\d\.]+)')
     check_frequency = 900  # 15 minutes
@@ -92,8 +94,10 @@ class DroidCore():
                 logger.info(f"Loaded xwing-data version {self.data_version}")
 
             self._data[filename] = group = {}
-            for datum in res.json():
-                group.setdefault(datum['xws'], []).append(datum)
+            for card in res.json():
+                card.setdefault('xws', self.partial_canonicalize(card['name']))
+                group.setdefault(card['xws'], []).append(card)
+
 
 
     def load_data(self):

@@ -34,7 +34,9 @@ class CardLookup(DroidCore):
         'upgrades',
         'ships',
         'pilots',
-        'conditions'
+        'conditions',
+        'damage-deck-core',
+        'damage-deck-core-tfa',
     )
 
     _action_order = (
@@ -124,16 +126,20 @@ class CardLookup(DroidCore):
             cards = self.data[group]
             for name, cards in cards.items():
                 for card in cards:
-                    if 'slot' not in card:
-                        if group == 'conditions':
-                            card['slot'] = 'condition'
-                        elif group == 'ships':
-                            card['slot'] = card['xws']
-                    if group == 'pilots':
+                    if group == 'conditions':
+                        card['slot'] = 'condition'
+                    elif group == 'ships':
+                        card['slot'] = card['xws']
+                        card['actions'].sort(key=self._action_key)
+                    elif 'damage-deck' in group:
+                        card['slot'] = 'crit'
+                        card['deck'] = 'TFA' if 'tfa' in group else 'Original'
+                    elif group == 'pilots':
                         ships = self._lookup_data[
                             self._name_to_xws[card['ship']]]
                         if len(ships) > 1:
-                            raise DroidException(f"Duplicate ship found: {ships}")
+                            raise DroidException(
+                                f"Duplicate ship found: {ships}")
                         card['ship_card'] = ships[0]
 
                         # Add pilot to it's ship so we can list ship pilots
@@ -156,8 +162,6 @@ class CardLookup(DroidCore):
                             pass
 
                         card['slot'] = card['ship_card']['xws']
-                    elif group == 'ships':
-                        card['actions'].sort(key=self._action_key)
 
                     card['_id'] = next_id
                     card['_group'] = group
@@ -393,13 +397,14 @@ class CardLookup(DroidCore):
         is_pilot = card['_group'] == 'pilots'
 
         text = []
-        unique = ' • ' if card.get('unique', False) else ' '
-        slot = self.iconify(card['slot'])
         #TODO handle multi slot cards
-        points = f" [{card['points']}]" if 'points' in card else ''
-        #TODO handle deck
-        name = self.bold(self.format_name(card))
-        text.append(f"{slot}{unique}{name}{points}")
+        text.append(''.join((
+            self.iconify(card['slot']),
+            ' • ' if card.get('unique', False) else ' ',
+            self.bold(self.format_name(card)),
+            f" [{card['points']}]" if 'points' in card else '',
+            f" ({card['deck']})" if 'deck' in card else '',
+        )))
 
         if is_pilot:
             text.append(self.ship_stats(card['ship_card'], card))
@@ -442,9 +447,12 @@ class CardLookup(DroidCore):
                 faction = 'Imperial'
             restrictions.append(f"{faction} only.")
 
+        if 'type' in card:
+            restrictions.append(card['type'])
+
         if restrictions:
             text.append(self.italics(' '.join(restrictions)))
-        #TODO damage card type
+
 
         if 'text' in card:
             text += self.convert_html(card['text'])

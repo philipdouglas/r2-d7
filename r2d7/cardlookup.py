@@ -425,7 +425,8 @@ class CardLookup(DroidCore):
             if 'range' in card:
                 line.append(f"Range: {card['range']}")
             if 'energy' in card:
-                energy_size = self.iconify(f"energy{card['energy']}")
+                plus = 'plus' if card['slot'] == 'Title' else ''
+                energy_size = self.iconify(f"energy{plus}{card['energy']}")
                 line.append(f"{self.iconify('energy')}{energy_size}")
             text.append(' | '.join(line))
 

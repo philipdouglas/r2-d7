@@ -6,7 +6,7 @@ stat_ranges = {
     'skill': ([str(num) for num in range(0, 12)] + ['±1'], '#CD6D2D'),
     'attack': (['-'] + [str(num) for num in range(0, 7)], '#EF232B'),
     'energy': (
-        [str(num) for num in range(0, 6)] + ['+{}'.format(num) for num in range(1, 5)],
+        [str(num) for num in range(0, 6)] + ['+{}'.format(num) for num in range(0, 5)],
         '#C7B5E2',
     ),
     'agility': ([str(num) for num in range(0, 5)], '#6BBE44'),

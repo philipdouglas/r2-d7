@@ -11,7 +11,6 @@ from beepboop import resourcer
 from beepboop import bot_manager
 
 from r2d7.slack.bot import SlackBot
-from r2d7.slack.bot import BotSpawner
 
 from r2d7.listformatter import ListFormatter
 from r2d7.cardlookup import CardLookup

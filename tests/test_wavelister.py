@@ -13,9 +13,9 @@ def testbot():
 
 print_wave_tests = (
     ('0', [
-        '*Wave 0* - September 2012, September 2015',
-        '- <http://xwing-miniatures.wikia.com/wiki/X-Wing_Core_Set|Core Set> (X-Wing, TIE Fighter x2)',
-        '- <http://xwing-miniatures.wikia.com/wiki/X-Wing_The_Force_Awakens_Core_Set|The Force Awakens Core Set> (T-70 X-Wing, TIE/fo Fighter x2)',
+        '*Wave 0*',
+        '- <http://xwing-miniatures.wikia.com/wiki/X-Wing_Core_Set|Core Set> (X-Wing, TIE Fighter x2) - September 2012',
+        '- <http://xwing-miniatures.wikia.com/wiki/X-Wing_The_Force_Awakens_Core_Set|The Force Awakens Core Set> (T-70 X-Wing, TIE/fo Fighter x2) - September 2015',
     ]),
     ('1', [
         '*Wave 1* - September 2012',
@@ -30,7 +30,17 @@ print_wave_tests = (
         '- <http://xwing-miniatures.wikia.com/wiki/Kihraxz_Fighter_Expansion_Pack|Kihraxz Fighter Expansion Pack>',
         '- <http://xwing-miniatures.wikia.com/wiki/K-Wing_Expansion_Pack|K-Wing Expansion Pack>',
         '- <http://xwing-miniatures.wikia.com/wiki/TIE_Punisher_Expansion_Pack|TIE Punisher Expansion Pack>',
-    ])
+    ]),
+    ('10', [
+        '*Wave 10*',
+        'December 2016',
+        '- <http://xwing-miniatures.wikia.com/wiki/U-Wing_Expansion_Pack|U-Wing Expansion Pack>',
+        '- <http://xwing-miniatures.wikia.com/wiki/TIE_Striker_Expansion_Pack|TIE Striker Expansion Pack>',
+        'February 2017',
+        '- <http://xwing-miniatures.wikia.com/wiki/Sabine\'s_TIE_Fighter_Expansion_Pack|Sabine\'s TIE Fighter Expansion Pack>',
+        '- <http://xwing-miniatures.wikia.com/wiki/Upsilon-class_Shuttle_Expansion_Pack|Upsilon-class Shuttle Expansion Pack>',
+        '- <http://xwing-miniatures.wikia.com/wiki/Quadjumper_Expansion_Pack|Quadjumper Expansion Pack>',
+    ]),
 )
 @pytest.mark.parametrize('wave, output', print_wave_tests)
 def test_print_wave(testbot, wave, output):

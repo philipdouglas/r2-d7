@@ -20,10 +20,14 @@ class DroidCore():
         self._dm_handlers = {}
 
     def register_handler(self, pattern, method):
-        self._handlers[re.compile(pattern)] = method
+        if not isinstance(pattern, re._pattern_type):
+            pattern = re.compile(pattern)
+        self._handlers[pattern] = method
 
     def register_dm_handler(self, pattern, method):
-        self._dm_handlers[re.compile(pattern)] = method
+        if not isinstance(pattern, re._pattern_type):
+            pattern = re.compile(pattern)
+        self._dm_handlers[pattern] = method
 
     def handle_message(self, message):
         raise NotImplementedError()

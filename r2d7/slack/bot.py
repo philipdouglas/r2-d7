@@ -10,22 +10,7 @@ import traceback
 from r2d7.slack.clients import SlackClients
 from r2d7.slack.event_handler import RtmEventHandler
 
-from r2d7.listformatter import ListFormatter
-from r2d7.cardlookup import CardLookup
-from r2d7.slackdroid import SlackDroid
-
 logger = logging.getLogger(__name__)
-
-
-class Droid(SlackDroid, ListFormatter, CardLookup): pass
-
-
-class BotSpawner():
-    def __init__(self):
-        self.droid = Droid()
-
-    def spawn_bot(self):
-        return SlackBot(self.droid)
 
 
 class Messager():

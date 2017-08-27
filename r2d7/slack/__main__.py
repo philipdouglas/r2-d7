@@ -11,29 +11,33 @@ from beepboop import resourcer
 from beepboop import bot_manager
 
 from r2d7.slack.bot import SlackBot
-from r2d7.slack.bot import BotSpawner, Droid
+from r2d7.slack.bot import BotSpawner
+
+from r2d7.listformatter import ListFormatter
+from r2d7.cardlookup import CardLookup
+from r2d7.slackdroid import SlackDroid
 
 logger = logging.getLogger(__name__)
 
 
+class Droid(SlackDroid, ListFormatter, CardLookup):
+    pass
+
+
 def on_message(ws, message):
-
-    # Access the message type
-    logger.info(message['type'])
-    logger.info(message)
+    logger.debug(f"Resource message ({message['type']}):\n{message}")
 
 
-# Fires when an error occurred in the connection with the Beep Boop Resourcer server.
 def on_error(ws, error):
-    logger.info ('Error: ' + str(error))
+    logger.error(f'Resourcer error: {error}')
 
-# Fires the connection with the Beep Boop resourcer has closed.
+
 def on_close(ws):
-    logger.info ('Closed')
+    logger.info ('Resourcer connection closed.')
 
-# Fires when the connection with the Beep Boop resourcer has opened.
+
 def on_open(ws):
-    logger.info('Opened')
+    logger.info('Resourcer connection opened')
 
 
 handler_funcs = {
@@ -52,24 +56,19 @@ def main():
         level=log_level
     )
 
-    slack_token = os.getenv("SLACK_TOKEN", "")
+    slack_token = os.getenv("SLACK_TOKEN", None)
     logging.info("token: {}".format(slack_token))
 
-
-
-    if slack_token == "":
-        logging.info("SLACK_TOKEN env var not set, expecting token to be provided by Resourcer events")
-        slack_token = None
-        botManager = bot_manager.BotManager(BotSpawner().spawn_bot)
+    droid = Droid()
+    if not slack_token:
+        logging.info("SLACK_TOKEN env var not set, connecting to Resourcer")
+        botManager = bot_manager.BotManager(lambda: SlackBot(droid))
         res = resourcer.Resourcer(botManager)
         res.handlers(handler_funcs)
         res.start()
     else:
-        # only want to run a single instance of the bot in dev mode
-        bot = SlackBot(
-            droid=Droid(),
-            token=slack_token,
-            debug=debug)
+        # Run a single instance of the bot in dev mode
+        bot = SlackBot(droid, slack_token, debug)
         bot.start({})
 
 if __name__ == "__main__":

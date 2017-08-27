@@ -62,6 +62,7 @@ class DroidCore():
         'conditions',
         'damage-deck-core',
         'damage-deck-core-tfa',
+        'sources',
     )
     VERSION_RE = re.compile(r'xwing-data@([\d\.]+)')
     check_frequency = 900  # 15 minutes
@@ -72,6 +73,7 @@ class DroidCore():
 
     async def _load_data(self):
         self._data = {}
+        self._raw_data = {}
         self.data_version = None
         loop = asyncio.get_event_loop()
         futures = [
@@ -93,8 +95,14 @@ class DroidCore():
                 self._last_checked_version = time.time()
                 logger.info(f"Loaded xwing-data version {self.data_version}")
 
+            self._raw_data[filename] = raw_data = res.json()
+
+            # Sources aren't cards, so we only want them in the raw data
+            if filename == 'sources':
+                continue
+
             self._data[filename] = group = {}
-            for card in res.json():
+            for card in raw_data:
                 card.setdefault('xws', self.partial_canonicalize(card['name']))
                 group.setdefault(card['xws'], []).append(card)
 

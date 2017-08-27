@@ -14,6 +14,7 @@ I am R2-D7, xwingtmg.slack.com's bot.
 *Card Lookup:* Type something surrounded by square brackets and I will describe any upgrades, ships or pilots that match what you said. (Eg. Why not try [[Engine Upgrade]])
 If you only want cards in a particular slot or ship, begin your lookup with the emoji for that ship or slot. (eg. _[[:crew: rey]]_)
 You can also search for cards by points value in a particular slot. Eg. _[[:crew: <=3]]_. =, <, >, <= and >= are supported.
+You can list the contents of each wave by saying [[Wave X]]. Eg. [[Wave 1]].
 """
 
 
@@ -91,7 +92,9 @@ class SlackDroid(DroidCore):
         #TODO work out the fudges for xwing-data
         # fudged_name = re.sub(r'\(Scum\)', '(S&V)', fudged_name)
         # fudged_name = re.sub(r'\((PS9|TFA)\)', '(HOR)', fudged_name)
-        fudged_name = re.sub(r'-Wing', '-wing', fudged_name)
+        if 'Core Set' in card_name:
+            fudged_name = 'X-Wing_' + fudged_name
+        fudged_name = re.sub(r'-wing', '-Wing', fudged_name)
         fudged_name = re.sub(r'\/V', '/v', fudged_name)
         fudged_name = re.sub(r'\/X', '/x', fudged_name)
         fudged_name = re.sub(r'_\([-+]1\)', '', fudged_name)

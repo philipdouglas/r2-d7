@@ -2,3 +2,4 @@ requests
 beepboop
 slackclient
 slacker
+python-dateutil

@@ -4,15 +4,6 @@ from r2d7.cardlookup import CardLookup
 from r2d7.slackdroid import SlackDroid
 
 
-@pytest.fixture(scope="module")
-def testbot():
-    class TestBot(SlackDroid, CardLookup):
-        pass
-    bot = TestBot()
-    bot.load_data()
-    return bot
-
-
 print_card_tests = (
     ('veteraninstincts', [
         ':elite: *<http://xwing-miniatures.wikia.com/wiki/Veteran_Instincts|Veteran Instincts>* [1]',

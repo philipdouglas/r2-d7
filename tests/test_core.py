@@ -14,14 +14,13 @@ data_files = [
     'upgrades',
 ]
 
-def test_data():
-    bot = DroidCore()
+def test_data(testbot):
     for filename in data_files:
-        assert filename in bot.data
+        assert filename in testbot.data
 
-    assert bot.data_version is not None
-    assert bot.data['ships']['xwing'][0]['name'] == 'X-Wing'
-    assert bot.data['conditions']['adebttopay'][0]['id'] == 3
+    assert testbot.data_version is not None
+    assert testbot.data['ships']['xwing'][0]['name'] == 'X-Wing'
+    assert testbot.data['conditions']['adebttopay'][0]['id'] == 3
 
 
 
@@ -35,8 +34,6 @@ def test_partial_canonicalize(before, after):
     assert DroidCore.partial_canonicalize(before) == after
 
 
-def test_needs_update():
-    bot = DroidCore()
-    bot.load_data()
-    assert bot.data_version is not None
-    assert not bot.needs_update()
+def test_needs_update(testbot):
+    assert testbot.data_version is not None
+    assert not testbot.needs_update()

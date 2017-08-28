@@ -3,14 +3,6 @@ import pytest
 from r2d7.wavelister import WaveLister
 from r2d7.slackdroid import SlackDroid
 
-@pytest.fixture(scope="module")
-def testbot():
-    class TestBot(SlackDroid, WaveLister):
-        pass
-    bot = TestBot()
-    bot.load_data()
-    return bot
-
 print_wave_tests = (
     ('0', [
         '*Wave 0*',

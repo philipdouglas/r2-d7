@@ -4,15 +4,6 @@ from r2d7.listformatter import ListFormatter
 from r2d7.slackdroid import SlackDroid
 
 
-@pytest.fixture(scope="module")
-def testbot():
-    class TestBot(ListFormatter, SlackDroid):
-        pass
-    bot = TestBot()
-    bot.load_data()
-    return bot
-
-
 get_xws_tests = (
     (
         "http://geordanr.github.io/xwing/?f=Scum%20and%20Villainy&d=v4!s!248::50:-1:&sn=Sunny%20B!&obs=",

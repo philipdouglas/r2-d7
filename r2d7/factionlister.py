@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import logging
 import re
 
@@ -33,11 +34,12 @@ class FactionLister(DroidCore):
             return []
 
         logger.debug(f"Listing ships in {', '.join(factions)}")
-        ships = [
-            self.iconify(ship['xws']) for ship in self.raw_data['ships']
+        # Use an OrderedDict as an ordered set
+        ships = OrderedDict(
+            (self.iconify(ship['xws']), None) for ship in self.raw_data['ships']
             for faction in ship['faction']
             if faction in factions and ship['size'] != 'huge'
-        ]
+        )
 
         return [''.join(ships)]
 

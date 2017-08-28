@@ -3,14 +3,6 @@ import pytest
 from r2d7.factionlister import FactionLister
 from r2d7.slackdroid import SlackDroid
 
-@pytest.fixture(scope="module")
-def testbot():
-    class TestBot(SlackDroid, FactionLister):
-        pass
-    bot = TestBot()
-    bot.load_data()
-    return bot
-
 print_faction_ships_tests = (
     ('nope', []),
     ('scum', [
@@ -19,6 +11,12 @@ print_faction_ships_tests = (
         ':g1astarfighter::protectoratestarfighter::lancerclasspursuitcraft:'
         ':quadjumper::scurrgh6bomber::m12lkimogilafighter:'
     ],),
+    ('rebel', [
+        ':xwing::ywing::awing::yt1300::tiefighter::hwk290::bwing:'
+        ':z95headhunter::ewing::yt2400::kwing::t70xwing::vcx100:'
+        ':attackshuttle::arc170::uwing::auzituckgunship::scurrgh6bomber:'
+        ':sheathipedeclassshuttle:'
+    ]),
 )
 @pytest.mark.parametrize('emoji, output', print_faction_ships_tests)
 def test_print_faction_ships(testbot, emoji, output):

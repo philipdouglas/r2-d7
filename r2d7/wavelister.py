@@ -26,7 +26,7 @@ class WaveLister(DroidCore):
             title = self.bold(f"Wave {wave}")
         lines.append(title)
 
-        packs = (pack for pack in self._raw_data['sources']
+        packs = (pack for pack in self.raw_data['sources']
                  if pack['wave'] == wave)
 
         def keyfunc(pack):
@@ -47,11 +47,11 @@ class WaveLister(DroidCore):
                 ships = []
                 if len(pack['contents']['ships']) == 1:
                     ship_id, qty = list(pack['contents']['ships'].items())[0]
-                    ship = self._raw_data['ships'][int(ship_id)]
+                    ship = self.raw_data['ships'][int(ship_id)]
                     if ship['name'] not in pack['name'] or qty > 1:
                         ships.append((ship, qty))
                 else:
-                    ships = [(self._raw_data['ships'][int(ship_id)], qty)
+                    ships = [(self.raw_data['ships'][int(ship_id)], qty)
                              for ship_id, qty in pack['contents']['ships'].items()]
                 ships = [ship['name'] + (f" x{qty}" if qty > 1 else '')
                          for ship, qty in ships]

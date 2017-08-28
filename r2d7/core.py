@@ -34,7 +34,7 @@ class DroidCore():
 
     # Printer methods
     @staticmethod
-    def name_to_icon(name):
+    def iconify(name):
         raise NotImplementedError()
 
     @staticmethod
@@ -138,6 +138,12 @@ class DroidCore():
         if self._data is None:
             self.load_data()
         return self._data
+
+    @property
+    def raw_data(self):
+        if self._raw_data is None:
+            self.load_data()
+        return self._raw_data
 
     @staticmethod
     def partial_canonicalize(string):

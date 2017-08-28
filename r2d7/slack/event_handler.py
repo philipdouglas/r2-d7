@@ -61,7 +61,9 @@ class RtmEventHandler(object):
                     for regex, handle_method in self.droid._dm_handlers.items():
                         match = regex.search(msg_txt)
                         if match:
-                            response += handle_method(match[1])
+                            response = handle_method(match[1])
+                            if response:
+                                break
 
             # Don't handle if the dm_handlers have already got it
             if not response:
@@ -69,7 +71,9 @@ class RtmEventHandler(object):
                 for regex, handle_method in self.droid._handlers.items():
                     match = regex.search(msg_txt)
                     if match:
-                        response += handle_method(match[1])
+                        response = handle_method(match[1])
+                        if response:
+                            break
 
             if response:
                 self.messager.send_message(event['channel'], '\n'.join(response))

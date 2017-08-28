@@ -27,6 +27,7 @@ class SlackDroid(DroidCore):
         r' *(?:(:[^:]+:))? *(?:([^=><:]*[^=><: ][^=><:]*)|([=><][=><]?)'
         r' *(\d+)) *(?:(:[^:]+:))? *'
     )
+    faction_icon_pattern = r':(rebel|resistance|scum|imperial|first_order):'
 
     @staticmethod
     def iconify(name, hyphens=False):

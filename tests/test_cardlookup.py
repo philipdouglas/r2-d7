@@ -37,7 +37,7 @@ print_card_tests = (
         'A reinforce token assigned to your fore section acts as 2 :Evade: results (instead of one).',
     ]),
     ('xwing', [
-        ':xwing: *X-Wing*',
+        ':xwing: *X-wing*',
         ':attack3::agility2::hull3::shield2: | :focus: :targetlock: | :torpedo::astromech:',
         '4 :blank::blank::straight::blank::blank::redkturn:',
         '3 :turnleft::bankleft::straight::bankright::turnright::blank:',
@@ -111,7 +111,7 @@ print_card_tests = (
     ]),
     ('bombloadout', [
         ':torpedo: *<http://xwing-miniatures.wikia.com/wiki/Bomb_Loadout|Bomb Loadout>* [0]',
-        '_Y-Wing only. Limited._',
+        '_Y-wing only. Limited._',
         'Your upgrade bar gains the :xbomb: icon.',
     ]),
     ('fleetofficer', [

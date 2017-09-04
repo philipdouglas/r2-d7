@@ -19,7 +19,7 @@ def test_data(testbot):
         assert filename in testbot.data
 
     assert testbot.data_version is not None
-    assert testbot.data['ships']['xwing'][0]['name'] == 'X-Wing'
+    assert testbot.data['ships']['xwing'][0]['name'] == 'X-wing'
     assert testbot.data['conditions']['adebttopay'][0]['id'] == 3
 
 

@@ -241,9 +241,11 @@ class CardLookup(DroidCore):
                                 yield condition
                                 cards_yielded.add(condition['_id'])
 
-    _frontback = ('firespray31', 'arc170', 'sheathipedeclassshuttle')
-    _180 = ('yv666', 'auzituck')
-    _turret = ('kwing', 'yt1300', 'jumpmaster5000', 'vt49decimator')
+    _arc_icons = {
+        'Turret': 'turret',
+        'Auxiliary Rear': 'frontback',
+        'Auxiliary 180': '180',
+    }
 
     def ship_stats(self, ship, pilot=None):
         line = []
@@ -260,15 +262,11 @@ class CardLookup(DroidCore):
                 stats += self.iconify(f"{icon_name}{ship[stat]}")
         line.append(stats)
 
-        attack_type = None
-        if ship['xws'] in self._frontback:
-            attack_type = 'frontback'
-        elif ship['xws'] in self._180:
-            attack_type = '180'
-        elif ship['xws'] in self._turret:
-            attack_type = 'turret'
-        if attack_type:
-            line.append(self.iconify(f"attack-{attack_type}", hyphens=True))
+        arcs = [self._arc_icons[arc] for arc in ship.get('firing_arcs', [])
+                if arc in self._arc_icons]
+        if arcs:
+            line.append(''.join(
+                self.iconify(f"attack-{arc}", hyphens=True) for arc in arcs))
 
         if 'actions' in ship:
             line.append(' '.join(

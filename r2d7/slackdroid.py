@@ -30,10 +30,10 @@ class SlackDroid(DroidCore):
     faction_icon_pattern = r':(rebel|resistance|scum|imperial|first_order):'
 
     @staticmethod
-    def iconify(name, hyphens=False):
+    def iconify(name, special_chars=False):
         name = name.lower()
-        if hyphens:
-            name = re.sub(r'[^a-zA-Z0-9\-]', '', name)
+        if special_chars:
+            name = re.sub(r'[^a-zA-Z0-9\-\_]', '', name)
         else:
             name = re.sub(r'[^a-zA-Z0-9]', '', name)
         name = name.replace('+', 'plus')

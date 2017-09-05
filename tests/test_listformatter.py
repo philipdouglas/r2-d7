@@ -123,6 +123,13 @@ print_xws_tests = (
             ':rebel: *No upgrades* *[25]*',
             ':arc170::skill3: _<http://xwing-miniatures.wikia.com/wiki/Braylen_Stramm|Braylen Stramm>_: *Unrecognised Upgrade* *[25]*',
         ]
+    ),
+    (
+        {"description":"","faction":"scum","name":"Adapatability","pilots":[{"name":"inaldra","points":15,"ship":"m3ainterceptor","upgrades":{"ept":["adaptability"]}}],"points":15,"version":"0.3.0"},
+        [
+            ':scum: *Adapatability* *[15]*',
+            ':m3ainterceptor::skill3: _<http://xwing-miniatures.wikia.com/wiki/Inaldra|Inaldra>_: <http://xwing-miniatures.wikia.com/wiki/Adaptability|Adaptability>:skill_1: *[15]*',
+        ]
     )
 )
 

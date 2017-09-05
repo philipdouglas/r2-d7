@@ -97,9 +97,11 @@ class ListFormatter(DroidCore):
                     skill += 2
                 if tiex1 and upgrade['slot'] == 'System':
                     points -= min(4, upgrade['points'])
-                self.wiki_link(upgrade['name'])
+                upgrade_name = upgrade['name']
+                if upgrade['xws'] == 'adaptability':
+                    upgrade_name = 'Adaptability'
                 upgrade_text = self.wiki_link(
-                    upgrade['name'],
+                    upgrade_name,
                     (
                         upgrade['slot'] == 'Crew' and (
                             upgrade['xws'] in self.data['pilots'] or
@@ -107,8 +109,8 @@ class ListFormatter(DroidCore):
                         )
                     )
                 )
-                if upgrade['name'] == 'Adaptability':
-                    upgrade_text += self.iconify('skill_1')
+                if upgrade_name == 'Adaptability':
+                    upgrade_text += self.iconify('skill_1', special_chars=True)
                 upgrades.append(upgrade_text)
                 cost = upgrade['points']
                 if vaksai and cost >= 1:

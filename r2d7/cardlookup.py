@@ -269,7 +269,8 @@ class CardLookup(DroidCore):
                 if arc in self._arc_icons]
         if arcs:
             line.append(''.join(
-                self.iconify(f"attack-{arc}", hyphens=True) for arc in arcs))
+                self.iconify(f"attack-{arc}", special_chars=True)
+                for arc in arcs))
 
         if 'actions' in ship:
             line.append(' '.join(

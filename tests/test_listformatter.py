@@ -124,6 +124,13 @@ print_xws_tests = (
             ':arc170::skill3: _<http://xwing-miniatures.wikia.com/wiki/Braylen_Stramm|Braylen Stramm>_: *Unrecognised Upgrade* *[25]*',
         ]
     ),
+    (
+        {"description":"","faction":"scum","name":"Adapatability","pilots":[{"name":"inaldra","points":15,"ship":"m3ainterceptor","upgrades":{"ept":["adaptability"]}}],"points":15,"version":"0.3.0"},
+        [
+            ':scum: *Adapatability* *[15]*',
+            ':m3ainterceptor::skill3: _<http://xwing-miniatures.wikia.com/wiki/Inaldra|Inaldra>_: <http://xwing-miniatures.wikia.com/wiki/Adaptability|Adaptability>:skill_1: *[15]*',
+        ]
+    ),
     # Unrecognised pilot
     (
         {'faction': 'rebel', 'pilots': [{'name': 'sulu', 'ship': 'enterprise'}], 'version': '0.3.0', 'name': 'Bad ship'},
@@ -131,7 +138,7 @@ print_xws_tests = (
             ':rebel: *Bad ship* *[0]*',
             ':question::question: _Unknown Pilot_',
         ]
-    )
+    ),
 )
 
 @pytest.mark.parametrize('xws, expected', print_xws_tests)

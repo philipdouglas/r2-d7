@@ -262,6 +262,8 @@ lookup_tests = {
         ('kyloren', 'tiesilencer'),
         ('kylorensshuttle', 'Title'),
     ],
+    # Test for unescaped lookup in regex
+    '{0}{0}{1}': [],
 }
 @pytest.mark.parametrize('lookup, expected', lookup_tests.items())
 def test_lookup(testbot, lookup, expected):

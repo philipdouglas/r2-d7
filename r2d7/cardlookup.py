@@ -199,7 +199,10 @@ class CardLookup(DroidCore):
                     # We want "hot shot" to match "Hot Shot Blaster" and
                     # "Hotshot Co-pilot"
                     ex_lookup = re.sub(r' ', ' ?', ex_lookup)
-                    exact = re.compile(f'\\b{ex_lookup}(?:[\'e]?s)?\\b', re.IGNORECASE)
+                    exact = re.compile(
+                        f'\\b{re.escape(ex_lookup)}(?:[\'e]?s)?\\b',
+                        re.IGNORECASE
+                    )
                     matches = [
                         key for key, cards in self._lookup_data.items() if any(
                             exact.search(card['name']) for card in cards

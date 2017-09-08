@@ -67,10 +67,16 @@ class ListFormatter(DroidCore):
         for pilot in xws['pilots']:
             points = 0
             pilot_card = None
-            for pilot_card in self.data['pilots'][pilot['name']]:
-                canon_ship = self.partial_canonicalize(pilot_card['ship'])
-                if canon_ship == pilot['ship']:
-                    break
+            try:
+                for pilot_card in self.data['pilots'][pilot['name']]:
+                    canon_ship = self.partial_canonicalize(pilot_card['ship'])
+                    if canon_ship == pilot['ship']:
+                        break
+            except KeyError:
+                # Unrecognised pilot
+                output.append(self.iconify('question') * 2 + ' ' +
+                              self.italics('Unknown Pilot'))
+                continue
             points += pilot_card['points']
             skill = pilot_card['skill']
 

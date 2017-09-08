@@ -123,6 +123,14 @@ print_xws_tests = (
             ':rebel: *No upgrades* *[25]*',
             ':arc170::skill3: _<http://xwing-miniatures.wikia.com/wiki/Braylen_Stramm|Braylen Stramm>_: *Unrecognised Upgrade* *[25]*',
         ]
+    ),
+    # Unrecognised pilot
+    (
+        {'faction': 'rebel', 'pilots': [{'name': 'sulu', 'ship': 'enterprise'}], 'version': '0.3.0', 'name': 'Bad ship'},
+        [
+            ':rebel: *Bad ship* *[0]*',
+            ':question::question: _Unknown Pilot_',
+        ]
     )
 )
 

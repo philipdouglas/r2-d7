@@ -259,6 +259,7 @@ lookup_tests = {
     'kylo': [
         ('kyloren', 'Crew'), ('illshowyouthedarkside', 'condition'),
         ('kyloren', 'upsilonclassshuttle'),
+        ('kyloren', 'tiesilencer'),
         ('kylorensshuttle', 'Title'),
     ],
 }

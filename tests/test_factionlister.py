@@ -15,7 +15,7 @@ print_faction_ships_tests = (
         ':xwing::ywing::awing::yt1300::tiefighter::hwk290::bwing:'
         ':z95headhunter::ewing::yt2400::kwing::t70xwing::vcx100:'
         ':attackshuttle::arc170::uwing::auzituckgunship::scurrgh6bomber:'
-        ':sheathipedeclassshuttle:'
+        ':sheathipedeclassshuttle::bsf17bomber:'
     ]),
 )
 @pytest.mark.parametrize('emoji, output', print_faction_ships_tests)

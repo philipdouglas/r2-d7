@@ -113,7 +113,13 @@ class DroidCore():
 
 
     def load_data(self):
-        loop = asyncio.get_event_loop()
+        try:
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            # If we don't run in the main Thread, there won't be an event loop
+            # yet, so make one
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
         loop.run_until_complete(self._load_data())
 
     _last_checked_version = None

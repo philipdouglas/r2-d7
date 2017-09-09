@@ -1,3 +1,5 @@
+import threading
+
 import pytest
 
 from r2d7.core import DroidCore
@@ -37,3 +39,25 @@ def test_partial_canonicalize(before, after):
 def test_needs_update(testbot):
     assert testbot.data_version is not None
     assert not testbot.needs_update()
+
+
+def test_threaded(testbot):
+    def threadtest(signal):
+        # If a new event loop isn't created for the thread, this will crash
+        try:
+            assert threading.current_thread() != threading.main_thread()
+            testbot.load_data()
+        except Exception as error:
+            # Pytest will catch this stdout and print it and the signal will
+            # fail the test
+            print(error)
+            signal.clear()
+        else:
+            signal.set()
+
+    signal = threading.Event()
+    thread = threading.Thread(target=threadtest, args=(signal, ))
+    thread.start()
+    thread.join()
+    assert signal.is_set()
+

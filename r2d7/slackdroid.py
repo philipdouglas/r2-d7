@@ -8,7 +8,12 @@ from r2d7.core import DroidCore
 logger = logging.getLogger(__name__)
 
 
-HELP_TEXT = """\
+class SlackDroid(DroidCore):
+    def __init__(self):
+        super().__init__()
+        self.load_data()
+
+    help = """\
 I am R2-D7, xwingtmg.slack.com's bot.
 *List Printing:* If you paste a (Yet Another) Squad Builder, Fab's or xwing-builder.co.uk permalink into a channel I'm in (or direct message me one), I will print a summary of the list.
 *Card Lookup:* Type something surrounded by square brackets and I will describe any upgrades, ships or pilots that match what you said. (Eg. Why not try [[Engine Upgrade]])
@@ -16,12 +21,6 @@ If you only want cards in a particular slot or ship, begin your lookup with the 
 You can also search for cards by points value in a particular slot. Eg. _[[:crew: <=3]]_. =, <, >, <= and >= are supported.
 You can list the contents of each wave by saying [[Wave X]]. Eg. [[Wave 1]].
 """
-
-
-class SlackDroid(DroidCore):
-    def __init__(self):
-        super().__init__()
-        self.load_data()
 
     filter_pattern = re.compile(
         r' *(?:(:[^:]+:))? *(?:([^=><:]*[^=><: ][^=><:]*)|([=><][=><]?)'

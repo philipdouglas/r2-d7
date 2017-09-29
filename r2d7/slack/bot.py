@@ -7,6 +7,8 @@ import time
 import logging
 import traceback
 
+from websocket._exceptions import WebSocketConnectionClosedException
+
 from r2d7.slack.clients import SlackClients
 from r2d7.slack.event_handler import RtmEventHandler
 
@@ -84,15 +86,19 @@ class SlackBot(object):
             )
 
             while self.keep_running:
-                for event in self.clients.rtm.rtm_read():
-                    try:
-                        event_handler.handle(event)
-                    except Exception:
-                        logging.exception('Unexpected error:')
-                        if self.debug:
-                            err_msg = "I crashed, look at the log!"
-                            messager.write_error(event['channel'], err_msg)
-                        continue
+                try:
+                    for event in self.clients.rtm.rtm_read():
+                        try:
+                            event_handler.handle(event)
+                        except Exception:
+                            logging.exception('Unexpected error:')
+                            if self.debug:
+                                err_msg = "I crashed, look at the log!"
+                                messager.write_error(event['channel'], err_msg)
+                            continue
+                except WebSocketConnectionClosedException:
+                    self.clients.rtm.rtm_connect()
+                    continue
 
                 self._auto_ping()
                 time.sleep(.1)

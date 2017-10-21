@@ -27,10 +27,6 @@ class Messager():
         self.clients.web.chat.post_message(
             channel_id, msg, as_user=True, unfurl_links=False)
 
-    def write_help_message(self, channel_id):
-        bot_uid = self.clients.bot_user_id()
-        self.send_message(channel_id, HELP_TEXT.format(bot_uid))
-
     def write_error(self, channel_id, err_msg):
         self.send_message(channel_id, ':alarm: ' + err_msg)
 

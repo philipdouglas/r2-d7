@@ -213,6 +213,11 @@ print_card_tests = (
         ':scum: :skill1:<http://xwing-miniatures.wikia.com/wiki/Binayre_Pirate|Binayre Pirate> [12], :skill3:<http://xwing-miniatures.wikia.com/wiki/Black_Sun_Soldier|Black Sun Soldier> [13], :skill5:• <http://xwing-miniatures.wikia.com/wiki/Kaa\'to_Leeachos|Kaa\'to Leeachos> :elite: [15], :skill7:• <http://xwing-miniatures.wikia.com/wiki/N\'dru_Suhlak|N\'dru Suhlak> :elite: [17]',
         ':rebel: :skill2:<http://xwing-miniatures.wikia.com/wiki/Bandit_Squadron_Pilot|Bandit Squadron Pilot> [12], :skill4:<http://xwing-miniatures.wikia.com/wiki/Tala_Squadron_Pilot|Tala Squadron Pilot> [13], :skill6:• <http://xwing-miniatures.wikia.com/wiki/Lieutenant_Blount|Lieutenant Blount> :elite: [17], :skill8:• <http://xwing-miniatures.wikia.com/wiki/Airen_Cracken|Airen Cracken> :elite: [19]',
     ]),
+    ('attannimindlink', [
+        ':elite: *<http://xwing-miniatures.wikia.com/wiki/Attanni_Mindlink|Attanni Mindlink>* [1]',
+        '_Scum only. Limit 2 per squad._',
+        'Each time you are assigned a focus or stress token, each other friendly ship with Attanni Mindlink must also be assigned the same type of token if it does not already have one.',
+    ])
 )
 
 @pytest.mark.parametrize('name, expected', print_card_tests)

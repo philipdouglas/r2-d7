@@ -454,6 +454,9 @@ class CardLookup(DroidCore):
                 faction = 'Imperial'
             restrictions.append(f"{faction} only.")
 
+        if 'squadLimited' in card:
+            restrictions.append(f'Limit {card["squadLimited"]} per squad.')
+
         if 'type' in card:
             restrictions.append(card['type'])
 

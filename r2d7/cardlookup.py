@@ -347,9 +347,16 @@ class CardLookup(DroidCore):
                 lines.append(''.join(line))
         return lines
 
+    def pilot_skill_key(self, pilot):
+        try:
+            return int(pilot['skill'])
+        except ValueError:
+            # Put ?s at the end
+            return 15
+
     def list_pilots(self, ship):
         factions = {}
-        pilots = sorted(ship['pilots'], key=lambda pilot: pilot['skill'])
+        pilots = sorted(ship['pilots'], key=self.pilot_skill_key)
         for pilot in pilots:
             skill = self.iconify(f"skill{pilot['skill']}")
             unique = '• ' if pilot.get('unique', False) else ''

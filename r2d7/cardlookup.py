@@ -358,6 +358,8 @@ class CardLookup(DroidCore):
         factions = {}
         pilots = sorted(ship['pilots'], key=self.pilot_skill_key)
         for pilot in pilots:
+            if pilot['skill'] == '?':
+                continue
             skill = self.iconify(f"skill{pilot['skill']}")
             unique = '• ' if pilot.get('unique', False) else ''
             elite = ' ' + self.iconify('elite') if 'Elite' in pilot['slots'] else ''

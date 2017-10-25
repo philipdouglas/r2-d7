@@ -210,7 +210,7 @@ print_card_tests = (
         '3 :turnleft::bankleft::straight::bankright::turnright::redkturn:',
         '2 :turnleft::greenbankleft::greenstraight::greenbankright::turnright::blank:',
         '1 :blank::bankleft::greenstraight::bankright::blank::blank:',
-        ':scum: :skill1:<http://xwing-miniatures.wikia.com/wiki/Binayre_Pirate|Binayre Pirate> [12], :skill3:<http://xwing-miniatures.wikia.com/wiki/Black_Sun_Soldier|Black Sun Soldier> [13], :skill5:• <http://xwing-miniatures.wikia.com/wiki/Kaa\'to_Leeachos|Kaa\'to Leeachos> :elite: [15], :skill7:• <http://xwing-miniatures.wikia.com/wiki/N\'dru_Suhlak|N\'dru Suhlak> :elite: [17], :skill:• <http://xwing-miniatures.wikia.com/wiki/Nashtah_Pup_Pilot|Nashtah Pup Pilot> [?]',
+        ':scum: :skill1:<http://xwing-miniatures.wikia.com/wiki/Binayre_Pirate|Binayre Pirate> [12], :skill3:<http://xwing-miniatures.wikia.com/wiki/Black_Sun_Soldier|Black Sun Soldier> [13], :skill5:• <http://xwing-miniatures.wikia.com/wiki/Kaa\'to_Leeachos|Kaa\'to Leeachos> :elite: [15], :skill7:• <http://xwing-miniatures.wikia.com/wiki/N\'dru_Suhlak|N\'dru Suhlak> :elite: [17]',
         ':rebel: :skill2:<http://xwing-miniatures.wikia.com/wiki/Bandit_Squadron_Pilot|Bandit Squadron Pilot> [12], :skill4:<http://xwing-miniatures.wikia.com/wiki/Tala_Squadron_Pilot|Tala Squadron Pilot> [13], :skill6:• <http://xwing-miniatures.wikia.com/wiki/Lieutenant_Blount|Lieutenant Blount> :elite: [17], :skill8:• <http://xwing-miniatures.wikia.com/wiki/Airen_Cracken|Airen Cracken> :elite: [19]',
     ]),
 )

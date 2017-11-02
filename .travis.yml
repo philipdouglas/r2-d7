@@ -1,4 +1,16 @@
 language: python
-python: "3.6"
+python: '3.6'
 install: pip install -r requirements.txt
 script: pytest
+before_deploy:
+  - cd icons
+  - python -r requirements.txt
+  - python generate_emoji.py
+  - zip -r ../emoji.zip emoji
+deploy:
+  provider: releases
+  api_key:
+    secure: jSA0RhFhomqnDR2/INhTTObvFCCoPTxWy1yBAlvoGAVIYjhB31hscy6OKGzM9cCAi5HmIU6YMZ7A76ZkDRqBZU8QGfa2RdpSnYAcFpFN6zg+KWngsN2dacEZWsMoL55isAM+yNz/6PnLMkBRVpKFRqUb9TYu516RJj27qtO87x4wak4R0tuQSZvqib4ztYvgGt2bOSot6PQB/mmVEJ7MyWsGco17cPufbChMPwO2olaedk7M5zHSbFnd6zWRtlvjInHHABkJxcx29GRaVyaPAdrsmyi+iUXLp0CNKlIv0Y8V1YbmdL9/v1xhSGbBqjlK1PNsTGX2EMFuy6PwOKM7uZy32pzCH6zIW15CF2rg2ndj7pMRW1Xh6TpSbYH4m+lFR1bMfra95lWnUHXyal0wLu9vJOF3c5Zc0QMA0/VmhVKDzsFL+g/dwA5H3VWehO3porEyDtbNIMzMD65hfmN/lxJTrRGIm+d2wZlI3VNzunZZgUiN6rjJF4H+clbAn31XuMnTpFNoXSILXP07lqrXF4oPnI7vw2Q93nhzqKtLo8IrxUUuBru5J6jCUTq5NGAqbY8xv4djrhZi+6hrx19GAXXPdgJzp78kIoAa332+QbtUSeZ4s72dobHjXGA1tFNJOpxpAymglvLZQNDoxy+i5chVL4j3kD453hVlrBEvFz0=
+  file: emoji.zip
+  on:
+    repo: FreakyDug/r2-d7

@@ -14,3 +14,4 @@ deploy:
   file: emoji.zip
   on:
     repo: FreakyDug/r2-d7
+  skip_cleanup: true

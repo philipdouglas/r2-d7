@@ -7,6 +7,12 @@ A bot for xwingtmg.slack.com.
 
 <a href="https://beepboophq.com/api/slack/auth/add-to-slack/3d08ff85a092464d83b0063bead84537"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
 
+To add the icons:
+- Download the latest emoji.zip from https://github.com/FreakyDug/r2-d7/releases
+- Install https://chrome.google.com/webstore/detail/slack-emoji-tools/anchoacphlfbdomdlomnbbfhcmcdmjej
+- Go to your slack's add emoji page
+- Then drag all the files in the emoji folder into Bulk section. (You'll need to do it in a couple of goes, there's a 100 file limit)
+
 Written in Python. (Requires version 3.6 or later)
 
 Uses card data from <a href="https://github.com/guidokessels/xwing-data">guidokessels/xwing-data</a>.

@@ -58,7 +58,7 @@ class DroidCore():
         raise NotImplementedError()
 
     _data = None
-    BASE_URL = 'https://unpkg.com/xwing-data@latest/data/'
+    BASE_URL = 'https://cdn.jsdelivr.net/npm/xwing-data@latest/'
     DATA_FILES = (
         'pilots',
         'ships',
@@ -68,12 +68,20 @@ class DroidCore():
         'damage-deck-core-tfa',
         'sources',
     )
-    VERSION_RE = re.compile(r'xwing-data@([\d\.]+)')
+    VERSION_RE = re.compile(r'xwing-data/releases/tag/([\d\.]+)')
     check_frequency = 900  # 15 minutes
 
     @classmethod
     def get_file(cls, filename):
-        return filename, requests.get(f"{cls.BASE_URL}{filename}.js")
+        return filename, requests.get(f"{cls.BASE_URL}data/{filename}.js")
+
+    @classmethod
+    def get_version(cls):
+        res = requests.get(cls.BASE_URL + 'package.json')
+        if res.status_code != 200:
+            logger.warning(f"Got {res.status_code} checking data version.")
+            return False
+        return res.json()['version']
 
     async def _load_data(self):
         self._data = {}
@@ -88,16 +96,14 @@ class DroidCore():
             )
             for filename in self.DATA_FILES
         ]
+
+        self.data_version = self.get_version()
+        self._last_checked_version = time.time()
+
         for filename, res in await asyncio.gather(*futures):
             if res.status_code != 200:
                 raise DroidException(
                     f"Got {res.status_code} GETing {res.url}.")
-
-            if self.data_version is None:
-                match = self.VERSION_RE.search(res.url)
-                self.data_version = match.group(1)
-                self._last_checked_version = time.time()
-                logger.info(f"Loaded xwing-data version {self.data_version}")
 
             self._raw_data[filename] = raw_data = res.json()
 
@@ -129,12 +135,7 @@ class DroidCore():
             logger.debug("Checked version recently.")
             return False
 
-        res = requests.head(self.BASE_URL)
-        if res.status_code != 302:
-            logger.warning(f"Got {res.status_code} checking data version.")
-            return False
-
-        current_version = self.VERSION_RE.search(res.headers['Location'])[1]
+        current_version = self.get_version()
         logger.debug(f"Current xwing-data version: {current_version}")
         self._last_checked_version = time.time()
         return self.data_version != current_version

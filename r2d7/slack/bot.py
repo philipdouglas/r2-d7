@@ -5,6 +5,7 @@ MIT Licensed
 """
 import time
 import logging
+import threading
 import traceback
 
 from websocket._exceptions import WebSocketConnectionClosedException
@@ -31,8 +32,8 @@ class Messager():
         self.send_message(channel_id, ':alarm: ' + err_msg)
 
 
-class SlackBot(object):
-    def __init__(self, droid, token=None, debug=False):
+class SlackBot(threading.Thread):
+    def __init__(self, droid, name=None, token=None, debug=False):
         """Creates Slacker Web and RTM clients with API Bot User token.
 
         Args:
@@ -42,24 +43,13 @@ class SlackBot(object):
         self.last_ping = 0
         self.keep_running = True
         self.debug = debug
+        self.name = name
         if token is not None:
             self.clients = SlackClients(token)
         self.droid = droid
 
-    def start(self, resource):
-        """Creates Slack Web and RTM clients for the given Resource
-        using the provided API tokens and configuration, then connects websocket
-        and listens for RTM events.
-
-        Args:
-            resource (dict of Resource JSON): See message payloads - https://beepboophq.com/docs/article/resourcer-api
-        """
-        logger.debug('Starting bot for resource: {}'.format(resource))
-        if 'resource' in resource and 'SlackBotAccessToken' in resource['resource']:
-            res_access_token = resource['resource']['SlackBotAccessToken']
-            self.clients = SlackClients(res_access_token)
-        else:
-            logger.debug("No resource or access token found.")
+    def run(self):
+        logger.info('Running bot for: {}'.format(self.name))
 
         if self.clients.rtm.rtm_connect():
             try:
@@ -109,7 +99,7 @@ class SlackBot(object):
             self.clients.rtm.server.ping()
             self.last_ping = now
 
-    def stop(self, resource):
+    def stop(self, timeout=False):
         """Stop any polling loops on clients, clean up any resources,
         close connections if possible.
 

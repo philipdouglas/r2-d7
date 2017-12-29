@@ -1,5 +1,5 @@
 requests
-beepboop
 slackclient
 slacker
 python-dateutil
+redis

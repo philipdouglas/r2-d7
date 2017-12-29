@@ -7,8 +7,7 @@ MIT Licensed
 import logging
 import os
 
-from beepboop import resourcer
-from beepboop import bot_manager
+import redis
 
 from r2d7.slack.bot import SlackBot
 
@@ -68,11 +67,15 @@ def main():
 
     droid = Droid()
     if not slack_token:
-        logging.info("SLACK_TOKEN env var not set, connecting to Resourcer")
-        botManager = bot_manager.BotManager(lambda: SlackBot(droid))
-        res = resourcer.Resourcer(botManager)
-        res.handlers(handler_funcs)
-        res.start()
+        logging.info("SLACK_TOKEN env var not set, connecting to Redis")
+        store = redis.from_url(os.environ.get("REDIS_URL"))
+        for teamname in store.keys():
+            SlackBot(
+                droid,
+                name=teamname,
+                token=store.get(teamname),
+                debug=debug
+            ).start()
     else:
         # Run a single instance of the bot in dev mode
         bot = SlackBot(droid, slack_token, debug)

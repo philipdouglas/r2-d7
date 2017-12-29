@@ -252,7 +252,11 @@ lookup_tests = {
         ('hansolo', 'Crew'), ('hansolo', 'yt1300'), ('hansolo-swx57', 'yt1300')
     ],
     'test': [
-        ('awingtestpilot', 'Title'), ('sienartestpilot', 'tieadvprototype')],
+        ('awingtestpilot', 'Title'),
+        ('sienartestpilot', 'tieadvprototype'),
+        ('testpilotblackout', 'tiesilencer'),
+        ('firstordertestpilot', 'tiesilencer'),
+    ],
     'fcs': [('firecontrolsystem', 'System')],
     'thweek': [
         ('thweek', 'starviper'),

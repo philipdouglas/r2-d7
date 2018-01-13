@@ -1,1 +1,1 @@
-bot: python -m r2d7.slack
+web: python -m r2d7.slack

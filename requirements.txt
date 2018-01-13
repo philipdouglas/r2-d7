@@ -3,3 +3,4 @@ slackclient
 slacker
 python-dateutil
 redis
+flask

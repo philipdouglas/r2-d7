@@ -104,7 +104,8 @@ def main():
 
         return "R2-D7 has been added! Follow the instructions <a href=\"https://github.com/FreakyDug/r2-d7\">here</a> to add the icons."
 
-    app.run()
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
 
 if __name__ == "__main__":
     main()

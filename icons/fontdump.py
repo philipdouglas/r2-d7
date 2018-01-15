@@ -7,6 +7,7 @@ fonts = {
         'attack-turret': "$",
         'attack-frontback': '<',
         'attack-180': '>',
+        'attack-bullseye': "?",
         'attack': '%',
         'energy': '(',
         'epic': ')',
@@ -45,6 +46,7 @@ fonts = {
         'title': "t",
         'unique': "u",
         'recover': "v",
+        'reload': "=",
         # 'condition': '\u00B0',
     },
     "xwing-miniatures-ships.ttf": {
@@ -60,6 +62,7 @@ fonts = {
         'vcx100': "G",
         'scurrgh6bomber': "H",
         'tieinterceptor': "I",
+        'm12lkimogilafighter': 'K',
         'lancerclasspursuitcraft': "L",
         'protectoratestarfighter': "M",
         'tiepunisher': "N",
@@ -69,6 +72,7 @@ fonts = {
         'tiesffighter': "S",
         'tiestriker': 'T',
         'upsilonclassshuttle': 'U',
+        'bsf17bomber': 'Z',
         'awing': "a",
         'bwing': "b",
         'arc170': "c",
@@ -97,6 +101,9 @@ fonts = {
         'z95headhunter': "z",
         'auzituckgunship': '@',
         'tieaggressor': '`',
+        'tiesilencer': '$',
+        'alphaclassstarwing': '&',
+        'sheathipedeclassshuttle': '%',
     }
 }
 

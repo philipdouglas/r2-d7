@@ -217,6 +217,15 @@ print_card_tests = (
         ':elite: *<http://xwing-miniatures.wikia.com/wiki/Attanni_Mindlink|Attanni Mindlink>* [1]',
         '_Scum only. Limit 2 per squad._',
         'Each time you are assigned a focus or stress token, each other friendly ship with Attanni Mindlink must also be assigned the same type of token if it does not already have one.',
+    ]),
+    ('m12lkimogilafighter', [
+        ':m12lkimogilafighter: *M12-L Kimogila Fighter*',
+        ':attack3::agility1::hull6::shield2: | :attack-bullseye: | :focus: :targetlock: :barrelroll: :reload: | :torpedo::missile::salvagedastromech::illicit:',
+        '4 :blank::blank::blank::blank::blank::redkturn:',
+        '3 :turnleft::bankleft::greenstraight::bankright::turnright::blank:',
+        '2 :redturnleft::greenbankleft::greenstraight::greenbankright::redturnright::blank:',
+        '1 :redturnleft::bankleft::greenstraight::bankright::redturnright::blank:',
+        ':scum: :skill3:<http://xwing-miniatures.wikia.com/wiki/Cartel_Brute|Cartel Brute> [22], :skill5:<http://xwing-miniatures.wikia.com/wiki/Cartel_Executioner|Cartel Executioner> :elite: [24], :skill7:• <http://xwing-miniatures.wikia.com/wiki/Dalan_Oberos|Dalan Oberos> :elite: [25], :skill8:• <http://xwing-miniatures.wikia.com/wiki/Torani_Kulda|Torani Kulda> :elite: [27]',
     ])
 )
 

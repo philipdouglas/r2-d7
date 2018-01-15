@@ -248,6 +248,7 @@ class CardLookup(DroidCore):
         'Turret': 'turret',
         'Auxiliary Rear': 'frontback',
         'Auxiliary 180': '180',
+        'Bullseye': 'bullseye',
     }
 
     def ship_stats(self, ship, pilot=None):

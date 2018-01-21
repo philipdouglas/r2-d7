@@ -20,13 +20,13 @@ class Messager():
     def __init__(self, clients):
         self.clients = clients
 
-    def send_message(self, channel_id, msg):
+    def send_message(self, channel_id, msg, thread=None):
         # in the case of Group and Private channels, RTM channel payload is a complex dictionary
         if isinstance(channel_id, dict):
             channel_id = channel_id['id']
         logger.debug('Sending msg: %s to channel: %s' % (msg, channel_id))
         self.clients.web.chat.post_message(
-            channel_id, msg, as_user=True, unfurl_links=False)
+            channel_id, msg, as_user=True, unfurl_links=False, thread_ts=thread)
 
     def write_error(self, channel_id, err_msg):
         self.send_message(channel_id, ':alarm: ' + err_msg)

@@ -37,6 +37,7 @@ class RtmEventHandler(object):
         # Filter out messages from the bot itself, and from non-users (eg. webhooks)
         if ('user' in event) and (not self.clients.is_message_from_me(event['user'])):
             msg_txt = event['text']
+            logger.debug(event)
 
             # Check for new data
             if self.droid.needs_update():
@@ -70,8 +71,14 @@ class RtmEventHandler(object):
                         if response:
                             break
 
+            thread_ts = event.get('thread_ts', None)
+
             if response:
-                self.messager.send_message(event['channel'], '\n'.join(response))
+                self.messager.send_message(
+                    event['channel'],
+                    '\n'.join(response),
+                    thread=thread_ts,
+                )
 
     def _is_direct_message(self, channel):
         """Check if channel is a direct message channel

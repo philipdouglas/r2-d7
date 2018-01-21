@@ -41,12 +41,19 @@ def main():
     )
 
     slack_token = os.getenv("SLACK_TOKEN", None)
-    store = redis.from_url(os.environ["REDIS_URL"])
+    redis_url = os.getenv("REDIS_URL", None)
     logging.info("token: {}".format(slack_token))
 
     droid = Droid()
-    if not slack_token:
+    if slack_token:
+        # Run a single instance of the bot in dev mode
+        logging.info("SLACK_TOKEN env var set, running in dev mode")
+        bot = SlackBot(droid, "test", slack_token, debug)
+        bot.start()
+
+    elif redis_url:
         logging.info("SLACK_TOKEN env var not set, connecting to Redis")
+        store = redis.from_url(redis_url)
         for teamname in store.keys():
             SlackBot(
                 droid,
@@ -55,15 +62,16 @@ def main():
                 debug=debug
             ).start()
     else:
-        # Run a single instance of the bot in dev mode
-        bot = SlackBot(droid, "test", slack_token, debug)
-        bot.start()
+        logging.error("No source of slack tokens found, exiting.")
+        return()
 
     # Handle new installs
-    if "SLACK_CLIENT_ID" not in os.environ:
+    client_id = os.environ.get("SLACK_CLIENT_ID", None)
+
+    if not client_id:
         logger.info("No SLACK_CLIENT_ID env var found, not starting flask.")
         return
-    client_id = os.environ["SLACK_CLIENT_ID"]
+
     client_secret = os.environ["SLACK_CLIENT_SECRET"]
     oauth_scope = "bot"
 

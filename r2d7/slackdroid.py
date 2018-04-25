@@ -68,6 +68,8 @@ You can list the contents of each wave by saying [[Wave X]]. Eg. [[Wave 1]].
         re.compile(r'\[Tallon Roll Right\]'): ':trollright:',
         re.compile(r'\[Critical Hit\]'): ':crit:',
         re.compile(r'\[Bomb\]'): ':xbomb:',
+        re.compile(r'\[Barrel Roll\]'): ':barrelroll:',
+        re.compile(r'\[Target Lock\]'): ':targetlock:',
     }
 
     @classmethod

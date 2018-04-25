@@ -36,15 +36,6 @@ print_card_tests = (
         '_GR-75 Medium Transport only._',
         'A reinforce token assigned to your fore section acts as 2 :Evade: results (instead of one).',
     ]),
-    ('xwing', [
-        ':xwing: *X-wing*',
-        ':attack3::agility2::hull3::shield2: | :focus: :targetlock: | :torpedo::astromech:',
-        '4 :blank::blank::straight::blank::blank::redkturn:',
-        '3 :turnleft::bankleft::straight::bankright::turnright::blank:',
-        '2 :turnleft::bankleft::greenstraight::bankright::turnright::blank:',
-        '1 :blank::greenbankleft::greenstraight::greenbankright::blank::blank:',
-        ':rebel: :skill2:<http://xwing-miniatures.wikia.com/wiki/Rookie_Pilot|Rookie Pilot> [21], :skill3:• <http://xwing-miniatures.wikia.com/wiki/Tarn_Mison|Tarn Mison> [23], :skill4:<http://xwing-miniatures.wikia.com/wiki/Red_Squadron_Pilot|Red Squadron Pilot> [23], :skill5:• <http://xwing-miniatures.wikia.com/wiki/Biggs_Darklighter|Biggs Darklighter> [25], :skill5:• <http://xwing-miniatures.wikia.com/wiki/"Hobbie"_Klivian|"Hobbie" Klivian> [25], :skill6:• <http://xwing-miniatures.wikia.com/wiki/Garven_Dreis|Garven Dreis> [26], :skill7:• <http://xwing-miniatures.wikia.com/wiki/Jek_Porkins|Jek Porkins> :elite: [26], :skill8:• <http://xwing-miniatures.wikia.com/wiki/Luke_Skywalker|Luke Skywalker> :elite: [28], :skill8:• <http://xwing-miniatures.wikia.com/wiki/Wes_Janson|Wes Janson> :elite: [29], :skill9:• <http://xwing-miniatures.wikia.com/wiki/Wedge_Antilles|Wedge Antilles> :elite: [29]',
-    ]),
     ('firespray31', [
         ':firespray31: *Firespray-31*',
         # The card actually has bomb before crew, but that contradicts other cards
@@ -226,6 +217,11 @@ print_card_tests = (
         '2 :redturnleft::greenbankleft::greenstraight::greenbankright::redturnright::blank:',
         '1 :redturnleft::bankleft::greenstraight::bankright::redturnright::blank:',
         ':scum: :skill3:<http://xwing-miniatures.wikia.com/wiki/Cartel_Brute|Cartel Brute> [22], :skill5:<http://xwing-miniatures.wikia.com/wiki/Cartel_Executioner|Cartel Executioner> :elite: [24], :skill7:• <http://xwing-miniatures.wikia.com/wiki/Dalan_Oberos|Dalan Oberos> :elite: [25], :skill8:• <http://xwing-miniatures.wikia.com/wiki/Torani_Kulda|Torani Kulda> :elite: [27]',
+    ]),
+    ('vectoredthrusters', [
+        ':modification: *<http://xwing-miniatures.wikia.com/wiki/Vectored_Thrusters|Vectored Thrusters>* [2]',
+        '_Small ship only._',
+        'Your action bar gains the :barrelroll: action icon.',
     ])
 )
 

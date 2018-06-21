@@ -97,3 +97,4 @@ env*
 r2d7.egg-info
 .coverage
 .env
+*.code-workspace

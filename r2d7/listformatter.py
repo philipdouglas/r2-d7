@@ -83,6 +83,7 @@ class ListFormatter(DroidCore):
             cards = []
             tiex1 = False
             vaksai = False
+            renegade = False
             if 'upgrades' in pilot:
                 for slot, upgrades in pilot['upgrades'].items():
                     for upgrade in upgrades:
@@ -92,6 +93,7 @@ class ListFormatter(DroidCore):
                             cards.append(None)
                         tiex1 = tiex1 or upgrade == 'tiex1'
                         vaksai = vaksai or upgrade == 'vaksai'
+                        renegade = renegade or upgrade == 'renegaderefit'
 
             upgrades = []
             for upgrade in cards:
@@ -101,8 +103,6 @@ class ListFormatter(DroidCore):
 
                 if upgrade['name'] == 'Veteran Instincts':
                     skill += 2
-                if tiex1 and upgrade['slot'] == 'System':
-                    points -= min(4, upgrade['points'])
                 upgrade_name = upgrade['name']
                 if upgrade['xws'] == 'adaptability':
                     upgrade_name = 'Adaptability'
@@ -121,6 +121,10 @@ class ListFormatter(DroidCore):
                 cost = upgrade['points']
                 if vaksai and cost >= 1:
                     cost -= 1
+                if renegade and upgrade['slot'] == 'Elite' and cost >= 1:
+                    cost -= 1
+                if tiex1 and upgrade['slot'] == 'System':
+                    points -= min(4, upgrade['points'])
                 points += cost
 
             ship_line = (

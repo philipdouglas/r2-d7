@@ -132,11 +132,11 @@ print_card_tests = (
         'Your upgrade bar gains the :System: upgrade icon.',
         'If you equip a :System: upgrade, its squad point cost is reduced by 4 (to a minimum of 0).',
     ]),
-    pytest.param('automatedprotocols', [
+    ('automatedprotocols', [
         ':modification: *<http://xwing-miniatures.wikia.com/wiki/Automated_Protocols|Automated Protocols>* [5]',
         '_Huge ship only._',
         'Once per round, after you perform an action that is not a recover or reinforce action, you may spend 1 energy to perform a free recover or reinforce action.',
-    ], marks=pytest.mark.xfail),
+    ]),
     ('deadeye', [
         ':elite: *<http://xwing-miniatures.wikia.com/wiki/Deadeye|Deadeye>* [1]',
         '_Small ship only._',
@@ -177,11 +177,11 @@ print_card_tests = (
         '_Ship_',
         'This card counts as *2 damage* against your hull.',
     ]),
-    pytest.param('directhit.1', [
+    ('directhit.1', [
         ':crit: *Direct Hit!* (TFA)',
         '_Ship_',
         'This card counts as *2 damage* against your hull.',
-    ], marks=pytest.mark.xfail),
+    ]),
     ('damagedsensorarray.0', [
         ':crit: *Damaged Sensor Array* (Original)',
         '_Ship_',

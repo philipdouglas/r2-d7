@@ -4,22 +4,9 @@ from itertools import chain
 import logging
 import re
 
-from r2d7.core import DroidCore, DroidException
+from r2d7.core import DroidCore, DroidException, long_substr
 
 logger = logging.getLogger(__name__)
-
-
-def long_substr(data):
-    """
-    From: https://stackoverflow.com/a/2894073/1424112
-    """
-    substr = ''
-    if len(data) > 1 and len(data[0]) > 0:
-        for i in range(len(data[0])):
-            for j in range(len(data[0])-i+1):
-                if j > len(substr) and all(data[0][i:i+j] in x for x in data):
-                    substr = data[0][i:i+j]
-    return substr
 
 
 class CardLookup(DroidCore):
@@ -29,15 +16,6 @@ class CardLookup(DroidCore):
         self.register_dm_handler(r'(.*)', self.handle_lookup)
 
     _lookup_data = None
-
-    _processing_order = (
-        'upgrades',
-        'ships',
-        'pilots',
-        'conditions',
-        'damage-deck-core',
-        'damage-deck-core-tfa',
-    )
 
     _action_order = (
         'Focus',
@@ -62,21 +40,25 @@ class CardLookup(DroidCore):
             return 100
 
     _slot_order = (
-        'Elite',
+        'Talent',
+        'Force',
         'System',
         'Cannon',
         'Turret',
         'Torpedo',
         'Missile',
         'Crew',
-        'Astromech',
-        'Salvaged Astromech',
-        'Bomb',
-        'Tech',
+        'Gunner',
+        'Astromech Droid',
+        'Device',
         'Illicit',
-        'Hardpoint',
-        'Team',
-        'Cargo',
+        'Modification',
+        'Title',
+        'Configuration',
+        # 'Tech',
+        # 'Hardpoint',
+        # 'Team',
+        # 'Cargo',
     )
     @classmethod
     def _slot_key(cls, slot):
@@ -107,7 +89,7 @@ class CardLookup(DroidCore):
         'stressbot': 'r3a2',
         'countesskturn': 'countessryad',
         'countesskturns': 'countessryad',
-        'countessgreenkturn': 'countessryad',
+        'countessbluekturn': 'countessryad',
         'bmst': 'blackmarketslicertools',
         'snuggling': 'smugglingcompartment',
         'snugglingcompartment': 'smugglingcompartment',
@@ -122,52 +104,59 @@ class CardLookup(DroidCore):
         next_id = 0
         self._lookup_data = {}
         self._name_to_xws = {}
-        for group in self._processing_order:
-            cards = self.data[group]
-            for name, cards in cards.items():
+        for names in self.data.values():
+            for name, cards in names.items():
                 for card in cards:
-                    if group == 'conditions':
-                        card['slot'] = 'condition'
-                    elif group == 'ships':
-                        card['slot'] = card['xws']
-                        card['actions'].sort(key=self._action_key)
-                    elif 'damage-deck' in group:
-                        card['slot'] = 'crit'
-                        card['deck'] = 'TFA' if 'tfa' in group else 'Original'
-                    elif group == 'pilots':
-                        ships = self._lookup_data[
-                            self._name_to_xws[card['ship']]]
-                        if len(ships) > 1:
-                            raise DroidException(
-                                f"Duplicate ship found: {ships}")
-                        card['ship_card'] = ships[0]
-
-                        # Add pilot to it's ship so we can list ship pilots
-                        card['ship_card'].setdefault('pilots', []).append(
-                            card)
-
-                        if 'ship_override' in card:
-                            card['ship_card'] = copy.copy(card['ship_card'])
-                            card['ship_card'].update(card['ship_override'])
-
-                        card['slots'].sort(key=self._slot_key)
-
-                        # Give ship slots if it doesn't have them
-                        try:
-                            skill = int(card['skill'])
-                            if card['ship_card'].get('_slot_skill', 13) > skill:
-                                card['ship_card']['_slot_skill'] = skill
-                                card['ship_card']['slots'] = card['slots']
-                        except ValueError:
-                            pass
-
-                        card['slot'] = card['ship_card']['xws']
-
-                    card['_id'] = next_id
-                    card['_group'] = group
-                    next_id += 1
                     self._lookup_data.setdefault(name, []).append(card)
                     self._name_to_xws[card['name']] = card['xws']
+                    card['_id'] = next_id
+                    next_id += 1
+        # for group in self._processing_order:
+        #     cards = self.data[group]
+        #     for name, cards in cards.items():
+        #         for card in cards:
+        #             if group == 'conditions':
+        #                 card['slot'] = 'condition'
+        #             elif group == 'ships':
+        #                 card['slot'] = card['xws']
+        #                 card['actions'].sort(key=self._action_key)
+        #             elif 'damage-deck' in group:
+        #                 card['slot'] = 'crit'
+        #                 card['deck'] = 'TFA' if 'tfa' in group else 'Original'
+        #             elif group == 'pilots':
+        #                 ships = self._lookup_data[
+        #                     self._name_to_xws[card['ship']]]
+        #                 if len(ships) > 1:
+        #                     raise DroidException(
+        #                         f"Duplicate ship found: {ships}")
+        #                 card['ship_card'] = ships[0]
+
+        #                 # Add pilot to it's ship so we can list ship pilots
+        #                 card['ship_card'].setdefault('pilots', []).append(
+        #                     card)
+
+        #                 if 'ship_override' in card:
+        #                     card['ship_card'] = copy.copy(card['ship_card'])
+        #                     card['ship_card'].update(card['ship_override'])
+
+        #                 card['slots'].sort(key=self._slot_key)
+
+        #                 # Give ship slots if it doesn't have them
+        #                 try:
+        #                     skill = int(card['skill'])
+        #                     if card['ship_card'].get('_slot_skill', 13) > skill:
+        #                         card['ship_card']['_slot_skill'] = skill
+        #                         card['ship_card']['slots'] = card['slots']
+        #                 except ValueError:
+        #                     pass
+
+        #                 card['slot'] = card['ship_card']['xws']
+
+        #             card['_id'] = next_id
+        #             card['_group'] = group
+        #             next_id += 1
+        #             self._lookup_data.setdefault(name, []).append(card)
+        #             self._name_to_xws[card['name']] = card['xws']
 
     _multi_lookup_pattern = re.compile(r'\]\][^\[]*\[\[')
     @property
@@ -293,7 +282,7 @@ class CardLookup(DroidCore):
     difficulties = {
         0: 'blank',
         1: '',  # Default black icons are white for our purposes
-        2: 'green',
+        2: 'blue',
         3: 'red',
     }
 
@@ -372,18 +361,11 @@ class CardLookup(DroidCore):
 
     def format_name(self, card):
         # There's no wiki pages for ships or crits
-        if card['_group'] == 'ships' or card['slot'] == 'crit':
+        if card['category'] == 'ships' or card['category'] == 'damage':
             return card['name']
         else:
-            return self.wiki_link(
-                card['name'],
-                (
-                    card['slot'] == 'Crew' and (
-                        card['xws'] in self.data['pilots'] or
-                        card['xws'] == 'r2d2-swx22'
-                    )
-                )
-            )
+            return self.wiki_link(card['name'])
+            #TODO handle special cases
 
     def ship_restriction(self, card):
         """
@@ -401,18 +383,37 @@ class CardLookup(DroidCore):
                 restriction = ' and '.join(card['ship'])
         return f"{restriction} only."
 
+    def action_icon(self, action):
+        difficulty = '' if action['difficulty'] == 'White' else action['difficulty']
+        return self.iconify(difficulty + action['type'])
+
     def print_card(self, card):
-        is_ship = card['_group'] == 'ships'
-        is_pilot = card['_group'] == 'pilots'
+        is_ship = card['category'] == 'ship'
+        is_pilot = card['category'] == 'pilot'
+
+        front_side = card['sides'][0]
 
         text = []
         text.append(''.join((
-            self.iconify(card['slot']),
-            ' • ' if card.get('unique', False) else ' ',
+            ''.join(self.iconify(slot) for slot in front_side['slots']),
+            ' • ' if card.get('limited', False) else ' ',
             self.bold(self.format_name(card)),
             f" [{card['points']}]" if 'points' in card else '',
             f" ({card['deck']})" if 'deck' in card else '',
         )))
+
+        second_line = []
+        if 'restrictions' in card:
+            restrictions = []
+            for restrict in card['restrictions']:
+                if restrict['action']:
+                    restrictions.append(self.action_icon(restrict['action']))
+            second_line.append('Restrictions: ' + ' '.join(restrictions))
+        if 'actions' in front_side:
+            second_line.append('Actions: ' + ''.join(
+                self.action_icon(action) for action in front_side['actions']
+            ))
+        text.append(' | '.join(second_line))
 
         if is_pilot:
             text.append(self.ship_stats(card['ship_card'], card))
@@ -425,48 +426,21 @@ class CardLookup(DroidCore):
         if 'pilots' in card:
             text += self.list_pilots(card)
 
-        elif 'attack' in card or 'energy' in card:
+        elif 'attack' in card:
             line = []
             if 'attack' in card:
                 attack_size = self.iconify(f"attack{card['attack']}")
                 line.append(f"{self.iconify('attack')}{attack_size}")
             if 'range' in card:
                 line.append(f"Range: {card['range']}")
-            if 'energy' in card:
-                plus = 'plus' if card['slot'] == 'Title' else ''
-                energy_size = self.iconify(f"energy{plus}{card['energy']}")
-                line.append(f"{self.iconify('energy')}{energy_size}")
             text.append(' | '.join(line))
 
-        restrictions = []
-        if 'ship' in card and not is_pilot:
-            restrictions.append(self.ship_restriction(card))
+        if 'ability' in front_side:
+            text += self.convert_html(front_side['ability'])
 
-        if card.get('limited', False):
-            restrictions.append('Limited.')
-
-        if 'size' in card and card['_group'] == 'upgrades':
-            sizes = [size.title() for size in card['size']]
-            restrictions.append(f"{' and '.join(sizes)} ship only.")
-
-        if 'faction' in card and not (is_ship or is_pilot):
-            faction = card['faction'].split(' ')[0]
-            if faction == 'Galactic':
-                faction = 'Imperial'
-            restrictions.append(f"{faction} only.")
-
-        if 'squadLimited' in card:
-            restrictions.append(f'Limit {card["squadLimited"]} per squad.')
-
-        if 'type' in card:
-            restrictions.append(card['type'])
-
-        if restrictions:
-            text.append(self.italics(' '.join(restrictions)))
-
-
-        if 'text' in card:
-            text += self.convert_html(card['text'])
+        if 'text' in front_side:
+            # text += self.convert_html(front_side['text'])
+            text.append(self.italics(front_side['text']))
 
         return text
 

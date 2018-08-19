@@ -69,7 +69,7 @@ You can list the contents of each wave by saying [[Wave X]]. Eg. [[Wave 1]].
         re.compile(r'\[Critical Hit\]'): ':crit:',
         re.compile(r'\[Bomb\]'): ':xbomb:',
         re.compile(r'\[Barrel Roll\]'): ':barrelroll:',
-        re.compile(r'\[Target Lock\]'): ':targetlock:',
+        re.compile(r'\[Bullseye Arc\]'): ':bullseyearc:',
     }
 
     @classmethod
@@ -110,7 +110,7 @@ You can list the contents of each wave by saying [[Wave X]]. Eg. [[Wave 1]].
             fudged_name += '_(VCX-100)'
         elif re.match(r'"Heavy_Scyk"_Interceptor', fudged_name):
             fudged_name = '"Heavy_Scyk"_Interceptor'
-        url = f"http://xwing-miniatures.wikia.com/wiki/{fudged_name}"
+        url = f"http://xwing-miniatures-second-edition.wikia.com/wiki/{fudged_name}"
         return cls.link(url, card_name)
 
     @staticmethod

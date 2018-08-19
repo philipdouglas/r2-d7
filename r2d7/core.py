@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import json
 from pathlib import Path
 import re
 import time
@@ -58,34 +59,39 @@ class DroidCore():
         raise NotImplementedError()
 
     _data = None
-    BASE_URL = 'https://cdn.jsdelivr.net/npm/xwing-data@latest/'
-    DATA_FILES = (
-        'pilots',
-        'ships',
-        'upgrades',
-        'conditions',
-        'damage-deck-core',
-        'damage-deck-core-tfa',
-        'sources',
-    )
-    VERSION_RE = re.compile(r'xwing-data/releases/tag/([\d\.]+)')
+    BASE_URL = 'https://raw.githubusercontent.com/andrelind/xwing-data2/restrictions/'
+    MANIFEST = 'data/manifest.json'
+    # VERSION_RE = re.compile(r'xwing-data/releases/tag/([\d\.]+)')
     check_frequency = 900  # 15 minutes
 
     @classmethod
-    def get_file(cls, filename):
-        return filename, requests.get(f"{cls.BASE_URL}data/{filename}.js")
+    def get_file(cls, filepath):
+        return filepath, requests.get(cls.BASE_URL + filepath)
 
     @classmethod
     def get_version(cls):
-        res = requests.get(cls.BASE_URL + 'package.json')
+        res = requests.get(
+            'https://api.github.com/repos/andrelind/xwing-data2/branches/restrictions')
         if res.status_code != 200:
             logger.warning(f"Got {res.status_code} checking data version.")
             return False
-        return res.json()['version']
+        return res.json()['commit']['sha']
 
     async def _load_data(self):
+        res = requests.get(self.BASE_URL + self.MANIFEST)
+        if res.status_code != 200:
+            raise DroidException( f"Got {res.status_code} GETing {res.url}.")
+        manifest = res.json()
+
+        files = (
+            manifest['damagedecks'] +
+            manifest['upgrades'] +
+            [manifest['conditions']] +
+            [ship for faction in manifest['pilots']
+                for ship in faction['ships']]
+        )
+
         self._data = {}
-        self._raw_data = {}
         self.data_version = None
         loop = asyncio.get_event_loop()
         futures = [
@@ -94,29 +100,49 @@ class DroidCore():
                 self.get_file,
                 filename,
             )
-            for filename in self.DATA_FILES
+            for filename in files
         ]
 
         self.data_version = self.get_version()
         self._last_checked_version = time.time()
 
-        for filename, res in await asyncio.gather(*futures):
+        for filepath, res in await asyncio.gather(*futures):
             if res.status_code != 200:
                 raise DroidException(
                     f"Got {res.status_code} GETing {res.url}.")
 
-            self._raw_data[filename] = raw_data = res.json()
+            _, category, remaining = filepath.split('/', maxsplit=2)
 
-            # Sources aren't cards, so we only want them in the raw data
-            if filename == 'sources':
-                continue
+            raw_data = res.json()
 
-            self._data[filename] = group = {}
-            for card in raw_data:
-                card.setdefault('xws', self.partial_canonicalize(card['name']))
-                group.setdefault(card['xws'], []).append(card)
+            if category == 'upgrades':
+                for card in raw_data:
+                    self.add_card('upgrade', card)
+
+            elif category == 'pilots':
+                ship = raw_data
+                ship['xws'] = remaining.split('/')[1][:-5].replace('-', '')
+                for pilot in ship['pilots']:
+                    pilot['ship'] = ship
+                    self.add_card('pilot', pilot)
+                self.add_card('ship', ship)
+
+            elif category == 'damage-decks':
+                for card in raw_data['cards']:
+                    card['name'] = card['title']
+                    card['xws'] = self.partial_canonicalize(card['name'])
+                    card['deck'] = remaining[:-5]
+                    self.add_card('damage', card)
+
+            elif category == 'conditions':
+                for card in raw_data:
+                    self.add_card('condition', card)
 
 
+    def add_card(self, category, card):
+        card['category'] = category
+        category = self._data.setdefault(category, {})
+        category.setdefault(card['xws'], []).append(card)
 
     def load_data(self):
         try:
@@ -146,12 +172,6 @@ class DroidCore():
             self.load_data()
         return self._data
 
-    @property
-    def raw_data(self):
-        if self._raw_data is None:
-            self.load_data()
-        return self._raw_data
-
     @staticmethod
     def partial_canonicalize(string):
         #TODO handle special cases https://github.com/elistevens/xws-spec
@@ -159,3 +179,16 @@ class DroidCore():
         string = unicodedata.normalize('NFKD', string)
         string = re.sub(r'[^a-zA-Z0-9]', '', string)
         return string
+
+
+def long_substr(data):
+    """
+    From: https://stackoverflow.com/a/2894073/1424112
+    """
+    substr = ''
+    if len(data) > 1 and len(data[0]) > 0:
+        for i in range(len(data[0])):
+            for j in range(len(data[0])-i+1):
+                if j > len(substr) and all(data[0][i:i+j] in x for x in data):
+                    substr = data[0][i:i+j]
+    return substr

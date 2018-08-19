@@ -5,25 +5,21 @@ import pytest
 from r2d7.core import DroidCore
 
 
-data_files = [
-    'conditions',
-    'damage-deck-core',
-    'damage-deck-core-tfa',
-    'pilots',
-    # 'reference-cards',
-    'ships',
-    # 'sources',
-    'upgrades',
+categories = [
+    'condition',
+    'damage',
+    'pilot',
+    'ship',
+    'upgrade',
 ]
 
 def test_data(testbot):
-    for filename in data_files:
+    for filename in categories:
         assert filename in testbot.data
 
     assert testbot.data_version is not None
-    assert testbot.data['ships']['xwing'][0]['name'] == 'X-wing'
-    assert testbot.data['conditions']['adebttopay'][0]['id'] == 3
-
+    assert testbot.data['ship']['starviperclassattackplatform'][0]['name'] == "StarViper-class Attack Platform"
+    assert testbot.data['upgrade']['genius'][0]['name'] == "\"Genius\""
 
 
 partial_canonicalize_tests = {

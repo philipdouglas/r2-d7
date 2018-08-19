@@ -1,6 +1,6 @@
 import copy
 from html import unescape
-from itertools import chain
+from itertools import chain, groupby
 import logging
 import re
 
@@ -279,63 +279,54 @@ class CardLookup(DroidCore):
 
         return ' | '.join(line)
 
-    difficulties = {
-        0: 'blank',
-        1: '',  # Default black icons are white for our purposes
-        2: 'blue',
-        3: 'red',
+    # Dialgen format defined here: http://xwvassal.info/dialgen/dialgen
+    maneuver_key = (
+        ('T', 'turnleft'),
+        ('B', 'bankleft'),
+        ('F', 'straight'),
+        ('N', 'bankright'),
+        ('Y', 'turnright'),
+        ('K', 'kturn'),
+        ('L', 'sloopleft'),
+        ('P', 'sloopright'),
+        ('E', 'trollleft'),
+        ('R', 'trollright'),
+        ('A', 'reversebankleft'),
+        ('S', 'reversestraight'),
+        ('D', 'reversebankright'),
+    )
+    stop_maneuver = ('O', 'stop')
+
+    difficulty_key = {
+        'R': 'red',
+        'W': '',
+        'G': 'green',
+        'B': 'blue',
     }
 
-    bearings = {
-        0: 'turnleft',
-        1: 'bankleft',
-        2: 'straight',
-        3: 'bankright',
-        4: 'turnright',
-        5: 'kturn',
-        6: 'sloopleft',
-        7: 'sloopright',
-        8: 'trollleft',
-        9: 'trollright',
-        10: 'reversebankleft',
-        11: 'reversestraight',
-        12: 'reversebankright',
-    }
-
-    def maneuvers(self, card):
-        # Find the longest row
-        longest = max(len(row) for row in card['maneuvers'])
-        # Check for blank columns so we can skip them
-        # (eg. a ship with sloops but no k-turn)
-        cols = []
-        for bearing in range(longest):
-            empty = True
-            for distance in card['maneuvers']:
-                try:
-                    if distance[bearing] != 0:
-                        empty = False
-                except IndexError:
+    def maneuvers(self, dial):
+        used_moves = {move[1] for move in dial}
+        dial = {speed: {move[1]: move[2] for move in moves}
+                for speed, moves in groupby(dial, lambda move: move[0])}
+        result = []
+        blank = self.iconify('blank')
+        for speed, moves in dial.items():
+            line = [speed + ' ']
+            for dialgen_move, droid_move in self.maneuver_key:
+                if dialgen_move not in used_moves:
                     continue
-            if not empty:
-                cols.append(bearing)
+                if speed == '0' and dialgen_move == 'F':
+                    dialgen_move, droid_move = self.stop_maneuver
+                if dialgen_move in moves:
+                    line.append(self.iconify(
+                        self.difficulty_key[moves[dialgen_move]] + droid_move
+                    ))
+                else:
+                    line.append(blank)
 
-        lines = []
-        for distance in reversed(range(len(card['maneuvers']))):
-            line = [f"{distance} "]
-            no_bearings = True
-            for bearing in cols:
-                try:
-                    difficulty = card['maneuvers'][distance][bearing]
-                except IndexError:
-                    difficulty = 0
-                move = self.difficulties[difficulty]
-                if difficulty != 0:
-                    no_bearings = False
-                    move += 'stop' if distance == 0 else self.bearings[bearing]
-                line.append(self.iconify(move))
-            if not no_bearings:
-                lines.append(''.join(line))
-        return lines
+            result.append(''.join(line))
+        result.reverse()
+        return result
 
     def pilot_skill_key(self, pilot):
         try:

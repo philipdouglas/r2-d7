@@ -290,3 +290,40 @@ def test_lookup(testbot, lookup, expected):
 def test_card_limit(testbot):
     assert testbot.handle_lookup('squadron') == [
         'Your search matched more than 10 cards, please be more specific.']
+
+@pytest.mark.parametrize('dialgen, slack', (
+    ([
+        "1TW", "1YW", "2TW", "2BB", "2FB", "2NB", "2YW", "3TW", "3BW", "3FB",
+        "3NW", "3YW", "3KR", "4FW", "4KR", "5FW"
+    ],
+    [
+        '5 :blank::blank::straight::blank::blank::blank:',
+        '4 :blank::blank::straight::blank::blank::redkturn:',
+        '3 :turnleft::bankleft::bluestraight::bankright::turnright::redkturn:',
+        '2 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank:',
+        '1 :turnleft::blank::blank::blank::turnright::blank:',
+    ]
+    ),
+    ([
+        "1AR", "1DR", "1TW", "1BW", "1FW", "1NW", "1YW", "2SR", "2LR", "2TW",
+        "2BB", "2FB", "2NB", "2YW", "2PR", "3BW", "3FB", "3NW"
+    ],
+    [
+        '3 :blank::bankleft::bluestraight::bankright::blank::blank::blank::blank::blank::blank:',
+        '2 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::redsloopleft::redsloopright::blank::redreversestraight::blank:',
+        '1 :turnleft::bankleft::straight::bankright::turnright::blank::blank::redreversebankleft::blank::redreversebankright:',
+    ]
+    ),
+    ([
+        "0OR", "1BB", "1FB", "1NB", "2TR", "2BW", "2FB", "2NW", "2YR", "3BR",
+        "3FW", "3NR"
+    ],
+    [
+        '3 :blank::redbankleft::straight::redbankright::blank:',
+        '2 :redturnleft::bankleft::bluestraight::bankright::redturnright:',
+        '1 :blank::bluebankleft::bluestraight::bluebankright::blank:',
+        '0 :blank::blank::redstop::blank::blank:',
+    ] )
+))
+def test_maneuvers(testbot, dialgen, slack):
+    assert testbot.maneuvers(dialgen) == slack

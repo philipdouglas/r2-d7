@@ -410,6 +410,9 @@ class CardLookup(DroidCore):
                         self.restriction_faction_map[faction]
                         for faction in restrict['factions']
                     ))
+                if 'chassis' in restrict:
+                    restrictions.append(' or '.join(
+                        self.iconify(ship) for ship in restrict['chassis']))
             second_line.append('Restrictions: ' + ' '.join(restrictions))
         text.append(' | '.join(second_line))
 

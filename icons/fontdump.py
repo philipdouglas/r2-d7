@@ -53,7 +53,7 @@ fonts = {
         'device': "B",
         'cannon': "C",
         'cargo': "G",
-        'config': 'n',
+        'configuration': 'n',
         'crew': "W",
         'talent': "E",
         'gunner': 'Y',

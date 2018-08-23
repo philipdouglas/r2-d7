@@ -31,6 +31,11 @@ print_card_tests = (
         'While another friendly ship defends or performs an attack, you may spend 1 :Force: to modify 1 of its dice as though that ship had spent 1 :Force:.',
         ':purpleforce::forceplus1::purplerecurring:',
     ]),
+    ('os1arsenalloadout', [
+        ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Os-1_Arsenal_Loadout|Os-1 Arsenal Loadout>* [0]',
+        'Restrictions: :alphaclassstarwing:',
+        'While you have exactly 1 disarm token, you can still perform :Torpedo: and :Missile: attacks against targets you have locked. If you do, you cannot spend your lock during the attack. Add :Torpedo: and :Missile: slots.',
+    ])
     # ('brighthope', [
     #     ':title: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Bright_Hope|Bright Hope>* [5]',
     #     ':energy::energyplus2:',

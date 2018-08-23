@@ -10,7 +10,8 @@ stat_ranges = {
     'hull': ([str(num) for num in range(0, 13)], '#B6B335'),
     'shield': ([str(num) for num in range(0, 7)], '#7ED3E5'),
     'charge': ([str(num) for num in range(0, 5)], '#E5B922'),
-    'force': ([str(num) for num in range(0, 5)], '#C39DC9'),
+    'force': ([str(num) for num in range(0, 5)] +
+              [f"+{num}" for num in range(1, 5)], '#C39DC9'),
 }
 
 size = (128, 128)

@@ -378,6 +378,12 @@ class CardLookup(DroidCore):
         difficulty = '' if action['difficulty'] == 'White' else action['difficulty']
         return self.iconify(difficulty + action['type'])
 
+    restriction_faction_map = {
+        'Galactic Empire': 'Imperial',
+        'Rebel Alliance': 'Rebel',
+        'Scum and Villainy': 'Scum',
+    }
+
     def print_card(self, card):
         is_ship = card['category'] == 'ship'
         is_pilot = card['category'] == 'pilot'
@@ -397,13 +403,14 @@ class CardLookup(DroidCore):
         if 'restrictions' in card:
             restrictions = []
             for restrict in card['restrictions']:
-                if restrict['action']:
+                if 'action' in restrict:
                     restrictions.append(self.action_icon(restrict['action']))
+                if 'factions' in restrict:
+                    restrictions.append(' or '.join(
+                        self.restriction_faction_map[faction]
+                        for faction in restrict['factions']
+                    ))
             second_line.append('Restrictions: ' + ' '.join(restrictions))
-        if 'actions' in front_side:
-            second_line.append('Actions: ' + ''.join(
-                self.action_icon(action) for action in front_side['actions']
-            ))
         text.append(' | '.join(second_line))
 
         if is_pilot:
@@ -417,7 +424,7 @@ class CardLookup(DroidCore):
         if 'pilots' in card:
             text += self.list_pilots(card)
 
-        elif 'attack' in card:
+        if 'attack' in card:
             line = []
             if 'attack' in card:
                 attack_size = self.iconify(f"attack{card['attack']}")
@@ -430,8 +437,27 @@ class CardLookup(DroidCore):
             text += self.convert_html(front_side['ability'])
 
         if 'text' in front_side:
-            # text += self.convert_html(front_side['text'])
             text.append(self.italics(front_side['text']))
+
+        last_line = []
+        if 'charges' in front_side:
+            charges = front_side['charges']
+            last_line.append(
+                self.iconify('orangecharge') +
+                self.iconify(f"charge{charges['value']}") +
+                (self.iconify('orangerecurring') if charges['recovers'] else ''))
+        if 'force' in front_side:
+            force = front_side['force']
+            last_line.append(
+                self.iconify('purpleforce') +
+                self.iconify(f"forceplus{force['value']}") +
+                (self.iconify('purplerecurring') if force['recovers'] else ''))
+        if 'actions' in front_side:
+            last_line.append(''.join(
+                self.action_icon(action) for action in front_side['actions']
+            ))
+        if last_line:
+            text.append(' | '.join(last_line))
 
         return text
 

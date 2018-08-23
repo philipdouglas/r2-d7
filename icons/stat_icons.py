@@ -6,10 +6,6 @@ from PIL import Image, ImageFont, ImageDraw, ImageOps, ImageFilter
 stat_ranges = {
     'initiative': ([str(num) for num in range(0, 8)], '#CD6D2D'),
     'attack': (['-'] + [str(num) for num in range(0, 6)], '#EF232B'),
-    'energy': (
-        [str(num) for num in range(0, 6)] + ['+{}'.format(num) for num in range(0, 5)],
-        '#C7B5E2',
-    ),
     'agility': ([str(num) for num in range(0, 5)], '#6BBE44'),
     'hull': ([str(num) for num in range(0, 13)], '#B6B335'),
     'shield': ([str(num) for num in range(0, 7)], '#7ED3E5'),

@@ -22,7 +22,7 @@ fonts = {
 }
 colours = {
     '': (0, 0, 0),
-    'green': '#7CC33B',
+    'blue': '#55C1F2',
     'red': '#E61713',
 }
 

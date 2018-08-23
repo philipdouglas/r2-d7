@@ -97,3 +97,5 @@ env*
 r2d7.egg-info
 .coverage
 .env
+
+.pytest_cache/v/cache/nodeids

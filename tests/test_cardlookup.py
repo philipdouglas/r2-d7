@@ -16,8 +16,8 @@ print_card_tests = (
     ]),
     ('homingmissiles', [
         ':missile: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Homing_Missiles|Homing Missiles>* [2]',
-        ':front_arc::attack4::munition: 2-3 | :charge::charge2:',
-        '*Attack (:targetlock:):* Spend 1 :charge:. After you declare the defender, the defender may choose to suffer 1 :hit: damage. If it does, skip the Attack and Defense Dice steps and the attack is treated as hitting.',
+        ':front_arc::attack4::rangebonusindicator: 2-3 | :charge::charge2:',
+        '*Attack (:targetlock:):* Spend 1 :Charge:. After you declare the defender, the defender may choose to suffer 1 :Hit: damage. If it does, skip the Attack and Defense Dice steps and the attack is treated as hitting.',
     ]),
     # ('brighthope', [
     #     ':title: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Bright_Hope|Bright Hope>* [5]',

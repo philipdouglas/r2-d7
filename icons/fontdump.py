@@ -7,8 +7,12 @@ class Colour:
     default = ('', (0, 0, 0))
 
     def __init__(self, letter):
-        self.letter = letter
-        self.colours = [self.default]
+        try:
+            self.colours = letter.colours
+            self.letter = letter.letter
+        except AttributeError:
+            self.letter = letter
+            self.colours = [self.default]
 
     @staticmethod
     def factory(name, colour):
@@ -83,8 +87,8 @@ fonts = {
         'crit': "c",
         'hit': "d",
         'forcecharge': 'h',
-        'rangebonusindicator': '?',
-        'recurring': '`',
+        'rangebonusindicator': Red('?'),
+        'recurring': Orange(Purple('`')),
         # 'condition': '\u00B0',
     },
     "xwing-miniatures-ships.ttf": {

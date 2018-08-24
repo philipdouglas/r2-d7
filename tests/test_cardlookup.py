@@ -344,3 +344,12 @@ def test_card_limit(testbot):
 ))
 def test_maneuvers(testbot, dialgen, slack):
     assert testbot.maneuvers(dialgen) == slack
+
+@pytest.mark.parametrize('action, expected', [
+    ({"difficulty": "White", "type": "Focus"}, ":focus:"),
+    ({"difficulty": "White", "type": "Barrell Roll", "linked": {
+        "difficulty": "Red", "type": "Focus"}},
+     ":barrellroll::linked::redfocus:")
+])
+def test_print_action(testbot, action, expected):
+    assert testbot.print_action(action) == expected

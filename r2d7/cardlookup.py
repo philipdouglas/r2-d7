@@ -374,9 +374,12 @@ class CardLookup(DroidCore):
                 restriction = ' and '.join(card['ship'])
         return f"{restriction} only."
 
-    def action_icon(self, action):
+    def print_action(self, action):
         difficulty = '' if action['difficulty'] == 'White' else action['difficulty']
-        return self.iconify(difficulty + action['type'])
+        out = self.iconify(difficulty + action['type'])
+        if 'linked' in action:
+            out += self.iconify('linked') + self.print_action(action['linked'])
+        return out
 
     restriction_faction_map = {
         'Galactic Empire': 'Imperial',
@@ -404,7 +407,7 @@ class CardLookup(DroidCore):
             restrictions = []
             for restrict in card['restrictions']:
                 if 'action' in restrict:
-                    restrictions.append(self.action_icon(restrict['action']))
+                    restrictions.append(self.print_action(restrict['action']))
                 if 'factions' in restrict:
                     restrictions.append(' or '.join(
                         self.restriction_faction_map[faction]
@@ -458,7 +461,7 @@ class CardLookup(DroidCore):
                 (self.iconify('purplerecurring') if force['recovers'] else ''))
         if 'actions' in front_side:
             last_line.append(''.join(
-                self.action_icon(action) for action in front_side['actions']
+                self.print_action(action) for action in front_side['actions']
             ))
         if last_line:
             text.append(' | '.join(last_line))

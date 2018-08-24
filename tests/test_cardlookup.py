@@ -17,8 +17,8 @@ print_card_tests = (
     ]),
     ('homingmissiles', [
         ':missile: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Homing_Missiles|Homing Missiles>* [2]',
-        '*Attack (:lock:):* Spend 1 :Charge:. After you declare the defender, the defender may choose to suffer 1 :Hit: damage. If it does, skip the Attack and Defense Dice steps and the attack is treated as hitting.',
-        ':front_arc::attack4::rangebonusindicator: 2-3 | :charge::charge2:',
+        '*Attack (:Lock:):* Spend 1 :Charge:. After you declare the defender, the defender may choose to suffer 1 :Hit: damage. If it does, skip the Attack and Defense Dice steps and the attack is treated as hitting.',
+        ':redfrontarc::attack4::rangebonusindicator:2-3 | :orangecharge::charge2:',
     ]),
     ('r2astromech', [
         ':astromech: *<http://xwing-miniatures-second-edition.wikia.com/wiki/R2_Astromech|R2 Astromech>* [6]',

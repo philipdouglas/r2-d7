@@ -414,7 +414,8 @@ class CardLookup(DroidCore):
                     restrictions.append(' or '.join(
                         self.iconify(ship) for ship in restrict['chassis']))
             second_line.append('Restrictions: ' + ' '.join(restrictions))
-        text.append(' | '.join(second_line))
+        if second_line:
+            text.append(' | '.join(second_line))
 
         if is_pilot:
             text.append(self.ship_stats(card['ship_card'], card))
@@ -427,15 +428,6 @@ class CardLookup(DroidCore):
         if 'pilots' in card:
             text += self.list_pilots(card)
 
-        if 'attack' in card:
-            line = []
-            if 'attack' in card:
-                attack_size = self.iconify(f"attack{card['attack']}")
-                line.append(f"{self.iconify('attack')}{attack_size}")
-            if 'range' in card:
-                line.append(f"Range: {card['range']}")
-            text.append(' | '.join(line))
-
         if 'ability' in front_side:
             text += self.convert_html(front_side['ability'])
 
@@ -443,6 +435,15 @@ class CardLookup(DroidCore):
             text.append(self.italics(front_side['text']))
 
         last_line = []
+        if 'attack' in front_side:
+            atk = front_side['attack']
+            range_bonus = front_side['slots'] in (['Missile'], ['Torpedo'])
+            last_line.append(
+                self.iconify('red' + atk['arc']) +
+                self.iconify(f"attack{atk['value']}") +
+                (self.iconify('rangebonusindicator') if range_bonus else '') +
+                f"{atk['minrange']}-{atk['maxrange']}"
+            )
         if 'charges' in front_side:
             charges = front_side['charges']
             last_line.append(

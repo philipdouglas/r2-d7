@@ -358,22 +358,6 @@ class CardLookup(DroidCore):
             return self.wiki_link(card['name'])
             #TODO handle special cases
 
-    def ship_restriction(self, card):
-        """
-        Deal with the special cases in ship restrictions.
-        """
-        if isinstance(card['ship'], str):
-            restriction = card['ship']
-        elif len(card['ship']) == 1:
-            restriction = card['ship'][0]
-        else:
-            restriction = long_substr(card['ship'])
-            # If the longest common substring isn't a whole word, list the ship
-            # names instead
-            if not re.search(f"(^|\\W){restriction}(\\W|$)", card['ship'][0]):
-                restriction = ' and '.join(card['ship'])
-        return f"{restriction} only."
-
     def print_action(self, action):
         difficulty = '' if action['difficulty'] == 'White' else action['difficulty']
         out = self.iconify(difficulty + action['type'])
@@ -381,11 +365,47 @@ class CardLookup(DroidCore):
             out += self.iconify('linked') + self.print_action(action['linked'])
         return out
 
+    stat_colours = {
+        "attack": "red",
+        "agility": "green",
+        "hull": "yellow",
+        "shield": "blue",
+        "charge": "orange",
+        "force": "purple",
+    }
+
+    def print_stat(self, stat):
+        stat_type = stat['type']
+        if stat_type == 'attack':
+            out = self.iconify(f"red{stat['arc']}")
+        else:
+            if stat['type'] == 'shields':
+                stat_type = 'shield'
+            out = self.iconify(f"{self.stat_colours[stat_type]}{stat_type}")
+        out += self.iconify(f"{stat_type}{stat['value']}")
+        return out
+
     restriction_faction_map = {
         'Galactic Empire': 'Imperial',
         'Rebel Alliance': 'Rebel',
         'Scum and Villainy': 'Scum',
     }
+
+    def print_restrictions(self, restrictions):
+        out = []
+        for restrict in restrictions:
+            if 'action' in restrict:
+                out.append(self.print_action(restrict['action']))
+            if 'factions' in restrict:
+                out.append(' or '.join(
+                    self.restriction_faction_map[faction]
+                    for faction in restrict['factions']
+                ))
+            if 'chassis' in restrict:
+                out.append(' or '.join(
+                    self.iconify(ship) for ship in restrict['chassis']
+                ))
+        return 'Restrictions: ' + ' and '.join(out)
 
     def print_card(self, card):
         is_ship = card['category'] == 'ship'
@@ -402,23 +422,7 @@ class CardLookup(DroidCore):
             f" ({card['deck']})" if 'deck' in card else '',
         )))
 
-        second_line = []
         if 'restrictions' in card:
-            restrictions = []
-            for restrict in card['restrictions']:
-                if 'action' in restrict:
-                    restrictions.append(self.print_action(restrict['action']))
-                if 'factions' in restrict:
-                    restrictions.append(' or '.join(
-                        self.restriction_faction_map[faction]
-                        for faction in restrict['factions']
-                    ))
-                if 'chassis' in restrict:
-                    restrictions.append(' or '.join(
-                        self.iconify(ship) for ship in restrict['chassis']))
-            second_line.append('Restrictions: ' + ' '.join(restrictions))
-        if second_line:
-            text.append(' | '.join(second_line))
 
         if is_pilot:
             text.append(self.ship_stats(card['ship_card'], card))

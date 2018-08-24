@@ -353,3 +353,20 @@ def test_maneuvers(testbot, dialgen, slack):
 ])
 def test_print_action(testbot, action, expected):
     assert testbot.print_action(action) == expected
+
+@pytest.mark.parametrize('stat, expected', [
+    ({'type': 'shields', "value": 3}, ":blueshield::shield3:"),
+    ({'type': 'attack', 'arc': 'Front Arc', 'value': 4}, ":redfrontarc::attack4:"),
+])
+def test_print_stat(testbot, stat, expected):
+    assert testbot.print_stat(stat) == expected
+
+@pytest.mark.parametrize('res, expected', [
+    ([{'action': {"difficulty": "Red", "type": "Focus"}}], "Restrictions: :redfocus:"),
+    ([{"chassis": ["t65xwing"]}], "Restrictions: :t65xwing:"),
+    ([{'factions': ["Galactic Empire"]}], "Restrictions: Imperial"),
+    ([{'factions': ["Rebel Alliance", "Scum and Villainy"]}], "Restrictions: Rebel or Scum"),
+    ([{"chassis": ["m3ainterceptor"], 'action': {"difficulty": "White", "type": "Focus"}}], "Restrictions: :focus: and :m3ainterceptor:"),
+])
+def test_print_restrictions(testbot, res, expected):
+    assert testbot.print_restrictions(res) == expected

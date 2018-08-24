@@ -423,6 +423,7 @@ class CardLookup(DroidCore):
         )))
 
         if 'restrictions' in card:
+            text.append(self.print_restrictions(card['restrictions']))
 
         if is_pilot:
             text.append(self.ship_stats(card['ship_card'], card))

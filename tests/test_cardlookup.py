@@ -370,3 +370,12 @@ def test_print_stat(testbot, stat, expected):
 ])
 def test_print_restrictions(testbot, res, expected):
     assert testbot.print_restrictions(res) == expected
+
+@pytest.mark.parametrize('ability, expected', [
+    ({
+        "name": "Microthrusters",
+        "text": "While you perform a barrel roll, you must use the [Bank Left] or [Bank Right] template instead of the [Straight] template."
+    }, ["_*Microthrusters:*_ While you perform a barrel roll, you must use the :bankleft: or :bankright: template instead of the :Straight: template."]),
+])
+def test_print_ship_ability(testbot, ability, expected):
+    assert testbot.print_ship_ability(ability) == expected

@@ -407,6 +407,11 @@ class CardLookup(DroidCore):
                 ))
         return 'Restrictions: ' + ' and '.join(out)
 
+    def print_ship_ability(self, ability):
+        lines = self.convert_html(ability['text'])
+        lines[0] = self.italics(self.bold(ability['name'] + ':')) + ' ' + lines[0]
+        return lines
+
     def print_card(self, card):
         is_ship = card['category'] == 'ship'
         is_pilot = card['category'] == 'pilot'

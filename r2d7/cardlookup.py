@@ -404,6 +404,8 @@ class CardLookup(DroidCore):
                 out.append(' or '.join(
                     self.iconify(ship) for ship in restrict['chassis']
                 ))
+            if 'sizes' in restrict:
+                out.append(' or '.join(restrict['sizes']) + ' ship')
         return 'Restrictions: ' + ' and '.join(out)
 
     def print_ship_ability(self, ability):

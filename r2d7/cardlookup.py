@@ -245,15 +245,14 @@ class CardLookup(DroidCore):
         if pilot and 'faction' in pilot:
             line.append(self.iconify(pilot['faction']))
 
-        stats = ''
+        stats = []
         if pilot:
-            stats += self.iconify(f"skill{pilot['skill']}")
-        for stat in ('attack', 'energy', 'agility', 'hull', 'shields'):
-            if stat in ship:
-                # legacy naming
-                icon_name = 'shield' if stat == 'shields' else stat
-                stats += self.iconify(f"{icon_name}{ship[stat]}")
-        line.append(stats)
+            stats.append(self.iconify(f"initiative{pilot['initiative']}"))
+        for stat in ship['stats']:
+            stats.append(self.print_stat(stat))
+        if pilot and 'charges' in pilot:
+            pass #TODO (force too)
+        line.append(''.join(stats))
 
         arcs = [self._arc_icons[arc] for arc in ship.get('firing_arcs', [])
                 if arc in self._arc_icons]
@@ -264,18 +263,17 @@ class CardLookup(DroidCore):
 
         if 'actions' in ship:
             line.append(' '.join(
-                self.iconify(action) for action in ship['actions']))
+                self.print_action(action) for action in ship['actions']
+            ))
 
-        slots = None
-        if pilot and 'slots' in pilot:
-            slots = pilot['slots']
-        elif 'slots' in ship:
-            slots = ship['slots']
-        if slots:
-            line.append(''.join(self.iconify(slot) for slot in slots))
-
-        if 'epic_points' in ship:
-            line.append(self.iconify('epic') + str(ship['epic_points']))
+        #TODO slots, not in data yet
+        # slots = None
+        # if pilot and 'slots' in pilot:
+        #     slots = pilot['slots']
+        # elif 'slots' in ship:
+        #     slots = ship['slots']
+        # if slots:
+        #     line.append(''.join(self.iconify(slot) for slot in slots))
 
         return ' | '.join(line)
 
@@ -328,25 +326,26 @@ class CardLookup(DroidCore):
         result.reverse()
         return result
 
-    def pilot_skill_key(self, pilot):
+    def pilot_ini_key(self, pilot):
         try:
-            return int(pilot['skill'])
+            return int(pilot['initiative'])
         except ValueError:
             # Put ?s at the end
-            return 15
+            return 9
 
     def list_pilots(self, ship):
         factions = {}
-        pilots = sorted(ship['pilots'], key=self.pilot_skill_key)
+        pilots = sorted(ship['pilots'], key=self.pilot_ini_key)
         for pilot in pilots:
-            if pilot['skill'] == '?':
-                continue
-            skill = self.iconify(f"skill{pilot['skill']}")
-            unique = '• ' if pilot.get('unique', False) else ''
-            elite = ' ' + self.iconify('elite') if 'Elite' in pilot['slots'] else ''
+            init = self.iconify(f"initiative{pilot['initiative']}")
+            unique = '• ' if pilot.get('limited', False) else ''
+            # TODO, data is missing slots
+            # elite = ' ' + self.iconify('elite') if 'Elite' in pilot['slots'] else ''
+            elite = ''
             name = self.format_name(pilot)
-            text = f"{skill}{unique}{name}{elite} [{pilot['points']}]"
-            factions.setdefault(pilot['faction'], []).append(text)
+            text = f"{init}{unique}{name}{elite} [{pilot['cost']}]"
+            #TODO fudge data for multi-faction ships
+            factions.setdefault(ship['faction'], []).append(text)
         return [f"{self.iconify(faction)} {', '.join(pilots)}"
                 for faction, pilots in factions.items()]
 
@@ -362,7 +361,7 @@ class CardLookup(DroidCore):
         difficulty = '' if action['difficulty'] == 'White' else action['difficulty']
         out = self.iconify(difficulty + action['type'])
         if 'linked' in action:
-            out += self.iconify('linked') + self.print_action(action['linked'])
+            out += '⯈' + self.print_action(action['linked'])
         return out
 
     stat_colours = {
@@ -416,7 +415,12 @@ class CardLookup(DroidCore):
         is_ship = card['category'] == 'ship'
         is_pilot = card['category'] == 'pilot'
 
-        front_side = card['sides'][0]
+        if not is_ship and is_pilot:
+            front_side = card['sides'][0]
+        else:
+            front_side = {'slots': [
+                card['xws'] if is_ship else card['ship']['xws']
+            ]}
 
         text = []
         text.append(''.join((
@@ -425,6 +429,7 @@ class CardLookup(DroidCore):
             self.bold(self.format_name(card)),
             f" [{card['points']}]" if 'points' in card else '',
             f" ({card['deck']})" if 'deck' in card else '',
+            f" (Base: {card['size']})" if 'size' in card else '',
         )))
 
         if 'restrictions' in card:
@@ -434,12 +439,6 @@ class CardLookup(DroidCore):
             text.append(self.ship_stats(card['ship_card'], card))
         elif is_ship:
             text.append(self.ship_stats(card))
-        # New ships have empty manuevers lists so don't try and print them
-        if card.get('maneuvers', None):
-            text += self.maneuvers(card)
-
-        if 'pilots' in card:
-            text += self.list_pilots(card)
 
         if 'ability' in front_side:
             text += self.convert_html(front_side['ability'])
@@ -470,11 +469,17 @@ class CardLookup(DroidCore):
                 self.iconify(f"forceplus{force['value']}") +
                 (self.iconify('purplerecurring') if force['recovers'] else ''))
         if 'actions' in front_side:
-            last_line.append(''.join(
+            last_line.append(' '.join(
                 self.print_action(action) for action in front_side['actions']
             ))
         if last_line:
             text.append(' | '.join(last_line))
+
+        if 'dial' in card:
+            text += self.maneuvers(card['dial'])
+
+        if 'pilots' in card:
+            text += self.list_pilots(card)
 
         return text
 

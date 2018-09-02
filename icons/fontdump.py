@@ -37,7 +37,7 @@ fonts = {
         'charge': Orange('g'),
         'hull': Yellow('&'),
         'forcepower': Purple('F'),
-        'xshield': Blue('*'),
+        'shield': Blue('*'),
         # Arcs
         'bullseyearc': Red("}"),
         'doubleturretarc': Red('q'),

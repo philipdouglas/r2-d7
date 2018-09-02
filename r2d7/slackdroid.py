@@ -38,6 +38,9 @@ You can list the contents of each wave by saying [[Wave X]]. Eg. [[Wave 1]].
         name = name.replace('+', 'plus')
         if name in ['bomb', 'shield']:
             name = 'x' + name
+        # Lock is a standard emoji, so we'll stick with targetlock for 2.0
+        elif name == 'lock':
+            name = 'targetlock'
         elif name == 'rebelalliance':
             name = 'rebel'
         elif name == 'scumandvillainy':

@@ -183,8 +183,8 @@ def test_print_stat(testbot, stat, expected):
     ([{'factions': ["Galactic Empire"]}], "Restrictions: Imperial"),
     ([{'factions': ["Rebel Alliance", "Scum and Villainy"]}], "Restrictions: Rebel or Scum"),
     ([{"chassis": ["m3ainterceptor"], 'action': {"difficulty": "White", "type": "Focus"}}], "Restrictions: :focus: and :m3ainterceptor:"),
-    ([{"size": ["Small"]}], "Restrictions: Small ship"),
-    ([{"size": ["Small", "Medium"]}], "Restrictions: Small or Medium ship"),
+    ([{"sizes": ["Small"]}], "Restrictions: Small ship"),
+    ([{"sizes": ["Small", "Medium"]}], "Restrictions: Small or Medium ship"),
 ])
 def test_print_restrictions(testbot, res, expected):
     assert testbot.print_restrictions(res) == expected

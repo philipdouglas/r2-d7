@@ -37,7 +37,7 @@ print_card_tests = (
         'While you have exactly 1 disarm token, you can still perform :Torpedo: and :Missile: attacks against targets you have locked. If you do, you cannot spend your lock during the attack. Add :Torpedo: and :Missile: slots.',
     ]),
     ('starviperclassattackplatform', [
-        ':starviperclassattackplatform: *<http://xwing-miniatures-second-edition.wikia.com/wiki/StarViper-class_Attack_Platform|StarViper-class Attack Platform>* (Base: Small)',
+        ':starviperclassattackplatform: *<http://xwing-miniatures-second-edition.wikia.com/wiki/StarViper-class_Attack_Platform|StarViper-class Attack Platform>* :smallbase:',
         ':redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1: | :focus: :targetlock: :barrelroll:⯈:redfocus: :boost:⯈:redfocus:',
         '4 :blank::blank::straight::blank::blank::blank::blank:',
         '3 :blank::bankleft::bluestraight::bankright::blank::redsloopleft::redsloopright:',

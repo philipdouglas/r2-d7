@@ -415,7 +415,7 @@ class CardLookup(DroidCore):
         is_ship = card['category'] == 'ship'
         is_pilot = card['category'] == 'pilot'
 
-        if not is_ship and is_pilot:
+        if not is_ship and not is_pilot:
             front_side = card['sides'][0]
         else:
             front_side = {'slots': [
@@ -423,14 +423,14 @@ class CardLookup(DroidCore):
             ]}
 
         text = []
-        text.append(''.join((
+        text.append(' '.join(filter(len, (
             ''.join(self.iconify(slot) for slot in front_side['slots']),
-            ' • ' if card.get('limited', False) else ' ',
+            '•' if card.get('limited', False) else '',
             self.bold(self.format_name(card)),
-            f" [{card['points']}]" if 'points' in card else '',
-            f" ({card['deck']})" if 'deck' in card else '',
-            f" (Base: {card['size']})" if 'size' in card else '',
-        )))
+            f"[{card['points']}]" if 'points' in card else '',
+            f"({card['deck']})" if 'deck' in card else '',
+            self.iconify(f"{card['size']}base") if 'size' in card else '',
+        ))))
 
         if 'restrictions' in card:
             text.append(self.print_restrictions(card['restrictions']))

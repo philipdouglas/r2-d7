@@ -454,7 +454,7 @@ class CardLookup(DroidCore):
             last_line.append(
                 self.iconify('red' + atk['arc']) +
                 self.iconify(f"attack{atk['value']}") +
-                (self.iconify('rangebonusindicator') if range_bonus else '') +
+                (self.iconify('redrangebonusindicator') if range_bonus else '') +
                 f"{atk['minrange']}-{atk['maxrange']}"
             )
         if 'charges' in front_side:
@@ -466,7 +466,7 @@ class CardLookup(DroidCore):
         if 'force' in front_side:
             force = front_side['force']
             last_line.append(
-                self.iconify('purpleforce') +
+                self.iconify('purpleforcepower') +
                 self.iconify(f"forceplus{force['value']}") +
                 (self.iconify('purplerecurring') if force['recovers'] else ''))
         if 'actions' in front_side:

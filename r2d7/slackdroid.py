@@ -70,6 +70,8 @@ You can list the contents of each wave by saying [[Wave X]]. Eg. [[Wave 1]].
         re.compile(r'\[Bomb\]'): ':xbomb:',
         re.compile(r'\[Barrel Roll\]'): ':barrelroll:',
         re.compile(r'\[Bullseye Arc\]'): ':bullseyearc:',
+        # :lock: is a default Slack emoji, so we'll stick with targetlock for 2.0
+        re.compile(r'\[Lock\]'): ':targetlock:',
     }
 
     @classmethod

@@ -17,8 +17,8 @@ print_card_tests = (
     ]),
     ('homingmissiles', [
         ':missile: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Homing_Missiles|Homing Missiles>* [2]',
-        '*Attack (:Lock:):* Spend 1 :Charge:. After you declare the defender, the defender may choose to suffer 1 :Hit: damage. If it does, skip the Attack and Defense Dice steps and the attack is treated as hitting.',
-        ':redfrontarc::attack4::rangebonusindicator:2-3 | :orangecharge::charge2:',
+        '*Attack (:targetlock:):* Spend 1 :Charge:. After you declare the defender, the defender may choose to suffer 1 :Hit: damage. If it does, skip the Attack and Defense Dice steps and the attack is treated as hitting.',
+        ':redfrontarc::attack4::redrangebonusindicator:2-3 | :orangecharge::charge2:',
     ]),
     ('r2astromech', [
         ':astromech: *<http://xwing-miniatures-second-edition.wikia.com/wiki/R2_Astromech|R2 Astromech>* [6]',
@@ -26,10 +26,10 @@ print_card_tests = (
         ':orangecharge::charge2:',
     ]),
     ('emperorpalpatine', [
-        ':crew::crew: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Emperor_Palpatine|Emperor Palpatine>* [13]',
+        ':crew::crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Emperor_Palpatine|Emperor Palpatine>* [13]',
         'Restrictions: Imperial',
         'While another friendly ship defends or performs an attack, you may spend 1 :Force: to modify 1 of its dice as though that ship had spent 1 :Force:.',
-        ':purpleforce::forceplus1::purplerecurring:',
+        ':purpleforcepower::forceplus1::purplerecurring:',
     ]),
     ('os1arsenalloadout', [
         ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Os-1_Arsenal_Loadout|Os-1 Arsenal Loadout>* [0]',
@@ -378,4 +378,14 @@ def test_print_restrictions(testbot, res, expected):
     }, ["_*Microthrusters:*_ While you perform a barrel roll, you must use the :bankleft: or :bankright: template instead of the :Straight: template."]),
 ])
 def test_print_ship_ability(testbot, ability, expected):
+    assert testbot.print_ship_ability(ability) == expected
+
+
+@pytest.mark.parametrize('stats, expected', [
+    ({
+        "name": "Microthrusters",
+        "text": "While you perform a barrel roll, you must use the [Bank Left] or [Bank Right] template instead of the [Straight] template."
+    }, ["_*Microthrusters:*_ While you perform a barrel roll, you must use the :bankleft: or :bankright: template instead of the :Straight: template."]),
+])
+def test_print_ship_ability(testbot, stats, expected):
     assert testbot.print_ship_ability(ability) == expected

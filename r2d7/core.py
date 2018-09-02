@@ -117,7 +117,8 @@ class DroidCore():
 
             if category == 'upgrades':
                 for card in raw_data:
-                    self.add_card('upgrade', card)
+                    self.add_card('upgrade', card,
+                                  subcat=remaining.split('.')[0])
 
             elif category == 'pilots':
                 ship = raw_data
@@ -139,8 +140,8 @@ class DroidCore():
                     self.add_card('condition', card)
 
 
-    def add_card(self, category, card):
-        card['category'] = category
+    def add_card(self, category, card, subcat=None):
+        card['category'] = subcat or category
         category = self._data.setdefault(category, {})
         category.setdefault(card['xws'], []).append(card)
 

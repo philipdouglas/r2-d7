@@ -105,8 +105,9 @@ class CardLookup(DroidCore):
         self._lookup_data = {}
         self._name_to_xws = {}
         for names in self.data.values():
-            for name, cards in names.items():
+            for cards in names.values():
                 for card in cards:
+                    name = self.partial_canonicalize(card['name'])
                     self._lookup_data.setdefault(name, []).append(card)
                     self._name_to_xws[card['name']] = card['xws']
                     card['_id'] = next_id
@@ -216,10 +217,11 @@ class CardLookup(DroidCore):
                 for card in self._lookup_data[match]:
                     if card['_id'] in cards_yielded:
                         continue
-                    if slot_filter and self.iconify(card['slot']) != slot_filter:
+                    if slot_filter and self.iconify(card['category']) != slot_filter:
                         continue
-                    if points_filter and not points_filter(card['points']):
-                        continue
+                    #TODO points filter
+                    # if points_filter and not points_filter(card['cost']):
+                    #     continue
 
                     cards_yielded.add(card['_id'])
                     yield card

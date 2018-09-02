@@ -60,63 +60,60 @@ def test_print_card(testbot, name, expected):
 
 
 lookup_tests = {
-    'sunny bounder': [('sunnybounder', 'm3ainterceptor')],
-    'Rey': [('rey', 'Crew'), ('rey', 'yt1300')],
+    'sunny bounder': [('sunnybounder', 'pilot')],
+    'Rey': [('rey', 'pilot')],
     'han solo': [
-        ('hansolo', 'Crew'), ('hansolo', 'yt1300'), ('hansolo-swx57', 'yt1300')
+        ('hansolo', 'gunner'),
+        ('hansolo-gunner', 'gunner'),
+        ('hansolo-modifiedyt1300lightfreighter', 'pilot'),
+        ('hansolo', 'pilot'),
+        ('hansolo-modifiedyt1300lightfreighter-resistance', 'pilot')
     ],
-    'xwing': [('xwing', 'xwing'), ('t70xwing', 't70xwing')],
-    ':crew: Rey': [('rey', 'Crew')],
-    'Rey :crew:': [('rey', 'Crew')],
-    ':astromech: r2d2': [('r2d2', 'Astromech')],
-    ':elite: >3': [
-        ('expose', 'Elite'), ('opportunist', 'Elite'), ('expertise', 'Elite')
-    ],
-    ':crew: rey]]   [[finn': [('rey', 'Crew'), ('finn', 'Crew')],
-    ':crew: rey]]   [[finn]] [[:astromech: r2d2]]': [
-        ('rey', 'Crew'), ('finn', 'Crew'), ('r2d2', 'Astromech')],
+    'xwing': [('t65xwing', 'ship'), ('t70xwing', 'ship')],
+    ':gunner: Han solo': [('hansolo', 'gunner'), ('hansolo-gunner', 'gunner')],
+    'Han solo :gunner:': [('hansolo', 'gunner'), ('hansolo-gunner', 'gunner')],
+    ':astromech: r2d2': [('r2d2', 'astromech')],
+    # TODO points filter
+    # ':elite: >3': [
+    #     ('expose', 'talent'), ('opportunist', 'talent'), ('expertise', 'talent')
+    # ],
+    'rey]]   [[finn': [('rey', 'pilot'), ('finn', 'gunner')],
+    'rey]]   [[finn]] [[:astromech: r2d2]]': [
+        ('rey', 'pilot'), ('finn', 'gunner'), ('r2d2', 'astromech')],
     'han': [
-        ('hansolo', 'Crew'), ('hansolo', 'yt1300'), ('hansolo-swx57', 'yt1300')
+        ('hansolo', 'gunner'),
+        ('hansolo-gunner', 'gunner'),
+        ('hansolo-modifiedyt1300lightfreighter', 'pilot'),
+        ('hansolo', 'pilot'),
+        ('hansolo-modifiedyt1300lightfreighter-resistance', 'pilot')
     ],
-    'test': [
-        ('awingtestpilot', 'Title'),
-        ('sienartestpilot', 'tieadvprototype'),
-        ('testpilotblackout', 'tiesilencer'),
-        ('firstordertestpilot', 'tiesilencer'),
-    ],
-    'fcs': [('firecontrolsystem', 'System')],
-    'thweek': [
-        ('thweek', 'starviper'),
-        ('mimicked', 'condition'), ('shadowed', 'condition')
-    ],
-    ':astromech: &gt; 3': [('r2d2', 'Astromech')],
+    'test': [('imdaartestpilot', 'pilot')],
+    'fcs': [('firecontrolsystem', 'sensor')],
+    # TODO new condition lookup test
+    # 'thweek': [
+    #     ('thweek', 'starviper'),
+    #     ('mimicked', 'condition'), ('shadowed', 'condition')
+    # ],
+    # 'kylo': [
+    #     ('kyloren', 'Crew'), ('illshowyouthedarkside', 'condition'),
+    #     ('kyloren', 'upsilonclassshuttle'),
+    #     ('kyloren', 'tiesilencer'),
+    #     ('kylorensshuttle', 'Title'),
+    # ],
+    # TODO points filter
+    # ':astromech: &gt; 3': [('r2d2', 'Astromech')],
+    # ':crew: = 8': [('emperorpalpatine', 'Crew')],
     ':focus:': [],
-    ':imperial:': [('imperialtrainee', 'tiestriker')],
-    'torpedo': [
-        ('protontorpedoes', 'Torpedo'),
-        ('advprotontorpedoes', 'Torpedo'),
-        ('flechettetorpedoes', 'Torpedo'),
-        ('iontorpedoes', 'Torpedo'),
-        ('plasmatorpedoes', 'Torpedo'),
-        ('seismictorpedo', 'Torpedo'),
-    ],
-    ':crew: = 8': [('emperorpalpatine', 'Crew')],
-    'hot shot': [('hotshotblaster', 'Illicit'), ('hotshotcopilot', 'Crew')],
-    'kylo': [
-        ('kyloren', 'Crew'), ('illshowyouthedarkside', 'condition'),
-        ('kyloren', 'upsilonclassshuttle'),
-        ('kyloren', 'tiesilencer'),
-        ('kylorensshuttle', 'Title'),
-    ],
+    'hot shot': [('hotshotgunner', 'gunner')],
     # Test for unescaped lookup in regex
     '{0}{0}{1}': [],
-    'z95': [
-        ('z95headhunter', 'z95headhunter')
-    ]
+    'z95': [('z95afheadhunter', 'ship')],
+    'tieddefender': [('tieddefender', 'ship')],
+    'tiedefender': [('tieddefender', 'ship')],
 }
 @pytest.mark.parametrize('lookup, expected', lookup_tests.items())
 def test_lookup(testbot, lookup, expected):
-    actual = [(card['xws'], card['slot']) for card in testbot.lookup(lookup)]
+    actual = [(card['xws'], card['category']) for card in testbot.lookup(lookup)]
     assert actual == expected
 
 

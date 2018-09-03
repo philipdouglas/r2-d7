@@ -108,6 +108,21 @@ print_xws_tests = (
             ':question::question: _Unknown Pilot_',
         ]
     ),
+    # Renegade refit
+    (
+        {"faction": "rebel", "name": "Renegade Refit", "pilots": [{"name": "cavernangelszealot", "ship": "xwing", "upgrades": {"ept": ["expertise"], "torpedo":["renegaderefit"]}}], "version": "0.3.0"},
+        [
+            ':rebel: *Renegade Refit* *[23]*',
+            ':xwing::skill1: _<http://xwing-miniatures.wikia.com/wiki/Cavern_Angels_Zealot|Cavern Angels Zealot>_: <http://xwing-miniatures.wikia.com/wiki/Expertise|Expertise>, <http://xwing-miniatures.wikia.com/wiki/Renegade_Refit|Renegade Refit> *[23]*',
+        ]
+    ),
+    (
+        {"faction": "rebel", "name": "Renegade Refit 0", "pilots": [{"name": "cavernangelszealot", "ship": "xwing", "upgrades": {"ept": ["trickshot"], "torpedo":["renegaderefit"]}}], "version": "0.3.0"},
+        [
+            ':rebel: *Renegade Refit 0* *[20]*',
+            ':xwing::skill1: _<http://xwing-miniatures.wikia.com/wiki/Cavern_Angels_Zealot|Cavern Angels Zealot>_: <http://xwing-miniatures.wikia.com/wiki/Trick_Shot|Trick Shot>, <http://xwing-miniatures.wikia.com/wiki/Renegade_Refit|Renegade Refit> *[20]*',
+        ]
+    ),
 )
 
 @pytest.mark.parametrize('xws, expected', print_xws_tests)

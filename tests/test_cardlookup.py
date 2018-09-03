@@ -36,6 +36,11 @@ print_card_tests = (
         'Restrictions: :alphaclassstarwing:',
         'While you have exactly 1 disarm token, you can still perform :Torpedo: and :Missile: attacks against targets you have locked. If you do, you cannot spend your lock during the attack. Add :Torpedo: and :Missile: slots.',
     ]),
+    ('shieldupgrade', [
+        ':modification: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Shield_Upgrade|Shield Upgrade>* [:greenagility::agility0:3:agility1:4:agility2:6:agility3:8]',
+        '_Deflector shields are a substantial line of defense on most starships beyond the lightest fighters. While enhancing a ship\'s shield capacity can be costly, all but the most confident or reckless pilots see the value in this sort of investment._',
+        ':shieldplus1:'
+    ]),
     ('starviperclassattackplatform', [
         ':starviperclassattackplatform: *<http://xwing-miniatures-second-edition.wikia.com/wiki/StarViper-class_Attack_Platform|StarViper-class Attack Platform>* :smallbase:',
         ':redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1: | :focus:|:targetlock:|:barrelroll::linked::redfocus:|:boost::linked::redfocus:',
@@ -226,3 +231,12 @@ def test_ship_stats(testbot, ship, pilot, expected):
     if pilot:
         pilot = testbot.test_lookup(pilot)
     assert testbot.ship_stats(ship, pilot) == expected
+
+@pytest.mark.parametrize('card, expected', [
+    ('munitionsfailsafe', '[2]'),
+    ('guri', '[62]'),
+    ('shieldupgrade', '[:greenagility::agility0:3:agility1:4:agility2:6:agility3:8]'),
+    ('engineupgrade', '[:smallbase:3:mediumbase:6:largebase:9]'),
+])
+def test_print_cost(testbot, card, expected):
+    assert testbot.print_cost(testbot.test_lookup(card)['cost']) == expected

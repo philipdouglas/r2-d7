@@ -434,6 +434,28 @@ class CardLookup(DroidCore):
         lines[0] = self.italics(self.bold(ability['name'] + ':')) + ' ' + lines[0]
         return lines
 
+    def print_cost(self, cost):
+        try:
+            if 'variable' in cost:
+                out = ''
+                if cost['variable'] == 'shields':
+                    cost['variable'] = 'shield'
+                if cost['variable'] in self.stat_colours.keys():
+                    out += self.iconify(
+                        f"{self.stat_colours[cost['variable']]}{cost['variable']}")
+                    icons = [self.iconify(f"{cost['variable']}{stat}")
+                            for stat in cost['values'].keys()]
+                elif cost['variable'] == 'size':
+                    icons = [self.iconify(f"{size}base")
+                            for size in cost['values'].keys()]
+                out += ''.join(
+                    f"{icon}{cost}" for icon, cost in zip(icons, cost['values'].values()))
+            else:
+                out = cost['value']
+        except TypeError:
+            out = cost
+        return f"[{out}]"
+
     def print_card(self, card):
         is_ship = card['category'] == 'ship'
         is_pilot = card['category'] == 'pilot'
@@ -447,19 +469,13 @@ class CardLookup(DroidCore):
             if is_pilot and 'ability' in card:
                 front_side['ability'] = card['ability']
 
-        if 'cost' in card:
-            try:
-                cost = card['cost']['value']
-            except TypeError:
-                cost = card['cost']
-
         text = []
         text.append(' '.join(filter(len, (
             ''.join(self.iconify(slot) for slot in front_side['slots']),
             '•' if card.get('limited', False) else '',
             self.bold(self.format_name(card)) +
             (f": {self.italics(card['caption'])}" if 'caption' in card else ''),
-            f"[{cost}]" if 'cost' in card else '',
+            self.print_cost(card['cost']) if 'cost' in card else '',
             f"({card['deck']})" if 'deck' in card else '',
             self.iconify(f"{card['size']}base") if 'size' in card else '',
         ))))

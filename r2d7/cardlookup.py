@@ -418,15 +418,14 @@ class CardLookup(DroidCore):
                     self.restriction_faction_map[faction]
                     for faction in restrict['factions']
                 ))
-            if 'chassis' in restrict:
+            if 'ships' in restrict:
                 ors.append(' or '.join(
-                    self.iconify(ship) for ship in restrict['chassis']
+                    self.iconify(ship) for ship in restrict['ships']
                 ))
             if 'sizes' in restrict:
                 ors.append(' or '.join(restrict['sizes']) + ' ship')
-            if 'characters' in restrict:
-                chars = [self.data['upgrade'][name][0]['name'] for name in restrict['characters']]
-                ors.append(f"squad including {' or '.join(chars)}")
+            if 'names' in restrict:
+                ors.append(f"squad including {' or '.join(restrict['names'])}")
             ands.append(' or '.join(ors))
         return 'Restrictions: ' + ' and '.join(ands)
 
@@ -448,13 +447,19 @@ class CardLookup(DroidCore):
             if is_pilot and 'ability' in card:
                 front_side['ability'] = card['ability']
 
+        if 'cost' in card:
+            try:
+                cost = card['cost']['value']
+            except TypeError:
+                cost = card['cost']
+
         text = []
         text.append(' '.join(filter(len, (
             ''.join(self.iconify(slot) for slot in front_side['slots']),
             '•' if card.get('limited', False) else '',
             self.bold(self.format_name(card)) +
             (f": {self.italics(card['caption'])}" if 'caption' in card else ''),
-            f"[{card['cost']}]" if 'cost' in card else '',
+            f"[{cost}]" if 'cost' in card else '',
             f"({card['deck']})" if 'deck' in card else '',
             self.iconify(f"{card['size']}base") if 'size' in card else '',
         ))))

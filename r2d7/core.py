@@ -59,7 +59,7 @@ class DroidCore():
         raise NotImplementedError()
 
     _data = None
-    BASE_URL = 'https://raw.githubusercontent.com/andrelind/xwing-data2/restrictions/'
+    BASE_URL = 'https://raw.githubusercontent.com/guidokessels/xwing-data2/master/'
     MANIFEST = 'data/manifest.json'
     # VERSION_RE = re.compile(r'xwing-data/releases/tag/([\d\.]+)')
     check_frequency = 900  # 15 minutes
@@ -71,7 +71,7 @@ class DroidCore():
     @classmethod
     def get_version(cls):
         res = requests.get(
-            'https://api.github.com/repos/andrelind/xwing-data2/branches/restrictions')
+            'https://api.github.com/repos/guidokessels/xwing-data2/branches/master')
         if res.status_code != 200:
             logger.warning(f"Got {res.status_code} checking data version.")
             return False

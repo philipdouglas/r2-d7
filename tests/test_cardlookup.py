@@ -6,35 +6,35 @@ from r2d7.slackdroid import SlackDroid
 
 print_card_tests = (
     ('tacticalofficer', [
-        ':crew: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Tactical_Officer|Tactical Officer>*',#TODO [2]',
+        ':crew: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Tactical_Officer|Tactical Officer>* [2]',
         'Restrictions: :redcoordinate:',
         '_In the chaos of a starfighter battle, a single order can mean the difference between a victory and a massacre._',
         ':coordinate:',
     ]),
     ('predator', [
-        ':talent: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Predator|Predator>*',#TODO [2]',
+        ':talent: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Predator|Predator>* [2]',
         'While you perform a primary attack, if the defender is in your :bullseyearc:, you may reroll 1 attack die.',
     ]),
     ('homingmissiles', [
-        ':missile: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Homing_Missiles|Homing Missiles>*',#TODO [2]',
+        ':missile: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Homing_Missiles|Homing Missiles>* [3]',
         'Attack (:targetlock:): Spend 1 :Charge:. After you declare the defender, the defender may choose to suffer 1 :Hit: damage. If it does, skip the Attack and Defense Dice steps and the attack is treated as hitting.',
         ':redfrontarc::attack4::redrangebonusindicator:2-3 | :orangecharge::charge2:',
     ]),
     ('r2astromech', [
-        ':astromech: *<http://xwing-miniatures-second-edition.wikia.com/wiki/R2_Astromech|R2 Astromech>*',#TODO [6]',
+        ':astromech: *<http://xwing-miniatures-second-edition.wikia.com/wiki/R2_Astromech|R2 Astromech>* [6]',
         'After you reveal your dial, you may spend 1 :Charge: and gain 1 disarm token to recover 1 shield.',
         ':orangecharge::charge2:',
     ]),
     ('emperorpalpatine', [
-        ':crew::crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Emperor_Palpatine|Emperor Palpatine>*',#TODO [13]',
+        ':crew::crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Emperor_Palpatine|Emperor Palpatine>* [13]',
         'Restrictions: Imperial',
         'While another friendly ship defends or performs an attack, you may spend 1 :forcecharge: to modify 1 of its dice as though that ship had spent 1 :forcecharge:.',
         ':purpleforcecharge::forcechargeplus1recurring:',
     ]),
     ('os1arsenalloadout', [
-        ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Os-1_Arsenal_Loadout|Os-1 Arsenal Loadout>*',#TODO [0]',
+        ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Os-1_Arsenal_Loadout|Os-1 Arsenal Loadout>* [0]',
         'Restrictions: :alphaclassstarwing:',
-        'While you have exactly 1 disarm token, you can still perform :Torpedo: and :Missile: attacks against targets you have locked. If you do, you cannot spend you lock during the attack. Add :Torpedo: and :Missile: slots.',
+        'While you have exactly 1 disarm token, you can still perform :Torpedo: and :Missile: attacks against targets you have locked. If you do, you cannot spend your lock during the attack. Add :Torpedo: and :Missile: slots.',
     ]),
     ('starviperclassattackplatform', [
         ':starviperclassattackplatform: *<http://xwing-miniatures-second-edition.wikia.com/wiki/StarViper-class_Attack_Platform|StarViper-class Attack Platform>* :smallbase:',
@@ -176,13 +176,13 @@ def test_print_stat(testbot, stat, expected):
 
 @pytest.mark.parametrize('res, expected', [
     ([{'action': {"difficulty": "Red", "type": "Focus"}}], "Restrictions: :redfocus:"),
-    ([{"chassis": ["t65xwing"]}], "Restrictions: :t65xwing:"),
+    ([{"ships": ["t65xwing"]}], "Restrictions: :t65xwing:"),
     ([{'factions': ["Galactic Empire"]}], "Restrictions: Imperial"),
     ([{'factions': ["Rebel Alliance", "Scum and Villainy"]}], "Restrictions: Rebel or Scum"),
-    ([{"chassis": ["m3ainterceptor"], 'action': {"difficulty": "White", "type": "Focus"}}], "Restrictions: :focus: or :m3ainterceptor:"),
+    ([{"ships": ["m3ainterceptor"], 'action': {"difficulty": "White", "type": "Focus"}}], "Restrictions: :focus: or :m3ainterceptor:"),
     ([{"sizes": ["Small"]}], "Restrictions: Small ship"),
     ([{"sizes": ["Small", "Medium"]}], "Restrictions: Small or Medium ship"),
-    ([{"factions": ["Scum and Villainy"], "characters": ["darthvader"]}], "Restrictions: Scum or squad including Darth Vader"),
+    ([{"factions": ["Scum and Villainy"], "names": ["Darth Vader"]}], "Restrictions: Scum or squad including Darth Vader"),
 ])
 def test_print_restrictions(testbot, res, expected):
     assert testbot.print_restrictions(res) == expected

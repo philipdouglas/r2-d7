@@ -19,8 +19,8 @@ class FactionLister(DroidCore):
 
     icon_to_faction = {
         'scum': ('Scum and Villainy', ),
-        'rebel': ('Rebel Alliance', 'Resistance'),
-        'imperial': ('Galactic Empire', 'First Order'),
+        'rebel': ('Rebel Alliance', ),
+        'imperial': ('Galactic Empire', ),
         'resistance': ('Resistance', ),
         'first_order': ('First Order', ),
     }
@@ -36,9 +36,10 @@ class FactionLister(DroidCore):
         logger.debug(f"Listing ships in {', '.join(factions)}")
         # Use an OrderedDict as an ordered set
         ships = OrderedDict(
-            (self.iconify(ship['xws']), None) for ship in self.raw_data['ships']
-            for faction in ship['faction']
-            if faction in factions and ship['size'] != 'huge'
+            (self.iconify(ship['xws']), None) for ships in self.data['ship'].values()
+            for ship in ships
+            for faction in ship['pilots'].keys()
+            if faction in factions
         )
 
         return [''.join(ships)]

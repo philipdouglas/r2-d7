@@ -5,17 +5,12 @@ from r2d7.slackdroid import SlackDroid
 
 print_faction_ships_tests = (
     ('nope', []),
-    ('scum', [
-        ':ywing::firespray31::hwk290::z95headhunter::starviper:'
-        ':m3ainterceptor::aggressor::yv666::kihraxzfighter::jumpmaster5000:'
-        ':g1astarfighter::protectoratestarfighter::lancerclasspursuitcraft:'
-        ':quadjumper::scurrgh6bomber::m12lkimogilafighter:'
-    ],),
     ('rebel', [
-        ':xwing::ywing::awing::yt1300::tiefighter::hwk290::bwing:'
-        ':z95headhunter::ewing::yt2400::kwing::t70xwing::vcx100:'
-        ':attackshuttle::arc170::uwing::auzituckgunship::scurrgh6bomber:'
-        ':sheathipedeclassshuttle::bsf17bomber:'
+        ':asf01bwing::arc170starfighter::attackshuttle::auzituckgunship:'
+        ':btla4ywing::btls8kwing::ewing::hwk290lightfreighter:'
+        ':modifiedyt1300lightfreighter::rz1awing::sheathipedeclassshuttle:'
+        ':t65xwing::tielnfighter::ut60duwing::vcx100lightfreighter:'
+        ':yt2400lightfreighter::z95af4headhunter:'
     ]),
 )
 @pytest.mark.parametrize('emoji, output', print_faction_ships_tests)

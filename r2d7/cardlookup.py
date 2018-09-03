@@ -264,7 +264,7 @@ class CardLookup(DroidCore):
                 for arc in arcs))
 
         if 'actions' in ship:
-            line.append(' '.join(
+            line.append('|'.join(
                 self.print_action(action) for action in ship['actions']
             ))
 
@@ -474,7 +474,7 @@ class CardLookup(DroidCore):
                 self.iconify(f"forceplus{force['value']}") +
                 (self.iconify('purplerecurring') if force['recovers'] else ''))
         if 'actions' in front_side:
-            last_line.append(' '.join(
+            last_line.append('|'.join(
                 self.print_action(action) for action in front_side['actions']
             ))
         if last_line:

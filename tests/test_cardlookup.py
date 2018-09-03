@@ -38,7 +38,7 @@ print_card_tests = (
     ]),
     ('starviperclassattackplatform', [
         ':starviperclassattackplatform: *<http://xwing-miniatures-second-edition.wikia.com/wiki/StarViper-class_Attack_Platform|StarViper-class Attack Platform>* :smallbase:',
-        ':redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1: | :focus: :targetlock: :barrelroll::linked::redfocus: :boost::linked::redfocus:',
+        ':redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1: | :focus:|:targetlock:|:barrelroll::linked::redfocus:|:boost::linked::redfocus:',
         '4 :blank::blank::straight::blank::blank::blank::blank:',
         '3 :blank::bankleft::bluestraight::bankright::blank::redsloopleft::redsloopright:',
         '2 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank::blank:',

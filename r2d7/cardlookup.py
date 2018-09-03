@@ -283,7 +283,7 @@ class CardLookup(DroidCore):
         # if slots:
         #     line.append(''.join(self.iconify(slot) for slot in slots))
 
-        return ' | '.join(line)
+        return ' '.join(line)
 
     # Dialgen format defined here: http://xwvassal.info/dialgen/dialgen
     maneuver_key = (

@@ -180,13 +180,12 @@ def test_print_stat(testbot, stat, expected):
 def test_print_restrictions(testbot, res, expected):
     assert testbot.print_restrictions(res) == expected
 
-@pytest.mark.parametrize('ability, expected', [
-    ({
-        "name": "Microthrusters",
-        "text": "While you perform a barrel roll, you must use the [Bank Left] or [Bank Right] template instead of the [Straight] template."
-    }, ["_*Microthrusters:*_ While you perform a barrel roll, you must use the :bankleft: or :bankright: template instead of the :Straight: template."]),
+@pytest.mark.parametrize('pilot, expected', [
+    ('guri', ["_*Microthrusters:*_ While you perform a barrel roll, you must use the :bankleft: or :bankright: template instead of the :Straight: template."]),
+    ('autopilotdrone', ['_*Rigged Energy Cells:*_ During the System Phase, if you are not docked, lose 1 :Charge:. At the end of the Activation Phase, if you have 0 :Charge:, you are destroyed. Before you are removed, each ship at range 0-1 suffers 1 :crit: damage.'])
 ])
-def test_print_ship_ability(testbot, ability, expected):
+def test_print_ship_ability(testbot, pilot, expected):
+    ability = testbot.test_lookup(pilot)['shipAbility']
     assert testbot.print_ship_ability(ability) == expected
 
 @pytest.mark.parametrize('ship, expected', [

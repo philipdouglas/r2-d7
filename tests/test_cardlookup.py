@@ -55,6 +55,12 @@ print_card_tests = (
         ':scum: | :initiative5::redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1: | :calculate:|:targetlock:|:barrelroll::linked::redcalculate:|:boost::linked::redcalculate:',
         'At the start of the Engagement Phase, if there is at least 1 enemy ship at range 0-1, you may gain 1 focus token.',
         '_*Microthrusters:*_ While you perform a barrel roll, you must use the :bankleft: or :bankright: template instead of the :Straight: template.',
+    ]),
+    ('imdaartestpilot', [
+        ':tiephphantom: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Imdaar_Test_Pilot|Imdaar Test Pilot>* [44]',
+        ':empire: | :initiative3::redfrontarc::attack3::greenagility::agility2::yellowhull::hull3::blueshield::shield2: | :focus:|:evade:|:barrelroll:|:cloak:',
+        '_The primary result of a hidden research facility on Imdaar Alpha, the TIE phantom achieves what many thought was impossible: a small starfighter equipped with an advanced cloaking device._',
+        '_*Stygium Array:*_ After you decloak, you may perform an :Evade: action. At the start of the End Phase, you may spend 1 evade token to gain 1 cloak token.',
     ])
 )
 

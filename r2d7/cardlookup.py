@@ -468,6 +468,8 @@ class CardLookup(DroidCore):
             ]}
             if is_pilot and 'ability' in card:
                 front_side['ability'] = card['ability']
+            if is_pilot and 'text' in card:
+                front_side['text'] = card['text']
 
         text = []
         text.append(' '.join(filter(len, (

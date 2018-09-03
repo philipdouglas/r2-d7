@@ -28,8 +28,8 @@ print_card_tests = (
     ('emperorpalpatine', [
         ':crew::crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Emperor_Palpatine|Emperor Palpatine>* [13]',
         'Restrictions: Imperial',
-        'While another friendly ship defends or performs an attack, you may spend 1 :Force: to modify 1 of its dice as though that ship had spent 1 :Force:.',
-        ':purpleforcepower::forceplus1::purplerecurring:',
+        'While another friendly ship defends or performs an attack, you may spend 1 :forcecharge: to modify 1 of its dice as though that ship had spent 1 :forcecharge:.',
+        ':purpleforcecharge::forceplus1::purplerecurring:',
     ]),
     ('os1arsenalloadout', [
         ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Os-1_Arsenal_Loadout|Os-1 Arsenal Loadout>* [0]',

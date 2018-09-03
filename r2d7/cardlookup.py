@@ -469,7 +469,7 @@ class CardLookup(DroidCore):
         if 'force' in front_side:
             force = front_side['force']
             last_line.append(
-                self.iconify('purpleforcepower') +
+                self.iconify('purpleforcecharge') +
                 self.iconify(f"forceplus{force['value']}") +
                 (self.iconify('purplerecurring') if force['recovers'] else ''))
         if 'actions' in front_side:

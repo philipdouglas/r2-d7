@@ -49,14 +49,7 @@ print_card_tests = (
 
 @pytest.mark.parametrize('name, expected', print_card_tests)
 def test_print_card(testbot, name, expected):
-    if '.' in name:
-        name, num = name.split('.')
-    else:
-        num = 0
-    assert name in testbot._lookup_data
-    assert len(testbot._lookup_data[name]) > int(num)
-    card = testbot._lookup_data[name][int(num)]
-    assert testbot.print_card(card) == expected
+    assert testbot.print_card(testbot.test_lookup(name)) == expected
 
 
 lookup_tests = {
@@ -107,7 +100,7 @@ lookup_tests = {
     'hot shot': [('hotshotgunner', 'gunner')],
     # Test for unescaped lookup in regex
     '{0}{0}{1}': [],
-    'z95': [('z95afheadhunter', 'ship')],
+    'z95': [('z95af4headhunter', 'ship')],
     'tieddefender': [('tieddefender', 'ship')],
     'tiedefender': [('tieddefender', 'ship')],
 }
@@ -118,7 +111,7 @@ def test_lookup(testbot, lookup, expected):
 
 
 def test_card_limit(testbot):
-    assert testbot.handle_lookup('squadron') == [
+    assert testbot.handle_lookup('tie') == [
         'Your search matched more than 10 cards, please be more specific.']
 
 @pytest.mark.parametrize('dialgen, slack', (
@@ -205,12 +198,4 @@ def test_print_ship_ability(testbot, ability, expected):
     ]),
 ])
 def test_list_pilots(testbot, ship, expected):
-    # TODO fixturise this code, it's duped from test_card_lookup
-    if '.' in ship:
-        ship, num = ship.split('.')
-    else:
-        num = 0
-    assert ship in testbot._lookup_data
-    assert len(testbot._lookup_data[ship]) > int(num)
-    card = testbot._lookup_data[ship][int(num)]
-    assert testbot.list_pilots(card) == expected
+    assert testbot.list_pilots(testbot.test_lookup(ship)) == expected

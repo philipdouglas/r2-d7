@@ -337,17 +337,18 @@ class CardLookup(DroidCore):
 
     def list_pilots(self, ship):
         factions = {}
-        pilots = sorted(ship['pilots'], key=self.pilot_ini_key)
-        for pilot in pilots:
-            init = self.iconify(f"initiative{pilot['initiative']}")
-            unique = '• ' if pilot.get('limited', False) else ''
-            # TODO, data is missing slots
-            # elite = ' ' + self.iconify('elite') if 'Elite' in pilot['slots'] else ''
-            elite = ''
-            name = self.format_name(pilot)
-            text = f"{init}{unique}{name}{elite} [{pilot['cost']}]"
-            #TODO fudge data for multi-faction ships
-            factions.setdefault(ship['faction'], []).append(text)
+        for faction, pilots in ship['pilots'].items():
+            pilots = sorted(pilots, key=self.pilot_ini_key)
+            factions[faction] = []
+            for pilot in pilots:
+                init = self.iconify(f"initiative{pilot['initiative']}")
+                unique = '• ' if pilot.get('limited', False) else ''
+                # TODO, data is missing slots
+                # elite = ' ' + self.iconify('elite') if 'Elite' in pilot['slots'] else ''
+                elite = ''
+                name = self.format_name(pilot)
+                factions[faction].append(
+                    f"{init}{unique}{name}{elite} [{pilot['cost']}]")
         return [f"{self.iconify(faction)} {', '.join(pilots)}"
                 for faction, pilots in factions.items()]
 

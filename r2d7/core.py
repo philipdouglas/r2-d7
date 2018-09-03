@@ -121,12 +121,18 @@ class DroidCore():
                                   subcat=remaining.split('.')[0])
 
             elif category == 'pilots':
-                ship = raw_data
+                first_ship = ship = raw_data
                 ship['xws'] = remaining.split('/')[1][:-5].replace('-', '')
+                if 'ship' in self._data and ship['xws'] in self._data['ship']:
+                    first_ship = self._data['ship'][ship['xws']][0]
                 for pilot in ship['pilots']:
-                    pilot['ship'] = ship
+                    pilot['ship'] = first_ship
                     self.add_card('pilot', pilot)
-                self.add_card('ship', ship)
+                ship['pilots'] = {ship['faction']: ship['pilots']}
+                if first_ship is not ship:
+                    first_ship['pilots'].update(ship['pilots'])
+                else:
+                    self.add_card('ship', ship)
 
             elif category == 'damage-decks':
                 for card in raw_data['cards']:

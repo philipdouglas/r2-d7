@@ -194,3 +194,23 @@ def test_print_restrictions(testbot, res, expected):
 ])
 def test_print_ship_ability(testbot, ability, expected):
     assert testbot.print_ship_ability(ability) == expected
+
+@pytest.mark.parametrize('ship, expected', [
+    ('starviperclassattackplatform', [
+        ':scum: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Enforcer|Black Sun Enforcer> [46], :initiative3:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Assassin|Black Sun Assassin> [48], :initiative4:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Dalan_Oberos|Dalan Oberos> [54], :initiative4:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Prince_Xizor|Prince Xizor> [54], :initiative5:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri> [62]',
+    ]),
+    ('hwk290lightfreighter', [
+        ':rebel: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Rebel_Scout|Rebel Scout> [32], :initiative3:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Kyle_Katarn|Kyle Katarn> [38], :initiative4:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Roark_Garnet|Roark Garnet> [38], :initiative5:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Jan_Ors|Jan Ors> [42]',
+        ':scum: :initiative1:<http://xwing-miniatures-second-edition.wikia.com/wiki/Spice_Runner|Spice Runner> [32], :initiative2:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Torkil_Mux|Torkil Mux> [36], :initiative3:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Palob_Godalhi|Palob Godalhi> [38], :initiative4:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Dace_Bonearm|Dace Bonearm> [36]'
+    ]),
+])
+def test_list_pilots(testbot, ship, expected):
+    # TODO fixturise this code, it's duped from test_card_lookup
+    if '.' in ship:
+        ship, num = ship.split('.')
+    else:
+        num = 0
+    assert ship in testbot._lookup_data
+    assert len(testbot._lookup_data[ship]) > int(num)
+    card = testbot._lookup_data[ship][int(num)]
+    assert testbot.list_pilots(card) == expected

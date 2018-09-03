@@ -179,9 +179,10 @@ def test_print_stat(testbot, stat, expected):
     ([{"chassis": ["t65xwing"]}], "Restrictions: :t65xwing:"),
     ([{'factions': ["Galactic Empire"]}], "Restrictions: Imperial"),
     ([{'factions': ["Rebel Alliance", "Scum and Villainy"]}], "Restrictions: Rebel or Scum"),
-    ([{"chassis": ["m3ainterceptor"], 'action': {"difficulty": "White", "type": "Focus"}}], "Restrictions: :focus: and :m3ainterceptor:"),
+    ([{"chassis": ["m3ainterceptor"], 'action': {"difficulty": "White", "type": "Focus"}}], "Restrictions: :focus: or :m3ainterceptor:"),
     ([{"sizes": ["Small"]}], "Restrictions: Small ship"),
     ([{"sizes": ["Small", "Medium"]}], "Restrictions: Small or Medium ship"),
+    ([{"factions": ["Scum and Villainy"], "characters": ["darthvader"]}], "Restrictions: Scum or squad including Darth Vader"),
 ])
 def test_print_restrictions(testbot, res, expected):
     assert testbot.print_restrictions(res) == expected

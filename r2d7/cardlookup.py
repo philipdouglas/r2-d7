@@ -408,22 +408,27 @@ class CardLookup(DroidCore):
     }
 
     def print_restrictions(self, restrictions):
-        out = []
+        ands = []
         for restrict in restrictions:
+            ors = []
             if 'action' in restrict:
-                out.append(self.print_action(restrict['action']))
+                ors.append(self.print_action(restrict['action']))
             if 'factions' in restrict:
-                out.append(' or '.join(
+                ors.append(' or '.join(
                     self.restriction_faction_map[faction]
                     for faction in restrict['factions']
                 ))
             if 'chassis' in restrict:
-                out.append(' or '.join(
+                ors.append(' or '.join(
                     self.iconify(ship) for ship in restrict['chassis']
                 ))
             if 'sizes' in restrict:
-                out.append(' or '.join(restrict['sizes']) + ' ship')
-        return 'Restrictions: ' + ' and '.join(out)
+                ors.append(' or '.join(restrict['sizes']) + ' ship')
+            if 'characters' in restrict:
+                chars = [self.data['upgrade'][name][0]['name'] for name in restrict['characters']]
+                ors.append(f"squad including {' or '.join(chars)}")
+            ands.append(' or '.join(ors))
+        return 'Restrictions: ' + ' and '.join(ands)
 
     def print_ship_ability(self, ability):
         lines = self.convert_html(ability['text'])

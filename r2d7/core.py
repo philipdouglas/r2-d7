@@ -127,6 +127,7 @@ class DroidCore():
                     first_ship = self._data['ship'][ship['xws']][0]
                 for pilot in ship['pilots']:
                     pilot['ship'] = first_ship
+                    pilot['faction'] = ship['faction']
                     self.add_card('pilot', pilot)
                 ship['pilots'] = {ship['faction']: ship['pilots']}
                 if first_ship is not ship:

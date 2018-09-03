@@ -253,7 +253,9 @@ class CardLookup(DroidCore):
         for stat in ship['stats']:
             stats.append(self.print_stat(stat))
         if pilot and 'charges' in pilot:
-            pass #TODO (force too)
+            stats.append(self.print_charge(pilot['charges']))
+        if pilot and 'force' in pilot:
+            stats.append(self.print_charge(pilot['force'], force=True))
         line.append(''.join(stats))
 
         arcs = [self._arc_icons[arc] for arc in ship.get('firing_arcs', [])
@@ -263,7 +265,11 @@ class CardLookup(DroidCore):
                 self.iconify(f"attack-{arc}", special_chars=True)
                 for arc in arcs))
 
-        if 'actions' in ship:
+        if pilot and 'shipActions' in pilot:
+            line.append('|'.join(
+                self.print_action(action) for action in pilot['shipActions']
+            ))
+        elif 'actions' in ship:
             line.append('|'.join(
                 self.print_action(action) for action in ship['actions']
             ))
@@ -373,19 +379,28 @@ class CardLookup(DroidCore):
         "hull": "yellow",
         "shield": "blue",
         "charge": "orange",
-        "force": "purple",
+        "forcecharge": "purple",
     }
 
     def print_stat(self, stat):
         stat_type = stat['type']
+        if stat['type'] == 'shields':
+            stat_type = 'shield'
+        colour = self.stat_colours[stat_type]
         if stat_type == 'attack':
             out = self.iconify(f"red{stat['arc']}")
         else:
-            if stat['type'] == 'shields':
-                stat_type = 'shield'
-            out = self.iconify(f"{self.stat_colours[stat_type]}{stat_type}")
+            out = self.iconify(f"{colour}{stat_type}")
+        if stat_type == 'forcecharge':
+            stat_type = 'force'
         out += self.iconify(f"{stat_type}{stat['value']}")
+        if stat.get('recovers', False):
+            out += self.iconify(f"{colour}recurring")
         return out
+
+    def print_charge(self, charge, force=False):
+        charge['type'] = 'forcecharge' if force else 'charge'
+        return self.print_stat(charge)
 
     restriction_faction_map = {
         'Galactic Empire': 'Imperial',
@@ -426,13 +441,16 @@ class CardLookup(DroidCore):
             front_side = {'slots': [
                 card['xws'] if is_ship else card['ship']['xws']
             ]}
+            if is_pilot and 'ability' in card:
+                front_side['ability'] = card['ability']
 
         text = []
         text.append(' '.join(filter(len, (
             ''.join(self.iconify(slot) for slot in front_side['slots']),
             '•' if card.get('limited', False) else '',
-            self.bold(self.format_name(card)),
-            f"[{card['points']}]" if 'points' in card else '',
+            self.bold(self.format_name(card)) +
+            (f": {self.italics(card['caption'])}" if 'caption' in card else ''),
+            f"[{card['cost']}]" if 'cost' in card else '',
             f"({card['deck']})" if 'deck' in card else '',
             self.iconify(f"{card['size']}base") if 'size' in card else '',
         ))))
@@ -441,7 +459,7 @@ class CardLookup(DroidCore):
             text.append(self.print_restrictions(card['restrictions']))
 
         if is_pilot:
-            text.append(self.ship_stats(card['ship_card'], card))
+            text.append(self.ship_stats(card['ship'], card))
         elif is_ship:
             text.append(self.ship_stats(card))
 
@@ -450,6 +468,9 @@ class CardLookup(DroidCore):
 
         if 'text' in front_side:
             text.append(self.italics(front_side['text']))
+
+        if 'shipAbility' in card:
+            text += self.print_ship_ability(card['shipAbility'])
 
         last_line = []
         if 'attack' in front_side:

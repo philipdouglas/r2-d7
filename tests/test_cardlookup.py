@@ -44,6 +44,12 @@ print_card_tests = (
         '2 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank::blank:',
         '1 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank::blank:',
         ':scum: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Enforcer|Black Sun Enforcer> [46], :initiative3:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Assassin|Black Sun Assassin> [48], :initiative4:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Dalan_Oberos|Dalan Oberos> [54], :initiative4:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Prince_Xizor|Prince Xizor> [54], :initiative5:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri> [62]',
+    ]),
+    ('guri', [
+        ':starviperclassattackplatform: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri>*: _Prince Xizor\'s Bodyguard_ [62]',
+        ':scum: | :initiative5::redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1: | :calculate:|:targetlock:|:barrelroll::linked::redcalculate:|:boost::linked::redcalculate:',
+        'At the start of the Engagement Phase, if there is at least 1 enemy ship at range 0-1, you may gain 1 focus token.',
+        '_*Microthrusters:*_ While you perform a barrel roll, you must use the :bankleft: or :bankright: template instead of the :Straight: template.',
     ])
 )
 
@@ -199,3 +205,23 @@ def test_print_ship_ability(testbot, pilot, expected):
 ])
 def test_list_pilots(testbot, ship, expected):
     assert testbot.list_pilots(testbot.test_lookup(ship)) == expected
+
+@pytest.mark.parametrize('ship, pilot, expected', [
+    ('starviperclassattackplatform', None,
+     ':redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1: | :focus:|:targetlock:|:barrelroll::linked::redfocus:|:boost::linked::redfocus:',
+    ),
+    ('starviperclassattackplatform', 'guri',
+     ':scum: | :initiative5::redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1: | :calculate:|:targetlock:|:barrelroll::linked::redcalculate:|:boost::linked::redcalculate:'
+    ),
+    ('m12lkimogilafighter', 'dalanoberos',
+     ':scum: | :initiative3::redfrontarc::attack3::greenagility::agility1::yellowhull::hull7::blueshield::shield2::orangecharge::charge2: | :focus:|:targetlock:|:redbarrelroll:|:reload:'
+    ),
+    ('t65xwing', 'lukeskywalker.1',
+     ':rebel: | :initiative5::redfrontarc::attack3::greenagility::agility2::yellowhull::hull4::blueshield::shield2::purpleforcecharge::force2::purplerecurring: | :focus:|:targetlock:|:barrelroll:'
+    )
+])
+def test_ship_stats(testbot, ship, pilot, expected):
+    ship = testbot.test_lookup(ship)
+    if pilot:
+        pilot = testbot.test_lookup(pilot)
+    assert testbot.ship_stats(ship, pilot) == expected

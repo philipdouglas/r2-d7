@@ -15,7 +15,6 @@ from r2d7.slack.bot import SlackBot
 
 from r2d7.listformatter import ListFormatter
 from r2d7.cardlookup import CardLookup
-from r2d7.wavelister import WaveLister
 from r2d7.factionlister import FactionLister
 from r2d7.slackdroid import SlackDroid
 
@@ -25,10 +24,8 @@ logger = logging.getLogger(__name__)
 class Droid(
         SlackDroid,
         ListFormatter,
-        WaveLister,
         CardLookup,
-        FactionLister,
-    ):
+        FactionLister):
     pass
 
 

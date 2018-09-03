@@ -17,9 +17,7 @@ class ListFormatter(DroidCore):
         self.register_handler(r'({.*})', self.handle_json)
 
     _regexes = (
-        re.compile(r'(https?://(geordanr)\.github\.io/xwing/\?(.*))'),
-        re.compile(r'(https?://(xwing-builder)\.co\.uk/view/(\d+)[^>|]*)'),
-        re.compile(r'(https?://x-wing\.(fabpsb)\.net/permalink\.php\?sq=([a-z0-9]+))'),
+        re.compile(r'(https?://(raithos)\.github\.io/\?(.*))'),
     )
 
     def get_xws(self, message):
@@ -33,12 +31,8 @@ class ListFormatter(DroidCore):
             return None
 
         xws_url = None
-        if match[2] == 'geordanr':
+        if match[2] == 'raithos':
             xws_url = f"https://yasb-xws.herokuapp.com/?{match[3]}"
-        elif match[2] == 'xwing-builder':
-            xws_url = f"http://xwing-builder.co.uk/xws/{match[3]}?dl=1"
-        elif match[2] == 'fabpsb':
-            xws_url = f"http://x-wing.fabpsb.net/permalink.php?sq={match[3]}&xws=1"
 
         if xws_url:
             xws_url = unescape(xws_url)

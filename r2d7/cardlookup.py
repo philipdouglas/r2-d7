@@ -391,15 +391,14 @@ class CardLookup(DroidCore):
             out = self.iconify(f"red{stat['arc']}")
         else:
             out = self.iconify(f"{colour}{stat_type}")
-        if stat_type == 'forcecharge':
-            stat_type = 'force'
-        out += self.iconify(f"{stat_type}{stat['value']}")
-        if stat.get('recovers', False):
-            out += self.iconify(f"{colour}recurring")
+        plus = 'plus' if stat.get('plus', False) else ''
+        recurring = 'recurring' if stat.get('recovers', False) else ''
+        out += self.iconify(f"{stat_type}{plus}{stat['value']}{recurring}")
         return out
 
-    def print_charge(self, charge, force=False):
+    def print_charge(self, charge, force=False, plus=False):
         charge['type'] = 'forcecharge' if force else 'charge'
+        charge['plus'] = plus
         return self.print_stat(charge)
 
     restriction_faction_map = {
@@ -483,17 +482,10 @@ class CardLookup(DroidCore):
                 f"{atk['minrange']}-{atk['maxrange']}"
             )
         if 'charges' in front_side:
-            charges = front_side['charges']
-            last_line.append(
-                self.iconify('orangecharge') +
-                self.iconify(f"charge{charges['value']}") +
-                (self.iconify('orangerecurring') if charges['recovers'] else ''))
+            last_line.append(self.print_charge(front_side['charges']))
         if 'force' in front_side:
-            force = front_side['force']
             last_line.append(
-                self.iconify('purpleforcecharge') +
-                self.iconify(f"forceplus{force['value']}") +
-                (self.iconify('purplerecurring') if force['recovers'] else ''))
+                self.print_charge(front_side['force'], force=True, plus=True))
         if 'actions' in front_side:
             last_line.append('|'.join(
                 self.print_action(action) for action in front_side['actions']

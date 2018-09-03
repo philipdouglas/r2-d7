@@ -29,7 +29,7 @@ print_card_tests = (
         ':crew::crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Emperor_Palpatine|Emperor Palpatine>*',#TODO [13]',
         'Restrictions: Imperial',
         'While another friendly ship defends or performs an attack, you may spend 1 :forcecharge: to modify 1 of its dice as though that ship had spent 1 :forcecharge:.',
-        ':purpleforcecharge::forceplus1::purplerecurring:',
+        ':purpleforcecharge::forcechargeplus1recurring:',
     ]),
     ('os1arsenalloadout', [
         ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Os-1_Arsenal_Loadout|Os-1 Arsenal Loadout>*',#TODO [0]',
@@ -217,7 +217,7 @@ def test_list_pilots(testbot, ship, expected):
      ':scum: | :initiative3::redfrontarc::attack3::greenagility::agility1::yellowhull::hull7::blueshield::shield2::orangecharge::charge2: | :focus:|:targetlock:|:redbarrelroll:|:reload:'
     ),
     ('t65xwing', 'lukeskywalker.1',
-     ':rebel: | :initiative5::redfrontarc::attack3::greenagility::agility2::yellowhull::hull4::blueshield::shield2::purpleforcecharge::force2::purplerecurring: | :focus:|:targetlock:|:barrelroll:'
+     ':rebel: | :initiative5::redfrontarc::attack3::greenagility::agility2::yellowhull::hull4::blueshield::shield2::purpleforcecharge::forcecharge2recurring: | :focus:|:targetlock:|:barrelroll:'
     )
 ])
 def test_ship_stats(testbot, ship, pilot, expected):

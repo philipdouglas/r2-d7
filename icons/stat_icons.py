@@ -1,4 +1,5 @@
 #coding: utf-8
+import itertools
 import os
 
 from PIL import Image, ImageFont, ImageDraw, ImageOps, ImageFilter
@@ -9,9 +10,13 @@ stat_ranges = {
     'agility': ([str(num) for num in range(0, 5)], '#6BBE44'),
     'hull': ([str(num) for num in range(0, 13)], '#B6B335'),
     'shield': ([str(num) for num in range(0, 7)], '#7ED3E5'),
-    'charge': ([str(num) for num in range(0, 5)], '#E5B922'),
-    'force': ([str(num) for num in range(0, 5)] +
-              [f"+{num}" for num in range(1, 5)], '#C39DC9'),
+    'charge': (
+        list(itertools.chain( *[[str(num), f"{num}`"] for num in range(0, 5)])),
+    '#E5B922'),
+    'forcecharge': (
+        list(itertools.chain(
+            *[[str(num), f"{num}`", f"+{num}", f"+{num}`"] for num in range(0, 5)])),
+    '#C39DC9'),
 }
 
 size = (128, 128)
@@ -21,13 +26,19 @@ def main():
         os.mkdir('emoji')
 
     font = ImageFont.truetype('kimberley bl.ttf', 128)
+    xwingfont = ImageFont.truetype('xwing-miniatures.ttf', 128)
     for stat, bits in stat_ranges.items():
         numbers, colour = bits
         for number in numbers:
             im = Image.new("RGBA", (300, 300), (255, 255, 255, 0))
 
             draw = ImageDraw.Draw(im)
-            draw.text((0, 0), number, font=font, fill=colour)
+            if number.endswith('`'):
+                draw.text((0, 0), number[:-1], font=font, fill=colour)
+                width = draw.textsize(number[:-1], font=font)[0]
+                draw.text((width, 36), '`', font=xwingfont, fill=colour)
+            else:
+                draw.text((0, 0), number, font=font, fill=colour)
 
             # remove unneccessory whitespaces if needed
             im = im.crop(ImageOps.invert(im.convert('RGB')).getbbox())
@@ -46,6 +57,7 @@ def main():
             # write into file
             number = number.replace('±', '_')
             number = number.replace('+', 'plus')
+            number = number.replace('`', 'recurring')
             background.save("emoji/{}.png".format('{}{}'.format(stat, number)))
 
 if __name__ == '__main__':

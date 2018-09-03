@@ -6,39 +6,39 @@ from r2d7.slackdroid import SlackDroid
 
 print_card_tests = (
     ('tacticalofficer', [
-        ':crew: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Tactical_Officer|Tactical Officer>* [2]',
+        ':crew: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Tactical_Officer|Tactical Officer>*',#TODO [2]',
         'Restrictions: :redcoordinate:',
         '_In the chaos of a starfighter battle, a single order can mean the difference between a victory and a massacre._',
         ':coordinate:',
     ]),
     ('predator', [
-        ':talent: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Predator|Predator>* [2]',
+        ':talent: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Predator|Predator>*',#TODO [2]',
         'While you perform a primary attack, if the defender is in your :bullseyearc:, you may reroll 1 attack die.',
     ]),
     ('homingmissiles', [
-        ':missile: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Homing_Missiles|Homing Missiles>* [2]',
-        '*Attack (:targetlock:):* Spend 1 :Charge:. After you declare the defender, the defender may choose to suffer 1 :Hit: damage. If it does, skip the Attack and Defense Dice steps and the attack is treated as hitting.',
+        ':missile: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Homing_Missiles|Homing Missiles>*',#TODO [2]',
+        'Attack (:targetlock:): Spend 1 :Charge:. After you declare the defender, the defender may choose to suffer 1 :Hit: damage. If it does, skip the Attack and Defense Dice steps and the attack is treated as hitting.',
         ':redfrontarc::attack4::redrangebonusindicator:2-3 | :orangecharge::charge2:',
     ]),
     ('r2astromech', [
-        ':astromech: *<http://xwing-miniatures-second-edition.wikia.com/wiki/R2_Astromech|R2 Astromech>* [6]',
+        ':astromech: *<http://xwing-miniatures-second-edition.wikia.com/wiki/R2_Astromech|R2 Astromech>*',#TODO [6]',
         'After you reveal your dial, you may spend 1 :Charge: and gain 1 disarm token to recover 1 shield.',
         ':orangecharge::charge2:',
     ]),
     ('emperorpalpatine', [
-        ':crew::crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Emperor_Palpatine|Emperor Palpatine>* [13]',
+        ':crew::crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Emperor_Palpatine|Emperor Palpatine>*',#TODO [13]',
         'Restrictions: Imperial',
         'While another friendly ship defends or performs an attack, you may spend 1 :forcecharge: to modify 1 of its dice as though that ship had spent 1 :forcecharge:.',
         ':purpleforcecharge::forceplus1::purplerecurring:',
     ]),
     ('os1arsenalloadout', [
-        ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Os-1_Arsenal_Loadout|Os-1 Arsenal Loadout>* [0]',
+        ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Os-1_Arsenal_Loadout|Os-1 Arsenal Loadout>*',#TODO [0]',
         'Restrictions: :alphaclassstarwing:',
-        'While you have exactly 1 disarm token, you can still perform :Torpedo: and :Missile: attacks against targets you have locked. If you do, you cannot spend your lock during the attack. Add :Torpedo: and :Missile: slots.',
+        'While you have exactly 1 disarm token, you can still perform :Torpedo: and :Missile: attacks against targets you have locked. If you do, you cannot spend you lock during the attack. Add :Torpedo: and :Missile: slots.',
     ]),
     ('starviperclassattackplatform', [
         ':starviperclassattackplatform: *<http://xwing-miniatures-second-edition.wikia.com/wiki/StarViper-class_Attack_Platform|StarViper-class Attack Platform>* :smallbase:',
-        ':redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1: | :focus: :targetlock: :barrelroll::linked::redfocus: :boost:⯈:redfocus:',
+        ':redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1: | :focus: :targetlock: :barrelroll::linked::redfocus: :boost::linked::redfocus:',
         '4 :blank::blank::straight::blank::blank::blank::blank:',
         '3 :blank::bankleft::bluestraight::bankright::blank::redsloopleft::redsloopright:',
         '2 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank::blank:',

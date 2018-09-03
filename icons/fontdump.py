@@ -83,6 +83,7 @@ fonts = {
         'rotatearc': Red("R"),
         'slam': Red("s"),
         # Other
+        #TODO make this smaller so it matches the cards
         'linked': '>',
         'crit': "c",
         'hit': "d",

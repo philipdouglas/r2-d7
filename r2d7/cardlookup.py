@@ -363,7 +363,7 @@ class CardLookup(DroidCore):
         difficulty = '' if action['difficulty'] == 'White' else action['difficulty']
         out = self.iconify(difficulty + action['type'])
         if 'linked' in action:
-            out += '⯈' + self.print_action(action['linked'])
+            out += self.iconify('linked') + self.print_action(action['linked'])
         return out
 
     stat_colours = {

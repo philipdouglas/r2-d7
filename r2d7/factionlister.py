@@ -34,15 +34,12 @@ class FactionLister(DroidCore):
             return []
 
         logger.debug(f"Listing ships in {', '.join(factions)}")
-        # Use an OrderedDict as an ordered set
-        ships = OrderedDict(
-            (self.iconify(ship['xws']), None) for ships in self.data['ship'].values()
+        return [''.join(sorted(
+            self.iconify(ship['xws']) for ships in self.data['ship'].values()
             for ship in ships
             for faction in ship['pilots'].keys()
             if faction in factions
-        )
-
-        return [''.join(ships)]
+        ))]
 
     def handle_faction_icon(self, message):
         return self.print_faction_ships(message)

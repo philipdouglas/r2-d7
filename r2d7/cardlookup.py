@@ -468,6 +468,19 @@ class CardLookup(DroidCore):
                 out.append(self.iconify(f"{stat}plus{grant['amount']}"))
         return out if out else None
 
+    def print_attack(self, atk):
+        if atk['minrange'] != atk['maxrange']:
+            ranges = f"{atk['minrange']}-{atk['maxrange']}"
+        else:
+            ranges = str(atk['minrange'])
+        return (
+            self.iconify('red' + atk['arc']) +
+            self.iconify(f"attack{atk['value']}") +
+            (self.iconify('redrangebonusindicator')
+                if atk.get('ordnance', False) else '') +
+            ranges
+        )
+
     def print_card(self, card):
         is_ship = card['category'] == 'ship'
         is_pilot = card['category'] == 'pilot'
@@ -513,14 +526,7 @@ class CardLookup(DroidCore):
 
         last_line = []
         if 'attack' in front_side:
-            atk = front_side['attack']
-            range_bonus = front_side['slots'] in (['Missile'], ['Torpedo'])
-            last_line.append(
-                self.iconify('red' + atk['arc']) +
-                self.iconify(f"attack{atk['value']}") +
-                (self.iconify('redrangebonusindicator') if range_bonus else '') +
-                f"{atk['minrange']}-{atk['maxrange']}"
-            )
+            last_line.append(self.print_attack(front_side['attack']))
         if 'charges' in front_side:
             last_line.append(self.print_charge(front_side['charges']))
         if 'force' in front_side:

@@ -256,3 +256,13 @@ def test_print_cost(testbot, card, expected):
 ])
 def test_print_grants(testbot, card, expected):
     assert testbot.print_grants(testbot.test_lookup(card)['sides'][0]['grants']) == expected
+
+
+@pytest.mark.parametrize('card, expected', [
+    ('homingmissiles', ':redfrontarc::attack4::redrangebonusindicator:2-3'),
+    ('advprotontorpedoes', ':redfrontarc::attack5::redrangebonusindicator:1'),
+    ('dorsalturret', ':redsingleturretarc::attack2:1-2')
+])
+def test_print_attack(testbot, card, expected):
+    assert testbot.print_attack(testbot.test_lookup(
+        card)['sides'][0]['attack']) == expected

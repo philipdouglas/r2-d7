@@ -93,6 +93,7 @@ class CardLookup(DroidCore):
         'bmst': 'blackmarketslicertools',
         'snuggling': 'smugglingcompartment',
         'snugglingcompartment': 'smugglingcompartment',
+        'ap': 'ap5',
     }
 
     def load_data(self):
@@ -316,7 +317,7 @@ class CardLookup(DroidCore):
         if side is None:
             side = card
         # There's no wiki pages for ships or crits
-        if card['category'] == 'ships' or card['category'] == 'damage':
+        if card['category'] in ('ships', 'damage', 'condition'):
             return card['name']
         else:
             return self.wiki_link(side.get('title', card['name']))
@@ -445,15 +446,17 @@ class CardLookup(DroidCore):
         is_pilot = card['category'] == 'pilot'
         is_crit = card['category'] == 'damage'
 
-        if any((is_crit, is_pilot, is_ship)):
+        if 'sides' not in card:
             if is_pilot:
                 slot = card['ship']['xws']
             elif is_crit:
                 slot = 'crit'
+            elif card['category'] == 'condition':
+                slot = 'condition'
             else:
                 slot = card['xws']
             fake_side = {'slots': [slot]}
-            if is_pilot and 'ability' in card:
+            if 'ability' in card:
                 fake_side['ability'] = card['ability']
             if is_pilot and 'text' in card:
                 fake_side['text'] = card['text']
@@ -504,6 +507,10 @@ class CardLookup(DroidCore):
                     last_line += grants
             if last_line:
                 text.append(' | '.join(last_line))
+
+            if 'conditions' in side:
+                for condition in side['conditions']:
+                    text += self.print_card(self.data['condition'][condition][0])
 
         if 'dial' in card:
             text += self.maneuvers(card['dial'])

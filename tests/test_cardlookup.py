@@ -194,6 +194,7 @@ def test_maneuvers(testbot, dialgen, slack):
 
 @pytest.mark.parametrize('action, expected', [
     ({"difficulty": "White", "type": "Focus"}, ":focus:"),
+    ({"type": "Focus"}, ":focus:"),
     ({"difficulty": "White", "type": "Barrel Roll", "linked": {
         "difficulty": "Red", "type": "Focus"}},
      ":barrelroll::linked::redfocus:")
@@ -210,6 +211,7 @@ def test_print_stat(testbot, stat, expected):
 
 @pytest.mark.parametrize('res, expected', [
     ([{'action': {"difficulty": "Red", "type": "Focus"}}], "Restrictions: :redfocus:"),
+    ([{'action': {"type": "Focus"}}], "Restrictions: :focus:"),
     ([{"ships": ["t65xwing"]}], "Restrictions: :t65xwing:"),
     ([{'factions': ["Galactic Empire"]}], "Restrictions: Imperial"),
     ([{'factions': ["Rebel Alliance", "Scum and Villainy"]}], "Restrictions: Rebel or Scum"),
@@ -217,6 +219,7 @@ def test_print_stat(testbot, stat, expected):
     ([{"sizes": ["Small"]}], "Restrictions: Small ship"),
     ([{"sizes": ["Small", "Medium"]}], "Restrictions: Small or Medium ship"),
     ([{"factions": ["Scum and Villainy"], "names": ["Darth Vader"]}], "Restrictions: Scum or squad including Darth Vader"),
+    ([{"arcs": ["Rear Arc"]}], "Restrictions: :reararc:"),
 ])
 def test_print_restrictions(testbot, res, expected):
     assert testbot.print_restrictions(res) == expected

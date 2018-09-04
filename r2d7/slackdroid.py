@@ -79,6 +79,8 @@ You can list the contents of each wave by saying [[Wave X]]. Eg. [[Wave 1]].
         re.compile(r'\[Rear Arc\]'): ':reararc:',
         re.compile(r'\[Front Arc\]'): ':frontarc:',
         re.compile(r'\[Bullseye Arc\]'): ':bullseyearc:',
+        re.compile(r'\[Single Turret Arc\]'): ':singleturretarc:',
+        re.compile(r'\[Double Turret Arc\]'): ':doubleturretarc:',
     }
 
     @classmethod

@@ -325,7 +325,7 @@ class CardLookup(DroidCore):
             #TODO handle special cases
 
     def print_action(self, action):
-        difficulty = '' if action['difficulty'] == 'White' else action['difficulty']
+        difficulty = '' if action.get('difficulty', 'White') == 'White' else action['difficulty']
         out = self.iconify(difficulty + action['type'])
         if 'linked' in action:
             out += self.iconify('linked') + self.print_action(action['linked'])
@@ -384,6 +384,8 @@ class CardLookup(DroidCore):
                 ors.append(' or '.join(restrict['sizes']) + ' ship')
             if 'names' in restrict:
                 ors.append(f"squad including {' or '.join(restrict['names'])}")
+            if 'arcs' in restrict:
+                ors.append(' or '.join(self.iconify(arc) for arc in restrict['arcs']))
             ands.append(' or '.join(ors))
         return 'Restrictions: ' + ' and '.join(ands)
 

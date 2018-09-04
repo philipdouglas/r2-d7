@@ -3,65 +3,25 @@ import pytest
 from r2d7.listformatter import ListFormatter
 from r2d7.slackdroid import SlackDroid
 
-pytestmark = pytest.mark.xfail()
 
 get_xws_tests = (
     (
         "https://raithos.github.io/?f=Scum%20and%20Villainy&d=v4!s!138:-1,168:-1:-1:U.-1&sn=Sunny%20B!&obs=",
-        {"description": "", "faction": "scumandvillainy", "name": "Sunny B!", "pilots": [{"id": "sunnybounder", "points": 31, "ship": "m3ainterceptor", "upgrades": {"hardpoint": ["hardpointcannon"]}}], "points": 31, "vendor": {
-            "yasb": {"builder": "Yet Another Squad Builder 2.0", "builder_url": "https://raithos.github.io/", "link": "https://raithos.github.io/?f=Scum%20and%20Villainy&d=v4!s!138:-1,168:-1:-1:U.-1&sn=Sunny%20B!&obs="}}, "version": "0.3.0"},
+        {"faction": "scum", "name": "Sunny B!", "pilots": [{"name": "sunnybounder", "ship": "m3ainterceptor", "upgrades": {"hardpoint": ["hardpointcannon"]}}], "vendor": {
+            "yasb": {"builder": "(Yet Another) X-Wing Miniatures Squad Builder", "builder_url": "https://raithos.github.io/xwing", "link": "https://raithos.github.io/xwing/?f=Scum%20and%20Villainy&d=v4!s!138:-1,168:-1:-1:U.-1&sn=Sunny%20B!&obs="}}, "version": "0.3.0"},
     ),
 )
-
 @pytest.mark.parametrize('url, expected', get_xws_tests)
 def test_get_xws(testbot, url, expected):
     assert testbot.get_xws(url) == expected
 
 print_xws_tests = (
     (
-        {"faction":"scum","pilots":[{"name":"sunnybounder","ship":"m3ainterceptor","upgrades":{"title":["lightscykinterceptor"]}}],"vendor":{"yasb":{"builder":"(Yet Another) X-Wing Miniatures Squad Builder","builder_url":"https://geordanr.github.io/xwing","link":"https://geordanr.github.io/xwing/?f=Scum%20and%20Villainy&d=v4!s!248::50:-1:&sn=Sunny%20B!&obs="}},"version":"0.3.0","name":"Sunny B!"},
+        {"faction": "scum", "name": "Sunny B!", "pilots": [{"name": "sunnybounder", "ship": "m3ainterceptor", "upgrades": {"hardpoint": ["hardpointcannon"], "cannon":["heavylasercannon"]}}], "vendor": {"yasb": {
+            "builder": "(Yet Another) X-Wing Miniatures Squad Builder", "builder_url": "https://raithos.github.io/xwing", "link": "https://raithos.github.io/?f=Scum%20and%20Villainy&d=v4!s!138:-1,168:-1:-1:U.10&sn=Sunny%20B!&obs="}}, "version": "0.3.0"},
         [
-            ':scum: *<https://geordanr.github.io/xwing/?f=Scum%20and%20Villainy&d=v4!s!248::50:-1:&sn=Sunny%20B!&obs=|Sunny B!>* *[12]*',
-            ':m3ainterceptor::skill1: _<http://xwing-miniatures.wikia.com/wiki/Sunny_Bounder|Sunny Bounder>_: <http://xwing-miniatures.wikia.com/wiki/"Light_Scyk"_Interceptor|"Light Scyk" Interceptor> *[12]*',
-        ],
-    ),
-    (
-        {
-            "version": "0.3.0",
-            "name": "Sunny B!",
-            "faction": "scum",
-            "points": 12,
-            "pilots": [
-                {
-                    "name": "sunnybounder",
-                    "ship": "m3ainterceptor",
-                    "points": 12,
-                    "upgrades": {
-                        "title": [
-                            "lightscykinterceptor"
-                        ]
-                    }
-                }
-            ],
-            "vendor": {
-                "voidstate": {
-                    "squadron_id": 747933,
-                    "link": "http://xwing-builder.co.uk/view/747933/sunny-b",
-                    "builder": "Voidstate's Unofficial X-Wing Squadron Builder",
-                    "builder_link": "http://xwing-builder.co.uk/build"
-                }
-            }
-        },
-        [
-            ':scum: *<http://xwing-builder.co.uk/view/747933/sunny-b|Sunny B!>* *[12]*',
-            ':m3ainterceptor::skill1: _<http://xwing-miniatures.wikia.com/wiki/Sunny_Bounder|Sunny Bounder>_: <http://xwing-miniatures.wikia.com/wiki/"Light_Scyk"_Interceptor|"Light Scyk" Interceptor> *[12]*',
-        ],
-    ),
-    (
-        {"description":"","faction":"scum","pilots":[{"name":"sunnybounder","points":12,"ship":"m3ascykinterceptor","upgrades":{"title":["lightscykinterceptor"]}}],"points":12,"vendor":{"fab":{"builder":"Fabs Squadrons generator","builder_link":"http://x-wing.fabpsb.net/","link":"http://x-wing.fabpsb.net/permalink?sq=z63f47"}},"version":"1.0.0"},
-        [
-            ':scum: *<http://x-wing.fabpsb.net/permalink?sq=z63f47|Nameless Squadron>* *[12]*',
-            ':m3ainterceptor::skill1: _<http://xwing-miniatures.wikia.com/wiki/Sunny_Bounder|Sunny Bounder>_: <http://xwing-miniatures.wikia.com/wiki/"Light_Scyk"_Interceptor|"Light Scyk" Interceptor> *[12]*',
+            ':scum: *<https://raithos.github.io/?f=Scum%20and%20Villainy&d=v4!s!138:-1,168:-1:-1:U.10&sn=Sunny%20B!&obs=|Sunny B!>* *[35]*',
+            ':m3ainterceptor::initiative1: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Sunny_Bounder|Sunny Bounder>_: <http://xwing-miniatures-second-edition.wikia.com/wiki/Heavy_Laser_Cannon|Heavy Laser Cannon> *[35]*',
         ],
     ),
     (

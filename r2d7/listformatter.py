@@ -32,7 +32,7 @@ class ListFormatter(DroidCore):
 
         xws_url = None
         if match[2] == 'raithos':
-            xws_url = f"https://yasb-xws.herokuapp.com/?{match[3]}"
+            xws_url = f"https://yasb2-xws.herokuapp.com/?{match[3]}"
 
         if xws_url:
             xws_url = unescape(xws_url)
@@ -62,32 +62,28 @@ class ListFormatter(DroidCore):
             points = 0
             pilot_card = None
             try:
-                for pilot_card in self.data['pilots'][pilot['name']]:
-                    canon_ship = self.partial_canonicalize(pilot_card['ship'])
-                    if canon_ship == pilot['ship']:
+                for pilot_card in self.data['pilot'][pilot['name']]:
+                    if pilot_card['ship']['xws'] == pilot['ship']:
                         break
             except KeyError:
                 # Unrecognised pilot
                 output.append(self.iconify('question') * 2 + ' ' +
                               self.italics('Unknown Pilot'))
                 continue
-            points += pilot_card['points']
-            skill = pilot_card['skill']
+            points += pilot_card['cost']
+            initiative = pilot_card['initiative']
 
             cards = []
-            tiex1 = False
-            vaksai = False
-            renegade = False
             if 'upgrades' in pilot:
                 for slot, upgrades in pilot['upgrades'].items():
+                    # Hardpoint is a fake slot used to implement the scyk ship ability
+                    if slot == 'hardpoint':
+                        continue
                     for upgrade in upgrades:
                         try:
-                            cards.append(self.data['upgrades'][upgrade][0])
+                            cards.append(self.data['upgrade'][upgrade][0])
                         except KeyError:
                             cards.append(None)
-                        tiex1 = tiex1 or upgrade == 'tiex1'
-                        vaksai = vaksai or upgrade == 'vaksai'
-                        renegade = renegade or upgrade == 'renegaderefit'
 
             upgrades = []
             for upgrade in cards:
@@ -95,35 +91,14 @@ class ListFormatter(DroidCore):
                     upgrades.append(self.bold('Unrecognised Upgrade'))
                     continue
 
-                if upgrade['name'] == 'Veteran Instincts':
-                    skill += 2
-                upgrade_name = upgrade['name']
-                if upgrade['xws'] == 'adaptability':
-                    upgrade_name = 'Adaptability'
-                upgrade_text = self.wiki_link(
-                    upgrade_name,
-                    (
-                        upgrade['slot'] == 'Crew' and (
-                            upgrade['xws'] in self.data['pilots'] or
-                            upgrade['xws'] == 'r2d2-swx22'
-                        )
-                    )
-                )
-                if upgrade_name == 'Adaptability':
-                    upgrade_text += self.iconify('skill_1', special_chars=True)
+                upgrade_text = self.wiki_link(upgrade['name'])
                 upgrades.append(upgrade_text)
-                cost = upgrade['points']
-                if vaksai and cost >= 1:
-                    cost -= 1
-                if renegade and upgrade['slot'] == 'Elite' and cost >= 1:
-                    cost -= 1
-                if tiex1 and upgrade['slot'] == 'System':
-                    points -= min(4, upgrade['points'])
-                points += cost
+                #TODO variable point costs
+                points += upgrade['cost']['value']
 
             ship_line = (
-                self.iconify(pilot_card['ship']) +
-                self.iconify(f"skill{skill}") +
+                self.iconify(pilot_card['ship']['name']) +
+                self.iconify(f"initiative{initiative}") +
                 f" {self.italics(self.wiki_link(pilot_card['name']))}"
             )
             if upgrades:

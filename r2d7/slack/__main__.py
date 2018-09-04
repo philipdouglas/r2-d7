@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 class Droid(
         SlackDroid,
-        # ListFormatter,
+        ListFormatter,
         CardLookup,
         FactionLister):
     pass

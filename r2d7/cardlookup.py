@@ -112,52 +112,6 @@ class CardLookup(DroidCore):
                     self._name_to_xws[card['name']] = card['xws']
                     card['_id'] = next_id
                     next_id += 1
-        # for group in self._processing_order:
-        #     cards = self.data[group]
-        #     for name, cards in cards.items():
-        #         for card in cards:
-        #             if group == 'conditions':
-        #                 card['slot'] = 'condition'
-        #             elif group == 'ships':
-        #                 card['slot'] = card['xws']
-        #                 card['actions'].sort(key=self._action_key)
-        #             elif 'damage-deck' in group:
-        #                 card['slot'] = 'crit'
-        #                 card['deck'] = 'TFA' if 'tfa' in group else 'Original'
-        #             elif group == 'pilots':
-        #                 ships = self._lookup_data[
-        #                     self._name_to_xws[card['ship']]]
-        #                 if len(ships) > 1:
-        #                     raise DroidException(
-        #                         f"Duplicate ship found: {ships}")
-        #                 card['ship_card'] = ships[0]
-
-        #                 # Add pilot to it's ship so we can list ship pilots
-        #                 card['ship_card'].setdefault('pilots', []).append(
-        #                     card)
-
-        #                 if 'ship_override' in card:
-        #                     card['ship_card'] = copy.copy(card['ship_card'])
-        #                     card['ship_card'].update(card['ship_override'])
-
-        #                 card['slots'].sort(key=self._slot_key)
-
-        #                 # Give ship slots if it doesn't have them
-        #                 try:
-        #                     skill = int(card['skill'])
-        #                     if card['ship_card'].get('_slot_skill', 13) > skill:
-        #                         card['ship_card']['_slot_skill'] = skill
-        #                         card['ship_card']['slots'] = card['slots']
-        #                 except ValueError:
-        #                     pass
-
-        #                 card['slot'] = card['ship_card']['xws']
-
-        #             card['_id'] = next_id
-        #             card['_group'] = group
-        #             next_id += 1
-        #             self._lookup_data.setdefault(name, []).append(card)
-        #             self._name_to_xws[card['name']] = card['xws']
 
     _multi_lookup_pattern = re.compile(r'\]\][^\[]*\[\[')
     @property

@@ -465,7 +465,10 @@ class CardLookup(DroidCore):
                 out += [self.print_action(grant['value'])] * grant['amount']
             elif grant['type'] == 'stat':
                 stat = 'shield' if grant['value'] == 'shields' else grant['value']
-                out.append(self.iconify(f"{stat}plus{grant['amount']}"))
+                out.append(
+                    self.iconify(f"{self.stat_colours[stat]}{stat}") +
+                    self.iconify(f"{stat}plus{grant['amount']}")
+                )
         return out if out else None
 
     def print_attack(self, atk):

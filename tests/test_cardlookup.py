@@ -39,7 +39,7 @@ print_card_tests = (
     ('shieldupgrade', [
         ':modification: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Shield_Upgrade|Shield Upgrade>* [:greenagility::agility0:3:agility1:4:agility2:6:agility3:8]',
         '_Deflector shields are a substantial line of defense on most starships beyond the lightest fighters. While enhancing a ship\'s shield capacity can be costly, all but the most confident or reckless pilots see the value in this sort of investment._',
-        ':shieldplus1:'
+        ':blueshield::shieldplus1:'
     ]),
     ('starviperclassattackplatform', [
         ':starviperclassattackplatform: *<http://xwing-miniatures-second-edition.wikia.com/wiki/StarViper-class_Attack_Platform|StarViper-class Attack Platform>* :smallbase:',
@@ -251,8 +251,8 @@ def test_print_cost(testbot, card, expected):
 @pytest.mark.parametrize('card, expected', [
     ('os1arsenalloadout', None),
     ('c3po', [':calculate:']),
-    ('hullupgrade', [':hullplus1:']),
-    ('shieldupgrade', [':shieldplus1:']),
+    ('hullupgrade', [':yellowhull::hullplus1:']),
+    ('shieldupgrade', [':blueshield::shieldplus1:']),
 ])
 def test_print_grants(testbot, card, expected):
     assert testbot.print_grants(testbot.test_lookup(card)['sides'][0]['grants']) == expected

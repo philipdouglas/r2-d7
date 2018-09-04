@@ -297,6 +297,16 @@ class CardLookup(DroidCore):
             # Put ?s at the end
             return 9
 
+    @staticmethod
+    def has_calculate(pilot):
+        try:
+            for action in pilot['shipActions']:
+                if action['type'] == 'Calculate':
+                    return True
+        except KeyError:
+            pass
+        return False
+
     def list_pilots(self, ship):
         ability_faction_pilot_map = {}
         for faction, pilots in ship['pilots'].items():
@@ -316,9 +326,10 @@ class CardLookup(DroidCore):
                     # TODO, data is missing slots
                     # elite = ' ' + self.iconify('elite') if 'Elite' in pilot['slots'] else ''
                     elite = ''
+                    calculate = ' ' + self.iconify('calculate') if self.has_calculate(pilot) else ''
                     name = self.format_name(pilot)
                     pilots_printed.append(
-                        f"{init}{unique}{name}{elite} [{pilot['cost']}]")
+                        f"{init}{unique}{name}{elite}{calculate} [{pilot['cost']}]")
                 out.append(f"{self.iconify(faction)} {', '.join(pilots_printed)}")
         return out
 

@@ -69,7 +69,11 @@ print_card_tests = (
         ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_(Open)|Pivot Wing (Open)>* [0]',
         'Restrictions: :ut60duwing:',
         'Before you activate, you may flip this card.',
-    ])
+    ]),
+    ('directhit', [
+        ':crit: *Direct Hit!* (core)',
+        'Suffer 1 :Hit: damage. Then repair this card.',
+    ]),
 )
 
 @pytest.mark.parametrize('name, expected', print_card_tests)

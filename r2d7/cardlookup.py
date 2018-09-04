@@ -443,15 +443,22 @@ class CardLookup(DroidCore):
     def print_card(self, card):
         is_ship = card['category'] == 'ship'
         is_pilot = card['category'] == 'pilot'
+        is_crit = card['category'] == 'damage'
 
-        if  is_ship or is_pilot:
-            fake_side = {'slots': [
-                card['xws'] if is_ship else card['ship']['xws']
-            ]}
+        if any((is_crit, is_pilot, is_ship)):
+            if is_pilot:
+                slot = card['ship']['xws']
+            elif is_crit:
+                slot = 'crit'
+            else:
+                slot = card['xws']
+            fake_side = {'slots': [slot]}
             if is_pilot and 'ability' in card:
                 fake_side['ability'] = card['ability']
             if is_pilot and 'text' in card:
                 fake_side['text'] = card['text']
+            elif is_crit and 'text' in card:
+                fake_side['ability'] = card['text']
             card['sides'] = [fake_side]
 
         text = []
@@ -498,11 +505,11 @@ class CardLookup(DroidCore):
             if last_line:
                 text.append(' | '.join(last_line))
 
-            if 'dial' in card:
-                text += self.maneuvers(card['dial'])
+        if 'dial' in card:
+            text += self.maneuvers(card['dial'])
 
-            if 'pilots' in card:
-                text += self.list_pilots(card)
+        if 'pilots' in card:
+            text += self.list_pilots(card)
 
         return text
 

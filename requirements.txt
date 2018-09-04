@@ -1,6 +1,6 @@
-requests
-slackclient
-slacker
-python-dateutil
-redis
-flask
+requests==2.18.4
+slackclient==1.1.0
+slacker==0.9.60
+python-dateutil==2.6.1
+redis==2.10.6
+flask==0.12.2

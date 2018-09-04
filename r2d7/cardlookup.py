@@ -94,6 +94,7 @@ class CardLookup(DroidCore):
         'snuggling': 'smugglingcompartment',
         'snugglingcompartment': 'smugglingcompartment',
         'ap': 'ap5',
+        'scyk': 'm3ainterceptor',
     }
 
     def load_data(self):

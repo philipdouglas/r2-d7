@@ -76,6 +76,7 @@ You can list the contents of each wave by saying [[Wave X]]. Eg. [[Wave 1]].
         # :lock: is a default Slack emoji, so we'll stick with targetlock for 2.0
         re.compile(r'\[Lock\]'): ':targetlock:',
         re.compile(r'\[Force\]'): ':forcecharge:',
+        re.compile(r'\[0 \[Stationary\]\]'): ':stop:',
     }
 
     @classmethod

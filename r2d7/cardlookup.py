@@ -312,12 +312,14 @@ class CardLookup(DroidCore):
         return [f"{self.iconify(faction)} {', '.join(pilots)}"
                 for faction, pilots in factions.items()]
 
-    def format_name(self, card):
+    def format_name(self, card, side=None):
+        if side is None:
+            side = card
         # There's no wiki pages for ships or crits
         if card['category'] == 'ships' or card['category'] == 'damage':
             return card['name']
         else:
-            return self.wiki_link(card['name'])
+            return self.wiki_link(side.get('title', card['name']))
             #TODO handle special cases
 
     def print_action(self, action):
@@ -442,65 +444,65 @@ class CardLookup(DroidCore):
         is_ship = card['category'] == 'ship'
         is_pilot = card['category'] == 'pilot'
 
-        if not is_ship and not is_pilot:
-            front_side = card['sides'][0]
-        else:
-            front_side = {'slots': [
+        if  is_ship or is_pilot:
+            fake_side = {'slots': [
                 card['xws'] if is_ship else card['ship']['xws']
             ]}
             if is_pilot and 'ability' in card:
-                front_side['ability'] = card['ability']
+                fake_side['ability'] = card['ability']
             if is_pilot and 'text' in card:
-                front_side['text'] = card['text']
+                fake_side['text'] = card['text']
+            card['sides'] = [fake_side]
 
         text = []
-        text.append(' '.join(filter(len, (
-            ''.join(self.iconify(slot) for slot in front_side['slots']),
-            '•' if card.get('limited', False) else '',
-            self.bold(self.format_name(card)) +
-            (f": {self.italics(card['caption'])}" if 'caption' in card else ''),
-            self.print_cost(card['cost']) if 'cost' in card else '',
-            f"({card['deck']})" if 'deck' in card else '',
-            self.iconify(f"{card['size']}base") if 'size' in card else '',
-        ))))
+        for side in card['sides']:
+            text.append(' '.join(filter(len, (
+                ''.join(self.iconify(slot) for slot in side['slots']),
+                '•' if card.get('limited', False) else '',
+                self.bold(self.format_name(card, side)) +
+                (f": {self.italics(card['caption'])}" if 'caption' in card else ''),
+                self.print_cost(card['cost']) if 'cost' in card else '',
+                f"({card['deck']})" if 'deck' in card else '',
+                self.iconify(f"{card['size']}base") if 'size' in card else '',
+            ))))
 
-        if 'restrictions' in card:
-            text.append(self.print_restrictions(card['restrictions']))
+            if 'restrictions' in card:
+                text.append(self.print_restrictions(card['restrictions']))
 
-        if is_pilot:
-            text.append(self.ship_stats(card['ship'], card))
-        elif is_ship:
-            text.append(self.ship_stats(card))
+            if is_pilot:
+                text.append(self.ship_stats(card['ship'], card))
+            elif is_ship:
+                text.append(self.ship_stats(card))
 
-        if 'ability' in front_side:
-            text += self.convert_html(front_side['ability'])
+            if 'ability' in side:
+                text += self.convert_html(side['ability'])
 
-        if 'text' in front_side:
-            text.append(self.italics(front_side['text']))
+            if 'text' in side:
+                text.append(self.italics(side['text']))
 
-        if 'shipAbility' in card:
-            text += self.print_ship_ability(card['shipAbility'])
+            if 'shipAbility' in card:
+                text += self.print_ship_ability(card['shipAbility'])
 
-        last_line = []
-        if 'attack' in front_side:
-            last_line.append(self.print_attack(front_side['attack']))
-        if 'charges' in front_side:
-            last_line.append(self.print_charge(front_side['charges']))
-        if 'force' in front_side:
-            last_line.append(
-                self.print_charge(front_side['force'], force=True, plus=True))
-        if 'grants' in front_side:
-            grants = self.print_grants(front_side['grants'])
-            if grants:
-                last_line += grants
-        if last_line:
-            text.append(' | '.join(last_line))
+            last_line = []
+            if 'attack' in side:
+                last_line.append(self.print_attack(side['attack']))
+            if 'charges' in side:
+                last_line.append(self.print_charge(side['charges']))
+            if 'force' in side:
+                last_line.append(
+                    self.print_charge(side['force'], force=True, plus=True))
+            if 'grants' in side:
+                grants = self.print_grants(side['grants'])
+                if grants:
+                    last_line += grants
+            if last_line:
+                text.append(' | '.join(last_line))
 
-        if 'dial' in card:
-            text += self.maneuvers(card['dial'])
+            if 'dial' in card:
+                text += self.maneuvers(card['dial'])
 
-        if 'pilots' in card:
-            text += self.list_pilots(card)
+            if 'pilots' in card:
+                text += self.list_pilots(card)
 
         return text
 

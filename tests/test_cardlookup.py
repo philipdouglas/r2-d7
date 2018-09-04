@@ -61,6 +61,14 @@ print_card_tests = (
         ':empire: :initiative3::redfrontarc::attack3::greenagility::agility2::yellowhull::hull3::blueshield::shield2: :focus:|:evade:|:barrelroll:|:cloak:',
         '_The primary result of a hidden research facility on Imdaar Alpha, the TIE phantom achieves what many thought was impossible: a small starfighter equipped with an advanced cloaking device._',
         '_*Stygium Array:*_ After you decloak, you may perform an :Evade: action. At the start of the End Phase, you may spend 1 evade token to gain 1 cloak token.',
+    ]),
+    ('pivotwing', [
+        ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_(Closed)|Pivot Wing (Closed)>* [0]',
+        'Restrictions: :ut60duwing:',
+        'While you defend, roll 1 fewer defense die. After you execute a :stop: maneuver, you may rotate your ship 90˚ or 180˚. Before you activate, you may flip this card.',
+        ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_(Open)|Pivot Wing (Open)>* [0]',
+        'Restrictions: :ut60duwing:',
+        'Before you activate, you may flip this card.',
     ])
 )
 

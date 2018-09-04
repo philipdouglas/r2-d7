@@ -456,6 +456,18 @@ class CardLookup(DroidCore):
             out = cost
         return f"[{out}]"
 
+    def print_grants(self, grants):
+        out = []
+        for grant in grants:
+            if grant['type'] == 'slot':
+                continue
+            elif grant['type'] == 'action':
+                out += [self.print_action(grant['value'])] * grant['amount']
+            elif grant['type'] == 'stat':
+                stat = 'shield' if grant['value'] == 'shields' else grant['value']
+                out.append(self.iconify(f"{stat}plus{grant['amount']}"))
+        return out if out else None
+
     def print_card(self, card):
         is_ship = card['category'] == 'ship'
         is_pilot = card['category'] == 'pilot'
@@ -514,10 +526,10 @@ class CardLookup(DroidCore):
         if 'force' in front_side:
             last_line.append(
                 self.print_charge(front_side['force'], force=True, plus=True))
-        if 'actions' in front_side:
-            last_line.append('|'.join(
-                self.print_action(action) for action in front_side['actions']
-            ))
+        if 'grants' in front_side:
+            grants = self.print_grants(front_side['grants'])
+            if grants:
+                last_line += grants
         if last_line:
             text.append(' | '.join(last_line))
 

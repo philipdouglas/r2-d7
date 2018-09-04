@@ -246,3 +246,13 @@ def test_ship_stats(testbot, ship, pilot, expected):
 ])
 def test_print_cost(testbot, card, expected):
     assert testbot.print_cost(testbot.test_lookup(card)['cost']) == expected
+
+
+@pytest.mark.parametrize('card, expected', [
+    ('os1arsenalloadout', None),
+    ('c3po', [':calculate:']),
+    ('hullupgrade', [':hullplus1:']),
+    ('shieldupgrade', [':shieldplus1:']),
+])
+def test_print_grants(testbot, card, expected):
+    assert testbot.print_grants(testbot.test_lookup(card)['sides'][0]['grants']) == expected

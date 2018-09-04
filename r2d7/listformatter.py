@@ -52,7 +52,7 @@ class ListFormatter(DroidCore):
             if len(list(xws['vendor'].keys())) > 1:
                 logger.warning(f"More than one vendor found! {xws['vendor']}")
             vendor = list(xws['vendor'].values())[0]
-            if 'link' in vendor:
+            if False and 'link' in vendor:
                 name = self.link(vendor['link'].replace('/xwing/', '/'), name)
         name = self.bold(name)
         output = [f"{self.iconify(xws['faction'])} {name} "]

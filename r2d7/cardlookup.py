@@ -298,21 +298,29 @@ class CardLookup(DroidCore):
             return 9
 
     def list_pilots(self, ship):
-        factions = {}
+        ability_faction_pilot_map = {}
         for faction, pilots in ship['pilots'].items():
-            pilots = sorted(pilots, key=self.pilot_ini_key)
-            factions[faction] = []
             for pilot in pilots:
-                init = self.iconify(f"initiative{pilot['initiative']}")
-                unique = '• ' if pilot.get('limited', False) else ''
-                # TODO, data is missing slots
-                # elite = ' ' + self.iconify('elite') if 'Elite' in pilot['slots'] else ''
-                elite = ''
-                name = self.format_name(pilot)
-                factions[faction].append(
-                    f"{init}{unique}{name}{elite} [{pilot['cost']}]")
-        return [f"{self.iconify(faction)} {', '.join(pilots)}"
-                for faction, pilots in factions.items()]
+                ability = '\n'.join(self.print_ship_ability(pilot['shipAbility'])) if 'shipAbility' in pilot else None
+                ability_faction_pilot_map.setdefault(ability, {}).setdefault(faction, []).append(pilot)
+        out = []
+        for ability, factions in ability_faction_pilot_map.items():
+            if ability:
+                out.append(ability)
+            for faction, pilots in factions.items():
+                pilots = sorted(pilots, key=self.pilot_ini_key)
+                pilots_printed = []
+                for pilot in pilots:
+                    init = self.iconify(f"initiative{pilot['initiative']}")
+                    unique = '• ' if pilot.get('limited', False) else ''
+                    # TODO, data is missing slots
+                    # elite = ' ' + self.iconify('elite') if 'Elite' in pilot['slots'] else ''
+                    elite = ''
+                    name = self.format_name(pilot)
+                    pilots_printed.append(
+                        f"{init}{unique}{name}{elite} [{pilot['cost']}]")
+                out.append(f"{self.iconify(faction)} {', '.join(pilots_printed)}")
+        return out
 
     def format_name(self, card, side=None):
         if side is None:

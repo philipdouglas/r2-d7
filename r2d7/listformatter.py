@@ -53,7 +53,7 @@ class ListFormatter(DroidCore):
                 logger.warning(f"More than one vendor found! {xws['vendor']}")
             vendor = list(xws['vendor'].values())[0]
             if 'link' in vendor:
-                name = self.link(vendor['link'], name)
+                name = self.link(vendor['link'].replace('/xwing/', '/'), name)
         name = self.bold(name)
         output = [f"{self.iconify(xws['faction'])} {name} "]
         total_points = 0
@@ -62,7 +62,11 @@ class ListFormatter(DroidCore):
             points = 0
             pilot_card = None
             try:
-                for pilot_card in self.data['pilot'][pilot['name']]:
+                pilot_name = pilot['id']
+            except KeyError:
+                pilot_name = pilot['name']
+            try:
+                for pilot_card in self.data['pilot'][pilot_name]:
                     if pilot_card['ship']['xws'] == pilot['ship']:
                         break
             except KeyError:
@@ -94,7 +98,19 @@ class ListFormatter(DroidCore):
                 upgrade_text = self.wiki_link(upgrade['name'])
                 upgrades.append(upgrade_text)
                 #TODO variable point costs
-                points += upgrade['cost']['value']
+                cost = upgrade['cost']
+                if 'variable' in cost:
+                    if cost['variable'] == 'size':
+                        stat = pilot_card['ship']['size']
+                    else:
+                        stat = 0
+                        for stat_block in pilot_card['ship']['stats']:
+                            if stat_block['type'] == cost['variable']:
+                                stat = stat_block['value']
+                                break
+                    points += cost['values'][str(stat)]
+                else:
+                    points += cost['value']
 
             ship_line = (
                 self.iconify(pilot_card['ship']['name']) +

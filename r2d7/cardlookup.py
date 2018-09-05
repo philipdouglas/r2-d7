@@ -188,11 +188,12 @@ class CardLookup(DroidCore):
                 for card in self._lookup_data[match]:
                     if card['_id'] in cards_yielded:
                         continue
-                    if slot_filter and self.iconify(card['category']) != slot_filter:
+                    if slot_filter and 'ship' not in card and self.iconify(card['category']) != slot_filter:
                         continue
-                    #TODO points filter
-                    # if points_filter and not points_filter(card['cost']):
-                    #     continue
+                    if slot_filter and 'ship' in card and self.iconify(card['ship']['name']) != slot_filter:
+                        continue
+                    if points_filter and not points_filter(card['cost'].get('value', 0)):
+                        continue
 
                     cards_yielded.add(card['_id'])
                     yield card

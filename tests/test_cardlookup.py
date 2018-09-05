@@ -107,10 +107,6 @@ lookup_tests = {
     ':gunner: Han solo': [('hansolo', 'gunner'), ('hansolo-gunner', 'gunner')],
     'Han solo :gunner:': [('hansolo', 'gunner'), ('hansolo-gunner', 'gunner')],
     ':astromech: r2d2': [('r2d2', 'astromech')],
-    # TODO points filter
-    # ':elite: >3': [
-    #     ('expose', 'talent'), ('opportunist', 'talent'), ('expertise', 'talent')
-    # ],
     'rey]]   [[finn': [('rey', 'pilot'), ('finn', 'gunner')],
     'rey]]   [[finn]] [[:astromech: r2d2]]': [
         ('rey', 'pilot'), ('finn', 'gunner'), ('r2d2', 'astromech')],
@@ -121,22 +117,14 @@ lookup_tests = {
         ('hansolo', 'pilot'),
         ('hansolo-modifiedyt1300lightfreighter-resistance', 'pilot')
     ],
+    ':modifiedyt1300lightfreighter: Han': [
+        ('hansolo-modifiedyt1300lightfreighter', 'pilot'),
+        ('hansolo-modifiedyt1300lightfreighter-resistance', 'pilot')
+    ],
     'test': [('imdaartestpilot', 'pilot')],
     'fcs': [('firecontrolsystem', 'sensor')],
-    # TODO new condition lookup test
-    # 'thweek': [
-    #     ('thweek', 'starviper'),
-    #     ('mimicked', 'condition'), ('shadowed', 'condition')
-    # ],
-    # 'kylo': [
-    #     ('kyloren', 'Crew'), ('illshowyouthedarkside', 'condition'),
-    #     ('kyloren', 'upsilonclassshuttle'),
-    #     ('kyloren', 'tiesilencer'),
-    #     ('kylorensshuttle', 'Title'),
-    # ],
-    # TODO points filter
-    # ':astromech: &gt; 3': [('r2d2', 'Astromech')],
-    # ':crew: = 8': [('emperorpalpatine', 'Crew')],
+    ':astromech: &gt; 7': [('r2d2', 'astromech')],
+    ':crew: = 13': [('emperorpalpatine', 'crew'), ('maul', 'crew')],
     ':focus:': [],
     'hot shot': [('hotshotgunner', 'gunner')],
     # Test for unescaped lookup in regex

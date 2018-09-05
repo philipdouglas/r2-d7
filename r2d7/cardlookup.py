@@ -41,32 +41,25 @@ class CardLookup(DroidCore):
 
     _slot_order = (
         'Talent',
-        'Force',
-        'System',
+        'Force Power',
+        'Sensor',
         'Cannon',
         'Turret',
         'Torpedo',
         'Missile',
+        'Tech',
         'Crew',
         'Gunner',
-        'Astromech Droid',
+        'Astromech',
         'Device',
         'Illicit',
         'Modification',
         'Title',
         'Configuration',
-        # 'Tech',
         # 'Hardpoint',
         # 'Team',
         # 'Cargo',
     )
-    @classmethod
-    def _slot_key(cls, slot):
-        try:
-            return cls._slot_order.index(slot)
-        except ValueError:
-            #TODO log an error?
-            return 100
 
     _aliases = {
         'fcs': 'firecontrolsystem',
@@ -114,6 +107,24 @@ class CardLookup(DroidCore):
                     self._name_to_xws[card['name']] = card['xws']
                     card['_id'] = next_id
                     next_id += 1
+
+        for ships in self.data['ship'].values():
+            for ship in ships:
+                all_bars = [
+                    pilot.get('slots', [])
+                    for pilots in ship.get('pilots', []).values()
+                    for pilot in pilots
+                ]
+            shortest = sorted(all_bars, key=len)[0]
+            ship_bar = []
+            for slot in shortest:
+                for bar in all_bars:
+                    if slot not in bar:
+                        break
+                else:
+                    ship_bar.append(slot)
+            ship['slots'] = ship_bar
+
 
     _multi_lookup_pattern = re.compile(r'\]\][^\[]*\[\[')
     @property
@@ -230,16 +241,13 @@ class CardLookup(DroidCore):
                 self.print_action(action) for action in ship['actions']
             ))
 
-        #TODO slots, not in data yet
-        # slots = None
-        # if pilot and 'slots' in pilot:
-        #     slots = pilot['slots']
-        # elif 'slots' in ship:
-        #     slots = ship['slots']
-        # if slots:
-        #     line.append(''.join(self.iconify(slot) for slot in slots))
+        if not pilot and 'slots' in ship:
+            line.append(''.join(self.iconify(slot) for slot in ship['slots']))
 
-        return ' '.join(line)
+        if pilot and 'slots' in pilot:
+            line.append(''.join(self.iconify(slot) for slot in pilot['slots']))
+
+        return '  '.join(line)
 
     # Dialgen format defined here: http://xwvassal.info/dialgen/dialgen
     maneuver_key = (
@@ -325,11 +333,16 @@ class CardLookup(DroidCore):
                     unique = '• ' if pilot.get('limited', False) else ''
                     # TODO, data is missing slots
                     # elite = ' ' + self.iconify('elite') if 'Elite' in pilot['slots'] else ''
-                    elite = ''
+                    slots = ''.join([
+                        self.iconify(slot) for slot in pilot.get('slots', [])
+                        if slot not in ship['slots']
+                    ])
+                    if slots:
+                        slots = ' ' + slots
                     calculate = ' ' + self.iconify('calculate') if self.has_calculate(pilot) else ''
                     name = self.format_name(pilot)
                     pilots_printed.append(
-                        f"{init}{unique}{name}{elite}{calculate} [{pilot['cost']}]")
+                        f"{init}{unique}{name}{slots}{calculate} [{pilot['cost']}]")
                 out.append(f"{self.iconify(faction)} {', '.join(pilots_printed)}")
         return out
 

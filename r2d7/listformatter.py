@@ -97,7 +97,6 @@ class ListFormatter(DroidCore):
 
                 upgrade_text = self.wiki_link(upgrade['name'])
                 upgrades.append(upgrade_text)
-                #TODO variable point costs
                 cost = upgrade['cost']
                 if 'variable' in cost:
                     if cost['variable'] == 'size':

@@ -111,11 +111,15 @@ class CardLookup(DroidCore):
         for ships in self.data['ship'].values():
             for ship in ships:
                 all_bars = [
-                    pilot.get('slots', [])
+                    pilot['slots']
                     for pilots in ship.get('pilots', []).values()
                     for pilot in pilots
+                    if 'slots' in pilot
                 ]
-            shortest = sorted(all_bars, key=len)[0]
+            try:
+                shortest = sorted(all_bars, key=len)[0]
+            except IndexError:  # No ships have bars
+                continue
             ship_bar = []
             for slot in shortest:
                 for bar in all_bars:
@@ -331,8 +335,6 @@ class CardLookup(DroidCore):
                 for pilot in pilots:
                     init = self.iconify(f"initiative{pilot['initiative']}")
                     unique = '• ' if pilot.get('limited', False) else ''
-                    # TODO, data is missing slots
-                    # elite = ' ' + self.iconify('elite') if 'Elite' in pilot['slots'] else ''
                     slots = ''.join([
                         self.iconify(slot) for slot in pilot.get('slots', [])
                         if slot not in ship['slots']

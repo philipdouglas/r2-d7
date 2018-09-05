@@ -47,6 +47,15 @@ print_xws_tests = (
             ':scum: *Lando* *[49]*',
             ':customizedyt1300lightfreighter::initiative4: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Lando_Calrissian|Lando Calrissian>_ *[49]*',
         ]
+    ),
+    (
+        {"faction": "rebelalliance", "pilots": [{"id": "norrawexley-btla4ywing", "ship": "ywing"}, {"id": "lukeskywalker", "ship": "xwing", "upgrades": {"amd": ["r2d2"]}}], "vendor": {"yasb": {
+            "builder": "(Yet Another) X-Wing Miniatures Squad Builder", "builder_url": "https://raithos.github.io", "link": "https://raithos.github.io/?f=Rebel%20Alliance&d=v4!s!25:-1,-1,-1,-1,-1,-1,-1:-1:-1:;4:-1,-1,3,-1,-1:-1:-1:&sn=Unnamed%20Squadron&obs="}}, "version": "0.3.0"},
+        [
+            ':rebel: *Nameless Squadron* *[113]*',
+            ':btla4ywing::initiative5: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Norra_Wexley|Norra Wexley>_ *[43]*',
+            ':t65xwing::initiative5: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Luke_Skywalker|Luke Skywalker>_: <http://xwing-miniatures-second-edition.wikia.com/wiki/R2-D2|R2-D2> *[70]*',
+        ]
     )
 )
 @pytest.mark.parametrize('xws, expected', print_xws_tests)

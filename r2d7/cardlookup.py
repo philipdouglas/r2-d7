@@ -156,12 +156,14 @@ class CardLookup(DroidCore):
             if match[2]:
                 lookup = self.partial_canonicalize(match[2])
                 if len(lookup) > 2 or re.match(r'[a-z]\d', lookup):
-                    ex_lookup = match[2].lower().strip()
+                    ex_lookup = re.escape(match[2].lower().strip())
                     # We want "hot shot" to match "Hot Shot Blaster" and
                     # "Hotshot Co-pilot"
                     ex_lookup = re.sub(r' ', ' ?', ex_lookup)
+                    # Fudge lookup for TIEs so you don't have to remember the /ln bit
+                    ex_lookup = re.sub(r'tie', 'tie.*', ex_lookup)
                     exact = re.compile(
-                        f'\\b{re.escape(ex_lookup)}(?:[\'e]?s)?\\b',
+                        f'\\b{ex_lookup}(?:[\'e]?s)?\\b',
                         re.IGNORECASE
                     )
                     matches = [

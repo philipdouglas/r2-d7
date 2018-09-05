@@ -7,8 +7,8 @@ from r2d7.slackdroid import SlackDroid
 get_xws_tests = (
     (
         "https://raithos.github.io/?f=Scum%20and%20Villainy&d=v4!s!138:-1,168:-1:-1:U.-1&sn=Sunny%20B!&obs=",
-        {"faction": "scum", "name": "Sunny B!", "pilots": [{"name": "sunnybounder", "ship": "m3ainterceptor", "upgrades": {"hardpoint": ["hardpointcannon"]}}], "vendor": {
-            "yasb": {"builder": "(Yet Another) X-Wing Miniatures Squad Builder", "builder_url": "https://raithos.github.io/xwing", "link": "https://raithos.github.io/xwing/?f=Scum%20and%20Villainy&d=v4!s!138:-1,168:-1:-1:U.-1&sn=Sunny%20B!&obs="}}, "version": "0.3.0"},
+        {"faction": "scumandvillainy", "name": "Sunny B!", "pilots": [{"id": "sunnybounder", "ship": "m3ainterceptor", "upgrades": {"hardpoint": ["hardpointcannon"]}}], "vendor": {
+            "yasb": {"builder": "(Yet Another) X-Wing Miniatures Squad Builder", "builder_url": "https://raithos.github.io", "link": "https://raithos.github.io/?f=Scum%20and%20Villainy&d=v4!s!138:-1,168:-1:-1:U.-1&sn=Sunny%20B!&obs="}}, "version": "0.3.0"},
     ),
 )
 @pytest.mark.parametrize('url, expected', get_xws_tests)

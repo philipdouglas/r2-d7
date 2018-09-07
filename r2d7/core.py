@@ -59,7 +59,9 @@ class DroidCore():
         raise NotImplementedError()
 
     _data = None
-    BASE_URL = 'https://raw.githubusercontent.com/freakydug/xwing-data2/slots/'
+    GITHUB_USER = 'FreakyDug'
+    GITHUB_BRANCH = 'r2d7'
+    BASE_URL = f"https://raw.githubusercontent.com/{GITHUB_USER}/xwing-data2/{GITHUB_BRANCH}/"
     MANIFEST = 'data/manifest.json'
     # VERSION_RE = re.compile(r'xwing-data/releases/tag/([\d\.]+)')
     check_frequency = 900  # 15 minutes
@@ -71,7 +73,7 @@ class DroidCore():
     @classmethod
     def get_version(cls):
         res = requests.get(
-            'https://api.github.com/repos/freakydug/xwing-data2/branches/slots')
+            f"https://api.github.com/repos/{cls.GITHUB_USER}/xwing-data2/branches/{cls.GITHUB_BRANCH}")
         if res.status_code != 200:
             logger.warning(f"Got {res.status_code} checking data version.")
             return False

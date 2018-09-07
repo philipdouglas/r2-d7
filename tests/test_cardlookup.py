@@ -66,7 +66,7 @@ print_card_tests = (
     ('pivotwing', [
         ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_(Closed)|Pivot Wing (Closed)>* [0]',
         'Restrictions: :ut60duwing:',
-        'While you defend, roll 1 fewer defense die. After you execute a :stop: maneuver, you may rotate your ship 90˚ or 180˚. Before you activate, you may flip this card.',
+        'While you defend, roll 1 fewer defense die. After you execute a [0 :stop:] maneuver, you may rotate your ship 90˚ or 180˚. Before you activate, you may flip this card.',
         ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_(Open)|Pivot Wing (Open)>* [0]',
         'Restrictions: :ut60duwing:',
         'Before you activate, you may flip this card.',

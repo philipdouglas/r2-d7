@@ -42,7 +42,8 @@ convert_html_tests = [
     ('[Bomb]', [':xbomb:']),
     ('[Barrel Roll]', [':barrelroll:']),
     ('[Lock]', [':targetlock:']),
-    ('[0 [Stationary]]', [':stop:'])
+    ('[0 [Stationary]]', ['[0 :stop:]']),
+    ('[1 [Bank Right]]', ['[1 :bankright:]']),
 ]
 @pytest.mark.parametrize('before, after', convert_html_tests)
 def test_convert_html(before, after):

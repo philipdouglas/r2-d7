@@ -69,13 +69,13 @@ You can list the contents of each wave by saying [[Wave X]]. Eg. [[Wave 1]].
         re.compile(r'\[Segnor\'s Loop Right\]'): ':sloopright:',
         re.compile(r'\[Tallon Roll Left\]'): ':trollleft:',
         re.compile(r'\[Tallon Roll Right\]'): ':trollright:',
+        re.compile(r'\[Stationary\]'): ':stop:',
         re.compile(r'\[Critical Hit\]'): ':crit:',
         re.compile(r'\[Bomb\]'): ':xbomb:',
         re.compile(r'\[Barrel Roll\]'): ':barrelroll:',
         # :lock: is a default Slack emoji, so we'll stick with targetlock for 2.0
         re.compile(r'\[Lock\]'): ':targetlock:',
         re.compile(r'\[Force\]'): ':forcecharge:',
-        re.compile(r'\[0 \[Stationary\]\]'): ':stop:',
         re.compile(r'\[Rear Arc\]'): ':reararc:',
         re.compile(r'\[Front Arc\]'): ':frontarc:',
         re.compile(r'\[Bullseye Arc\]'): ':bullseyearc:',
@@ -92,7 +92,7 @@ You can list the contents of each wave by saying [[Wave X]]. Eg. [[Wave 1]].
             text = regex.sub(sub, text)
         text = re.sub(r'<\/?strong>', '*', text)
         text = re.sub(r'<\/?em>', '_', text)
-        text = re.sub(r'\[([^\]]+)\]', ':\\1:', text)
+        text = re.sub(r'\[([^\[\]:]+)\]', ':\\1:', text)
         lines = re.split(r'(?:<br \/>)+', text)
         return [line for line in lines if line != '']
 

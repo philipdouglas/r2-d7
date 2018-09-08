@@ -99,3 +99,4 @@ r2d7.egg-info
 .env
 
 .pytest_cache
+.vscode/.ropeproject/objectdb

@@ -422,7 +422,7 @@ class CardLookup(DroidCore):
             if 'arcs' in restrict:
                 ors += [self.iconify(arc) for arc in restrict['arcs']]
             ands.append(' or '.join(ors))
-        return self.italics('Restrictions: ' + ' and '.join(ands))
+        return self.italics('Restrictions: ' + ', '.join(ands))
 
     def print_ship_ability(self, ability):
         lines = self.convert_text(ability['text'])

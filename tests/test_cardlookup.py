@@ -209,6 +209,8 @@ def test_print_stat(testbot, stat, expected):
     ([{"sizes": ["Small", "Medium"]}], "_Restrictions: Small or Medium ship_"),
     ([{"factions": ["Scum and Villainy"], "names": ["Darth Vader"]}], "_Restrictions: Scum or squad including Darth Vader_"),
     ([{"arcs": ["Rear Arc"]}], "_Restrictions: :reararc:_"),
+    ([{"factions": ["Scum and Villainy"]}, {"ships": ["aggressorassaultfighter"]}],
+     "_Restrictions: Scum, Aggressor Assault Fighter_"),
 ])
 def test_print_restrictions(testbot, res, expected):
     assert testbot.print_restrictions(res) == expected

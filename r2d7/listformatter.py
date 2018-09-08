@@ -60,15 +60,12 @@ class ListFormatter(DroidCore):
 
         for pilot in xws['pilots']:
             points = 0
-            pilot_card = None
             try:
                 pilot_name = pilot['id']
             except KeyError:
                 pilot_name = pilot['name']
             try:
-                for pilot_card in self.data['pilot'][pilot_name]:
-                    if pilot_card['ship']['xws'] == pilot['ship']:
-                        break
+                pilot_card = self.data['pilot'][pilot_name]
             except KeyError:
                 # Unrecognised pilot
                 output.append(self.iconify('question') * 2 + ' ' +
@@ -85,7 +82,7 @@ class ListFormatter(DroidCore):
                         continue
                     for upgrade in upgrades:
                         try:
-                            cards.append(self.data['upgrade'][upgrade][0])
+                            cards.append(self.data['upgrade'][upgrade])
                         except KeyError:
                             cards.append(None)
 

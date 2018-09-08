@@ -18,9 +18,9 @@ def test_data(testbot):
         assert filename in testbot.data
 
     assert testbot.data_version is not None
-    assert testbot.data['ship']['starviperclassattackplatform'][0]['name'] == "StarViper-class Attack Platform"
-    assert testbot.data['upgrade']['genius'][0]['name'] == "\"Genius\""
-    assert type(testbot.data['ship']['hwk290lightfreighter'][0]['pilots']) is dict
+    assert testbot.data['ship']['starviperclassattackplatform']['name'] == "StarViper-class Attack Platform"
+    assert testbot.data['upgrade']['genius']['name'] == "\"Genius\""
+    assert type(testbot.data['ship']['hwk290lightfreighter']['pilots']) is dict
 
 
 partial_canonicalize_tests = {

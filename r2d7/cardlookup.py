@@ -4,7 +4,7 @@ from itertools import chain, groupby
 import logging
 import re
 
-from r2d7.core import DroidCore, DroidException, long_substr
+from r2d7.core import DroidCore, DroidException
 
 logger = logging.getLogger(__name__)
 
@@ -31,13 +31,6 @@ class CardLookup(DroidCore):
         'SLAM',
         'Rotate Arc',
     )
-    @classmethod
-    def _action_key(cls, action):
-        try:
-            return cls._action_order.index(action)
-        except ValueError:
-            #TODO log an error?
-            return 100
 
     _slot_order = (
         'Talent',
@@ -94,28 +87,23 @@ class CardLookup(DroidCore):
         super().load_data()
         self._init_lookup_data()
 
-
     def _init_lookup_data(self):
         next_id = 0
         self._lookup_data = {}
-        self._name_to_xws = {}
-        for names in self.data.values():
-            for cards in names.values():
-                for card in cards:
-                    name = self.partial_canonicalize(card['name'])
-                    self._lookup_data.setdefault(name, []).append(card)
-                    self._name_to_xws[card['name']] = card['xws']
-                    card['_id'] = next_id
-                    next_id += 1
+        for cards in self.data.values():
+            for card in cards.values():
+                name = self.partial_canonicalize(card['name'])
+                self._lookup_data.setdefault(name, []).append(card)
+                card['_id'] = next_id
+                next_id += 1
 
-        for ships in self.data['ship'].values():
-            for ship in ships:
-                all_bars = [
-                    pilot['slots']
-                    for pilots in ship.get('pilots', []).values()
-                    for pilot in pilots
-                    if 'slots' in pilot
-                ]
+        for ship in self.data['ship'].values():
+            all_bars = [
+                pilot['slots']
+                for pilots in ship.get('pilots', []).values()
+                for pilot in pilots
+                if 'slots' in pilot
+            ]
             try:
                 shortest = sorted(all_bars, key=len)[0]
             except IndexError:  # No ships have bars
@@ -300,10 +288,8 @@ class CardLookup(DroidCore):
                     ))
                 else:
                     line.append(blank)
-
             result.append(''.join(line))
-        result.reverse()
-        return result
+        return list(reversed(result))
 
     def pilot_ini_key(self, pilot):
         try:
@@ -412,7 +398,7 @@ class CardLookup(DroidCore):
                 ors += [self.restriction_faction_map[faction]
                         for faction in restrict['factions']]
             if 'ships' in restrict:
-                ors += [self.data['ship'][ship][0]['name']
+                ors += [self.data['ship'][ship]['name']
                         for ship in restrict['ships']]
             if 'sizes' in restrict:
                 ors.append(' or '.join(restrict['sizes']) + ' ship')
@@ -548,7 +534,7 @@ class CardLookup(DroidCore):
 
             if 'conditions' in side:
                 for condition in side['conditions']:
-                    text += self.print_card(self.data['condition'][condition][0])
+                    text += self.print_card(self.data['condition'][condition])
 
         if 'dial' in card:
             text += self.maneuvers(card['dial'])

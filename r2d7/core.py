@@ -96,14 +96,8 @@ class DroidCore():
         self._data = {}
         self.data_version = None
         loop = asyncio.get_event_loop()
-        futures = [
-            loop.run_in_executor(
-                None,
-                self.get_file,
-                filename,
-            )
-            for filename in files
-        ]
+        futures = [loop.run_in_executor(None, self.get_file, filename)
+                   for filename in files]
 
         self.data_version = self.get_version()
         self._last_checked_version = time.time()
@@ -114,7 +108,6 @@ class DroidCore():
                     f"Got {res.status_code} GETing {res.url}.")
 
             _, category, remaining = filepath.split('/', maxsplit=2)
-
             raw_data = res.json()
 
             if category == 'upgrades':
@@ -126,7 +119,7 @@ class DroidCore():
                 first_ship = ship = raw_data
                 ship['xws'] = remaining.split('/')[1][:-5].replace('-', '')
                 if 'ship' in self._data and ship['xws'] in self._data['ship']:
-                    first_ship = self._data['ship'][ship['xws']][0]
+                    first_ship = self._data['ship'][ship['xws']]
                 for pilot in ship['pilots']:
                     pilot['ship'] = first_ship
                     pilot['faction'] = ship['faction']
@@ -148,11 +141,10 @@ class DroidCore():
                 for card in raw_data:
                     self.add_card('condition', card)
 
-
     def add_card(self, category, card, subcat=None):
         card['category'] = subcat or category
         category = self._data.setdefault(category, {})
-        category.setdefault(card['xws'], []).append(card)
+        category[card['xws']] = card
 
     def load_data(self):
         try:
@@ -189,16 +181,3 @@ class DroidCore():
         string = unicodedata.normalize('NFKD', string)
         string = re.sub(r'[^a-zA-Z0-9]', '', string)
         return string
-
-
-def long_substr(data):
-    """
-    From: https://stackoverflow.com/a/2894073/1424112
-    """
-    substr = ''
-    if len(data) > 1 and len(data[0]) > 0:
-        for i in range(len(data[0])):
-            for j in range(len(data[0])-i+1):
-                if j > len(substr) and all(data[0][i:i+j] in x for x in data):
-                    substr = data[0][i:i+j]
-    return substr

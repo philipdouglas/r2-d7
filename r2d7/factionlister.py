@@ -35,8 +35,7 @@ class FactionLister(DroidCore):
 
         logger.debug(f"Listing ships in {', '.join(factions)}")
         return [''.join(sorted(
-            self.iconify(ship['xws']) for ships in self.data['ship'].values()
-            for ship in ships
+            self.iconify(ship['xws']) for ship in self.data['ship'].values()
             for faction in ship['pilots'].keys()
             if faction in factions
         ))]

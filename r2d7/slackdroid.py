@@ -13,13 +13,20 @@ class SlackDroid(DroidCore):
         super().__init__()
         self.load_data()
 
+        # References to conditions and ship abilities are highlighted
+        self._ref_names = set()
+        for card in self.data['condition'].values():
+            self._ref_names.add(card['name'])
+        for card in self.data['pilot'].values():
+            if 'shipAbility' in card:
+                self._ref_names.add(card['shipAbility']['name'])
+
     help = """\
 I am R2-D7, xwingtmg.slack.com's bot.
-*List Printing:* If you paste a (Yet Another) Squad Builder, Fab's or xwing-builder.co.uk permalink into a channel I'm in (or direct message me one), I will print a summary of the list.
+*List Printing:* If you paste a (Yet Another) Squad Builder permalink into a channel I'm in (or direct message me one), I will print a summary of the list.
 *Card Lookup:* Type something surrounded by square brackets and I will describe any upgrades, ships or pilots that match what you said. (Eg. Why not try [[Engine Upgrade]])
 If you only want cards in a particular slot or ship, begin your lookup with the emoji for that ship or slot. (eg. _[[:crew: rey]]_)
 You can also search for cards by points value in a particular slot. Eg. _[[:crew: <=3]]_. =, <, >, <= and >= are supported.
-You can list the contents of each wave by saying [[Wave X]]. Eg. [[Wave 1]].
 """
 
     filter_pattern = re.compile(
@@ -81,16 +88,26 @@ You can list the contents of each wave by saying [[Wave X]]. Eg. [[Wave 1]].
         re.compile(r'\[Bullseye Arc\]'): ':bullseyearc:',
         re.compile(r'\[Single Turret Arc\]'): ':singleturretarc:',
         re.compile(r'\[Double Turret Arc\]'): ':doubleturretarc:',
+        re.compile(r'(Ship|Pilot) damage card'): '_*\\1*_ damage card',
+        re.compile(r'^(Bomb|Mine)'): '_*\\1:*_',
     }
 
-    @classmethod
-    def convert_text(cls, text):
+    _bold_words = [
+        'must',
+    ]
+
+    def convert_text(self, text):
         """
         The data has HTML formatting tags, convert them to slack formatting.
         """
+        if text == 'Attack':
+            return [self.bold('Attack')]
         text = re.sub(r'\b([A-Za-z ]+:)', '__BREAK__*\\1*', text)
-        for regex, sub in cls._data_to_emoji.items():
+        for regex, sub in self._data_to_emoji.items():
             text = regex.sub(sub, text)
+        for card_name in self._ref_names:
+            text = text.replace(card_name, self.italics(self.bold(card_name)))
+        text = re.sub(f"\\b({'|'.join(self._bold_words)})\\b", '*\\1*', text)
         text = re.sub(r'\[([^\[\]:]+)\]', ':\\1:', text)
         lines = text.split('__BREAK__')
         return [line.strip() for line in lines if line != '']

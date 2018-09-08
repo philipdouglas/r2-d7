@@ -48,14 +48,14 @@ print_card_tests = (
         '3 :blank::bankleft::bluestraight::bankright::blank::redsloopleft::redsloopright:',
         '2 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank::blank:',
         '1 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank::blank:',
-        '_*Microthrusters:*_ While you perform a barrel roll, you must use the :bankleft: or :bankright: template instead of the :Straight: template.',
+        '_*Microthrusters:*_ While you perform a barrel roll, you *must* use the :bankleft: or :bankright: template instead of the :Straight: template.',
         ':scum: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Enforcer|Black Sun Enforcer> [46], :initiative3:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Assassin|Black Sun Assassin> :talent: [48], :initiative4:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Dalan_Oberos|Dalan Oberos> :talent: [54], :initiative4:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Prince_Xizor|Prince Xizor> :talent: [54], :initiative5:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri> :talent: :calculate: [62]',
     ]),
     ('guri', [
         ':starviperclassattackplatform: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri>*: _Prince Xizor\'s Bodyguard_ [62]',
         ':scum:  :initiative5::redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1:  :calculate:|:targetlock:|:barrelroll::linked::redcalculate:|:boost::linked::redcalculate:  :talent::sensor::torpedo::modification::title:',
         'At the start of the Engagement Phase, if there is at least 1 enemy ship at range 0-1, you may gain 1 focus token.',
-        '_*Microthrusters:*_ While you perform a barrel roll, you must use the :bankleft: or :bankright: template instead of the :Straight: template.',
+        '_*Microthrusters:*_ While you perform a barrel roll, you *must* use the :bankleft: or :bankright: template instead of the :Straight: template.',
     ]),
     ('imdaartestpilot', [
         ':tiephphantom: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Imdaar_Test_Pilot|Imdaar Test Pilot>* [44]',
@@ -77,14 +77,14 @@ print_card_tests = (
     ]),
     ('hunted', [
         ':condition: *Hunted*',
-        'After you are destroyed, you must choose another friendly ship and assign this condition to it, if able.',
+        'After you are destroyed, you *must* choose another friendly ship and assign this condition to it, if able.',
     ]),
     ('agentkallus', [
         ':crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Agent_Kallus|Agent Kallus>* [6]',
         '_Restrictions: Imperial_',
-        '*Setup:* Assign the Hunted condition to 1 enemy ship. While you perform an attack against th eship with the Hunted condition, you may change 1 of your :Focus: results to a :Hit: result.',
+        '*Setup:* Assign the _*Hunted*_ condition to 1 enemy ship. While you perform an attack against the ship with the _*Hunted*_ condition, you may change 1 of your :Focus: results to a :Hit: result.',
         ':condition: *Hunted*',
-        'After you are destroyed, you must choose another friendly ship and assign this condition to it, if able.',
+        'After you are destroyed, you *must* choose another friendly ship and assign this condition to it, if able.',
     ]),
 )
 
@@ -216,7 +216,7 @@ def test_print_restrictions(testbot, res, expected):
     assert testbot.print_restrictions(res) == expected
 
 @pytest.mark.parametrize('pilot, expected', [
-    ('guri', ["_*Microthrusters:*_ While you perform a barrel roll, you must use the :bankleft: or :bankright: template instead of the :Straight: template."]),
+    ('guri', ["_*Microthrusters:*_ While you perform a barrel roll, you *must* use the :bankleft: or :bankright: template instead of the :Straight: template."]),
     ('autopilotdrone', ['_*Rigged Energy Cells:*_ During the System Phase, if you are not docked, lose 1 :Charge:. At the end of the Activation Phase, if you have 0 :Charge:, you are destroyed. Before you are removed, each ship at range 0-1 suffers 1 :crit: damage.'])
 ])
 def test_print_ship_ability(testbot, pilot, expected):
@@ -225,7 +225,7 @@ def test_print_ship_ability(testbot, pilot, expected):
 
 @pytest.mark.parametrize('ship, expected', [
     ('starviperclassattackplatform', [
-        '_*Microthrusters:*_ While you perform a barrel roll, you must use the :bankleft: or :bankright: template instead of the :Straight: template.',
+        '_*Microthrusters:*_ While you perform a barrel roll, you *must* use the :bankleft: or :bankright: template instead of the :Straight: template.',
         ':scum: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Enforcer|Black Sun Enforcer> [46], :initiative3:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Assassin|Black Sun Assassin> :talent: [48], :initiative4:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Dalan_Oberos|Dalan Oberos> :talent: [54], :initiative4:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Prince_Xizor|Prince Xizor> :talent: [54], :initiative5:• <http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri> :talent: :calculate: [62]',
     ]),
     ('hwk290lightfreighter', [

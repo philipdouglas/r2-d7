@@ -44,7 +44,13 @@ convert_text_tests = [
     ('[Lock]', [':targetlock:']),
     ('[0 [Stationary]]', ['[0 :stop:]']),
     ('[1 [Bank Right]]', ['[1 :bankright:]']),
+    ('you must receive 1', ['you *must* receive 1']),
+    ('You may use your Adaptive Ailerons even while stressed.',
+     ['You may use your _*Adaptive Ailerons*_ even while stressed.']),
+    ('Mine During the System Phase', ['_*Mine:*_ During the System Phase']),
+    ('Bomb During the System Phase', ['_*Bomb:*_ During the System Phase']),
+    ('Ship damage card', ['_*Ship*_ damage card'])
 ]
 @pytest.mark.parametrize('before, after', convert_text_tests)
-def test_convert_text(before, after):
-    assert SlackDroid.convert_text(before) == after
+def test_convert_text(testbot, before, after):
+    assert testbot.convert_text(before) == after

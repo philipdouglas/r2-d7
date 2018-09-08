@@ -7,7 +7,7 @@ from r2d7.slackdroid import SlackDroid
 print_card_tests = (
     ('tacticalofficer', [
         ':crew: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Tactical_Officer|Tactical Officer>* [2]',
-        'Restrictions: :redcoordinate:',
+        '_Restrictions: :redcoordinate:_',
         '_In the chaos of a starfighter battle, a single order can mean the difference between a victory and a massacre._',
         ':coordinate:',
     ]),
@@ -27,13 +27,13 @@ print_card_tests = (
     ]),
     ('emperorpalpatine', [
         ':crew::crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Emperor_Palpatine|Emperor Palpatine>* [13]',
-        'Restrictions: Imperial',
+        '_Restrictions: Imperial_',
         'While another friendly ship defends or performs an attack, you may spend 1 :forcecharge: to modify 1 of its dice as though that ship had spent 1 :forcecharge:.',
         ':purpleforcecharge::forcechargeplus1recurring:',
     ]),
     ('os1arsenalloadout', [
         ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Os-1_Arsenal_Loadout|Os-1 Arsenal Loadout>* [0]',
-        'Restrictions: :alphaclassstarwing:',
+        '_Restrictions: :alphaclassstarwing:_',
         'While you have exactly 1 disarm token, you can still perform :Torpedo: and :Missile: attacks against targets you have locked. If you do, you cannot spend your lock during the attack. Add :Torpedo: and :Missile: slots.',
     ]),
     ('shieldupgrade', [
@@ -65,10 +65,10 @@ print_card_tests = (
     ]),
     ('pivotwing', [
         ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_(Closed)|Pivot Wing (Closed)>* [0]',
-        'Restrictions: :ut60duwing:',
+        '_Restrictions: :ut60duwing:_',
         'While you defend, roll 1 fewer defense die. After you execute a [0 :stop:] maneuver, you may rotate your ship 90˚ or 180˚. Before you activate, you may flip this card.',
         ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_(Open)|Pivot Wing (Open)>* [0]',
-        'Restrictions: :ut60duwing:',
+        '_Restrictions: :ut60duwing:_',
         'Before you activate, you may flip this card.',
     ]),
     ('directhit', [
@@ -81,7 +81,7 @@ print_card_tests = (
     ]),
     ('agentkallus', [
         ':crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Agent_Kallus|Agent Kallus>* [6]',
-        'Restrictions: Imperial',
+        '_Restrictions: Imperial_',
         '*Setup:* Assign the Hunted condition to 1 enemy ship. While you perform an attack against th eship with the Hunted condition, you may change 1 of your :Focus: results to a :Hit: result.',
         ':condition: *Hunted*',
         'After you are destroyed, you must choose another friendly ship and assign this condition to it, if able.',
@@ -199,16 +199,16 @@ def test_print_stat(testbot, stat, expected):
     assert testbot.print_stat(stat) == expected
 
 @pytest.mark.parametrize('res, expected', [
-    ([{'action': {"difficulty": "Red", "type": "Focus"}}], "Restrictions: :redfocus:"),
-    ([{'action': {"type": "Focus"}}], "Restrictions: :focus:"),
-    ([{"ships": ["t65xwing"]}], "Restrictions: :t65xwing:"),
-    ([{'factions': ["Galactic Empire"]}], "Restrictions: Imperial"),
-    ([{'factions': ["Rebel Alliance", "Scum and Villainy"]}], "Restrictions: Rebel or Scum"),
-    ([{"ships": ["m3ainterceptor"], 'action': {"difficulty": "White", "type": "Focus"}}], "Restrictions: :focus: or :m3ainterceptor:"),
-    ([{"sizes": ["Small"]}], "Restrictions: Small ship"),
-    ([{"sizes": ["Small", "Medium"]}], "Restrictions: Small or Medium ship"),
-    ([{"factions": ["Scum and Villainy"], "names": ["Darth Vader"]}], "Restrictions: Scum or squad including Darth Vader"),
-    ([{"arcs": ["Rear Arc"]}], "Restrictions: :reararc:"),
+    ([{'action': {"difficulty": "Red", "type": "Focus"}}], "_Restrictions: :redfocus:_"),
+    ([{'action': {"type": "Focus"}}], "_Restrictions: :focus:_"),
+    ([{"ships": ["t65xwing"]}], "_Restrictions: :t65xwing:_"),
+    ([{'factions': ["Galactic Empire"]}], "_Restrictions: Imperial_"),
+    ([{'factions': ["Rebel Alliance", "Scum and Villainy"]}], "_Restrictions: Rebel or Scum_"),
+    ([{"ships": ["m3ainterceptor"], 'action': {"difficulty": "White", "type": "Focus"}}], "_Restrictions: :focus: or :m3ainterceptor:_"),
+    ([{"sizes": ["Small"]}], "_Restrictions: Small ship_"),
+    ([{"sizes": ["Small", "Medium"]}], "_Restrictions: Small or Medium ship_"),
+    ([{"factions": ["Scum and Villainy"], "names": ["Darth Vader"]}], "_Restrictions: Scum or squad including Darth Vader_"),
+    ([{"arcs": ["Rear Arc"]}], "_Restrictions: :reararc:_"),
 ])
 def test_print_restrictions(testbot, res, expected):
     assert testbot.print_restrictions(res) == expected

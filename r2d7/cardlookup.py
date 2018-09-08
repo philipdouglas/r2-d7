@@ -409,20 +409,18 @@ class CardLookup(DroidCore):
             if 'action' in restrict:
                 ors.append(self.print_action(restrict['action']))
             if 'factions' in restrict:
-                ors.append(' or '.join(
-                    self.restriction_faction_map[faction]
-                    for faction in restrict['factions']
-                ))
+                ors += [self.restriction_faction_map[faction]
+                        for faction in restrict['factions']]
             if 'ships' in restrict:
-                ors.append(' or '.join(
-                    self.iconify(ship) for ship in restrict['ships']
-                ))
+                ors += [self.data['ship'][ship][0]['name']
+                        for ship in restrict['ships']]
             if 'sizes' in restrict:
                 ors.append(' or '.join(restrict['sizes']) + ' ship')
             if 'names' in restrict:
-                ors.append(f"squad including {' or '.join(restrict['names'])}")
+                ors.append(
+                    f"squad including {' or '.join(restrict['names'])}")
             if 'arcs' in restrict:
-                ors.append(' or '.join(self.iconify(arc) for arc in restrict['arcs']))
+                ors += [self.iconify(arc) for arc in restrict['arcs']]
             ands.append(' or '.join(ors))
         return self.italics('Restrictions: ' + ' and '.join(ands))
 

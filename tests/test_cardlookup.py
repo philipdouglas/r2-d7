@@ -33,7 +33,7 @@ print_card_tests = (
     ]),
     ('os1arsenalloadout', [
         ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Os-1_Arsenal_Loadout|Os-1 Arsenal Loadout>* [0]',
-        '_Restrictions: :alphaclassstarwing:_',
+        '_Restrictions: Alpha-class Star Wing_',
         'While you have exactly 1 disarm token, you can still perform :Torpedo: and :Missile: attacks against targets you have locked. If you do, you cannot spend your lock during the attack. Add :Torpedo: and :Missile: slots.',
     ]),
     ('shieldupgrade', [
@@ -65,10 +65,10 @@ print_card_tests = (
     ]),
     ('pivotwing', [
         ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_(Closed)|Pivot Wing (Closed)>* [0]',
-        '_Restrictions: :ut60duwing:_',
+        '_Restrictions: UT-60D U-wing_',
         'While you defend, roll 1 fewer defense die. After you execute a [0 :stop:] maneuver, you may rotate your ship 90˚ or 180˚. Before you activate, you may flip this card.',
         ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_(Open)|Pivot Wing (Open)>* [0]',
-        '_Restrictions: :ut60duwing:_',
+        '_Restrictions: UT-60D U-wing_',
         'Before you activate, you may flip this card.',
     ]),
     ('directhit', [
@@ -201,10 +201,10 @@ def test_print_stat(testbot, stat, expected):
 @pytest.mark.parametrize('res, expected', [
     ([{'action': {"difficulty": "Red", "type": "Focus"}}], "_Restrictions: :redfocus:_"),
     ([{'action': {"type": "Focus"}}], "_Restrictions: :focus:_"),
-    ([{"ships": ["t65xwing"]}], "_Restrictions: :t65xwing:_"),
+    ([{"ships": ["t65xwing"]}], "_Restrictions: T-65 X-wing_"),
     ([{'factions': ["Galactic Empire"]}], "_Restrictions: Imperial_"),
     ([{'factions': ["Rebel Alliance", "Scum and Villainy"]}], "_Restrictions: Rebel or Scum_"),
-    ([{"ships": ["m3ainterceptor"], 'action': {"difficulty": "White", "type": "Focus"}}], "_Restrictions: :focus: or :m3ainterceptor:_"),
+    ([{"ships": ["m3ainterceptor"], 'action': {"difficulty": "White", "type": "Focus"}}], "_Restrictions: :focus: or M3-A Interceptor_"),
     ([{"sizes": ["Small"]}], "_Restrictions: Small ship_"),
     ([{"sizes": ["Small", "Medium"]}], "_Restrictions: Small or Medium ship_"),
     ([{"factions": ["Scum and Villainy"], "names": ["Darth Vader"]}], "_Restrictions: Scum or squad including Darth Vader_"),

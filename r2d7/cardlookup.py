@@ -427,7 +427,7 @@ class CardLookup(DroidCore):
         return 'Restrictions: ' + ' and '.join(ands)
 
     def print_ship_ability(self, ability):
-        lines = self.convert_html(ability['text'])
+        lines = self.convert_text(ability['text'])
         lines[0] = self.italics(self.bold(ability['name'] + ':')) + ' ' + lines[0]
         return lines
 
@@ -525,7 +525,7 @@ class CardLookup(DroidCore):
                 text.append(self.ship_stats(card))
 
             if 'ability' in side:
-                text += self.convert_html(side['ability'])
+                text += self.convert_text(side['ability'])
 
             if 'text' in side:
                 text.append(self.italics(side['text']))

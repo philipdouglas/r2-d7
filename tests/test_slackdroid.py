@@ -22,11 +22,11 @@ def test_bold():
 def test_italics():
     assert SlackDroid.italics('test') == '_test_'
 
-convert_html_tests = [
-    ('<strong>Action:</strong> test', ['*Action:* test']),
-    ('<em>Phantom</em> test', ['_Phantom_ test']),
-    ('before<br /><br />after', ['before', 'after']),
-    ('<br />', []),
+convert_text_tests = [
+    ('Action: test', ['*Action:* test']),
+    ('Setup: test', ['*Setup:* test']),
+    ('Test test. End of Game: test', ['Test test.', '*End of Game:* test']),
+    ('Test test. Action: test', ['Test test.', '*Action:* test']),
     ('[evade] test', [':evade: test']),
     ('[evade] test [focus]', [':evade: test :focus:']),
     ('[Koiogran Turn]', [':kturn:']),
@@ -45,6 +45,6 @@ convert_html_tests = [
     ('[0 [Stationary]]', ['[0 :stop:]']),
     ('[1 [Bank Right]]', ['[1 :bankright:]']),
 ]
-@pytest.mark.parametrize('before, after', convert_html_tests)
-def test_convert_html(before, after):
-    assert SlackDroid.convert_html(before) == after
+@pytest.mark.parametrize('before, after', convert_text_tests)
+def test_convert_text(before, after):
+    assert SlackDroid.convert_text(before) == after

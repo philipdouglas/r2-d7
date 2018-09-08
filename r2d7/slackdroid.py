@@ -84,17 +84,16 @@ You can list the contents of each wave by saying [[Wave X]]. Eg. [[Wave 1]].
     }
 
     @classmethod
-    def convert_html(cls, text):
+    def convert_text(cls, text):
         """
         The data has HTML formatting tags, convert them to slack formatting.
         """
+        text = re.sub(r'\b([A-Za-z ]+:)', '__BREAK__*\\1*', text)
         for regex, sub in cls._data_to_emoji.items():
             text = regex.sub(sub, text)
-        text = re.sub(r'<\/?strong>', '*', text)
-        text = re.sub(r'<\/?em>', '_', text)
         text = re.sub(r'\[([^\[\]:]+)\]', ':\\1:', text)
-        lines = re.split(r'(?:<br \/>)+', text)
-        return [line for line in lines if line != '']
+        lines = text.split('__BREAK__')
+        return [line.strip() for line in lines if line != '']
 
     @classmethod
     def wiki_link(cls, card_name, crew_of_pilot=False, wiki_name=False):

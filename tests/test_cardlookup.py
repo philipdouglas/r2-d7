@@ -82,7 +82,7 @@ print_card_tests = (
     ('agentkallus', [
         ':crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Agent_Kallus|Agent Kallus>* [6]',
         'Restrictions: Imperial',
-        'Setup: Assign the Hunted condition to 1 enemy ship. While you perform an attack against th eship with the Hunted condition, you may change 1 of your :Focus: results to a :Hit: result.',
+        '*Setup:* Assign the Hunted condition to 1 enemy ship. While you perform an attack against th eship with the Hunted condition, you may change 1 of your :Focus: results to a :Hit: result.',
         ':condition: *Hunted*',
         'After you are destroyed, you must choose another friendly ship and assign this condition to it, if able.',
     ]),

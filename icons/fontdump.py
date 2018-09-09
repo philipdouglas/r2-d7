@@ -3,31 +3,38 @@ import os
 from PIL import Image, ImageFont, ImageDraw, ImageOps
 
 
-class Colour:
-    default = ('', (0, 0, 0))
+class Icon:
+    default_colour = ('', (0, 0, 0))
 
     def __init__(self, letter):
         try:
-            self.colours = letter.colours
             self.letter = letter.letter
+            self.colours = letter.colours
+            self.size = letter.size
         except AttributeError:
             self.letter = letter
-            self.colours = [self.default]
+            self.colours = [self.default_colour]
+            self.size = 128
 
     @staticmethod
-    def factory(name, colour):
-        class Temp(Colour):
+    def factory(name=None, colour=None, size=None):
+        class Temp(Icon):
             def __init__(self, letter):
                 super().__init__(letter)
-                self.colours.append((name, colour))
+                if colour and name:
+                    self.colours.append((name, colour))
+                if size:
+                    self.size = size
         return Temp
 
-Red = Colour.factory('red', "#EF232B")
-Green = Colour.factory('green', "#6BBE44")
-Yellow = Colour.factory('yellow', "#B6B335")
-Blue = Colour.factory('blue', "#7ED3E5")
-Orange = Colour.factory('orange', "#E5B922")
-Purple = Colour.factory('purple', "#C39DC9")
+Red = Icon.factory('red', "#EF232B")
+Green = Icon.factory('green', "#6BBE44")
+Yellow = Icon.factory('yellow', "#B6B335")
+Blue = Icon.factory('blue', "#7ED3E5")
+Orange = Icon.factory('orange', "#E5B922")
+Purple = Icon.factory('purple', "#C39DC9")
+
+Medium = Icon.factory(size=100)
 
 fonts = {
     'xwing-miniatures.ttf': {
@@ -89,8 +96,6 @@ fonts = {
         'crit': "c",
         'hit': "d",
         'rangebonusindicator': Red('?'),
-        'recurring': Orange(Purple('`')),
-        # 'condition': '\u00B0',
     },
     "xwing-miniatures-ships.ttf": {
         'aggressorassaultfighter': "i",
@@ -148,6 +153,8 @@ fonts = {
         'yv666lightfreighter': "t",
         'btla4ywing': "y",
         'z95af4headhunter': "z",
+        'customizedyt1300lightfreighter': 'W',
+        'escapecraft': 'X',
     }
 }
 
@@ -158,19 +165,21 @@ def main():
         os.mkdir('emoji')
 
     for font, glyphs in fonts.items():
-        font = ImageFont.truetype(font, 128)
         for name, glyph in glyphs.items():
             try:
                 colours = glyph.colours
+                font_size = glyph.size
                 glyph = glyph.letter
             except AttributeError:
-                colours = [Colour.default]
+                colours = [Icon.default_colour]
+                font_size = 128
 
+            imfont = ImageFont.truetype(font, font_size)
             for colour_name, colour in colours:
                 im = Image.new("RGBA", (300, 300), (255, 255, 255, 0))
 
                 draw = ImageDraw.Draw(im)
-                draw.text((50, 50), glyph, font=font, fill=colour)
+                draw.text((50, 50), glyph, font=imfont, fill=colour)
 
                 # remove unneccessory whitespaces if needed
                 im = im.crop(ImageOps.invert(im.convert('RGB')).getbbox())

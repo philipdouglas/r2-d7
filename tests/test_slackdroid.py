@@ -49,7 +49,9 @@ convert_text_tests = [
      ['You may use your _*Adaptive Ailerons*_ even while stressed.']),
     ('Mine During the System Phase', ['_*Mine:*_ During the System Phase']),
     ('Bomb During the System Phase', ['_*Bomb:*_ During the System Phase']),
-    ('Ship damage card', ['_*Ship*_ damage card'])
+    ('Ship damage card', ['_*Ship*_ damage card']),
+    ('test, you may use another template of the same speed instead: either the turn',
+     ['test, you may use another template of the same speed instead: either the turn']),
 ]
 @pytest.mark.parametrize('before, after', convert_text_tests)
 def test_convert_text(testbot, before, after):

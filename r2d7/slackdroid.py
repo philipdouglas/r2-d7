@@ -118,7 +118,7 @@ You can also search for cards by points value in a particular slot. Eg. _[[:crew
         """
         if text == 'Attack':
             return [self.bold('Attack')]
-        text = re.sub(r'\b([A-Za-z ]+:)', '__BREAK__*\\1*', text)
+        text = re.sub(r'\b([A-Z][A-Za-z ]+:)', '__BREAK__*\\1*', text)
         for regex, sub in self._data_to_emoji.items():
             text = regex.sub(sub, text)
         for card_name in self._ref_names:

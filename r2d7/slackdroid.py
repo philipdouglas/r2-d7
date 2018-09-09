@@ -21,6 +21,22 @@ class SlackDroid(DroidCore):
             if 'shipAbility' in card:
                 self._ref_names.add(card['shipAbility']['name'])
 
+        # Convert text now to save time later
+        for category, names in self.data.items():
+            for card in names.values():
+                if 'sides' in card:
+                    for side in card['sides']:
+                        if 'ability' in side:
+                            side['ability'] = self.convert_text(
+                                side['ability'])
+                if 'ability' in card:
+                    card['ability'] = self.convert_text(card['ability'])
+                if 'shipAbility' in card:
+                    card['shipAbility']['text'] = self.convert_text(
+                        card['shipAbility']['text'])
+                if category == 'damage':
+                    card['text'] = self.convert_text(card['text'])
+
     help = """\
 I am R2-D7, xwingtmg.slack.com's bot.
 *List Printing:* If you paste a (Yet Another) Squad Builder permalink into a channel I'm in (or direct message me one), I will print a summary of the list.

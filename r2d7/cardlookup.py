@@ -411,9 +411,8 @@ class CardLookup(DroidCore):
         return self.italics('Restrictions: ' + ', '.join(ands))
 
     def print_ship_ability(self, ability):
-        lines = self.convert_text(ability['text'])
-        lines[0] = self.italics(self.bold(ability['name'] + ':')) + ' ' + lines[0]
-        return lines
+        lines = ability['text']
+        return [self.italics(self.bold(ability['name'] + ':')) + ' ' + lines[0]] + lines[1:]
 
     def print_cost(self, cost):
         try:
@@ -509,7 +508,7 @@ class CardLookup(DroidCore):
                 text.append(self.ship_stats(card))
 
             if 'ability' in side:
-                text += self.convert_text(side['ability'])
+                text += side['ability']
 
             if 'text' in side:
                 text.append(self.italics(side['text']))

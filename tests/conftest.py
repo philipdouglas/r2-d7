@@ -15,6 +15,4 @@ class TestDroid(Droid):
 
 @pytest.fixture(scope="session")
 def testbot():
-    bot = TestDroid()
-    bot.load_data()
-    return bot
+    return TestDroid()

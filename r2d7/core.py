@@ -47,8 +47,8 @@ class DroidCore():
         raise NotImplementedError()
 
     @staticmethod
-    def convert_html(text):
-        return text
+    def convert_text(text):
+        return [text]
 
     @classmethod
     def wiki_link(cls, card_name, crew_of_pilot, wiki_name=False):

@@ -291,9 +291,9 @@ class CardLookup(DroidCore):
             result.append(''.join(line))
         return list(reversed(result))
 
-    def pilot_ini_key(self, pilot):
+    def pilot_sort_key(self, pilot):
         try:
-            return int(pilot['initiative'])
+            return int(pilot['initiative']) + (pilot['cost'] / 200)
         except ValueError:
             # Put ?s at the end
             return 9
@@ -319,7 +319,7 @@ class CardLookup(DroidCore):
             if ability:
                 out.append(ability)
             for faction, pilots in factions.items():
-                pilots = sorted(pilots, key=self.pilot_ini_key)
+                pilots = sorted(pilots, key=self.pilot_sort_key)
                 pilots_printed = []
                 for pilot in pilots:
                     init = self.iconify(f"initiative{pilot['initiative']}")

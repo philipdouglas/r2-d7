@@ -11,7 +11,7 @@ stat_ranges = {
     'hull': ([str(num) for num in range(0, 13)] + ['+1'], '#B6B335'),
     'shield': ([str(num) for num in range(0, 7)] + ['+1'], '#7ED3E5'),
     'charge': (
-        list(itertools.chain( *[[str(num), f"{num}`"] for num in range(0, 5)])),
+        list(itertools.chain( *[[str(num), f"{num}`"] for num in range(0, 9)])),
     '#E5B922'),
     'forcecharge': (
         list(itertools.chain(

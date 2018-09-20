@@ -13,6 +13,9 @@ class SlackDroid(DroidCore):
         super().__init__()
         self.load_data()
 
+    def load_data(self):
+        super().load_data()
+
         # References to conditions and ship abilities are highlighted
         self._ref_names = set()
         for card in self.data['condition'].values():

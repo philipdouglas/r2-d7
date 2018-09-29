@@ -14,6 +14,11 @@ get_xws_tests = (
         "https://squadbuilder.fantasyflightgames.com/squad-preview/d0966452-ec40-40d4-a3cd-ff384e1dcf70",
         {"faction": "scumandvillainy", "pilots": [{"id": "sunnybounder", "ship": "m3ainterceptor", "upgrades": {
             "cannon": ["heavylasercannon"]}, "points":35}], "name": "Sunny B!", "description": "", "points": 35}
+    ),
+    (
+        "https://devjonny.github.io/xwing2estopgap/scum?id=cc7d945d-66e6-470d-9e58-8c93c7ccd402",
+        {"name": "Sunny B!", "faction": "scumandvillainy", "pilots": [{"id": "sunnybounder", "upgrades": {"cannon": [
+            "heavylasercannon"]}}], "vendor": {"stopgapp": {"builder": "Stop Gapp builder by DevJonny and dbouckley"}}}
     )
 )
 @pytest.mark.parametrize('url, expected', get_xws_tests)

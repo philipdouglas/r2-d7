@@ -1,3 +1,4 @@
+import re
 import threading
 
 import pytest
@@ -18,6 +19,7 @@ def test_data(testbot):
         assert filename in testbot.data
 
     assert testbot.data_version is not None
+    assert re.match(r'\d+\.\d+\.\d+', testbot.data_version)
     assert testbot.data['ship']['starviperclassattackplatform']['name'] == "StarViper-class Attack Platform"
     assert testbot.data['upgrade']['genius']['name'] == "\"Genius\""
     assert type(testbot.data['ship']['hwk290lightfreighter']['pilots']) is dict

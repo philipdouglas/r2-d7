@@ -97,7 +97,6 @@ class DroidCore():
         )
 
         self._data = {}
-        self.data_version = None
         loop = asyncio.get_event_loop()
         futures = [loop.run_in_executor(None, self.get_file, filename)
                    for filename in files]

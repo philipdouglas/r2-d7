@@ -42,7 +42,7 @@ class SlackDroid(DroidCore):
 
     help = """\
 I am R2-D7, xwingtmg.slack.com's bot.
-*List Printing:* If you paste a (Yet Another) Squad Builder permalink into a channel I'm in (or direct message me one), I will print a summary of the list.
+*List Printing:* If you paste a (Yet Another) Squad Builder, Official FFG or X-Wing 2E Stop Gapp permalink into a channel I'm in (or direct message me one), I will print a summary of the list.
 *Card Lookup:* Type something surrounded by square brackets and I will describe any upgrades, ships or pilots that match what you said. (Eg. Why not try [[Engine Upgrade]])
 If you only want cards in a particular slot or ship, begin your lookup with the emoji for that ship or slot. (eg. _[[:crew: rey]]_)
 You can also search for cards by points value in a particular slot. Eg. _[[:crew: <=3]]_. =, <, >, <= and >= are supported.

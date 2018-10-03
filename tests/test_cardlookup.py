@@ -97,7 +97,7 @@ lookup_tests = {
     'sunny bounder': [('sunnybounder', 'pilot')],
     'Rey': [('reysmillenniumfalcon', 'title'), ('rey', 'pilot')],
     'han solo': [
-        ('hansolo-crew-swz19', 'crew'),
+        ('hansolo-crew', 'crew'),
         ('hansolo', 'gunner'),
         ('hansolo-gunner', 'gunner'),
         ('hansolo-modifiedyt1300lightfreighter', 'pilot'),
@@ -112,7 +112,7 @@ lookup_tests = {
     'guri]]   [[finn]] [[:astromech: r2d2]]': [
         ('guri', 'pilot'), ('finn', 'gunner'), ('r2d2', 'astromech')],
     'han': [
-        ('hansolo-crew-swz19', 'crew'),
+        ('hansolo-crew', 'crew'),
         ('hansolo', 'gunner'),
         ('hansolo-gunner', 'gunner'),
         ('hansolo-modifiedyt1300lightfreighter', 'pilot'),

@@ -107,6 +107,7 @@ You can also search for cards by points value in a particular slot. Eg. _[[:crew
         re.compile(r'\[Bullseye Arc\]'): ':bullseyearc:',
         re.compile(r'\[Single Turret Arc\]'): ':singleturretarc:',
         re.compile(r'\[Double Turret Arc\]'): ':doubleturretarc:',
+        re.compile(r'\[Rotate Arc\]'): ':rotatearc:',
         re.compile(r'(Ship|Pilot) damage card'): '_*\\1*_ damage card',
         re.compile(r'^(Bomb|Mine)'): '_*\\1:*_',
     }

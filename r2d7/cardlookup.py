@@ -182,7 +182,7 @@ class CardLookup(DroidCore):
                         continue
                     if slot_filter and 'ship' in card and self.iconify(card['ship']['name']) != slot_filter:
                         continue
-                    if points_filter and not points_filter(card['cost'].get('value', 0)):
+                    if points_filter and not points_filter(card.get('cost', {}).get('value', 0)):
                         continue
 
                     cards_yielded.add(card['_id'])
@@ -395,7 +395,7 @@ class CardLookup(DroidCore):
             if 'action' in restrict:
                 ors.append(self.print_action(restrict['action']))
             if 'factions' in restrict:
-                ors += [self.restriction_faction_map[faction]
+                ors += [self.restriction_faction_map.get(faction, faction)
                         for faction in restrict['factions']]
             if 'ships' in restrict:
                 ors += [self.data['ship'][ship]['name']

@@ -95,31 +95,32 @@ def test_print_card(testbot, name, expected):
 
 lookup_tests = {
     'sunny bounder': [('sunnybounder', 'pilot')],
-    'Rey': [('rey', 'pilot')],
+    'Rey': [('reysmillenniumfalcon', 'title'), ('rey', 'pilot')],
     'han solo': [
+        ('hansolo-crew-swz19', 'crew'),
         ('hansolo', 'gunner'),
         ('hansolo-gunner', 'gunner'),
         ('hansolo-modifiedyt1300lightfreighter', 'pilot'),
         ('hansolo', 'pilot'),
-        ('hansolo-modifiedyt1300lightfreighter-resistance', 'pilot')
+        ('hansolo-scavengedyt1300', 'pilot')
     ],
     'xwing': [('t65xwing', 'ship'), ('t70xwing', 'ship')],
     ':gunner: Han solo': [('hansolo', 'gunner'), ('hansolo-gunner', 'gunner')],
     'Han solo :gunner:': [('hansolo', 'gunner'), ('hansolo-gunner', 'gunner')],
     ':astromech: r2d2': [('r2d2', 'astromech')],
-    'rey]]   [[finn': [('rey', 'pilot'), ('finn', 'gunner')],
-    'rey]]   [[finn]] [[:astromech: r2d2]]': [
-        ('rey', 'pilot'), ('finn', 'gunner'), ('r2d2', 'astromech')],
+    'guri]]   [[finn': [('guri', 'pilot'), ('finn', 'gunner')],
+    'guri]]   [[finn]] [[:astromech: r2d2]]': [
+        ('guri', 'pilot'), ('finn', 'gunner'), ('r2d2', 'astromech')],
     'han': [
+        ('hansolo-crew-swz19', 'crew'),
         ('hansolo', 'gunner'),
         ('hansolo-gunner', 'gunner'),
         ('hansolo-modifiedyt1300lightfreighter', 'pilot'),
         ('hansolo', 'pilot'),
-        ('hansolo-modifiedyt1300lightfreighter-resistance', 'pilot')
+        ('hansolo-scavengedyt1300', 'pilot')
     ],
     ':modifiedyt1300lightfreighter: Han': [
         ('hansolo-modifiedyt1300lightfreighter', 'pilot'),
-        ('hansolo-modifiedyt1300lightfreighter-resistance', 'pilot')
     ],
     'test': [('imdaartestpilot', 'pilot')],
     'fcs': [('firecontrolsystem', 'sensor')],
@@ -211,6 +212,7 @@ def test_print_stat(testbot, stat, expected):
     ([{"arcs": ["Rear Arc"]}], "_Restrictions: :reararc:_"),
     ([{"factions": ["Scum and Villainy"]}, {"ships": ["aggressorassaultfighter"]}],
      "_Restrictions: Scum, Aggressor Assault Fighter_"),
+    ([{"factions": ["Resistance"]}], "_Restrictions: Resistance_"),
 ])
 def test_print_restrictions(testbot, res, expected):
     assert testbot.print_restrictions(res) == expected

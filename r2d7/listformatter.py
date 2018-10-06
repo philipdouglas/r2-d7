@@ -52,14 +52,16 @@ class ListFormatter(DroidCore):
                 raise DroidException(f"YASB error: ({data['message']}")
             return data
 
-    def print_xws(self, xws):
+    def print_xws(self, xws, url=None):
         name = xws.get('name', 'Nameless Squadron')
         if 'vendor' in xws:
             if len(list(xws['vendor'].keys())) > 1:
                 logger.warning(f"More than one vendor found! {xws['vendor']}")
             vendor = list(xws['vendor'].values())[0]
-            if False and 'link' in vendor:
-                name = self.link(vendor['link'].replace('/xwing/', '/'), name)
+            if 'link' in vendor:
+                url = vendor['link']
+        if url:
+            name = self.link(url, name)
         name = self.bold(name)
         output = [f"{self.iconify(xws['faction'])} {name} "]
         total_points = 0
@@ -141,5 +143,5 @@ class ListFormatter(DroidCore):
         xws = self.get_xws(message)
         logger.debug(xws)
         if xws:
-            return self.print_xws(xws)
+            return self.print_xws(xws, url=message)
         return []

@@ -442,7 +442,7 @@ class CardLookup(DroidCore):
             if grant['type'] == 'slot':
                 continue
             elif grant['type'] == 'action':
-                out += [self.print_action(grant['value'])] * grant['amount']
+                out += [self.print_action(grant['value'])] * grant.get('amount', 1)
             elif grant['type'] == 'stat':
                 stat = 'shield' if grant['value'] == 'shields' else grant['value']
                 out.append(

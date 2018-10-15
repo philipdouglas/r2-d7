@@ -531,6 +531,9 @@ class CardLookup(DroidCore):
             if last_line:
                 text.append(' | '.join(last_line))
 
+            if 'device' in side:
+                text += self.print_device(side['device'])
+
             if 'conditions' in side:
                 for condition in side['conditions']:
                     text += self.print_card(self.data['condition'][condition])
@@ -554,3 +557,6 @@ class CardLookup(DroidCore):
                         'more specific.']
             output += self.print_card(card)
         return output
+
+    def print_device(self, device):
+        return [f"{self.bold(device['name'])} ({device['type']})"] + device['effect']

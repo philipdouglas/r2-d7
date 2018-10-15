@@ -32,6 +32,9 @@ class SlackDroid(DroidCore):
                         if 'ability' in side:
                             side['ability'] = self.convert_text(
                                 side['ability'])
+                        if 'device' in side:
+                            side['device']['effect'] = self.convert_text(
+                                side['device']['effect'])
                 if 'ability' in card:
                     card['ability'] = self.convert_text(card['ability'])
                 if 'shipAbility' in card:

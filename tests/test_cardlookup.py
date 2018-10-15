@@ -86,6 +86,13 @@ print_card_tests = (
         ':condition: *Hunted*',
         'After you are destroyed, you *must* choose another friendly ship and assign this condition to it, if able.',
     ]),
+    ('seismiccharges', [
+        ':device: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Seismic_Charges|Seismic Charges>* [3]',
+        '_*Bomb:*_ During the System Phase, you may spend 1 :Charge: to drop a Seismic Charge with the [1 :Straight:] template.',
+        ':orangecharge::charge2:',
+        '*Seismic Charge* (Bomb)',
+        'At the end of the Activation Phase, this device detonates. When this device detonates, choose 1 obstacle at range 0-1. Each ship at range 0-1 of the obstacle suffers 1 :Hit: damage. Then remove that obstacle.',
+    ])
 )
 
 @pytest.mark.parametrize('name, expected', print_card_tests)
@@ -295,3 +302,14 @@ def test_print_grants(testbot, card, expected):
 def test_print_attack(testbot, card, expected):
     assert testbot.print_attack(testbot.test_lookup(
         card)['sides'][0]['attack']) == expected
+
+
+@pytest.mark.parametrize('card, expected', [
+    ('seismiccharges', [
+        '*Seismic Charge* (Bomb)',
+        'At the end of the Activation Phase, this device detonates. When this device detonates, choose 1 obstacle at range 0-1. Each ship at range 0-1 of the obstacle suffers 1 :Hit: damage. Then remove that obstacle.',
+    ]),
+])
+def test_print_device(testbot, card, expected):
+    assert testbot.print_device(testbot.test_lookup(
+        card)['sides'][0]['device']) == expected

@@ -71,22 +71,19 @@ class DroidCore():
         return filepath, requests.get(cls.BASE_URL + filepath)
 
     @classmethod
-    def get_version(cls, manifest):
-        logger.debug(f"Latest xwing-data version: {manifest['version']}")
-        return manifest['version']
-
-    @classmethod
-    def get_latest_manifest(cls):
-        res = requests.get(cls.BASE_URL + cls.MANIFEST)
+    def get_version(cls):
+        res = requests.get(
+            f"https://api.github.com/repos/{cls.GITHUB_USER}/xwing-data2/branches/{cls.GITHUB_BRANCH}")
         if res.status_code != 200:
-            raise DroidException(f"Got {res.status_code} GETing {res.url}.")
-        return res.json()
-
+            logger.warning(f"Got {res.status_code} checking data version.")
+            return False
+        return res.json()['commit']['sha']
 
     async def _load_data(self):
-        manifest = self.get_latest_manifest()
-        self.data_version = self.get_version(manifest)
-        self._last_checked_version = time.time()
+        res = requests.get(self.BASE_URL + self.MANIFEST)
+        if res.status_code != 200:
+            raise DroidException( f"Got {res.status_code} GETing {res.url}.")
+        manifest = res.json()
 
         files = (
             manifest['damagedecks'] +
@@ -101,6 +98,8 @@ class DroidCore():
         futures = [loop.run_in_executor(None, self.get_file, filename)
                    for filename in files]
 
+        self.data_version = self.get_version()
+        self._last_checked_version = time.time()
 
         for filepath, res in await asyncio.gather(*futures):
             if res.status_code != 200:
@@ -163,7 +162,8 @@ class DroidCore():
             logger.debug("Checked version recently.")
             return False
 
-        current_version = self.get_version(self.get_latest_manifest())
+        current_version = self.get_version()
+        logger.debug(f"Current xwing-data version: {current_version}")
         self._last_checked_version = time.time()
         return self.data_version != current_version
 

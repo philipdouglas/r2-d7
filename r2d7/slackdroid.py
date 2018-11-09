@@ -107,6 +107,8 @@ You can also search for cards by points value in a particular slot. Eg. _[[:crew
         re.compile(r'\[Force\]'): ':forcecharge:',
         re.compile(r'\[Rear Arc\]'): ':reararc:',
         re.compile(r'\[Front Arc\]'): ':frontarc:',
+        re.compile(r'\[Left Arc\]'): ':leftarc:',
+        re.compile(r'\[Right Arc\]'): ':rightarc:',
         re.compile(r'\[Bullseye Arc\]'): ':bullseyearc:',
         re.compile(r'\[Single Turret Arc\]'): ':singleturretarc:',
         re.compile(r'\[Double Turret Arc\]'): ':doubleturretarc:',

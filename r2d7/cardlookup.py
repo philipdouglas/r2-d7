@@ -293,7 +293,7 @@ class CardLookup(DroidCore):
 
     def pilot_sort_key(self, pilot):
         try:
-            return int(pilot['initiative']) + (pilot['cost'] / 200)
+            return int(pilot['initiative']) + (pilot.get('cost', 0) / 200)
         except ValueError:
             # Put ?s at the end
             return 9
@@ -333,7 +333,7 @@ class CardLookup(DroidCore):
                     calculate = ' ' + self.iconify('calculate') if self.has_calculate(pilot) else ''
                     name = self.format_name(pilot)
                     pilots_printed.append(
-                        f"{init}{unique}{name}{slots}{calculate} [{pilot['cost']}]")
+                        f"{init}{unique}{name}{slots}{calculate} [{pilot.get('cost', '?')}]")
                 out.append(f"{self.iconify(faction)} {', '.join(pilots_printed)}")
         return out
 
@@ -386,6 +386,8 @@ class CardLookup(DroidCore):
         'Galactic Empire': 'Imperial',
         'Rebel Alliance': 'Rebel',
         'Scum and Villainy': 'Scum',
+        'Separatist Alliance': 'Separatist',
+        'Galactic Republic': 'Republic',
     }
 
     def print_restrictions(self, restrictions):

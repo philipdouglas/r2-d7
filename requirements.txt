@@ -1,4 +1,4 @@
-requests==2.18.4
+requests>=2.20.0
 slackclient==1.1.0
 slacker==0.9.60
 python-dateutil==2.6.1

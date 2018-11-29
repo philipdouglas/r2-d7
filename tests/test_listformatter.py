@@ -7,7 +7,7 @@ from r2d7.slackdroid import SlackDroid
 get_xws_tests = (
     (
         "https://raithos.github.io/?f=Scum%20and%20Villainy&d=v4!s!138:-1,168:-1:-1:U.-1&sn=Sunny%20B!&obs=",
-        {"faction": "scumandvillainy", "name": "Sunny B!", "pilots": [{"id": "sunnybounder", "ship": "m3ainterceptor", "upgrades": {"hardpoint": ["hardpointcannon"]}}], "vendor": {
+        {"faction": "scumandvillainy", "name": "Sunny B!", "points": 31, "pilots": [{"id": "sunnybounder", "ship": "m3ainterceptor", "points": 31, "upgrades": {"hardpoint": ["hardpointcannon"]}}], "vendor": {
             "yasb": {"builder": "(Yet Another) X-Wing Miniatures Squad Builder", "builder_url": "https://raithos.github.io", "link": "https://raithos.github.io/?f=Scum%20and%20Villainy&d=v4!s!138:-1,168:-1:-1:U.-1&sn=Sunny%20B!&obs="}}, "version": "2.0.0"},
     ),
     (

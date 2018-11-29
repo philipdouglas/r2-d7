@@ -79,7 +79,7 @@ class ListFormatter(DroidCore):
                 output.append(self.iconify('question') * 2 + ' ' +
                               self.italics('Unknown Pilot'))
                 continue
-            points += pilot_card['cost']
+            points += pilot_card.get('cost', 0)
             initiative = pilot_card['initiative']
 
             cards = []
@@ -102,7 +102,7 @@ class ListFormatter(DroidCore):
 
                 upgrade_text = self.wiki_link(upgrade['name'])
                 upgrades.append(upgrade_text)
-                cost = upgrade['cost']
+                cost = upgrade.get('cost', {})
                 if 'variable' in cost:
                     if cost['variable'] == 'size':
                         stat = pilot_card['ship']['size']
@@ -114,7 +114,7 @@ class ListFormatter(DroidCore):
                                 break
                     points += cost['values'][str(stat)]
                 else:
-                    points += cost['value']
+                    points += cost.get('value', 0)
 
             ship_line = (
                 self.iconify(pilot_card['ship']['name']) +

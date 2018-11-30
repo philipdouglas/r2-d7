@@ -26,7 +26,8 @@ print_faction_ships_tests = (
     ]),
     ('first_order', [
         ':tiefofighter:'
-        ':tiesilencer:'
+        ':tiesffighter:'
+        ':tievnsilencer:'
         ':upsilonclassshuttle:'
     ])
 )

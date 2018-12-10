@@ -102,7 +102,7 @@ def test_print_card(testbot, name, expected):
 
 lookup_tests = {
     'sunny bounder': [('sunnybounder', 'pilot')],
-    'Rey': [('reysmillenniumfalcon', 'title'), ('rey', 'pilot')],
+    'Rey': [('rey-gunner', 'gunner'), ('rey', 'pilot'), ('reysmillenniumfalcon', 'title')],
     'han solo': [
         ('hansolo-crew', 'crew'),
         ('hansolo', 'gunner'),

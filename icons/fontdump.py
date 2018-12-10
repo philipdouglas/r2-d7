@@ -143,7 +143,7 @@ fonts = {
         'tiesffighter': "S",
         'tiesilencer': "$",
         'tieskstriker': "T",
-        'upsilonclassshuttle': "U",
+        'upsilonclasscommandshuttle': "U",
         'ut60duwing': "u",
         'vcx100lightfreighter': "G",
         'vt49decimator': "d",

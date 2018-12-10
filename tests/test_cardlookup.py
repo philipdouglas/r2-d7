@@ -129,7 +129,7 @@ lookup_tests = {
     ':modifiedyt1300lightfreighter: Han': [
         ('hansolo-modifiedyt1300lightfreighter', 'pilot'),
     ],
-    'test': [('imdaartestpilot', 'pilot')],
+    'test': [('imdaartestpilot', 'pilot'), ('firstordertestpilot', 'pilot')],
     'fcs': [('firecontrolsystem', 'sensor')],
     ':astromech: &gt; 7': [('r2d2', 'astromech')],
     ':crew: = 13': [('emperorpalpatine', 'crew'), ('maul', 'crew')],

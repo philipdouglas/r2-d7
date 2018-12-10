@@ -28,7 +28,7 @@ print_faction_ships_tests = (
         ':tiefofighter:'
         ':tiesffighter:'
         ':tievnsilencer:'
-        ':upsilonclassshuttle:'
+        ':upsilonclasscommandshuttle:'
     ])
 )
 @pytest.mark.parametrize('emoji, output', print_faction_ships_tests)

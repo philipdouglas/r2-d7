@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 class CardLookup(DroidCore):
     def __init__(self):
         super().__init__()
+        self.register_handler(r'\{\{(.*)\}\}', self.handle_image_lookup)
         self.register_handler(r'\[\[(.*)\]\]', self.handle_lookup)
         self.register_dm_handler(r'(.*)', self.handle_lookup)
 
@@ -548,6 +549,16 @@ class CardLookup(DroidCore):
 
         return text
 
+    def print_image(self, card):
+        text = []
+        if 'sides' not in card:
+            if 'image' in card:
+                text += [card['image']]
+        else:
+            for side in card['sides']:
+                if 'image' in side:
+                    text += [side['image']]
+        return text
 
     def handle_lookup(self, lookup):
         output = []
@@ -558,6 +569,17 @@ class CardLookup(DroidCore):
                 return ['Your search matched more than 10 cards, please be '
                         'more specific.']
             output += self.print_card(card)
+        return output
+
+    def handle_image_lookup(self, lookup):
+        output = []
+        count = 0
+        for card in self.lookup(lookup):
+            count += 1
+            if count > 10:
+                return ['Your search matched more than 10 cards, please be '
+                        'more specific.']
+            output += self.print_image(card)
         return output
 
     def print_device(self, device):

@@ -99,6 +99,18 @@ print_card_tests = (
 def test_print_card(testbot, name, expected):
     assert testbot.print_card(testbot.test_lookup(name)) == expected
 
+print_card_image_tests = (
+    ('directhit', []),
+    ('hunted', []),
+    ('sunnybounder', ['https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_188.png']),
+    ('l337.2', ['https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_228.png']),
+    ('chopper.0', ['https://sb-cdn.fantasyflightgames.com/card_images/Card_Upgrade_99.png']),
+    ('servomotorsfoils', ['https://sb-cdn.fantasyflightgames.com/card_images/Card_Upgrade_108.png', 'https://sb-cdn.fantasyflightgames.com/card_images/Card_Upgrade_108b.png']),
+)
+
+@pytest.mark.parametrize('name, expected', print_card_image_tests)
+def test_print_card_image(testbot, name, expected):
+    assert sorted(testbot.print_image(testbot.test_lookup(name))) == sorted(expected)
 
 lookup_tests = {
     'sunny bounder': [('sunnybounder', 'pilot')],
@@ -146,7 +158,6 @@ lookup_tests = {
 def test_lookup(testbot, lookup, expected):
     actual = [(card['xws'], card['category']) for card in testbot.lookup(lookup)]
     assert actual == expected
-
 
 def test_card_limit(testbot):
     assert testbot.handle_lookup('tie') == [

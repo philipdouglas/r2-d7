@@ -5,6 +5,7 @@ from pathlib import Path
 import re
 import time
 import unicodedata
+from collections import OrderedDict
 
 import requests
 
@@ -17,8 +18,8 @@ class DroidException(Exception):
 
 class DroidCore():
     def __init__(self):
-        self._handlers = {}
-        self._dm_handlers = {}
+        self._handlers = OrderedDict()
+        self._dm_handlers = OrderedDict()
 
     def register_handler(self, pattern, method):
         if not isinstance(pattern, re._pattern_type):

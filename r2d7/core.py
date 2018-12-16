@@ -60,8 +60,8 @@ class DroidCore():
         raise NotImplementedError()
 
     _data = None
-    GITHUB_USER = 'freakydug'
-    GITHUB_BRANCH = 'bot'
+    GITHUB_USER = 'guidokessels'
+    GITHUB_BRANCH = 'master'
     BASE_URL = f"https://raw.githubusercontent.com/{GITHUB_USER}/xwing-data2/{GITHUB_BRANCH}/"
     MANIFEST = 'data/manifest.json'
     # VERSION_RE = re.compile(r'xwing-data/releases/tag/([\d\.]+)')

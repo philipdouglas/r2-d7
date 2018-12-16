@@ -143,8 +143,8 @@ lookup_tests = {
     ],
     'test': [('imdaartestpilot', 'pilot'), ('firstordertestpilot', 'pilot')],
     'fcs': [('firecontrolsystem', 'sensor')],
-    ':astromech: &gt; 7': [('r2d2', 'astromech')],
-    ':crew: = 13': [('emperorpalpatine', 'crew'), ('maul', 'crew')],
+    ':astromech: &gt; 7': [('r2d2', 'astromech'), ('bb8', 'astromech')],
+    ':crew: = 13': [('emperorpalpatine', 'crew'), ('maul', 'crew'), ('supremeleadersnoke', 'crew')],
     ':focus:': [],
     'hot shot': [('hotshotgunner', 'gunner')],
     # Test for unescaped lookup in regex

@@ -105,7 +105,7 @@ fonts = {
         'auzituckgunship': "@",
         'rz1awing': "a",
         'asf01bwing': "b",
-        'mg100starfortresssf17': "Z",
+        'mg100starfortress': "Z",
         'cr90corvette': "2",
         'croccruiser': "5",
         'ewing': "e",
@@ -155,6 +155,9 @@ fonts = {
         'z95af4headhunter': "z",
         'customizedyt1300lightfreighter': 'W',
         'escapecraft': 'X',
+        'modifiedtielnfighter': 'C',
+        'rz2awing': 'E',
+        'scavengedyt1300': 'Y',
     }
 }
 

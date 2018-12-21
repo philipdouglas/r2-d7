@@ -141,7 +141,7 @@ fonts = {
         'tiecapunisher': "N",
         'tiereaper': "V",
         'tiesffighter': "S",
-        'tiesilencer': "$",
+        'tievnsilencer': "$",
         'tieskstriker': "T",
         'upsilonclasscommandshuttle': "U",
         'ut60duwing': "u",

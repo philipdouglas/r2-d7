@@ -117,7 +117,6 @@ class DroidCore():
 
             elif category == 'pilots':
                 first_ship = ship = raw_data
-                ship['xws'] = remaining.split('/')[1][:-5].replace('-', '')
                 if 'ship' in self._data and ship['xws'] in self._data['ship']:
                     first_ship = self._data['ship'][ship['xws']]
                 for pilot in ship['pilots']:

@@ -5,7 +5,7 @@
 		}
 	],
 	"settings": {
-		"python.pythonPath": "${workspaceFolder}\\env3\\Scripts\\python.exe",
+		"python.pythonPath": "env3\\Scripts\\python.exe",
 		"python.unitTest.pyTestEnabled": true,
 		"python.unitTest.pyTestArgs": [
 			"-vv"

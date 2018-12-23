@@ -5,17 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
-            "type": "python",
-            "request": "launch",
-            "program": "${file}"
-        },
-        {
             "name": "Python: Slack bot",
             "type": "python",
             "request": "launch",
             "envFile": "${workspaceFolder}/env.list",
-            "module": "r2d7.slack"
+            "module": "r2d7.slack",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
         },
         {
             "name": "Python: Generate Emoji",
@@ -23,30 +20,6 @@
             "request": "launch",
             "cwd": "${workspaceFolder}/icons",
             "program": "${workspaceFolder}/icons/generate_emoji.py"
-        },
-        {
-            "name": "Python: Attach",
-            "type": "python",
-            "request": "attach",
-            "localRoot": "${workspaceFolder}",
-            "remoteRoot": "${workspaceFolder}",
-            "port": 3000,
-            "secret": "my_secret",
-            "host": "localhost"
-        },
-        {
-            "name": "Python: Terminal (integrated)",
-            "type": "python",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Python: Terminal (external)",
-            "type": "python",
-            "request": "launch",
-            "program": "${file}",
-            "console": "externalTerminal"
         }
     ]
 }

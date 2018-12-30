@@ -21,26 +21,26 @@ fonts = {
     },
 }
 colours = {
-    '': (0, 0, 0),
+    '': '#FFFFFE',
     'blue': '#55C1F2',
     'red': '#E61713',
 }
 
 
 def main():
-    size = (128, 128)
+    size = (40, 40)
 
     if not os.path.exists('emoji'):
         os.mkdir('emoji')
 
     for font, glyphs in fonts.items():
-        font = ImageFont.truetype(font, 128)
+        font = ImageFont.truetype(font, 30)
         for name, glyph in glyphs.items():
             for colour_name, colour in colours.items():
-                im = Image.new("RGBA", (300, 300), (255, 255, 255, 0))
+                im = Image.new("RGBA", (40, 40), (255, 255, 255, 0))
 
                 draw = ImageDraw.Draw(im)
-                draw.text((100, 100), glyph, font=font, fill=colour)
+                draw.text((0, 0), glyph, font=font, fill=colour)
 
                 # remove unneccessory whitespaces if needed
                 im = im.crop(ImageOps.invert(im.convert('RGB')).getbbox())

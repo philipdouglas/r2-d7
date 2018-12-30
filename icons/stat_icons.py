@@ -5,32 +5,22 @@ import os
 from PIL import Image, ImageFont, ImageDraw, ImageOps, ImageFilter
 
 stat_ranges = {
-    'initiative': ([str(num) for num in range(0, 8)], '#CD6D2D'),
-    'attack': (['-'] + [str(num) for num in range(0, 6)], '#EF232B'),
-    'agility': ([str(num) for num in range(0, 5)], '#6BBE44'),
-    'hull': ([str(num) for num in range(0, 13)] + ['+1'], '#B6B335'),
-    'shield': ([str(num) for num in range(0, 7)] + ['+1'], '#7ED3E5'),
-    'charge': (
-        list(itertools.chain( *[[str(num), f"{num}`"] for num in range(0, 9)])),
-    '#E5B922'),
-    'forcecharge': (
-        list(itertools.chain(
-            *[[str(num), f"{num}`", f"+{num}", f"+{num}`"] for num in range(0, 5)])),
-    '#C39DC9'),
+    'move': ([str(num) for num in range(0, 5)], '#FFFFFE'),
 }
 
-size = (128, 128)
+size = (40, 40)
+
 
 def main():
     if not os.path.exists('emoji'):
         os.mkdir('emoji')
 
-    font = ImageFont.truetype('kimberley bl.ttf', 128)
-    xwingfont = ImageFont.truetype('xwing-miniatures.ttf', 128)
+    font = ImageFont.truetype('kimberley bl.ttf', 30)
+    xwingfont = ImageFont.truetype('xwing-miniatures.ttf', 30)
     for stat, bits in stat_ranges.items():
         numbers, colour = bits
         for number in numbers:
-            im = Image.new("RGBA", (300, 300), (255, 255, 255, 0))
+            im = Image.new("RGBA", size, (255, 255, 255, 0))
 
             draw = ImageDraw.Draw(im)
             if number.endswith('`'):

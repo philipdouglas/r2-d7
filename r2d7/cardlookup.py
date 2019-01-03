@@ -501,6 +501,7 @@ class CardLookup(DroidCore):
                 self.print_cost(card['cost']) if 'cost' in card else '',
                 f"({card['deck']})" if 'deck' in card else '',
                 self.iconify(f"{card['size']}base") if 'size' in card else '',
+                "[Hyperspace]" if card.get('hyperspace', False) else '',
             ))))
 
             if 'restrictions' in card:

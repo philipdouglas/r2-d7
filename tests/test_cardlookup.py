@@ -6,22 +6,22 @@ from r2d7.slackdroid import SlackDroid
 
 print_card_tests = (
     ('tacticalofficer', [
-        ':crew: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Tactical_Officer|Tactical Officer>* [2]',
+        ':crew: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Tactical_Officer|Tactical Officer>* [2] [Hyperspace]',
         '_Restrictions: :redcoordinate:_',
         '_In the chaos of a starfighter battle, a single order can mean the difference between a victory and a massacre._',
         ':coordinate:',
     ]),
     ('predator', [
-        ':talent: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Predator|Predator>* [2]',
+        ':talent: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Predator|Predator>* [2] [Hyperspace]',
         'While you perform a primary attack, if the defender is in your :bullseyearc:, you may reroll 1 attack die.',
     ]),
     ('homingmissiles', [
-        ':missile: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Homing_Missiles|Homing Missiles>* [3]',
+        ':missile: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Homing_Missiles|Homing Missiles>* [3] [Hyperspace]',
         'Attack (:targetlock:): Spend 1 :Charge:. After you declare the defender, the defender may choose to suffer 1 :Hit: damage. If it does, skip the Attack and Defense Dice steps and the attack is treated as hitting.',
         ':redfrontarc::attack4::redrangebonusindicator:2-3 | :orangecharge::charge2:',
     ]),
     ('r2astromech', [
-        ':astromech: *<http://xwing-miniatures-second-edition.wikia.com/wiki/R2_Astromech|R2 Astromech>* [6]',
+        ':astromech: *<http://xwing-miniatures-second-edition.wikia.com/wiki/R2_Astromech|R2 Astromech>* [6] [Hyperspace]',
         'After you reveal your dial, you may spend 1 :Charge: and gain 1 disarm token to recover 1 shield.',
         ':orangecharge::charge2:',
     ]),
@@ -37,7 +37,7 @@ print_card_tests = (
         'While you have exactly 1 disarm token, you can still perform :Torpedo: and :Missile: attacks against targets you have locked. If you do, you cannot spend your lock during the attack. Add :Torpedo: and :Missile: slots.',
     ]),
     ('shieldupgrade', [
-        ':modification: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Shield_Upgrade|Shield Upgrade>* [:greenagility::agility0:3:agility1:4:agility2:6:agility3:8]',
+        ':modification: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Shield_Upgrade|Shield Upgrade>* [:greenagility::agility0:3:agility1:4:agility2:6:agility3:8] [Hyperspace]',
         '_Deflector shields are a substantial line of defense on most starships beyond the lightest fighters. While enhancing a ship\'s shield capacity can be costly, all but the most confident or reckless pilots see the value in this sort of investment._',
         ':blueshield::shieldplus1:'
     ]),
@@ -64,10 +64,10 @@ print_card_tests = (
         '_*Stygium Array:*_ After you decloak, you may perform an :Evade: action. At the start of the End Phase, you may spend 1 evade token to gain 1 cloak token.',
     ]),
     ('pivotwing', [
-        ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_(Closed)|Pivot Wing (Closed)>* [0]',
+        ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_(Closed)|Pivot Wing (Closed)>* [0] [Hyperspace]',
         '_Restrictions: UT-60D U-wing_',
         'While you defend, roll 1 fewer defense die. After you execute a [0 :stop:] maneuver, you may rotate your ship 90˚ or 180˚. Before you activate, you may flip this card.',
-        ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_(Open)|Pivot Wing (Open)>* [0]',
+        ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_(Open)|Pivot Wing (Open)>* [0] [Hyperspace]',
         '_Restrictions: UT-60D U-wing_',
         'Before you activate, you may flip this card.',
     ]),
@@ -87,7 +87,7 @@ print_card_tests = (
         'After you are destroyed, you *must* choose another friendly ship and assign this condition to it, if able.',
     ]),
     ('seismiccharges', [
-        ':device: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Seismic_Charges|Seismic Charges>* [3]',
+        ':device: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Seismic_Charges|Seismic Charges>* [3] [Hyperspace]',
         '_*Bomb:*_ During the System Phase, you may spend 1 :Charge: to drop a Seismic Charge with the [1 :Straight:] template.',
         ':orangecharge::charge2:',
         '*Seismic Charge* (Bomb)',

@@ -325,7 +325,7 @@ class CardLookup(DroidCore):
                 pilots_printed = []
                 for pilot in pilots:
                     init = self.iconify(f"initiative{pilot['initiative']}")
-                    unique = '• ' if pilot.get('limited', False) else ''
+                    unique = '•' * pilot.get('limited', 0)
                     slots = ''.join([
                         self.iconify(slot) for slot in pilot.get('slots', [])
                         if slot not in ship['slots']
@@ -495,7 +495,7 @@ class CardLookup(DroidCore):
         for side in card['sides']:
             text.append(' '.join(filter(len, (
                 ''.join(self.iconify(slot) for slot in side['slots']),
-                '•' if card.get('limited', False) else '',
+                '•' * card.get('limited', 0),
                 self.bold(self.format_name(card, side)) +
                 (f": {self.italics(card['caption'])}" if 'caption' in card else ''),
                 self.print_cost(card['cost']) if 'cost' in card else '',

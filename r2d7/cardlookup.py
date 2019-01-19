@@ -51,6 +51,7 @@ class CardLookup(DroidCore):
         'Modification',
         'Title',
         'Configuration',
+        'Tactical Relay',
         # 'Hardpoint',
         # 'Team',
         # 'Cargo',
@@ -411,6 +412,8 @@ class CardLookup(DroidCore):
                     f"squad including {' or '.join(restrict['names'])}")
             if 'arcs' in restrict:
                 ors += [self.iconify(arc) for arc in restrict['arcs']]
+            if restrict.get('solitary', False):
+                ors.append('Solitary')
             ands.append(' or '.join(ors))
         return self.italics('Restrictions: ' + ', '.join(ands))
 

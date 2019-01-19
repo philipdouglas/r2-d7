@@ -138,7 +138,6 @@ class CardLookup(DroidCore):
             matches = []
             slot_filter = None
             points_filter = None
-            search = lookup
             match = self.filter_pattern.match(lookup)
             if not match:
                 match = (None, None, lookup, None, None, None)

@@ -36,7 +36,7 @@ class DroidCore():
 
     # Printer methods
     @staticmethod
-    def iconify(name):
+    def iconify(name, special_chars=False):
         raise NotImplementedError()
 
     @staticmethod
@@ -52,7 +52,7 @@ class DroidCore():
         return [text]
 
     @classmethod
-    def wiki_link(cls, card_name, crew_of_pilot, wiki_name=False):
+    def wiki_link(cls, card_name, crew_of_pilot=False, wiki_name=False):
         raise NotImplementedError()
 
     @staticmethod

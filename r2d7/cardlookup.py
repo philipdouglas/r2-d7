@@ -363,6 +363,7 @@ class CardLookup(DroidCore):
         "shield": "blue",
         "charge": "orange",
         "forcecharge": "purple",
+        "initiative": "initiative"
     }
 
     def print_stat(self, stat):
@@ -427,13 +428,17 @@ class CardLookup(DroidCore):
                 if cost['variable'] == 'shields':
                     cost['variable'] = 'shield'
                 if cost['variable'] in self.stat_colours.keys():
-                    out += self.iconify(
-                        f"{self.stat_colours[cost['variable']]}{cost['variable']}")
+                    if cost['variable'] != self.stat_colours[cost['variable']]:
+                        out += self.iconify(
+                            f"{self.stat_colours[cost['variable']]}{cost['variable']}")
                     icons = [self.iconify(f"{cost['variable']}{stat}")
                             for stat in cost['values'].keys()]
                 elif cost['variable'] == 'size':
                     icons = [self.iconify(f"{size}base")
                             for size in cost['values'].keys()]
+                else:
+                    logger.warning(f"Unrecognised cost variable: {cost['variable']}")
+                    icons = ['?' for stat in cost['values']]
                 out += ''.join(
                     f"{icon}{cost}" for icon, cost in zip(icons, cost['values'].values()))
             else:

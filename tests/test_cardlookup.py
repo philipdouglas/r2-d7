@@ -16,17 +16,17 @@ print_card_tests = (
         'While you perform a primary attack, if the defender is in your :bullseyearc:, you may reroll 1 attack die.',
     ]),
     ('homingmissiles', [
-        ':missile: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Homing_Missiles|Homing Missiles>* [3] [Hyperspace]',
+        ':missile: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Homing_Missiles|Homing Missiles>* [5] [Hyperspace]',
         'Attack (:targetlock:): Spend 1 :Charge:. After you declare the defender, the defender may choose to suffer 1 :Hit: damage. If it does, skip the Attack and Defense Dice steps and the attack is treated as hitting.',
         ':redfrontarc::attack4::redrangebonusindicator:2-3 | :orangecharge::charge2:',
     ]),
     ('r2astromech', [
-        ':astromech: *<http://xwing-miniatures-second-edition.wikia.com/wiki/R2_Astromech|R2 Astromech>* [6] [Hyperspace]',
+        ':astromech: *<http://xwing-miniatures-second-edition.wikia.com/wiki/R2_Astromech|R2 Astromech>* [4] [Hyperspace]',
         'After you reveal your dial, you may spend 1 :Charge: and gain 1 disarm token to recover 1 shield.',
         ':orangecharge::charge2:',
     ]),
     ('emperorpalpatine', [
-        ':crew::crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Emperor_Palpatine|Emperor Palpatine>* [13]',
+        ':crew::crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Emperor_Palpatine|Emperor Palpatine>* [11]',
         '_Restrictions: Imperial_',
         'While another friendly ship defends or performs an attack, you may spend 1 :forcecharge: to modify 1 of its dice as though that ship had spent 1 :forcecharge:.',
         ':purpleforcecharge::forcechargeplus1recurring:',
@@ -49,17 +49,17 @@ print_card_tests = (
         '2 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank::blank:',
         '1 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank::blank:',
         '_*Microthrusters:*_ While you perform a barrel roll, you *must* use the :bankleft: or :bankright: template instead of the :Straight: template.',
-        ':scum: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Enforcer|Black Sun Enforcer> [46], :initiative3:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Assassin|Black Sun Assassin> :talent: [48], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Dalan_Oberos|Dalan Oberos> :talent: [54], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Prince_Xizor|Prince Xizor> :talent: [54], :initiative5:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri> :talent: :calculate: [62]',
+        ':scum: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Enforcer|Black Sun Enforcer> [46], :initiative3:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Assassin|Black Sun Assassin> :talent: [48], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Dalan_Oberos|Dalan Oberos> :talent: [54], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Prince_Xizor|Prince Xizor> :talent: [54], :initiative5:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri> :talent: :calculate: [63]',
     ]),
     ('guri', [
-        ':starviperclassattackplatform: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri>*: _Prince Xizor\'s Bodyguard_ [62]',
+        ':starviperclassattackplatform: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri>*: _Prince Xizor\'s Bodyguard_ [63]',
         ':scum:  :initiative5::redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1:  :calculate:|:targetlock:|:barrelroll::linked::redcalculate:|:boost::linked::redcalculate:  :talent::sensor::torpedo::modification::title:',
         'At the start of the Engagement Phase, if there is at least 1 enemy ship at range 0-1, you may gain 1 focus token.',
         '_*Microthrusters:*_ While you perform a barrel roll, you *must* use the :bankleft: or :bankright: template instead of the :Straight: template.',
     ]),
     ('imdaartestpilot', [
-        ':tiephphantom: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Imdaar_Test_Pilot|Imdaar Test Pilot>* [44]',
-        ':empire:  :initiative3::redfrontarc::attack3::greenagility::agility2::yellowhull::hull3::blueshield::shield2:  :focus:|:evade:|:barrelroll:|:cloak:  :sensor::crew::modification:',
+        ':tiephphantom: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Imdaar_Test_Pilot|Imdaar Test Pilot>* [43]',
+        ':empire:  :initiative3::redfrontarc::attack3::greenagility::agility2::yellowhull::hull3::blueshield::shield2:  :focus:|:evade:|:barrelroll:|:cloak:  :sensor::modification::gunner:',
         '_The primary result of a hidden research facility on Imdaar Alpha, the TIE phantom achieves what many thought was impossible: a small starfighter equipped with an advanced cloaking device._',
         '_*Stygium Array:*_ After you decloak, you may perform an :Evade: action. At the start of the End Phase, you may spend 1 evade token to gain 1 cloak token.',
     ]),
@@ -143,8 +143,8 @@ lookup_tests = {
     ],
     'test': [('imdaartestpilot', 'pilot'), ('firstordertestpilot', 'pilot')],
     'fcs': [('firecontrolsystem', 'sensor')],
-    ':astromech: &gt; 7': [('r2d2', 'astromech'), ('bb8', 'astromech')],
-    ':crew: = 13': [('emperorpalpatine', 'crew'), ('maul', 'crew'), ('supremeleadersnoke', 'crew')],
+    ':astromech: &gt; 6': [('m9g8', 'astromech')],
+    ':crew: = 13': [('supremeleadersnoke', 'crew')],
     ':focus:': [],
     'hot shot': [('hotshotgunner', 'gunner')],
     # Test for unescaped lookup in regex
@@ -246,17 +246,17 @@ def test_print_ship_ability(testbot, pilot, expected):
 @pytest.mark.parametrize('ship, expected', [
     ('starviperclassattackplatform', [
         '_*Microthrusters:*_ While you perform a barrel roll, you *must* use the :bankleft: or :bankright: template instead of the :Straight: template.',
-        ':scum: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Enforcer|Black Sun Enforcer> [46], :initiative3:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Assassin|Black Sun Assassin> :talent: [48], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Dalan_Oberos|Dalan Oberos> :talent: [54], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Prince_Xizor|Prince Xizor> :talent: [54], :initiative5:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri> :talent: :calculate: [62]',
+        ':scum: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Enforcer|Black Sun Enforcer> [46], :initiative3:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Assassin|Black Sun Assassin> :talent: [48], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Dalan_Oberos|Dalan Oberos> :talent: [54], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Prince_Xizor|Prince Xizor> :talent: [54], :initiative5:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri> :talent: :calculate: [63]',
     ]),
     ('hwk290lightfreighter', [
-        ':rebel: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Rebel_Scout|Rebel Scout> [32], :initiative3:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Kyle_Katarn|Kyle Katarn> :talent: [38], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Roark_Garnet|Roark Garnet> :talent: [38], :initiative5:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Jan_Ors|Jan Ors> :talent: [42]',
-        ':scum: :initiative1:<http://xwing-miniatures-second-edition.wikia.com/wiki/Spice_Runner|Spice Runner> :illicit: [32], :initiative2:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Torkil_Mux|Torkil Mux> :illicit: [36], :initiative3:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Palob_Godalhi|Palob Godalhi> :talent::illicit: [38], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Dace_Bonearm|Dace Bonearm> :talent::illicit: [36]'
+        ':rebel: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Rebel_Scout|Rebel Scout> [33], :initiative3:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Kyle_Katarn|Kyle Katarn> :talent: [39], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Roark_Garnet|Roark Garnet> :talent: [43], :initiative5:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Jan_Ors|Jan Ors> :talent: [44]',
+        ':scum: :initiative1:<http://xwing-miniatures-second-edition.wikia.com/wiki/Spice_Runner|Spice Runner> :illicit: [32], :initiative2:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Torkil_Mux|Torkil Mux> :illicit: [38], :initiative3:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Palob_Godalhi|Palob Godalhi> :talent::illicit: [40], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Dace_Bonearm|Dace Bonearm> :talent::illicit: [35]'
     ]),
     ('escapecraft', [
         '_*Rigged Energy Cells:*_ During the System Phase, if you are not docked, lose 1 :Charge:. At the end of the Activation Phase, if you have 0 :Charge:, you are destroyed. Before you are removed, each ship at range 0-1 suffers 1 :crit: damage.',
         ':scum: :initiative1:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Autopilot_Drone|Autopilot Drone> :calculate: [12]',
         '_*Co-Pilot:*_ While you are docked, your carrier ship has your pilot ability in addition to its own.',
-        ':scum: :initiative2:•<http://xwing-miniatures-second-edition.wikia.com/wiki/L3-37|L3-37> :talent::crew::modification: :calculate: [22], :initiative3:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Outer_Rim_Pioneer|Outer Rim Pioneer> :talent::crew::modification: [24], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Lando_Calrissian|Lando Calrissian> :talent::crew::modification: [26]',
+        ':scum: :initiative2:•<http://xwing-miniatures-second-edition.wikia.com/wiki/L3-37|L3-37> :talent::crew::modification: :calculate: [26], :initiative3:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Outer_Rim_Pioneer|Outer Rim Pioneer> :talent::crew::modification: [28], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Lando_Calrissian|Lando Calrissian> :talent::crew::modification: [29]',
     ])
 ])
 def test_list_pilots(testbot, ship, expected):
@@ -273,7 +273,7 @@ def test_list_pilots(testbot, ship, expected):
      ':scum:  :initiative3::redfrontarc::attack3::greenagility::agility1::yellowhull::hull7::blueshield::shield2::orangecharge::charge2:  :focus:|:targetlock:|:redbarrelroll:|:reload:  :talent::torpedo::missile::astromech::illicit::modification:'
     ),
     ('t65xwing', 'lukeskywalker.1',
-     ':rebel:  :initiative5::redfrontarc::attack3::greenagility::agility2::yellowhull::hull4::blueshield::shield2::purpleforcecharge::forcecharge2recurring:  :focus:|:targetlock:|:barrelroll:  :forcepower::torpedo::astromech::modification::configuration:'
+     ':rebel:  :initiative5::redfrontarc::attack3::greenagility::agility2::yellowhull::hull4::blueshield::shield2::purpleforcecharge::forcecharge2recurring:  :focus:|:targetlock:|:barrelroll:  :torpedo::astromech::modification::forcepower::configuration:'
     ),
     ('kihraxzfighter', None,
      ':redfrontarc::attack3::greenagility::agility2::yellowhull::hull5::blueshield::shield1:  :focus:|:targetlock:|:barrelroll:  :missile::illicit::modification::modification::modification:'
@@ -286,10 +286,11 @@ def test_ship_stats(testbot, ship, pilot, expected):
     assert testbot.ship_stats(ship, pilot) == expected
 
 @pytest.mark.parametrize('card, expected', [
-    ('munitionsfailsafe', '[2]'),
-    ('guri', '[62]'),
+    ('munitionsfailsafe', '[1]'),
+    ('guri', '[63]'),
     ('shieldupgrade', '[:greenagility::agility0:3:agility1:4:agility2:6:agility3:8]'),
-    ('engineupgrade', '[:smallbase:3:mediumbase:6:largebase:9]'),
+    ('engineupgrade', '[:smallbase:2:mediumbase:4:largebase:7]'),
+    ('bb8', '[:initiative0:2:initiative1:3:initiative2:4:initiative3:5:initiative4:6:initiative5:7:initiative6:8]'),
 ])
 def test_print_cost(testbot, card, expected):
     assert testbot.print_cost(testbot.test_lookup(card)['cost']) == expected

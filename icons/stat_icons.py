@@ -8,8 +8,8 @@ stat_ranges = {
     'initiative': ([str(num) for num in range(0, 8)], '#CD6D2D'),
     'attack': (['-'] + [str(num) for num in range(0, 6)], '#EF232B'),
     'agility': ([str(num) for num in range(0, 5)], '#6BBE44'),
-    'hull': ([str(num) for num in range(0, 13)] + ['+1'], '#B6B335'),
-    'shield': ([str(num) for num in range(0, 7)] + ['+1'], '#7ED3E5'),
+    'hull': ([str(num) for num in range(0, 13)] + ['+1', '+2'], '#B6B335'),
+    'shield': ([str(num) for num in range(0, 7)] + ['+1', '+2'], '#7ED3E5'),
     'charge': (
         list(itertools.chain( *[[str(num), f"{num}`"] for num in range(0, 9)])),
     '#E5B922'),

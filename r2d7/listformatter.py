@@ -105,6 +105,8 @@ class ListFormatter(DroidCore):
                 if 'variable' in cost:
                     if cost['variable'] == 'size':
                         stat = pilot_card['ship']['size']
+                    elif cost['variable'] in pilot_card:
+                        stat = pilot_card[cost['variable']]
                     else:
                         stat = 0
                         for stat_block in pilot_card['ship']['stats']:

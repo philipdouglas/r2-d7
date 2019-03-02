@@ -414,8 +414,16 @@ class CardLookup(DroidCore):
                 ors += [self.iconify(arc) for arc in restrict['arcs']]
             if restrict.get('solitary', False):
                 ors.append('Solitary')
-            ands.append(' or '.join(ors))
-        return self.italics('Restrictions: ' + ', '.join(ands))
+            if restrict.get('non-limited', False):
+                ors.append('Non-Limited')
+            if 'equipped' in restrict:
+                ors.append(
+                    f"Equipped {''.join(self.iconify(slot) for slot in restrict['equipped'])}")
+            if ors:
+                ands.append(' or '.join(ors))
+        if ands:
+            return self.italics('Restrictions: ' + ', '.join(ands))
+
 
     def print_ship_ability(self, ability):
         lines = ability['text']

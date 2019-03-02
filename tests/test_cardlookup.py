@@ -231,6 +231,11 @@ def test_print_stat(testbot, stat, expected):
     ([{"factions": ["Scum and Villainy"]}, {"ships": ["aggressorassaultfighter"]}],
      "_Restrictions: Scum, Aggressor Assault Fighter_"),
     ([{"factions": ["Resistance"]}], "_Restrictions: Resistance_"),
+    ([{"equipped": ["Astromech"]}], "_Restrictions: Equipped :astromech:_"),
+    ([{"solitary": True}], "_Restrictions: Solitary_"),
+    ([{"non-limited": True}], "_Restrictions: Non-Limited_"),
+    ([{"solitary": False}], None),
+    ([{"non-limtied": False}], None),
 ])
 def test_print_restrictions(testbot, res, expected):
     assert testbot.print_restrictions(res) == expected

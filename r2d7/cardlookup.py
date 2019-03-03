@@ -487,6 +487,7 @@ class CardLookup(DroidCore):
         is_ship = card['category'] == 'ship'
         is_pilot = card['category'] == 'pilot'
         is_crit = card['category'] == 'damage'
+        is_remote = card['category'] == 'Remote'
 
         if 'sides' not in card:
             if is_pilot:
@@ -495,6 +496,8 @@ class CardLookup(DroidCore):
                 slot = 'crit'
             elif card['category'] == 'condition':
                 slot = 'condition'
+            elif is_remote:
+                slot = 'device'
             else:
                 slot = card['xws']
             fake_side = {'slots': [slot]}
@@ -526,6 +529,8 @@ class CardLookup(DroidCore):
                 text.append(self.ship_stats(card['ship'], card))
             elif is_ship:
                 text.append(self.ship_stats(card))
+            elif is_remote:
+                text.append(self.ship_stats(card, card))
 
             if 'ability' in side:
                 text += side['ability']
@@ -552,7 +557,12 @@ class CardLookup(DroidCore):
                 text.append(' | '.join(last_line))
 
             if 'device' in side:
-                text += self.print_device(side['device'])
+                if side['device']['type'] == 'Remote':
+                    side['device']['category'] = 'Remote'
+                    side['device']['ability'] = side['device']['effect']
+                    text += self.print_card(side['device'])
+                else:
+                    text += self.print_device(side['device'])
 
             if 'conditions' in side:
                 for condition in side['conditions']:

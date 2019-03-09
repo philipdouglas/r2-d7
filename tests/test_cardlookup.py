@@ -306,6 +306,8 @@ def test_print_cost(testbot, card, expected):
     ('c3po', [':calculate:']),
     ('hullupgrade', [':yellowhull::hullplus1:']),
     ('shieldupgrade', [':blueshield::shieldplus1:']),
+    ('delta7b', [
+     ':greenagility::agilityminus1:', ':blueshield::shieldplus2:', ':redattack::attackplus1:']),
 ])
 def test_print_grants(testbot, card, expected):
     assert testbot.print_grants(testbot.test_lookup(card)['sides'][0]['grants']) == expected

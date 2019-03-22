@@ -78,6 +78,7 @@ class CardLookup(DroidCore):
         'baobab': 'belbullab22starfighter',
         'bbb': 'belbullab22starfighter',
         'belbublob': 'belbullab22starfighter',
+        'bubblebub': 'belbullab22starfighter',
         'hcp': 'haorchallprototype',
         'hadrchallprototype': 'haorchallprototype'
     }

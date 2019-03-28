@@ -13,7 +13,7 @@ get_xws_tests = (
     (
         "https://squadbuilder.fantasyflightgames.com/squad-preview/d0966452-ec40-40d4-a3cd-ff384e1dcf70",
         {"faction": "scumandvillainy", "pilots": [{"id": "sunnybounder", "ship": "m3ainterceptor", "upgrades": {
-            "cannon": ["heavylasercannon"]}, "points":34}], "name": "Sunny B!", "description": "", "points": 34}
+            "cannon": ["heavylasercannon"]}, "points":34}], "name": "Sunny B!", "description": "", "points": 34, 'vendor': {'sb2xws': {'builder': 'SB2XWS',  'url': 'http://sb2xws.herokuapp.com/translate/d0966452-ec40-40d4-a3cd-ff384e1dcf70'}}}
     ),
     (
         "https://devjonny.github.io/xwing2estopgap/scum?id=84b6758e-459f-4abd-a1c3-07f43d211af3",

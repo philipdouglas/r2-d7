@@ -159,6 +159,11 @@ fonts = {
         'modifiedtielnfighter': 'C',
         'rz2awing': 'E',
         'scavengedyt1300': 'Y',
+        'belbullab22starfighter': '[',
+        'delta7aethersprite': '\\',
+        'sithinfiltrator': ']',
+        'v19torrentstarfighter': '^',
+        'vultureclassdroidfighter': '_',
     }
 }
 

@@ -33,7 +33,7 @@ class DiscordClient(discord.Client):
         if message.author == self.user:
             return
 
-        logger.debug(f"Message: {message.clean_content}")
+        logger.debug(f"Message: {message}\nContent: {message.clean_content}")
 
         # Check for new data
         if self.droid.needs_update():
@@ -41,18 +41,27 @@ class DiscordClient(discord.Client):
 
         response = None
 
-        for regex, handle_method in self.droid._handlers.items():
-            logger.debug(f"Checking {regex}")
-            match = regex.search(message.clean_content)
-            if match:
-                response = handle_method(match[1])
-                if response:
-                    break
+        if isinstance(message.channel, discord.DMChannel):
+            for regex, handle_method in self.droid._dm_handlers.items():
+                match = regex.search(message.clean_content)
+                if match:
+                    response = handle_method(match[1])
+                    if response:
+                        break
+
+        if not response:
+            for regex, handle_method in self.droid._handlers.items():
+                logger.debug(f"Checking {regex}")
+                match = regex.search(message.clean_content)
+                if match:
+                    response = handle_method(match[1])
+                    if response:
+                        break
 
         if response:
             response = '\n'.join(response)
             for match in re.finditer(r'\:([^:]*)\:', response):
-                for emoji in message.guild.emojis:
+                for emoji in self.emojis:
                     if emoji.name == match.group(1):
                         response = response.replace(match.group(0), str(emoji))
 

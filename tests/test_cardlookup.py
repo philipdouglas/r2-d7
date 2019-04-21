@@ -301,16 +301,31 @@ def test_print_cost(testbot, card, expected):
     assert testbot.print_cost(testbot.test_lookup(card)['cost']) == expected
 
 
-@pytest.mark.parametrize('card, expected', [
-    ('os1arsenalloadout', None),
-    ('c3po', [':calculate:']),
-    ('hullupgrade', [':yellowhull::hullplus1:']),
-    ('shieldupgrade', [':blueshield::shieldplus1:']),
-    ('delta7b', [
-     ':greenagility::agilityminus1:', ':blueshield::shieldplus2:', ':redattack::attackplus1:']),
+@pytest.mark.parametrize('data, expected', [
+    ([
+        {"type": "slot", "value": "Torpedo", "amount": 1},
+        {"type": "slot", "value": "Missile", "amount": 1}
+    ], None),
+    ([{
+        "type": "action",
+        "value": {"type": "Calculate", "difficulty": "White"},
+        "amount": 1
+    }], [':calculate:']),
+    ([{"type": "stat", "value": "hull", "amount": 1}], [':yellowhull::hullplus1:']),
+    ([{"type": "stat", "value": "shields", "amount": 1}],
+     [':blueshield::shieldplus1:']),
+    ([
+        {"type": "stat", "value": "agility", "amount": -1},
+        {"type": "stat", "value": "shields", "amount": 2},
+        {"type": "stat", "value": "attack", "arc": "Front Arc", "amount": 1}
+    ], [
+        ':greenagility::agilityminus1:',
+        ':blueshield::shieldplus2:',
+        ':redattack::attackplus1:'
+    ]),
 ])
-def test_print_grants(testbot, card, expected):
-    assert testbot.print_grants(testbot.test_lookup(card)['sides'][0]['grants']) == expected
+def test_print_grants(testbot, data, expected):
+    assert testbot.print_grants(data) == expected
 
 
 @pytest.mark.parametrize('card, expected', [

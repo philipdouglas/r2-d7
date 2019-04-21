@@ -13,7 +13,8 @@ logger = logging.getLogger(__name__)
 class ListFormatter(DroidCore):
     def __init__(self):
         super().__init__()
-        self.register_handler(r'<(https?://[^>]+)>', self.handle_url)
+        # The leading and trailing < and > are for Slack
+        self.register_handler(r'<?(https?://[^>]+)>?', self.handle_url)
 
     _regexes = (
         re.compile(r'(https?://(raithos)\.github\.io/\?(.*))'),

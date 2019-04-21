@@ -15,6 +15,16 @@
             }
         },
         {
+            "name": "Python: Discord bot",
+            "type": "python",
+            "request": "launch",
+            "envFile": "${workspaceFolder}/env.list",
+            "module": "r2d7.discord",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
             "name": "Python: Generate Emoji",
             "type": "python",
             "request": "launch",

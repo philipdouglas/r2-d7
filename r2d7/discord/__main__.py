@@ -68,7 +68,8 @@ class DiscordClient(discord.Client):
             for old, new in replacements.items():
                 response = response.replace(old, new)
 
-            await message.channel.send(response)
+            embed = discord.Embed(description=response)
+            await message.channel.send(embed=embed)
 
 
 def main():

@@ -60,10 +60,13 @@ class DiscordClient(discord.Client):
 
         if response:
             response = '\n'.join(response)
+            replacements = {}
             for match in re.finditer(r'\:([^:]*)\:', response):
                 for emoji in self.emojis:
                     if emoji.name == match.group(1):
-                        response = response.replace(match.group(0), str(emoji))
+                        replacements[match.group(0)] = str(emoji)
+            for old, new in replacements.items():
+                response = response.replace(old, new)
 
             await message.channel.send(response)
 

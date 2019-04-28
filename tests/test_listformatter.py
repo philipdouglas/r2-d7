@@ -70,4 +70,4 @@ print_xws_tests = (
 )
 @pytest.mark.parametrize('xws, expected', print_xws_tests)
 def test_print_xws(testbot, xws, expected):
-    assert testbot.print_xws(xws) == expected
+    assert testbot.print_xws(xws) == [expected]

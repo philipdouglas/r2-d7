@@ -133,7 +133,7 @@ You can also search for cards by points value in a particular slot. Eg. _[[:crew
         for card_name in self._ref_names:
             text = text.replace(card_name, self.italics(self.bold(card_name)))
         text = re.sub(f"\\b({'|'.join(self._bold_words)})\\b", '*\\1*', text)
-        text = re.sub(r'\[([^\[\]:]+)\]', ':\\1:', text)
+        text = re.sub(r'\[([^\[\]:]+)\]', lambda pat: f":{pat.group(1).lower()}:", text)
         lines = text.split('__BREAK__')
         return [line.strip() for line in lines if line != '']
 

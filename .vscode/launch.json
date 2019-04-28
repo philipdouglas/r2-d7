@@ -30,6 +30,13 @@
             "request": "launch",
             "cwd": "${workspaceFolder}/icons",
             "program": "${workspaceFolder}/icons/generate_emoji.py"
+        },
+        {
+            "name": "Python: Generate Discord Emoji",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/icons",
+            "program": "${workspaceFolder}/icons/generate_discord_emoji.py"
         }
     ]
 }

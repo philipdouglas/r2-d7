@@ -60,13 +60,9 @@ class DiscordClient(discord.Client):
 
         if response:
             response = '\n'.join(response)
-            replacements = {}
-            for match in re.finditer(r'\:([^:]*)\:', response):
-                for emoji in self.emojis:
-                    if emoji.name == match.group(1):
-                        replacements[match.group(0)] = str(emoji)
-            for old, new in replacements.items():
-                response = response.replace(old, new)
+            emoji_map = {f":{emoji.name}:": str(emoji) for emoji in self.emojis}
+            for slack_style, discord_style in emoji_map.items():
+                response = response.replace(slack_style, discord_style)
 
             embed = discord.Embed(description=response)
             await message.channel.send(embed=embed)

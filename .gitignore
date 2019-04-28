@@ -89,6 +89,7 @@ icons/env/
 update.ps1
 env.list
 icons/emoji/*.png
+icons/discord_emoji/*/*.png
 *.pyc
 *.sublime-workspace
 *.sublime-project

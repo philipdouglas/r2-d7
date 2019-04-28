@@ -25,6 +25,16 @@
             }
         },
         {
+            "name": "Python: Both bots",
+            "type": "python",
+            "request": "launch",
+            "envFile": "${workspaceFolder}/env.list",
+            "module": "r2d7.bots",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
             "name": "Python: Generate Emoji",
             "type": "python",
             "request": "launch",

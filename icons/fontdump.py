@@ -85,7 +85,7 @@ fonts = {
         'evade': Purple(Red("e")),
         'focus': Purple(Red("f")),
         'jam': Purple(Red("j")),
-        'lock': Purple(Red("l")),
+        'targetlock': Purple(Red("l")),
         'recover': Purple(Red("v")),
         'reinforce': Purple(Red("i")),
         'reload': Purple(Red("=")),

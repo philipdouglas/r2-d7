@@ -8,7 +8,7 @@ iconify_tests = [
     ('Elite', ':elite:'),
     ('target lock', ':targetlock:'),
     ('Scum And Villainy', ':scum:'),
-    ('Galactic Empire', ':empire:'),
+    ('Galactic Empire', ':imperial:'),
     ('First Order', ':first_order:'),
 ]
 

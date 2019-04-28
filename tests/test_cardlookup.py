@@ -59,7 +59,7 @@ print_card_tests = (
     ]),
     ('imdaartestpilot', [
         ':tiephphantom: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Imdaar_Test_Pilot|Imdaar Test Pilot>* [43]',
-        ':empire:  :initiative3::redfrontarc::attack3::greenagility::agility2::yellowhull::hull3::blueshield::shield2:  :focus:|:evade:|:barrelroll:|:cloak:  :sensor::modification::gunner:',
+        ':imprial:  :initiative3::redfrontarc::attack3::greenagility::agility2::yellowhull::hull3::blueshield::shield2:  :focus:|:evade:|:barrelroll:|:cloak:  :sensor::modification::gunner:',
         '_The primary result of a hidden research facility on Imdaar Alpha, the TIE phantom achieves what many thought was impossible: a small starfighter equipped with an advanced cloaking device._',
         '_*Stygium Array:*_ After you decloak, you may perform an :Evade: action. At the start of the End Phase, you may spend 1 evade token to gain 1 cloak token.',
     ]),

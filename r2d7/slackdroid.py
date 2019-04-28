@@ -75,7 +75,7 @@ You can also search for cards by points value in a particular slot. Eg. _[[:crew
         elif name == 'scumandvillainy':
             name = 'scum'
         elif name == 'galacticempire':
-            name = 'empire'
+            name = 'imperial'
         elif name == 'firstorder':
             name = 'first_order'
         return f":{name}:"

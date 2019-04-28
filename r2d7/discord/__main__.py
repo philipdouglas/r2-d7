@@ -59,13 +59,23 @@ class DiscordClient(discord.Client):
                         break
 
         if response:
-            response = '\n'.join(response)
             emoji_map = {f":{emoji.name}:": str(emoji) for emoji in self.emojis}
-            for slack_style, discord_style in emoji_map.items():
-                response = response.replace(slack_style, discord_style)
 
-            embed = discord.Embed(description=response)
-            await message.channel.send(embed=embed)
+            embeds = []
+            current_message = ''
+            for line in response:
+                fixed_line = line
+                for slack_style, discord_style in emoji_map.items():
+                    fixed_line = fixed_line.replace(
+                        slack_style, discord_style)
+                if len(current_message) + 2 + len(fixed_line) < 2048:
+                    current_message += f"\n{fixed_line}"
+                else:
+                    await message.channel.send(
+                        embed=discord.Embed(description=current_message))
+                    current_message = fixed_line
+            await message.channel.send(
+                embed=discord.Embed(description=current_message))
 
 
 def main():

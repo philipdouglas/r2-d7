@@ -39,43 +39,43 @@ class DiscordClient(discord.Client):
         if self.droid.needs_update():
             self.droid.load_data()
 
-        response = None
+        responses = None
 
         if isinstance(message.channel, discord.DMChannel):
             for regex, handle_method in self.droid._dm_handlers.items():
                 match = regex.search(message.clean_content)
                 if match:
-                    response = handle_method(match[1])
-                    if response:
+                    responses = handle_method(match[1])
+                    if responses:
                         break
 
-        if not response:
+        if not responses:
             for regex, handle_method in self.droid._handlers.items():
                 logger.debug(f"Checking {regex}")
                 match = regex.search(message.clean_content)
                 if match:
-                    response = handle_method(match[1])
-                    if response:
+                    responses = handle_method(match[1])
+                    if responses:
                         break
 
-        if response:
-            emoji_map = {f":{emoji.name}:": str(emoji) for emoji in self.emojis}
+        if responses:
+            for response in responses:
+                emoji_map = {f":{emoji.name}:": str(emoji) for emoji in self.emojis}
 
-            embeds = []
-            current_message = ''
-            for line in response:
-                fixed_line = line
-                for slack_style, discord_style in emoji_map.items():
-                    fixed_line = fixed_line.replace(
-                        slack_style, discord_style)
-                if len(current_message) + 2 + len(fixed_line) < 2048:
-                    current_message += f"\n{fixed_line}"
-                else:
-                    await message.channel.send(
-                        embed=discord.Embed(description=current_message))
-                    current_message = fixed_line
-            await message.channel.send(
-                embed=discord.Embed(description=current_message))
+                current_message = ''
+                for line in response:
+                    fixed_line = line
+                    for slack_style, discord_style in emoji_map.items():
+                        fixed_line = fixed_line.replace(
+                            slack_style, discord_style)
+                    if len(current_message) + 2 + len(fixed_line) < 2048:
+                        current_message += f"\n{fixed_line}"
+                    else:
+                        await message.channel.send(
+                            embed=discord.Embed(description=current_message))
+                        current_message = fixed_line
+                await message.channel.send(
+                    embed=discord.Embed(description=current_message))
 
 
 def main():

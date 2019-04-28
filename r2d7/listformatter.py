@@ -131,7 +131,7 @@ class ListFormatter(DroidCore):
             total_points += points
 
         output[0] += self.bold(f"[{total_points}]")
-        return output
+        return [output]
 
     def handle_url(self, message):
         xws = self.get_xws(message)

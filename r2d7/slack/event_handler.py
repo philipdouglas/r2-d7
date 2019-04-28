@@ -44,7 +44,7 @@ class RtmEventHandler(object):
                 self.droid.load_data()
 
             # Direct responses
-            response = []
+            responses = []
             if self.clients.is_bot_mention(msg_txt) or self._is_direct_message(event['channel']):
                 droid_id = self.clients.rtm.server.login_data['self']['id']
                 msg_txt = re.sub(f"<@{droid_id}>", '', msg_txt)
@@ -57,28 +57,29 @@ class RtmEventHandler(object):
                     for regex, handle_method in self.droid._dm_handlers.items():
                         match = regex.search(msg_txt)
                         if match:
-                            response = handle_method(match[1])
-                            if response:
+                            responses = handle_method(match[1])
+                            if responses:
                                 break
 
             # Don't handle if the dm_handlers have already got it
-            if not response:
+            if not responses:
                 # Watches
                 for regex, handle_method in self.droid._handlers.items():
                     match = regex.search(msg_txt)
                     if match:
-                        response = handle_method(match[1])
-                        if response:
+                        responses = handle_method(match[1])
+                        if responses:
                             break
 
             thread_ts = event.get('thread_ts', None)
 
-            if response:
-                self.messager.send_message(
-                    event['channel'],
-                    '\n'.join(response),
-                    thread=thread_ts,
-                )
+            if responses:
+                for response in responses:
+                    self.messager.send_message(
+                        event['channel'],
+                        '\n'.join(response),
+                        thread=thread_ts,
+                    )
 
     def _is_direct_message(self, channel):
         """Check if channel is a direct message channel

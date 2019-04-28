@@ -593,7 +593,7 @@ class CardLookup(DroidCore):
             if count > 10:
                 return ['Your search matched more than 10 cards, please be '
                         'more specific.']
-            output += self.print_card(card)
+            output.append(self.print_card(card))
         return output
 
     def handle_image_lookup(self, lookup):
@@ -605,7 +605,7 @@ class CardLookup(DroidCore):
                 return ['Your search matched more than 10 cards, please be '
                         'more specific.']
             output += self.print_image(card)
-        return output
+        return [output]
 
     def print_device(self, device):
         return [f"{self.bold(device['name'])} ({device['type']})"] + device['effect']

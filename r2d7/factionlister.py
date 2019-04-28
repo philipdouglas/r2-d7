@@ -41,4 +41,4 @@ class FactionLister(DroidCore):
         ))]
 
     def handle_faction_icon(self, message):
-        return self.print_faction_ships(message)
+        return [self.print_faction_ships(message)]

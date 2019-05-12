@@ -422,7 +422,7 @@ class CardLookup(DroidCore):
                 ands.append(' or '.join(ors))
         if ands:
             return self.italics('Restrictions: ' + ', '.join(ands))
-        return self.italics("Unrecognized restrictions")
+        return None
 
 
     def print_ship_ability(self, ability):
@@ -524,7 +524,9 @@ class CardLookup(DroidCore):
             ))))
 
             if 'restrictions' in card:
-                text.append(self.print_restrictions(card['restrictions']))
+                restrictions = self.print_restrictions(card['restrictions'])
+                if restrictions:
+                    text.append(restrictions)
 
             if is_pilot:
                 text.append(self.ship_stats(card['ship'], card))

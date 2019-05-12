@@ -236,6 +236,7 @@ def test_print_stat(testbot, stat, expected):
     ([{"non-limited": True}], "_Restrictions: Non-Limited_"),
     ([{"solitary": False}], None),
     ([{"non-limtied": False}], None),
+    ([{"force_side": ["dark"]}], "_Restrictions: Dark side_"),
 ])
 def test_print_restrictions(testbot, res, expected):
     assert testbot.print_restrictions(res) == expected

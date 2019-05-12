@@ -416,10 +416,13 @@ class CardLookup(DroidCore):
             if 'equipped' in restrict:
                 ors.append(
                     f"Equipped {''.join(self.iconify(slot) for slot in restrict['equipped'])}")
+            if 'force_side' in restrict:
+                ors += [f"{side.capitalize()} side" for side in restrict['force_side']]
             if ors:
                 ands.append(' or '.join(ors))
         if ands:
             return self.italics('Restrictions: ' + ', '.join(ands))
+        return self.italics("Unrecognized restrictions")
 
 
     def print_ship_ability(self, ability):

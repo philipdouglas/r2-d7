@@ -596,8 +596,8 @@ class CardLookup(DroidCore):
         for card in self.lookup(lookup):
             count += 1
             if count > 10:
-                return ['Your search matched more than 10 cards, please be '
-                        'more specific.']
+                return [['Your search matched more than 10 cards, please be '
+                         'more specific.']]
             output.append(self.print_card(card))
         return output
 
@@ -607,8 +607,8 @@ class CardLookup(DroidCore):
         for card in self.lookup(lookup):
             count += 1
             if count > 10:
-                return ['Your search matched more than 10 cards, please be '
-                        'more specific.']
+                return [['Your search matched more than 10 cards, please be '
+                         'more specific.']]
             output += self.print_image(card)
         return [output]
 

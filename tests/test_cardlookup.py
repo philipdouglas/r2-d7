@@ -6,7 +6,7 @@ from r2d7.slackdroid import SlackDroid
 
 print_card_tests = (
     ('tacticalofficer', [
-        ':crew: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Tactical_Officer|Tactical Officer>* [2] [Hyperspace]',
+        ':crew: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Tactical_Officer|Tactical Officer>* [6] [Hyperspace]',
         '_Restrictions: :redcoordinate:_',
         '_In the chaos of a starfighter battle, a single order can mean the difference between a victory and a massacre._',
         ':coordinate:',
@@ -21,7 +21,7 @@ print_card_tests = (
         ':redfrontarc::attack4::redrangebonusindicator:2-3 | :orangecharge::charge2:',
     ]),
     ('r2astromech', [
-        ':astromech: *<http://xwing-miniatures-second-edition.wikia.com/wiki/R2_Astromech|R2 Astromech>* [4] [Hyperspace]',
+        ':astromech: *<http://xwing-miniatures-second-edition.wikia.com/wiki/R2_Astromech|R2 Astromech>* [:greenagility::agility0:3:agility1:3:agility2:4:agility3:6] [Hyperspace]',
         'After you reveal your dial, you may spend 1 :charge: and gain 1 disarm token to recover 1 shield.',
         ':orangecharge::charge2:',
     ]),
@@ -49,16 +49,16 @@ print_card_tests = (
         '2 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank::blank:',
         '1 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank::blank:',
         '_*Microthrusters:*_ While you perform a barrel roll, you *must* use the :bankleft: or :bankright: template instead of the :straight: template.',
-        ':scum: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Enforcer|Black Sun Enforcer> [46], :initiative3:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Assassin|Black Sun Assassin> :talent: [48], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Dalan_Oberos|Dalan Oberos> :talent: [54], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Prince_Xizor|Prince Xizor> :talent: [54], :initiative5:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri> :talent: :calculate: [63]',
+        ':scum: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Enforcer|Black Sun Enforcer> [46], :initiative3:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Assassin|Black Sun Assassin> :talent: [48], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Dalan_Oberos|Dalan Oberos> :talent: [54], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Prince_Xizor|Prince Xizor> :talent: [54], :initiative5:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri> :talent: :calculate: [64]',
     ]),
     ('guri', [
-        ':starviperclassattackplatform: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri>*: _Prince Xizor\'s Bodyguard_ [63] [Hyperspace]',
+        ':starviperclassattackplatform: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri>*: _Prince Xizor\'s Bodyguard_ [64] [Hyperspace]',
         ':scum:  :initiative5::redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1:  :calculate:|:targetlock:|:barrelroll::linked::redcalculate:|:boost::linked::redcalculate:  :talent::sensor::torpedo::modification::title:',
         'At the start of the Engagement Phase, if there is at least 1 enemy ship at range 0-1, you may gain 1 focus token.',
         '_*Microthrusters:*_ While you perform a barrel roll, you *must* use the :bankleft: or :bankright: template instead of the :straight: template.',
     ]),
     ('imdaartestpilot', [
-        ':tiephphantom: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Imdaar_Test_Pilot|Imdaar Test Pilot>* [43]',
+        ':tiephphantom: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Imdaar_Test_Pilot|Imdaar Test Pilot>* [44]',
         ':imperial:  :initiative3::redfrontarc::attack3::greenagility::agility2::yellowhull::hull3::blueshield::shield2:  :focus:|:evade:|:barrelroll:|:cloak:  :sensor::modification::gunner:',
         '_The primary result of a hidden research facility on Imdaar Alpha, the TIE phantom achieves what many thought was impossible: a small starfighter equipped with an advanced cloaking device._',
         '_*Stygium Array:*_ After you decloak, you may perform an :evade: action. At the start of the End Phase, you may spend 1 evade token to gain 1 cloak token.',
@@ -80,7 +80,7 @@ print_card_tests = (
         'After you are destroyed, you *must* choose another friendly ship and assign this condition to it, if able.',
     ]),
     ('agentkallus', [
-        ':crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Agent_Kallus|Agent Kallus>* [6]',
+        ':crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Agent_Kallus|Agent Kallus>* [5] [Hyperspace]',
         '_Restrictions: Imperial_',
         '*Setup:* Assign the _*Hunted*_ condition to 1 enemy ship. While you perform an attack against the ship with the _*Hunted*_ condition, you may change 1 of your :focus: results to a :hit: result.',
         ':condition: *Hunted*',
@@ -127,9 +127,9 @@ lookup_tests = {
     ':gunner: Han solo': [('hansolo', 'gunner'), ('hansolo-gunner', 'gunner')],
     'Han solo :gunner:': [('hansolo', 'gunner'), ('hansolo-gunner', 'gunner')],
     ':astromech: r2d2': [('r2d2', 'astromech')],
-    'guri]]   [[finn': [('guri', 'pilot'), ('finn', 'gunner')],
+    'guri]]   [[finn': [('guri', 'pilot'), ('finn', 'gunner'), ('finn', 'pilot')],
     'guri]]   [[finn]] [[:astromech: r2d2]]': [
-        ('guri', 'pilot'), ('finn', 'gunner'), ('r2d2', 'astromech')],
+        ('guri', 'pilot'), ('finn', 'gunner'), ('finn', 'pilot'), ('r2d2', 'astromech')],
     'han': [
         ('hansolo-crew', 'crew'),
         ('hansolo', 'gunner'),
@@ -160,8 +160,8 @@ def test_lookup(testbot, lookup, expected):
     assert actual == expected
 
 def test_card_limit(testbot):
-    assert testbot.handle_lookup('tie') == [
-        'Your search matched more than 10 cards, please be more specific.']
+    assert testbot.handle_lookup('tie') == [[
+        'Your search matched more than 10 cards, please be more specific.']]
 
 @pytest.mark.parametrize('dialgen, slack', (
     ([
@@ -252,11 +252,11 @@ def test_print_ship_ability(testbot, pilot, expected):
 @pytest.mark.parametrize('ship, expected', [
     ('starviperclassattackplatform', [
         '_*Microthrusters:*_ While you perform a barrel roll, you *must* use the :bankleft: or :bankright: template instead of the :straight: template.',
-        ':scum: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Enforcer|Black Sun Enforcer> [46], :initiative3:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Assassin|Black Sun Assassin> :talent: [48], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Dalan_Oberos|Dalan Oberos> :talent: [54], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Prince_Xizor|Prince Xizor> :talent: [54], :initiative5:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri> :talent: :calculate: [63]',
+        ':scum: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Enforcer|Black Sun Enforcer> [46], :initiative3:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Assassin|Black Sun Assassin> :talent: [48], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Dalan_Oberos|Dalan Oberos> :talent: [54], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Prince_Xizor|Prince Xizor> :talent: [54], :initiative5:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri> :talent: :calculate: [64]',
     ]),
     ('hwk290lightfreighter', [
-        ':rebel: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Rebel_Scout|Rebel Scout> [33], :initiative3:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Kyle_Katarn|Kyle Katarn> :talent: [39], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Roark_Garnet|Roark Garnet> :talent: [43], :initiative5:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Jan_Ors|Jan Ors> :talent: [44]',
-        ':scum: :initiative1:<http://xwing-miniatures-second-edition.wikia.com/wiki/Spice_Runner|Spice Runner> :illicit: [32], :initiative2:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Torkil_Mux|Torkil Mux> :illicit: [38], :initiative3:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Palob_Godalhi|Palob Godalhi> :talent::illicit: [40], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Dace_Bonearm|Dace Bonearm> :talent::illicit: [35]'
+        ':rebel: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Rebel_Scout|Rebel Scout> [30], :initiative3:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Kyle_Katarn|Kyle Katarn> :talent: [36], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Roark_Garnet|Roark Garnet> :talent: [41], :initiative5:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Jan_Ors|Jan Ors> :talent: [43]',
+        ':scum: :initiative1:<http://xwing-miniatures-second-edition.wikia.com/wiki/Spice_Runner|Spice Runner> :illicit: [31], :initiative2:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Torkil_Mux|Torkil Mux> :illicit: [37], :initiative3:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Palob_Godalhi|Palob Godalhi> :talent::illicit: [40], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Dace_Bonearm|Dace Bonearm> :talent::illicit: [34]'
     ]),
     ('escapecraft', [
         '_*Rigged Energy Cells:*_ During the System Phase, if you are not docked, lose 1 :charge:. At the end of the Activation Phase, if you have 0 :charge:, you are destroyed. Before you are removed, each ship at range 0-1 suffers 1 :crit: damage.',
@@ -282,7 +282,7 @@ def test_list_pilots(testbot, ship, expected):
      ':rebel:  :initiative5::redfrontarc::attack3::greenagility::agility2::yellowhull::hull4::blueshield::shield2::purpleforcecharge::forcecharge2recurring:  :focus:|:targetlock:|:barrelroll:  :torpedo::astromech::modification::forcepower::configuration:'
     ),
     ('kihraxzfighter', None,
-     ':redfrontarc::attack3::greenagility::agility2::yellowhull::hull5::blueshield::shield1:  :focus:|:targetlock:|:barrelroll:  :missile::illicit::modification::modification::modification:'
+     ':redfrontarc::attack3::greenagility::agility2::yellowhull::hull5::blueshield::shield1:  :focus:|:targetlock:|:barrelroll:  :missile::illicit::illicit::modification::modification:'
     )
 ])
 def test_ship_stats(testbot, ship, pilot, expected):
@@ -293,7 +293,7 @@ def test_ship_stats(testbot, ship, pilot, expected):
 
 @pytest.mark.parametrize('card, expected', [
     ('munitionsfailsafe', '[1]'),
-    ('guri', '[63]'),
+    ('guri', '[64]'),
     ('shieldupgrade', '[:greenagility::agility0:3:agility1:4:agility2:6:agility3:8]'),
     ('engineupgrade', '[:smallbase:2:mediumbase:4:largebase:7]'),
     ('bb8', '[:initiative0:2:initiative1:3:initiative2:4:initiative3:5:initiative4:6:initiative5:7:initiative6:8]'),

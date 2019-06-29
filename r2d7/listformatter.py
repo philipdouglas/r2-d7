@@ -18,8 +18,12 @@ class ListFormatter(DroidCore):
 
     _regexes = (
         re.compile(r'(https?://(raithos)\.github\.io/\?(.*))'),
-        re.compile(r'(https://(squadbuilder)\.fantasyflightgames\.com/squad-preview/([a-zA-Z0-9\-]+))'),
-        re.compile( r'(https://devjonny\.github\.io/(xwing2estopgap)/[a-z]+\?id=([a-zA-Z0-9\-]+))')
+        re.compile(
+            r'(https://(squadbuilder)\.fantasyflightgames\.com/squad-preview/([a-zA-Z0-9\-]+))'),
+        re.compile(
+            r'(https://devjonny\.github\.io/(xwing2estopgap)/[a-z]+\?id=([a-zA-Z0-9\-]+))'),
+        re.compile(
+            r'(https://(launch-bay-next)\.herokuapp\.com/[a-z]+\?lbx=([^&]+)(?:&mode=[a-z]+)?)'),
     )
 
     def get_xws(self, message):
@@ -39,6 +43,8 @@ class ListFormatter(DroidCore):
             xws_url = f"http://sb2xws.herokuapp.com/translate/{match[3]}"
         if match[2] == 'xwing2estopgap':
             xws_url = f"https://o8l90u2pyd.execute-api.eu-west-2.amazonaws.com/live/idtoxws?id={match[3]}"
+        if match[2] == 'launch-bay-next':
+            xws_url = f"https://launch-bay-next.herokuapp.com/xws?lbx={match[3]}"
 
         if xws_url:
             xws_url = unescape(xws_url)

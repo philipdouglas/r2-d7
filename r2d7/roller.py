@@ -27,12 +27,12 @@ class Die(object):
             'crit': ':crit:',
             'focus': ':focus:',
             'evade': ':evade:',
-            'blank': '   ',
+            'blank': ':blank:',
             None: ' ? '
             }
 
     def __init__(self, die_type):
-        self.result == None
+        self.result = None
         self.die_type = die_type
         self.faces = Die._faces[self.die_type]
 
@@ -62,7 +62,7 @@ class ModdedRoll(object):
             'focus':re.compile('focus', re.I),
             'evade':re.compile('evade', re.I),
             'reinforce':re.compile('reinforce', re.I),
-            'lock':re.compile('(target )?lock(ed?)', re.I),
+            'lock':re.compile('(target )?lock(ed)?', re.I),
             'calculate':re.compile('(?P<calculate>([0-9]+ ?calc(ulate)?)|(calc(ulate)? ?[0-9]*))', re.I),
             'force':re.compile('(?P<force>([0-9]+ ?force)|(force ?[0-9]*))', re.I),
             'reroll':re.compile('(?P<reroll>([0-9]+ ?reroll)|(reroll ?[0-9]*))', re.I)
@@ -102,14 +102,20 @@ class ModdedRoll(object):
             if match_calculate:
                 match_count = ModdedRoll.pattern_count.search(match_calculate.group(1))
                 self.calculate = int(match_count.group(1)) if match_count is not None else 1
+            else:
+                self.calculate = 0
             match_force = ModdedRoll.pattern_mod['force'].search(message)
             if match_force:
                 match_count = ModdedRoll.pattern_count.search(match_force.group(1))
                 self.force = int(match_count.group(1)) if match_count is not None else 1
+            else:
+                self.force = 0
             match_reroll = ModdedRoll.pattern_mod['reroll'].search(message)
             if match_reroll:
                 match_count = ModdedRoll.pattern_count.search(match_reroll.group(1))
                 self.reroll = int(match_count.group(1)) if match_count is not None else 1
+            else:
+                self.reroll = 0
 
         except Exception as err:
             logger.debug('roll parsing error: %s \n message: %s' % (str(err), message))
@@ -118,20 +124,11 @@ class ModdedRoll(object):
 
     def actual_roll(self):
         # debug output to check proper init TODO delete this
-        debug = [':jar_jar:']
-        debug.append('num_dice: %s' % str(self.num_dice))
-        debug.append('die type: %s' % str(self.die_type))
-        debug.append('focus: %s' % str(self.focus))
-        debug.append('evade: %s' % str(self.evade))
-        debug.append('reinforce: %s' % str(self.reinforce))
-        debug.append('lock: %s' % str(self.lock))
-        debug.append('calculate: %s' % str(self.calculate))
-        debug.append('force: %s' % str(self.force))
-        debug.append('reroll: %s' % str(self.reroll))
-        #TODO calculate roll with greedy modding
-        if self.
-        dice = [
-        return debug
+        dice = [Die(self.die_type) for i in range(self.num_dice)]
+        [d.roll() for d in dice]
+        #TODO mod roll with greedy modding
+        output = ''.join([str(d) for d in dice])
+        return output
 
     def expected_result(self):
         #TODO hit the calculator for an expected result

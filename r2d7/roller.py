@@ -14,25 +14,46 @@ class DieType(Enum):
     defence = 'def'
 
 class Die(object):
-    faces = []
+    _faces = {
+            DieType.attack: ['hit', 'hit', 'hit', 'crit', 'blank', 'blank', 'focus', 'focus'],
+            DieType.defence:['evade', 'evade', 'evade', 'blank', 'blank', 'blank', 'focus', 'focus']
+            }
+    _focussed = {
+            DieType.attack: 'hit',
+            DieType.defence:'evade'
+            }
+    _emoji = {
+            'hit': ':hit:',
+            'crit': ':crit:',
+            'focus': ':focus:',
+            'evade': ':evade:',
+            'blank': '   ',
+            None: ' ? '
+            }
+
+    def __init__(self, die_type):
+        self.result == None
+        self.die_type = die_type
+        self.faces = Die._faces[self.die_type]
 
     def roll(self):
-        return random.choice(self.faces)
+        self.result = random.choice(self.faces)
+        return self.result
 
-class AttackDie(Die):
-    faces = ['hit', 'hit', 'hit', 'crit', 'blank', 'blank', 'focus', 'focus']
-    die_type = DieType.attack
+    def focus(self):
+        if self.result == focus:
+            self.result = Die._focussed[self.die_type]
+        return self.result
 
-class DefenceDie(Die):
-    faces = ['evade', 'evade', 'evade', 'blank', 'blank', 'blank', 'focus', 'focus']
-    die_type = DieType.defence
+    def __str__(self):
+        return '/%s\\' % Die._emoji[self.result]
 
 class RollSyntaxError(Exception):
     pass
 
 class ModdedRoll(object):
-    _re_def = '((green)|(g))'
-    _re_atk = '((red)|(r))'
+    _re_def = '((green)|(g(?![a-z])))'
+    _re_atk = '((red)|(r(?![a-z])))'
     pattern_def = re.compile(_re_def, re.I)
     pattern_atk = re.compile(_re_atk, re.I)
     pattern_main = re.compile('(?P<num_dice>[0-9]+) ?(?P<color>%s|%s)' % (_re_def, _re_atk), re.I)
@@ -61,6 +82,7 @@ class ModdedRoll(object):
             print('roll parsing error: unknown number of dice: %s \n message: %s' % (str(err), message))
             raise RollSyntaxError('I don\'t know how many dice you want me to roll')
 
+        color_string = match_main.group('color') or ''
         if ModdedRoll.pattern_atk.search(message):
             self.die_type = DieType.attack
         elif ModdedRoll.pattern_def.search(message):
@@ -95,8 +117,21 @@ class ModdedRoll(object):
             raise RollSyntaxError('Incorrect dice roll syntax. Someone call a judge.')
 
     def actual_roll(self):
+        # debug output to check proper init TODO delete this
+        debug = [':jar_jar:']
+        debug.append('num_dice: %s' % str(self.num_dice))
+        debug.append('die type: %s' % str(self.die_type))
+        debug.append('focus: %s' % str(self.focus))
+        debug.append('evade: %s' % str(self.evade))
+        debug.append('reinforce: %s' % str(self.reinforce))
+        debug.append('lock: %s' % str(self.lock))
+        debug.append('calculate: %s' % str(self.calculate))
+        debug.append('force: %s' % str(self.force))
+        debug.append('reroll: %s' % str(self.reroll))
         #TODO calculate roll with greedy modding
-        return ':jar_jar:'
+        if self.
+        dice = [
+        return debug
 
     def expected_result(self):
         #TODO hit the calculator for an expected result
@@ -118,9 +153,9 @@ class VsRoll(object):
 
     def output(self):
         output = ['You rolled:']
-        output.append(atk_roll.actual_roll())
+        output.append(self.atk_roll.actual_roll())
         output.append('vs')
-        output.append(def_roll.actual_roll())
+        output.append(self.def_roll.actual_roll())
         #TODO output.append('<INSERT CALC URL|Expected damage>: %s' % expected_damage)
         return output
 
@@ -145,7 +180,7 @@ class Roller(DroidCore):
                     modded_rolls = [ModdedRoll(r) for r in roll_strings]
                     if modded_rolls[0].die_type == modded_rolls[1].die_type:
                         raise RollSyntaxError('Opposing rolls cannot have same color')
-                    elif modded_rolls[0].die_type == attack:
+                    elif modded_rolls[0].die_type == DieType.attack:
                         roll = VsRoll(modded_rolls[0], modded_rolls[1])
                     else:
                         roll = VsRoll(modded_rolls[1], modded_rolls[0])

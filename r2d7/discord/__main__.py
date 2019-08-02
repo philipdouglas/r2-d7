@@ -18,7 +18,8 @@ class Droid(
         DiscordDroid,
         ListFormatter,
         CardLookup,
-        FactionLister):
+        FactionLister,
+        Roller):
     pass
 
 

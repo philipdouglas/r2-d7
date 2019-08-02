@@ -26,7 +26,8 @@ class Droid(
         SlackDroid,
         ListFormatter,
         CardLookup,
-        FactionLister):
+        FactionLister,
+        Roller):
     pass
 
 

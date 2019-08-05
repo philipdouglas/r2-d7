@@ -14,44 +14,85 @@ class DieType(Enum):
     defence = 'def'
 
 class Die(object):
-    _faces = {
-            DieType.attack: ['hit', 'hit', 'hit', 'crit', 'blank', 'blank', 'focus', 'focus'],
-            DieType.defence:['evade', 'evade', 'evade', 'blank', 'blank', 'blank', 'focus', 'focus']
+    """
+    Skeleton base class. Subclasses should populate the fields below
+    """
+    _faces = []
+    _focussed = None
+    _emoji = {
+            None: ' ? '
             }
-    _focussed = {
-            DieType.attack: 'hit',
-            DieType.defence:'evade'
-            }
+    _positive_faces = []
+    die_type = None
+
+    def __init__(self):
+        self.roll() # to place a die on the table, you have to roll it
+
+    def roll(self):
+        self.result = random.choice(self._faces)
+        return self.result
+
+    def reroll(self):
+        if self.result not in self._positive_faces:
+            self.roll()
+            return True
+        else:
+            return False
+
+    def focus(self):
+        if self.result == 'focus':
+            self.result = self._focussed
+            return True
+        else:
+            return False
+
+    def __str__(self):
+        return '/%s\\' % self._emoji[self.result]
+
+class AttackDie(Die):
+    _faces = ['hit', 'hit', 'hit', 'crit', 'blank', 'blank', 'focus', 'focus']
+    _focussed = 'hit'
     _emoji = {
             'hit': ':hit:',
             'crit': ':crit:',
+            'focus': ':focus:',
+            'blank': ':blank:',
+            None: ' ? '
+            }
+    _positive_faces = ['hit','crit']
+    die_type = DieType.attack
+
+class DefenceDie(Die):
+    _faces = ['evade', 'evade', 'evade', 'blank', 'blank', 'blank', 'focus', 'focus']
+    _focussed = 'evade'
+    _emoji = {
             'focus': ':focus:',
             'evade': ':evade:',
             'blank': ':blank:',
             None: ' ? '
             }
+    _positive_faces = ['evade']
+    die_type = DieType.defence
 
-    def __init__(self, die_type):
-        self.result = None
-        self.die_type = die_type
-        self.faces = Die._faces[self.die_type]
+    def evade(self):
+        if self.result not in self._positive_faces:
+            self.result = self._positive_faces[0]
+            return True
+        else:
+            return False
 
-    def roll(self):
-        self.result = random.choice(self.faces)
-        return self.result
-
-    def focus(self):
-        if self.result == focus:
-            self.result = Die._focussed[self.die_type]
-        return self.result
-
-    def __str__(self):
-        return '/%s\\' % Die._emoji[self.result]
+dieFactory = {
+        DieType.attack: AttackDie,
+        DieType.defence: DefenceDie
+        }
 
 class RollSyntaxError(Exception):
     pass
 
 class ModdedRoll(object):
+    """
+    Class for managing all aspects of a roll. It parses, it rolls, it queries the online calculator.
+    """
     _re_def = '((green)|(g(?![a-z])))'
     _re_atk = '((red)|(r(?![a-z])))'
     pattern_def = re.compile(_re_def, re.I)
@@ -59,9 +100,9 @@ class ModdedRoll(object):
     pattern_main = re.compile('(?P<num_dice>[0-9]+) ?(?P<color>%s|%s)' % (_re_def, _re_atk), re.I)
     pattern_count = re.compile('([0-9]+)', re.I)
     pattern_mod = {
-            'focus':re.compile('focus', re.I),
-            'evade':re.compile('evade', re.I),
-            'reinforce':re.compile('reinforce', re.I),
+            'focus':re.compile('(?P<focus>([0-9]+ ?focus)|(focus ?[0-9]*))', re.I),
+            'evade':re.compile('(?P<evade>([0-9]+ ?evade)|(evade ?[0-9]*))', re.I),
+            'reinforce':re.compile('(?P<reinforce>([0-9]+ ?reinforce)|(reinforce ?[0-9]*))', re.I),
             'lock':re.compile('(target )?lock(ed)?', re.I),
             'calculate':re.compile('(?P<calculate>([0-9]+ ?calc(ulate)?)|(calc(ulate)? ?[0-9]*))', re.I),
             'force':re.compile('(?P<force>([0-9]+ ?force)|(force ?[0-9]*))', re.I),
@@ -91,13 +132,26 @@ class ModdedRoll(object):
             logger.debug('roll parsing error: no dice color found')
             print('roll parsing error: no dice color found')
             raise RollSyntaxError('I don\'t know what color dice you want me to roll')
+        self.dice = [dieFactory[self.die_type]() for i in range(self.num_dice)]
 
         try:
             self.focus = ModdedRoll.pattern_mod['focus'].search(message) is not None
-            self.evade = ModdedRoll.pattern_mod['evade'].search(message) is not None
-            self.reinforce = ModdedRoll.pattern_mod['reinforce'].search(message) is not None
             self.lock = ModdedRoll.pattern_mod['lock'].search(message) is not None
 
+            #TODO functionise this using get_attr
+
+            match_evade = ModdedRoll.pattern_mod['evade'].search(message)
+            if match_evade:
+                match_count = ModdedRoll.pattern_count.search(match_evade.group(1))
+                self.evade = int(match_count.group(1)) if match_count is not None else 1
+            else:
+                self.evade = 0
+            match_reinforce = ModdedRoll.pattern_mod['reinforce'].search(message)
+            if match_reinforce:
+                match_count = ModdedRoll.pattern_count.search(match_reinforce.group(1))
+                self.reinforce = int(match_count.group(1)) if match_count is not None else 1
+            else:
+                self.reinforce = 0
             match_calculate = ModdedRoll.pattern_mod['calculate'].search(message)
             if match_calculate:
                 match_count = ModdedRoll.pattern_count.search(match_calculate.group(1))
@@ -122,13 +176,50 @@ class ModdedRoll(object):
             print('roll parsing error: %s \n message: %s' % (str(err), message))
             raise RollSyntaxError('Incorrect dice roll syntax. Someone call a judge.')
 
+        self.modify_dice()
+
     def actual_roll(self):
-        # debug output to check proper init TODO delete this
-        dice = [Die(self.die_type) for i in range(self.num_dice)]
-        [d.roll() for d in dice]
-        #TODO mod roll with greedy modding
-        output = ''.join([str(d) for d in dice])
+        output = ''.join([str(d) for d in self.dice])
+        # reinforce is a special case
+        # It can't be meaningfully added without knowing the attack roll
+        # Instead of implementing it as an added result, just show that
+        # there were reinforce tokens in play. This is just as useful to
+        # users and is much simpler to implement.
+        if self.reinforce > 0 and self.die_type == DieType.defence:
+            output = output + ' + ' + ':reinforce:'*self.reinforce
         return output
+
+    def modify_dice(self):
+        if len(self.dice) == 0:
+            return
+
+        #reroll first!
+        if self.die_type == DieType.attack and self.lock:
+            [d.reroll() for d in self.dice]
+        elif self.reroll > 0:
+            rerolls = self.reroll
+            for d in self.dice:
+                rerolls = rerolls - 1 if d.reroll() else rerolls
+                if rerolls == 0:
+                    break
+
+        # apply other mods
+        # this is a 1-off calculation so we can spend force greedily
+        calculates = self.calculate
+        force = self.force
+        evades = self.evade
+        for d in self.dice:
+            focussed = False
+            if self.focus:
+                focussed = d.focus()
+            elif calculates > 0:
+                focussed = d.focus()
+                calculates = calculates - 1 if focussed else calculates
+            elif force > 0:
+                focussed = d.focus()
+                force = force - 1 if focussed else force
+            if not focussed and evades > 0 and d.die_type == DieType.defence:
+                evades = evades - 1 if d.evade() else evades
 
     def expected_result(self):
         #TODO hit the calculator for an expected result
@@ -142,6 +233,9 @@ class ModdedRoll(object):
         return output
 
 class VsRoll(object):
+    """
+    An attack roll and opposing defence roll
+    """
     def __init__(self, atk_roll, def_roll):
         if atk_roll.die_type != DieType.attack or def_roll.die_type != DieType.defence:
             raise RollSyntaxError('Invalid dice types for vs roll')
@@ -157,6 +251,9 @@ class VsRoll(object):
         return output
 
 class Roller(DroidCore):
+    """
+    Handler class, contains slack chat logic
+    """
     pattern_handler = re.compile('(!roll.*)', re.I)
     pattern_vs = re.compile('(?P<vs>(vs)|(versus))', re.I)
     pattern_syntax = re.compile('syntax', re.I)

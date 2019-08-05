@@ -135,41 +135,13 @@ class ModdedRoll(object):
         self.dice = [dieFactory[self.die_type]() for i in range(self.num_dice)]
 
         try:
-            self.focus = ModdedRoll.pattern_mod['focus'].search(message) is not None
-            self.lock = ModdedRoll.pattern_mod['lock'].search(message) is not None
-
-            #TODO functionise this using get_attr
-
-            match_evade = ModdedRoll.pattern_mod['evade'].search(message)
-            if match_evade:
-                match_count = ModdedRoll.pattern_count.search(match_evade.group(1))
-                self.evade = int(match_count.group(1)) if match_count is not None else 1
-            else:
-                self.evade = 0
-            match_reinforce = ModdedRoll.pattern_mod['reinforce'].search(message)
-            if match_reinforce:
-                match_count = ModdedRoll.pattern_count.search(match_reinforce.group(1))
-                self.reinforce = int(match_count.group(1)) if match_count is not None else 1
-            else:
-                self.reinforce = 0
-            match_calculate = ModdedRoll.pattern_mod['calculate'].search(message)
-            if match_calculate:
-                match_count = ModdedRoll.pattern_count.search(match_calculate.group(1))
-                self.calculate = int(match_count.group(1)) if match_count is not None else 1
-            else:
-                self.calculate = 0
-            match_force = ModdedRoll.pattern_mod['force'].search(message)
-            if match_force:
-                match_count = ModdedRoll.pattern_count.search(match_force.group(1))
-                self.force = int(match_count.group(1)) if match_count is not None else 1
-            else:
-                self.force = 0
-            match_reroll = ModdedRoll.pattern_mod['reroll'].search(message)
-            if match_reroll:
-                match_count = ModdedRoll.pattern_count.search(match_reroll.group(1))
-                self.reroll = int(match_count.group(1)) if match_count is not None else 1
-            else:
-                self.reroll = 0
+            self.parse_mod_boolean('focus', message)
+            self.parse_mod_boolean('lock', message)
+            self.parse_mod_numeric('evade', message)
+            self.parse_mod_numeric('reinforce', message)
+            self.parse_mod_numeric('calculate', message)
+            self.parse_mod_numeric('force', message)
+            self.parse_mod_numeric('reroll', message)
 
         except Exception as err:
             logger.debug('roll parsing error: %s \n message: %s' % (str(err), message))
@@ -177,6 +149,19 @@ class ModdedRoll(object):
             raise RollSyntaxError('Incorrect dice roll syntax. Someone call a judge.')
 
         self.modify_dice()
+
+    def parse_mod_boolean(self, attr_name, message):
+        value = ModdedRoll.pattern_mod[attr_name].search(message) is not None
+        object.__setattr__(self, attr_name, value)
+
+    def parse_mod_numeric(self, attr_name, message):
+        match_mod = ModdedRoll.pattern_mod[attr_name].search(message)
+        if match_mod:
+            match_count = ModdedRoll.pattern_count.search(match_mod.group(1))
+            value = int(match_count.group(1)) if match_count is not None else 1
+        else:
+            value = 0
+        object.__setattr__(self, attr_name, value)
 
     def actual_roll(self):
         output = ''.join([str(d) for d in self.dice])
@@ -203,7 +188,7 @@ class ModdedRoll(object):
                 if rerolls == 0:
                     break
 
-        # apply other mods
+        # after reroll, apply other mods
         # this is a 1-off calculation so we can spend force greedily
         calculates = self.calculate
         force = self.force

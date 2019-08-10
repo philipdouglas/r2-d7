@@ -164,6 +164,10 @@ fonts = {
         'sithinfiltrator': ']',
         'v19torrentstarfighter': '^',
         'vultureclassdroidfighter': '_',
+        'resistancetransport': '{',
+        'resistancetransportpod': '}',
+        'hyenaclassdroidbomber': '=',
+        'nabooroyaln1starfighter': '<',
     }
 }
 

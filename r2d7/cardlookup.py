@@ -188,10 +188,11 @@ class CardLookup(DroidCore):
                     yield card
 
                     if 'conditions' in card:
-                        for condition in self.data['condition'].values():
+                        for condition in chain.from_iterable(
+                                self.data['conditions'].values()):
                             if condition['_id'] in cards_yielded:
                                 continue
-                            if condition['xws'] in card['conditions']:
+                            if condition['name'] in card['conditions']:
                                 yield condition
                                 cards_yielded.add(condition['_id'])
 

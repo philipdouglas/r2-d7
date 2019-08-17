@@ -51,13 +51,13 @@ def main():
     elif redis_url:
         logging.info("SLACK_TOKEN env var not set, connecting to Redis")
         store = redis.from_url(redis_url)
+        seen_keys = set()
         for teamname in store.keys():
-            SlackBot(
-                droid,
-                name=teamname,
-                token=store.get(teamname),
-                debug=debug
-            ).start()
+            key = store.get(teamname)
+            if key in seen_keys:
+                logger.warning(f"Duplicate team found in redis: {teamname}")
+            seen_keys.add(key)
+            SlackBot(droid, name=teamname, token=key, debug=debug).start()
     else:
         logging.error("No source of slack tokens found, exiting.")
         return()

@@ -56,6 +56,7 @@ def main():
             key = store.get(teamname)
             if key in seen_keys:
                 logger.warning(f"Duplicate team found in redis: {teamname}")
+                continue
             seen_keys.add(key)
             SlackBot(droid, name=teamname, token=key, debug=debug).start()
     else:

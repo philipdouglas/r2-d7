@@ -38,6 +38,7 @@ class RtmEventHandler(object):
         # Filter out messages from the bot itself, and from non-users (eg. webhooks)
         if ('user' in event) and (not self.clients.is_a_bot(event['user'])):
             # Skip dulicate events
+            logger.debug(f"Last message id: {self.last_message_id} New message id: {event['client_msg_id']}")
             if event['client_msg_id'] == self.last_message_id:
                 logger.debug("Duplicate event detected!")
                 return

@@ -33,7 +33,7 @@ def main():
     debug = os.getenv('DEBUG', False)
     log_level = 'DEBUG' if debug else 'INFO'
     logging.basicConfig(
-        format='%(asctime)s - %(levelname)s: %(message)s',
+        format='%(asctime)s [%(process)d] Slack - %(levelname)s: %(message)s',
         level=log_level
     )
 

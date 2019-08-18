@@ -5,3 +5,4 @@ python-dateutil==2.6.1
 redis==2.10.6
 flask==0.12.3
 discord==1.0.1
+selenium>=3.141.0

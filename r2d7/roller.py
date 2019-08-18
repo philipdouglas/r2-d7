@@ -120,7 +120,6 @@ class ModdedRoll(object):
             self.num_dice = int(match_main.group('num_dice'))
         except Exception as err:
             logger.debug('roll parsing error: unknown number of dice: %s \n message: %s' % (str(err), message))
-            print('roll parsing error: unknown number of dice: %s \n message: %s' % (str(err), message))
             raise RollSyntaxError('I don\'t know how many dice you want me to roll')
 
         color_string = match_main.group('color') or ''
@@ -130,7 +129,6 @@ class ModdedRoll(object):
             self.die_type = DieType.defence
         else:
             logger.debug('roll parsing error: no dice color found')
-            print('roll parsing error: no dice color found')
             raise RollSyntaxError('I don\'t know what color dice you want me to roll')
         self.dice = [dieFactory[self.die_type]() for i in range(self.num_dice)]
 
@@ -145,8 +143,11 @@ class ModdedRoll(object):
 
         except Exception as err:
             logger.debug('roll parsing error: %s \n message: %s' % (str(err), message))
-            print('roll parsing error: %s \n message: %s' % (str(err), message))
             raise RollSyntaxError('Incorrect dice roll syntax. Someone call a judge.')
+
+        if self.reroll > 3:
+            logger.debug('Too many rerolls requested (max: 3, requested: %d)' % (self.reroll))
+            raise RollSyntaxError('Sorry, the calculator only allows up to 3 rerolls')
 
         self.modify_dice()
 

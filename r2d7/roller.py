@@ -1,8 +1,8 @@
-from collections import OrderedDict
 from enum import Enum
 import logging
 import re
 import random
+from .calculator import *
 
 from r2d7.core import DroidCore, DroidException
 
@@ -122,6 +122,10 @@ class ModdedRoll(object):
             logger.debug('roll parsing error: unknown number of dice: %s \n message: %s' % (str(err), message))
             raise RollSyntaxError('I don\'t know how many dice you want me to roll')
 
+        if self.num_dice > 100:
+            logger.debug('Too many dice requested (max: 100, requested: %d)' % (self.num_dice))
+            raise RollSyntaxError('Sorry, I can\'t carry more than 100 dice, and chopper won\'t help :chopper:')
+
         color_string = match_main.group('color') or ''
         if ModdedRoll.pattern_atk.search(message):
             self.die_type = DieType.attack
@@ -164,17 +168,6 @@ class ModdedRoll(object):
             value = 0
         object.__setattr__(self, attr_name, value)
 
-    def actual_roll(self):
-        output = ''.join([str(d) for d in self.dice])
-        # reinforce is a special case
-        # It can't be meaningfully added without knowing the attack roll
-        # Instead of implementing it as an added result, just show that
-        # there were reinforce tokens in play. This is just as useful to
-        # users and is much simpler to implement.
-        if self.reinforce > 0 and self.die_type == DieType.defense:
-            output = output + ' + ' + ':reinforce:'*self.reinforce
-        return output
-
     def modify_dice(self):
         if len(self.dice) == 0:
             return
@@ -207,15 +200,56 @@ class ModdedRoll(object):
             if not focussed and evades > 0 and d.die_type == DieType.defense:
                 evades = evades - 1 if d.evade() else evades
 
-    def expected_result(self):
-        #TODO hit the calculator for an expected result
-        # don't forget to set max_force = force
-        return ':barrelroll:'
+    def calculator_form(self):
+        if self.die_type == DieType.attack:
+            form = AttackForm(dice = len(self.dice),
+                    focus = 1 if self.focus else 0,
+                    calculate = self.calculate,
+                    evade = self.evade,
+                    reinforce = self.reinforce,
+                    lock = 1 if self.lock else 0,
+                    force = self.force,
+                    reroll = self.reroll)
+        else:
+            form = DefenseForm(dice = len(self.dice),
+                    focus = 1 if self.focus else 0,
+                    calculate = self.calculate,
+                    evade = self.evade,
+                    reinforce = self.reinforce,
+                    lock = 1 if self.lock else 0,
+                    force = self.force,
+                    reroll = self.reroll)
+        return form
+
+    def actual_roll(self):
+        output = ''.join([str(d) for d in self.dice])
+        # reinforce is a special case
+        # It can't be meaningfully added without knowing the attack roll
+        # Instead of implementing it as an added result, just show that
+        # there were reinforce tokens in play. This is just as useful to
+        # users and is much simpler to implement.
+        if self.reinforce > 0 and self.die_type == DieType.defense:
+            output = output + ' + ' + ':reinforce:'*self.reinforce
+        return output
 
     def output(self):
         output = []
-        output.append('Actual roll: %s' % self.actual_roll())
-        #TODO use calc link etc output.append('Expected: %s' % self.expected_result())
+        output.append('You rolled: %s' % self.actual_roll())
+        if self.die_type == DieType.attack:
+            try:
+                result = VsRoll.expected_hits(self.calculator_form(), DefenseForm())
+                output.append('<%s|Expected total hits:> *%s*' % (result[1], result[0]))
+            except Exception as err:
+                logger.debug('Dice calculator error: %s' % (str(err)))
+        else:
+            try:
+                num_dice = len(self.dice)
+                attack_form = AttackForm(dice = num_dice, all_hits = True)
+                result = VsRoll.expected_hits(attack_form, self.calculator_form())
+                output.append('<%s|Expected damage suffered from %d hits:> *%s*' % (result[1], num_dice, result[0]))
+            except Exception as err:
+                logger.debug('Dice calculator error: %s' % (str(err)))
+                print('Dice calculator error: %s' % (str(err)))
         return output
 
 class VsRoll(object):
@@ -233,8 +267,18 @@ class VsRoll(object):
         output.append(self.atk_roll.actual_roll())
         output.append('vs')
         output.append(self.def_roll.actual_roll())
-        #TODO output.append('<INSERT CALC URL|Expected damage>: %s' % expected_damage)
+        try:
+            result = VsRoll.expected_hits(self.atk_roll.calculator_form(), self.def_roll.calculator_form())
+            output.append('<%s|Expected total hits:> *%s*' % (result[1], result[0]))
+        except Exception as err:
+            logger.debug('Dice calculator error: %s' % (str(err)))
         return output
+
+    @staticmethod
+    def expected_hits(attack_form, defense_form):
+        calculator = Calculator(attack_form = attack_form, defense_form = defense_form)
+        calculator.calculate()
+        return (calculator.expected_hits(), calculator.url)
 
 class Roller(DroidCore):
     """

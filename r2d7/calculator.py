@@ -1,6 +1,5 @@
 from enum import Enum
-import urllib.request
-import urllib.parse
+import requests
 
 # These classes are designd to interface with http://xwing.gateofstorms.net/2/multi/
 # For more info see https://github.com/punkUser/xwing_math/blob/master/source/
@@ -54,15 +53,21 @@ class DefenseShip(Enum):
     concordiaFaceoff = 1
 
 class AttackForm(dict):
-    def __init__(self, dice = 0, focus = 0, calculate = 0, lock = 0, force = 0, reroll = 0):
+    """
+    All fields required to define the "attack" part of a roll for the calculator
+    This class is meant to be sent to the calculator as a json object
+    Create the json by calling vars() on an instance of this class
+    """
+    def __init__(self, dice = 0, focus = 0, calculate = 0, evade = 0, reinforce = 0,
+            lock = 0, force = 0, reroll = 0, all_hits = False):
         # mandatory fields
         self.enabled = 'on'
         self.dice = str(dice)
         self.defense_dice_diff = '0'
         self.focus_count = str(focus)
         self.calculate_count = str(calculate)
-        self.evade_count = '0'
-        self.reinforce_count = '0'
+        self.evade_count = str(evade)
+        self.reinforce_count = str(reinforce)
         self.stress_count = '0'
         self.lock_count = str(lock)
         self.force_count = str(force)
@@ -71,7 +76,7 @@ class AttackForm(dict):
         if (reroll != 0):
             self.set_reroll(reroll)
         # optional fields (default to "off")
-        self.roll_all_hits = 'off'
+        self.roll_all_hits = 'on' if all_hits else 'off'
         self.howlrunner = 'off'
         self.saw_gerrera_pilot = 'off'
         self.fanatical = 'off'
@@ -107,7 +112,13 @@ class AttackForm(dict):
             self.ship = AttackPilot.reroll_3
 
 class DefenseForm(dict):
-    def __init__(self, dice = 0, focus = 0, calculate = 0, evade = 0, reinforce = 0, force = 0, reroll = 0):
+    """
+    All fields required to define the "defense" part of the roll for the calculator
+    This class is meant to be sent to the calculator as a json object
+    Create the json by calling vars() on an instance of this class
+    """
+    def __init__(self, dice = 0, focus = 0, calculate = 0, evade = 0, reinforce = 0,
+            lock = 0, force = 0, reroll = 0):
         # mandatory fields
         self.dice = str(dice)
         self.focus_count = str(focus)
@@ -115,7 +126,7 @@ class DefenseForm(dict):
         self.evade_count = str(evade)
         self.reinforce_count = str(reinforce)
         self.stress_count = '0'
-        self.lock_count = '0'
+        self.lock_count = str(lock)
         self.force_count = str(force)
         self.max_force_count = str(force)
         self.pilot = '0'
@@ -153,6 +164,11 @@ class CalculatorError(Exception):
     pass
 
 class Calculator(object):
+    """
+    This class handles json objects and sends them off to the calculator
+    It also parses results from the calculator
+    Note that calculate() can raise errors
+    """
     _json_url = 'http://xwing.gateofstorms.net/2/multi/simulate.json'
     _human_url = 'http://xwing.gateofstorms.net/2/multi/'
 
@@ -170,7 +186,7 @@ class Calculator(object):
         if result.ok:
             output = result.json()
             self.result = output['results'][0]
-            query_string = output['']
+            query_string = output['form_state_string']
             self.url = self._human_url + '?' + query_string
         else:
             raise CalculatorError('Calculator failed with code %d: %s' % (result.status_code, result.text))

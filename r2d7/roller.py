@@ -11,7 +11,7 @@ calc_url_base = 'http://xwing.gateofstorms.net/2/multi/'
 
 class DieType(Enum):
     attack = 'atk'
-    defence = 'def'
+    defense = 'def'
 
 class Die(object):
     """
@@ -62,7 +62,7 @@ class AttackDie(Die):
     _positive_faces = ['hit','crit']
     die_type = DieType.attack
 
-class DefenceDie(Die):
+class DefenseDie(Die):
     _faces = ['evade', 'evade', 'evade', 'blank', 'blank', 'blank', 'focus', 'focus']
     _focussed = 'evade'
     _emoji = {
@@ -72,7 +72,7 @@ class DefenceDie(Die):
             None: ' ? '
             }
     _positive_faces = ['evade']
-    die_type = DieType.defence
+    die_type = DieType.defense
 
     def evade(self):
         if self.result not in self._positive_faces:
@@ -83,7 +83,7 @@ class DefenceDie(Die):
 
 dieFactory = {
         DieType.attack: AttackDie,
-        DieType.defence: DefenceDie
+        DieType.defense: DefenseDie
         }
 
 class RollSyntaxError(Exception):
@@ -126,7 +126,7 @@ class ModdedRoll(object):
         if ModdedRoll.pattern_atk.search(message):
             self.die_type = DieType.attack
         elif ModdedRoll.pattern_def.search(message):
-            self.die_type = DieType.defence
+            self.die_type = DieType.defense
         else:
             logger.debug('roll parsing error: no dice color found')
             raise RollSyntaxError('I don\'t know what color dice you want me to roll')
@@ -171,7 +171,7 @@ class ModdedRoll(object):
         # Instead of implementing it as an added result, just show that
         # there were reinforce tokens in play. This is just as useful to
         # users and is much simpler to implement.
-        if self.reinforce > 0 and self.die_type == DieType.defence:
+        if self.reinforce > 0 and self.die_type == DieType.defense:
             output = output + ' + ' + ':reinforce:'*self.reinforce
         return output
 
@@ -204,7 +204,7 @@ class ModdedRoll(object):
             elif force > 0:
                 focussed = d.focus()
                 force = force - 1 if focussed else force
-            if not focussed and evades > 0 and d.die_type == DieType.defence:
+            if not focussed and evades > 0 and d.die_type == DieType.defense:
                 evades = evades - 1 if d.evade() else evades
 
     def expected_result(self):
@@ -220,10 +220,10 @@ class ModdedRoll(object):
 
 class VsRoll(object):
     """
-    An attack roll and opposing defence roll
+    An attack roll and opposing defense roll
     """
     def __init__(self, atk_roll, def_roll):
-        if atk_roll.die_type != DieType.attack or def_roll.die_type != DieType.defence:
+        if atk_roll.die_type != DieType.attack or def_roll.die_type != DieType.defense:
             raise RollSyntaxError('Invalid dice types for vs roll')
         self.atk_roll = atk_roll
         self.def_roll = def_roll

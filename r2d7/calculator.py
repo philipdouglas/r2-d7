@@ -1,14 +1,12 @@
 from enum import Enum
-import struct
-import ctypes
-import base64
 import urllib.request
 import urllib.parse
 
 # These classes are designd to interface with http://xwing.gateofstorms.net/2/multi/
-# Structs etc are taken from https://github.com/punkUser/xwing_math/blob/master/source/
+# For more info see https://github.com/punkUser/xwing_math/blob/master/source/
+# Or run chrome inspector on the calculator site and look at simulate.json in network tab
 
-# see form.d for enums, encoding process, etc
+# enums taken from https://github.com/punkUser/xwing_math/blob/master/source/form.d
 class AttackPilot(Enum):
     none = 0
     leebo = 1
@@ -26,7 +24,7 @@ class AttackPilot(Enum):
     finnPod_Blank = 13    # Add blank
     finnPod_Focus = 14    # Add focus
 
-class DefencePilot(Enum):
+class DefensePilot(Enum):
     none = 0
     leebo = 1
     norraWexley = 2
@@ -51,134 +49,139 @@ class AttackShip(Enum):
     advancedTargetingComputer = 1
     calibratedLaserTargeting = 2
 
-class DefenceShip(Enum):
+class DefenseShip(Enum):
     none = 0
     concordiaFaceoff = 1
 
-class Form(object):
-    def __init__(self, data1, data2):
-        self.data1 = data1
-        self.data2 = data2
+class AttackForm(dict):
+    def __init__(self, dice = 0, focus = 0, calculate = 0, lock = 0, force = 0, reroll = 0):
+        # mandatory fields
+        self.enabled = 'on'
+        self.dice = str(dice)
+        self.defense_dice_diff = '0'
+        self.focus_count = str(focus)
+        self.calculate_count = str(calculate)
+        self.evade_count = '0'
+        self.reinforce_count = '0'
+        self.stress_count = '0'
+        self.lock_count = str(lock)
+        self.force_count = str(force)
+        self.pilot = '0'
+        self.ship = '0'
+        if (reroll != 0):
+            self.set_reroll(reroll)
+        # optional fields (default to "off")
+        self.roll_all_hits = 'off'
+        self.howlrunner = 'off'
+        self.saw_gerrera_pilot = 'off'
+        self.fanatical = 'off'
+        self.fearless = 'off'
+        self.heroic = 'off'
+        self.juke = 'off'
+        self.lone_wolf = 'off'
+        self.marksmanship = 'off'
+        self.predator = 'off'
+        self.predictive_shot = 'off'
+        self.saturation_salvo = 'off'
+        self.agent_kallus = 'off'
+        self.finn_gunner = 'off'
+        self.scum_lando_crew = 'off'
+        self.saw_gerrera_crew = 'off'
+        self.zuckuss_crew = 'off'
+        self.advanced_optics = 'off'
+        self.fire_control_system = 'off'
+        # secondary weapons (max. 1 may be on)
+        self.heavy_laser_cannon = 'off'
+        self.ion_weapon = 'off'
+        self.plasma_torpedoes = 'off'
+        self.proton_torpedoes = 'off'
 
-    def pack(self):
-        return struct.pack('QB',self.data1.as_data, self.data2.as_data)
+    def set_reroll(self, reroll):
+        if reroll == 0:
+            self.ship = 0
+        elif reroll == 1:
+            self.ship = AttackPilot.reroll_1
+        elif reroll == 2:
+            self.ship = AttackPilot.reroll_2
+        elif reroll == 3:
+            self.ship = AttackPilot.reroll_3
 
-    def encode(self):
-        return base64.b64encode(self.pack())
+class DefenseForm(dict):
+    def __init__(self, dice = 0, focus = 0, calculate = 0, evade = 0, reinforce = 0, force = 0, reroll = 0):
+        # mandatory fields
+        self.dice = str(dice)
+        self.focus_count = str(focus)
+        self.calculate_count = str(calculate)
+        self.evade_count = str(evade)
+        self.reinforce_count = str(reinforce)
+        self.stress_count = '0'
+        self.lock_count = '0'
+        self.force_count = str(force)
+        self.max_force_count = str(force)
+        self.pilot = '0'
+        self.ship = '0'
+        if (reroll != 0):
+            self.set_reroll(reroll)
+        # optional fields (default to "off")
+        self.biggs = 'off'
+        self.iden = 'off'
+        self.selfless = 'off'
+        self.serissu = 'off'
+        self.brilliant_evasion = 'off'
+        self.elusive = 'off'
+        self.hate = 'off'
+        self.heroic = 'off'
+        self.lone_wolf = 'off'
+        self.c3p0 = 'off'
+        self.finn_gunner = 'off'
+        self.l337 = 'off'
+        self.scum_lando_crew = 'off'
+        self.rebel_millennium_falcon = 'off'
+        self.stealth_device = 'off'
+
+    def set_reroll(self, reroll):
+        if reroll == 0:
+            self.ship = 0
+        elif reroll == 1:
+            self.ship = DefensePilot.reroll_1
+        elif reroll == 2:
+            self.ship = DefensePilot.reroll_2
+        elif reroll == 3:
+            self.ship = DefensePilot.reroll_3
+
+class CalculatorError(Exception):
+    pass
 
 class Calculator(object):
-    _url = 'http://xwing.gateofstorms.net/2/multi/'
+    _json_url = 'http://xwing.gateofstorms.net/2/multi/simulate.json'
+    _human_url = 'http://xwing.gateofstorms.net/2/multi/'
 
-    def __init__(self, attack_form, defence_form=Form(DefenceFormData1(), DefenceFormData2())):
+    def __init__(self, attack_form = AttackForm(), defense_form = DefenseForm()):
         self.attack_form = attack_form
-        self.defence_form = defence_form
+        self.defense_form = defense_form
+        self.result = None
 
     def calculate(self):
-        attack_string = self.attack_form.encode()
-        defence_string = self.defence_form.encode()
+        payload = {}
+        payload['simulate'] = {}
+        payload['attack0'] = vars(self.attack_form)
+        payload['defense'] = vars(self.defense_form)
+        result = requests.post(self._json_url, json=payload)
+        if result.ok:
+            output = result.json()
+            self.result = output['results'][0]
+            query_string = output['']
+            self.url = self._human_url + '?' + query_string
+        else:
+            raise CalculatorError('Calculator failed with code %d: %s' % (result.status_code, result.text))
 
+    def expected_hits(self):
+        if self.result == None:
+            self.calculate()
+        return self.result['expected_total_hits']
 
-
-# see attack_form.d
-class AttackFormBits1(ctypes.LittleEndianStructure):
-    _fields_ = [
-            ("enabled", c_uint8, 1),
-            ("lock_count", c_uint8, 3),
-            ("dice", c_uint8, 4), #8
-            ("force_count", c_uint8, 3),
-            ("focus_count", c_uint8, 3),
-            ("calculate_count", c_uint8, 3),
-            ("evade_count", c_uint8, 3),
-            ("reinforce_count", c_uint8, 3),
-            ("stress_count", c_uint8, 3),
-            ("jam_count", c_uint8, 3),
-            ("fire_control_system", c_uint8, 1),
-            ("heavy_laser_cannon", c_uint8, 1),
-            ("proton_torpedoes", c_uint8, 1), #32
-            ("pilot", c_uint8, 6), # AttackPilot enum
-            ("predator", c_uint8, 1),
-            ("ion_weapon", c_uint8, 1), #40
-            ("juke", c_uint8, 1),
-            ("roll_all_hits", c_uint8, 1),
-            ("howlrunner", c_uint8, 1),
-            ("lone_wolf", c_uint8, 1),
-            ("marksmanship", c_uint8, 1),
-            ("defense_dice_diff", c_uint8, 4),
-            ("fearless", c_uint8, 1),
-            ("ship", c_uint8, 6), # AttackShip enum
-            ("saw_gerrera_pilot", c_uint8, 1),
-            ("scum_lando_crew", c_uint8, 1),
-            ("agent_kallus", c_uint8, 1),
-            ("finn_gunner", c_uint8, 1),
-            ("fanatical", c_uint8, 1),
-            ("heroic", c_uint8, 1),
-            ("advanced_optics", c_uint8, 1),
-            ("predictive_shot", c_uint8, 1), #64
-        ]
-
-class AttackFormData1(ctypes.Union):
-    _fields_ = [("bits", AttackFormBits1),
-                ("as_data", c_uint64)]
-
-class AttackFormBits2(ctypes.LittleEndianStructure):
-    _fields_ = [
-            ("zuckuss_crew", c_uint8, 1),
-            ("saturation_salvo", c_uint8, 1),
-            ("previous_tokens_enabled", c_uint8, 1),
-            ("plasma_torpedoes", c_uint8, 1),
-            ("saw_gerrera_crew", c_uint8, 1),
-            ("_unused", c_uint8, 3), #8
-        ]
-
-class AttackFormData2(ctypes.Union):
-    _fields_ = [("bits", AttackFormBits2),
-                ("as_data", c_uint8)]
-
-# see defense_form.d
-class DefenceFormBits1(ctypes.LittleEndianStructure):
-    _fields_ = [
-            ("dice", c_uint8, 4),
-            ("force_count", c_uint8, 3),
-            ("focus_count", c_uint8, 3),
-            ("calculate_count", c_uint8, 3),
-            ("evade_count", c_uint8, 3),
-            ("reinforce_count", c_uint8, 3),
-            ("stress_count", c_uint8, 3),
-            ("jam_count", c_uint8, 3),
-            ("c3p0", c_uint8, 1),
-            ("lone_wolf", c_uint8, 1),
-            ("stealth_device", c_uint8, 1),
-            ("biggs", c_uint8, 1),
-            ("_unused1", c_uint8, 1),
-            ("iden", c_uint8, 1),
-            ("selfless", c_uint8, 1), #32
-            ("pilot", c_uint8, 6), # DefensePilot enum
-            ("l337", c_uint8, 1),
-            ("elusive", c_uint8, 1), #40
-            ("lock_count", c_uint8, 3),
-            ("scum_lando_crew", c_uint8, 1),
-            ("ship", c_uint8, 6), # DefenseShip enum
-            ("serissu", c_uint8, 1),
-            ("rebel_millennium_falcon", c_uint8, 1),
-            ("finn_gunner", c_uint8, 1),
-            ("heroic", c_uint8, 1),
-            ("ship_hull", c_uint8, 5), # 0..31
-            ("ship_shields", c_uint8, 5), # 0..31 #64
-        ]
-
-class DefenceFormData1(ctypes.Union):
-    _fields_ = [("bits", DefenceFormBits1),
-                ("as_data", c_uint64)]
-
-class DefenceFormBits2(ctypes.LittleEndianStructure):
-    _fields_ = [
-            ("brilliant_evasion", c_uint8, 1),
-            ("max_force_count", c_uint8, 3),
-            ("hate", c_uint8, 1),
-            ("_unused", c_uint8, 3), #8
-        ]
-
-class DefenceFormData2(ctypes.Union):
-    _fields_ = [("bits", DefenceFormBits2),
-                ("as_data", c_uint8)]
+    def crit_chance(self):
+        if self.result == None:
+            self.calculate()
+        return self.result['at_least_one_crit']
 

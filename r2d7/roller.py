@@ -14,20 +14,22 @@ class ModdedRoll(object):
     """
     Class for managing all aspects of a roll. It parses, it rolls, it queries the online calculator.
     """
-    _re_def = '((green)|(g(?![a-z])))'
-    _re_atk = '((red)|(r(?![a-z])))'
+    _re_def = '\\b((green)|(g))\\b'
+    _re_atk = '\\b((red)|(r))\\b'
     pattern_def = re.compile(_re_def, re.I)
     pattern_atk = re.compile(_re_atk, re.I)
     pattern_main = re.compile('(?P<num_dice>[0-9]+) ?(?P<color>%s|%s)' % (_re_def, _re_atk), re.I)
     pattern_count = re.compile('([0-9]+)', re.I)
     pattern_mod = {
-            'focus':re.compile('(?P<focus>([0-9]+ ?focus)|(focus ?[0-9]*))', re.I),
-            'evade':re.compile('(?P<evade>([0-9]+ ?evade)|(evade ?[0-9]*))', re.I),
-            'reinforce':re.compile('(?P<reinforce>([0-9]+ ?reinforce)|(reinforce ?[0-9]*))', re.I),
-            'lock':re.compile('(target )?lock(ed)?', re.I),
-            'calculate':re.compile('(?P<calculate>([0-9]+ ?calc(ulate)?)|(calc(ulate)? ?[0-9]*))', re.I),
-            'force':re.compile('(?<!rein)(?P<force>([0-9]+ ?force)|(force ?[0-9]*))', re.I),
-            'reroll':re.compile('(?P<reroll>([0-9]+ ?reroll)|(reroll ?[0-9]*))', re.I)
+            # \\b at the start forces a new word (stops force/reinforce confusion)
+            # leaving it off the end allows plural matching
+            'focus':re.compile('\\b(?P<focus>([0-9]+ ?focus)|(focus ?[0-9]*))', re.I),
+            'evade':re.compile('\\b(?P<evade>([0-9]+ ?evade)|(evade ?[0-9]*))', re.I),
+            'reinforce':re.compile('\\b(?P<reinforce>([0-9]+ ?reinforce)|(reinforce ?[0-9]*))', re.I),
+            'lock':re.compile('\\b(target )?lock(ed)?\\b', re.I),
+            'calculate':re.compile('\\b(?P<calculate>([0-9]+ ?calc(ulate)?)|(calc(ulate)? ?[0-9]*))', re.I),
+            'force':re.compile('\\b(?P<force>([0-9]+ ?force)|(force ?[0-9]*))', re.I),
+            'reroll':re.compile('\\b(?P<reroll>([0-9]+ ?reroll)|(reroll ?[0-9]*))', re.I)
     }
 
     def __init__(self, message):
@@ -124,6 +126,9 @@ class ModdedRoll(object):
             if not focussed and evades > 0 and d.die_type == DieType.defense:
                 evades = evades - 1 if d.evade() else evades
 
+    def roll_safe(self):
+        return len(self.dice) <= CalculatorForm.max_dice and self.reinforce <= CalculatorForm.max_reinforce
+
     def calculator_form(self):
         if self.die_type == DieType.attack:
             form = AttackForm(dice = len(self.dice),
@@ -159,20 +164,23 @@ class ModdedRoll(object):
     def output(self):
         output = []
         output.append('You rolled: %s' % self.actual_roll())
-        if self.die_type == DieType.attack:
-            try:
-                result = VsRoll.expected_hits(self.calculator_form(), DefenseForm())
-                output.append('<%s|Expected total hits:> *%s*' % (result[1], result[0]))
-            except Exception as err:
-                logger.debug('Dice calculator error: %s' % (str(err)))
-        else:
-            try:
-                num_dice = len(self.dice)
-                attack_form = AttackForm(dice = num_dice, all_hits = True)
-                result = VsRoll.expected_hits(attack_form, self.calculator_form())
-                output.append('<%s|Expected damage suffered from %d hits:> *%s*' % (result[1], num_dice, result[0]))
-            except Exception as err:
-                logger.debug('Dice calculator error: %s' % (str(err)))
+        if self.roll_safe():
+            if self.die_type == DieType.attack:
+                try:
+                    calculator = Calculator(attack_form = self.calculator_form(), defense_form = DefenseForm())
+                    calculator.calculate()
+                    output.append('<%s|Expected total hits:> *%s*' % (calculator.url, calculator.expected_hits()))
+                except Exception as err:
+                    logger.debug('Dice calculator error: %s' % (str(err)))
+            else:
+                try:
+                    num_dice = len(self.dice)
+                    attack_form = AttackForm(dice = num_dice, all_hits = True)
+                    calculator = Calculator(attack_form = attack_form, defense_form = self.calculator_form())
+                    calculator.calculate()
+                    output.append('<%s|Expected damage suffered from %d hits:> *%s*' % (calculator.url, num_dice, calculator.expected_hits()))
+                except Exception as err:
+                    logger.debug('Dice calculator error: %s' % (str(err)))
         return output
 
 class VsRoll(object):
@@ -190,26 +198,22 @@ class VsRoll(object):
         output.append(self.atk_roll.actual_roll())
         output.append('vs')
         output.append(self.def_roll.actual_roll())
-        try:
-            result = VsRoll.expected_hits(self.atk_roll.calculator_form(), self.def_roll.calculator_form())
-            output.append('<%s|Expected total hits:> *%s*' % (result[1], result[0]))
-        except Exception as err:
-            logger.debug('Dice calculator error: %s' % (str(err)))
+        if self.atk_roll.roll_safe() and self.def_roll.roll_safe():
+            try:
+                calculator = Calculator(attack_form = self.atk_roll.calculator_form(), defense_form = self.def_roll.calculator_form())
+                calculator.calculate()
+                output.append('<%s|Expected total hits:> *%s*' % (calculator.url, calculator.expected_hits()))
+            except Exception as err:
+                logger.debug('Dice calculator error: %s' % (str(err)))
         return output
-
-    @staticmethod
-    def expected_hits(attack_form, defense_form):
-        calculator = Calculator(attack_form = attack_form, defense_form = defense_form)
-        calculator.calculate()
-        return (calculator.expected_hits(), calculator.url)
 
 class Roller(DroidCore):
     """
     Handler class, contains slack chat logic
     """
     pattern_handler = re.compile('(!roll.*)', re.I)
-    pattern_vs = re.compile('(?P<vs>(vs)|(versus))', re.I)
-    pattern_syntax = re.compile('syntax', re.I)
+    pattern_vs = re.compile('\\b(?P<vs>(vs)|(versus)|(v))\\b', re.I)
+    pattern_syntax = re.compile('\\bsyntax\\b', re.I)
 
     def __init__(self):
         super().__init__()

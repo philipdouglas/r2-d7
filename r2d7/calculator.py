@@ -52,7 +52,14 @@ class DefenseShip(Enum):
     none = 0
     concordiaFaceoff = 1
 
-class AttackForm(dict):
+class CalculatorForm(dict):
+    # the calculator will silently limit inputs to these maximum values
+    max_dice = 7
+    max_tokens = 7 # all the basic tokens except reinforce and target lock
+    max_reinforce = 1
+    max_lock = 1
+
+class AttackForm(CalculatorForm):
     """
     All fields required to define the "attack" part of a roll for the calculator
     This class is meant to be sent to the calculator as a json object
@@ -62,15 +69,17 @@ class AttackForm(dict):
             lock = 0, force = 0, reroll = 0, all_hits = False):
         # mandatory fields
         self.enabled = 'on'
-        self.dice = str(dice)
-        self.defense_dice_diff = '0'
-        self.focus_count = str(focus)
-        self.calculate_count = str(calculate)
-        self.evade_count = str(evade)
-        self.reinforce_count = str(reinforce)
+        self.dice = str(min(dice, self.max_dice))
+        self.focus_count = str(min(focus, self.max_tokens))
+        self.calculate_count = str(min(calculate, self.max_tokens))
+        self.evade_count = str(min(evade, self.max_tokens))
+        self.reinforce_count = str(min(reinforce, self.max_tokens))
         self.stress_count = '0'
-        self.lock_count = str(lock)
-        self.force_count = str(force)
+        self.lock_count = str(min(lock, self.max_lock))
+        self.force_count = str(min(force, self.max_tokens))
+        self.max_force_count = self.force_count
+        self.defense_dice_diff = '0'
+        self.stress_count = '0'
         self.pilot = '0'
         self.ship = '0'
         if (reroll != 0):
@@ -111,7 +120,7 @@ class AttackForm(dict):
         elif reroll == 3:
             self.pilot = AttackPilot.reroll_3
 
-class DefenseForm(dict):
+class DefenseForm(CalculatorForm):
     """
     All fields required to define the "defense" part of the roll for the calculator
     This class is meant to be sent to the calculator as a json object
@@ -120,15 +129,15 @@ class DefenseForm(dict):
     def __init__(self, dice = 0, focus = 0, calculate = 0, evade = 0, reinforce = 0,
             lock = 0, force = 0, reroll = 0):
         # mandatory fields
-        self.dice = str(dice)
-        self.focus_count = str(focus)
-        self.calculate_count = str(calculate)
-        self.evade_count = str(evade)
-        self.reinforce_count = str(reinforce)
+        self.dice = str(min(dice, self.max_dice))
+        self.focus_count = str(min(focus, self.max_tokens))
+        self.calculate_count = str(min(calculate, self.max_tokens))
+        self.evade_count = str(min(evade, self.max_tokens))
+        self.reinforce_count = str(min(reinforce, self.max_tokens))
         self.stress_count = '0'
-        self.lock_count = str(lock)
-        self.force_count = str(force)
-        self.max_force_count = str(force)
+        self.lock_count = str(min(lock, self.max_lock))
+        self.force_count = str(min(force, self.max_tokens))
+        self.max_force_count = self.force_count
         self.pilot = '0'
         self.ship = '0'
         if (reroll != 0):
@@ -176,6 +185,7 @@ class Calculator(object):
         self.attack_form = attack_form
         self.defense_form = defense_form
         self.result = None
+        self.url = self._human_url
 
     def calculate(self):
         payload = {}

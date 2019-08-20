@@ -103,13 +103,13 @@ class AttackForm(dict):
 
     def set_reroll(self, reroll):
         if reroll == 0:
-            self.ship = 0
+            self.pilot = 0
         elif reroll == 1:
-            self.ship = AttackPilot.reroll_1
+            self.pilot = AttackPilot.reroll_1
         elif reroll == 2:
-            self.ship = AttackPilot.reroll_2
+            self.pilot = AttackPilot.reroll_2
         elif reroll == 3:
-            self.ship = AttackPilot.reroll_3
+            self.pilot = AttackPilot.reroll_3
 
 class DefenseForm(dict):
     """
@@ -152,13 +152,13 @@ class DefenseForm(dict):
 
     def set_reroll(self, reroll):
         if reroll == 0:
-            self.ship = 0
+            self.pilot = 0
         elif reroll == 1:
-            self.ship = DefensePilot.reroll_1
+            self.pilot = DefensePilot.reroll_1
         elif reroll == 2:
-            self.ship = DefensePilot.reroll_2
+            self.pilot = DefensePilot.reroll_2
         elif reroll == 3:
-            self.ship = DefensePilot.reroll_3
+            self.pilot = DefensePilot.reroll_3
 
 class CalculatorError(Exception):
     pass

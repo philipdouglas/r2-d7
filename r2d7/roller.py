@@ -1,90 +1,11 @@
 from enum import Enum
 import logging
 import re
-import random
 from .calculator import *
-
-from r2d7.core import DroidCore, DroidException
+from .dice import DieType, AttackDie, DefenseDie, dieFactory
+from r2d7.core import DroidCore
 
 logger = logging.getLogger(__name__)
-calc_url_base = 'http://xwing.gateofstorms.net/2/multi/'
-
-class DieType(Enum):
-    attack = 'atk'
-    defense = 'def'
-
-class Die(object):
-    """
-    Skeleton base class. Subclasses should populate the fields below
-    """
-    _faces = []
-    _focussed = None
-    _emoji = {
-            None: ' ? '
-            }
-    _positive_faces = []
-    die_type = None
-
-    def __init__(self):
-        self.roll() # to place a die on the table, you have to roll it
-
-    def roll(self):
-        self.result = random.choice(self._faces)
-        return self.result
-
-    def reroll(self):
-        if self.result not in self._positive_faces:
-            self.roll()
-            return True
-        else:
-            return False
-
-    def focus(self):
-        if self.result == 'focus':
-            self.result = self._focussed
-            return True
-        else:
-            return False
-
-    def __str__(self):
-        return '/%s\\' % self._emoji[self.result]
-
-class AttackDie(Die):
-    _faces = ['hit', 'hit', 'hit', 'crit', 'blank', 'blank', 'focus', 'focus']
-    _focussed = 'hit'
-    _emoji = {
-            'hit': ':hit:',
-            'crit': ':crit:',
-            'focus': ':focus:',
-            'blank': ':blank:',
-            None: ' ? '
-            }
-    _positive_faces = ['hit','crit']
-    die_type = DieType.attack
-
-class DefenseDie(Die):
-    _faces = ['evade', 'evade', 'evade', 'blank', 'blank', 'blank', 'focus', 'focus']
-    _focussed = 'evade'
-    _emoji = {
-            'focus': ':focus:',
-            'evade': ':evade:',
-            'blank': ':blank:',
-            None: ' ? '
-            }
-    _positive_faces = ['evade']
-    die_type = DieType.defense
-
-    def evade(self):
-        if self.result not in self._positive_faces:
-            self.result = self._positive_faces[0]
-            return True
-        else:
-            return False
-
-dieFactory = {
-        DieType.attack: AttackDie,
-        DieType.defense: DefenseDie
-        }
 
 class RollSyntaxError(Exception):
     pass
@@ -105,7 +26,7 @@ class ModdedRoll(object):
             'reinforce':re.compile('(?P<reinforce>([0-9]+ ?reinforce)|(reinforce ?[0-9]*))', re.I),
             'lock':re.compile('(target )?lock(ed)?', re.I),
             'calculate':re.compile('(?P<calculate>([0-9]+ ?calc(ulate)?)|(calc(ulate)? ?[0-9]*))', re.I),
-            'force':re.compile('(?P<force>([0-9]+ ?force)|(force ?[0-9]*))', re.I),
+            'force':re.compile('(?<!rein)(?P<force>([0-9]+ ?force)|(force ?[0-9]*))', re.I),
             'reroll':re.compile('(?P<reroll>([0-9]+ ?reroll)|(reroll ?[0-9]*))', re.I)
     }
 
@@ -125,6 +46,9 @@ class ModdedRoll(object):
         if self.num_dice > 100:
             logger.debug('Too many dice requested (max: 100, requested: %d)' % (self.num_dice))
             raise RollSyntaxError('Sorry, I can\'t carry more than 100 dice, and chopper won\'t help :chopper:')
+        elif self.num_dice < 1:
+            logger.debug('Too few dice requested (min: 1, requested: %d)' % (self.num_dice))
+            raise RollSyntaxError('Sorry, I can\'t roll fewer than 1 dice :jar_jar:')
 
         color_string = match_main.group('color') or ''
         if ModdedRoll.pattern_atk.search(message):
@@ -249,7 +173,6 @@ class ModdedRoll(object):
                 output.append('<%s|Expected damage suffered from %d hits:> *%s*' % (result[1], num_dice, result[0]))
             except Exception as err:
                 logger.debug('Dice calculator error: %s' % (str(err)))
-                print('Dice calculator error: %s' % (str(err)))
         return output
 
 class VsRoll(object):
@@ -296,7 +219,7 @@ class Roller(DroidCore):
         match_vs = Roller.pattern_vs.search(message)
         match_syntax = Roller.pattern_syntax.search(message)
         if match_syntax:
-            return [roll_syntax()]
+            return [self.roll_syntax()]
         else:
             try:
                 if match_vs:

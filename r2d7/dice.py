@@ -53,7 +53,7 @@ class Die(object):
             return False
 
     def __str__(self):
-        return '/%s\\' % self._emoji[self.result]
+        return f'/{self._emoji[self.result]}\\'
 
 class AttackDie(Die):
     _faces = ['hit', 'hit', 'hit', 'crit', 'blank', 'blank', 'focus', 'focus']

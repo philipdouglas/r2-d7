@@ -199,7 +199,7 @@ class Calculator(object):
             query_string = output['form_state_string']
             self.url = self._human_url + '?' + query_string
         else:
-            raise CalculatorError('Calculator failed with code %d: %s' % (result.status_code, result.text))
+            raise CalculatorError(f'Calculator failed with code {result.status_code}: {result.text}')
 
     def expected_hits(self):
         if self.result == None:

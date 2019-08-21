@@ -11,10 +11,14 @@ import requests
 
 logger = logging.getLogger(__name__)
 
+def is_pattern_type(obj):
+    if hasattr(re, 'Pattern'):
+        return isinstance(obj, re.Pattern)
+    else:
+        return isinstance(obj, re._pattern_type)
 
 class DroidException(Exception):
     pass
-
 
 class DroidCore():
     def __init__(self):
@@ -22,12 +26,12 @@ class DroidCore():
         self._dm_handlers = OrderedDict()
 
     def register_handler(self, pattern, method):
-        if not isinstance(pattern, re._pattern_type):
+        if not is_pattern_type(pattern):
             pattern = re.compile(pattern)
         self._handlers[pattern] = method
 
     def register_dm_handler(self, pattern, method):
-        if not isinstance(pattern, re._pattern_type):
+        if not is_pattern_type(pattern):
             pattern = re.compile(pattern)
         self._dm_handlers[pattern] = method
 

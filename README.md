@@ -11,6 +11,7 @@ Support Slack and Discord!
 - Detects links to lists from <http://geordanr.github.io/xwing/>, <http://xwing-builder.co.uk/build> and <http://x-wing.fabpsb.net> and print them in chat
 - Card lookup via [[]] queries
 - Card image lookup via {{}} queries
+- Basic dice rolls with stats from http://gateofstorms.net/2/multi/
 
 Adding the bot to new Slack workspaces is currently broken. I plan to fix it soon.
 

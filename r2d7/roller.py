@@ -80,6 +80,9 @@ class ModdedRoll(object):
             raise RollSyntaxError('Sorry, the calculator only allows up to 3 rerolls')
 
         self.modify_dice()
+        self.calculator_url = None
+        self.calculator_url_description = None
+        self.calculator_result = None
 
     def parse_mod_boolean(self, attr_name, message):
         value = ModdedRoll.pattern_mod[attr_name].search(message) is not None
@@ -126,7 +129,7 @@ class ModdedRoll(object):
             if not focussed and evades > 0 and d.die_type == DieType.defense:
                 evades = evades - 1 if d.evade() else evades
 
-    def roll_safe(self):
+    def calculator_safe(self):
         return len(self.dice) <= CalculatorForm.max_dice and self.reinforce <= CalculatorForm.max_reinforce
 
     def calculator_form(self):
@@ -152,6 +155,26 @@ class ModdedRoll(object):
                     reroll = self.reroll)
         return form
 
+    def calculate_expected(self):
+        if self.calculator_safe():
+            try:
+                if self.die_type == DieType.attack:
+                    calculator = Calculator(attack_form = self.calculator_form(), defense_form = DefenseForm())
+                    calculator.calculate()
+                    self.calculator_url = calculator.url
+                    self.calculator_url_description = 'Expected total hits:'
+                    self.calculator_result = calculator.expected_hits()
+                else:
+                    num_dice = len(self.dice)
+                    attack_form = AttackForm(dice = num_dice, all_hits = True)
+                    calculator = Calculator(attack_form = attack_form, defense_form = self.calculator_form())
+                    calculator.calculate()
+                    self.calculator_url = calculator.url
+                    self.calculator_url_description = f'Expected damage suffered from {num_dice} hits:'
+                    self.calculator_result = calculator.expected_hits()
+            except Exception as err:
+                logger.debug(f'Dice calculator error: {str(err)}')
+
     def actual_roll(self):
         output = ''.join([str(d) for d in self.dice])
         # reinforce is a special case
@@ -163,29 +186,6 @@ class ModdedRoll(object):
             output = f"{output} + {':reinforce:'*self.reinforce}"
         return output
 
-    def output(self):
-        output = []
-        output.append(f'You rolled: {self.actual_roll()}')
-        if self.roll_safe():
-            if self.die_type == DieType.attack:
-                try:
-                    calculator = Calculator(attack_form = self.calculator_form(), defense_form = DefenseForm())
-                    calculator.calculate()
-                    output.append(f'<{calculator.url}|Expected total hits:> *{calculator.expected_hits():.3f}*')
-                except Exception as err:
-                    logger.debug(f'Dice calculator error: {str(err)}')
-                    print(err)
-            else:
-                try:
-                    num_dice = len(self.dice)
-                    attack_form = AttackForm(dice = num_dice, all_hits = True)
-                    calculator = Calculator(attack_form = attack_form, defense_form = self.calculator_form())
-                    calculator.calculate()
-                    output.append(f'<{calculator.url}|Expected damage suffered from {num_dice} hits:> *{calculator.expected_hits():.3f}*')
-                except Exception as err:
-                    logger.debug(f'Dice calculator error: {str(err)}')
-        return output
-
 class VsRoll(object):
     """
     An attack roll and opposing defense roll
@@ -195,20 +195,30 @@ class VsRoll(object):
             raise RollSyntaxError('Invalid dice types for vs roll')
         self.atk_roll = atk_roll
         self.def_roll = def_roll
+        self.calculator_url = None
+        self.calculator_url_description = None
+        self.calculator_result = None
 
-    def output(self):
+    def calculator_safe(self):
+        return self.atk_roll.calculator_safe() and self.def_roll.calculator_safe()
+
+    def calculate_expected(self):
+        if self.calculator_safe():
+            try:
+                calculator = Calculator(attack_form = self.atk_roll.calculator_form(), defense_form = self.def_roll.calculator_form())
+                calculator.calculate()
+                self.calculator_url = calculator.url
+                self.calculator_url_description = 'Expected total hits:'
+                self.calculator_result = calculator.expected_hits()
+            except Exception as err:
+                logger.debug(f'Dice calculator error: {str(err)}')
+
+    def actual_roll(self):
         output = ['You rolled:']
         output.append(self.atk_roll.actual_roll())
         output.append('vs')
         output.append(self.def_roll.actual_roll())
-        if self.atk_roll.roll_safe() and self.def_roll.roll_safe():
-            try:
-                calculator = Calculator(attack_form = self.atk_roll.calculator_form(), defense_form = self.def_roll.calculator_form())
-                calculator.calculate()
-                output.append(f'<{calculator.url}|Expected total hits:> *{calculator.expected_hits():.3f}*')
-            except Exception as err:
-                logger.debug(f'Dice calculator error: {str(err)}')
-        return output
+        return '\n'.join(output)
 
 class Roller(DroidCore):
     """
@@ -242,12 +252,21 @@ class Roller(DroidCore):
                         roll = VsRoll(modded_rolls[0], modded_rolls[1])
                     else:
                         roll = VsRoll(modded_rolls[1], modded_rolls[0])
-
                 else:
                     roll = ModdedRoll(message)
-                return [roll.output()]
+                return [self.print_roll(roll)]
             except RollSyntaxError as err:
                 return [[err.__str__(), 'Type `!roll syntax` for help']]
+
+    def print_roll(self, roll):
+        output = []
+        output.append(roll.actual_roll())
+        if roll.calculator_safe():
+            roll.calculate_expected()
+            link_string = self.link(roll.calculator_url, roll.calculator_url_description)
+            result_string = self.bold(f'{roll.calculator_result:.3f}')
+            output.append(f'{link_string} {result_string}')
+        return output
 
     def roll_syntax(self):
         output = []

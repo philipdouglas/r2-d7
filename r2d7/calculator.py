@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import IntEnum
 import requests
 
 # These classes are designd to interface with http://xwing.gateofstorms.net/2/multi/
@@ -6,7 +6,7 @@ import requests
 # Or run chrome inspector on the calculator site and look at simulate.json in network tab
 
 # enums taken from https://github.com/punkUser/xwing_math/blob/master/source/form.d
-class AttackPilot(Enum):
+class AttackPilot(IntEnum):
     none = 0
     leebo = 1
     sharaBey = 2
@@ -23,7 +23,7 @@ class AttackPilot(Enum):
     finnPod_Blank = 13    # Add blank
     finnPod_Focus = 14    # Add focus
 
-class DefensePilot(Enum):
+class DefensePilot(IntEnum):
     none = 0
     leebo = 1
     norraWexley = 2
@@ -43,12 +43,12 @@ class DefensePilot(Enum):
     finnPod_Blank = 16    # Add blank
     finnPod_Focus = 17    # Add focus
 
-class AttackShip(Enum):
+class AttackShip(IntEnum):
     none = 0
     advancedTargetingComputer = 1
     calibratedLaserTargeting = 2
 
-class DefenseShip(Enum):
+class DefenseShip(IntEnum):
     none = 0
     concordiaFaceoff = 1
 

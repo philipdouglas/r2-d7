@@ -50,7 +50,7 @@ def test_roll_parse(message, expected):
         else:
             assert getattr(parsed, key) == value
 
-roll_safe_tests = (
+calculator_safe_tests = (
     ('!roll 3 red', True),
     ('!roll 3 r focus 3', True),
     ('!roll 3 r focus 3, 1 reinforce', True),
@@ -58,10 +58,10 @@ roll_safe_tests = (
     ('!roll 50 green w/ 49 evade', False),
     ('!roll 3 red 2 reinforce', False),
 )
-@pytest.mark.parametrize('message, expected', roll_safe_tests)
-def test_roll_safe(message, expected):
+@pytest.mark.parametrize('message, expected', calculator_safe_tests)
+def test_calculator_safe(message, expected):
     parsed = ModdedRoll(message)
-    assert parsed.roll_safe() == expected
+    assert parsed.calculator_safe() == expected
 
 roll_output_tests = (
     ('!roll 3 red', r'/:[a-z]*:\\/:[a-z]*:\\/:[a-z]*:\\'),

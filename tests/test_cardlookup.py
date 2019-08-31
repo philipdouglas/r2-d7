@@ -1,6 +1,7 @@
 import pytest
 
 from r2d7.cardlookup import CardLookup
+from r2d7.core import UserError
 from r2d7.slackdroid import SlackDroid
 
 
@@ -159,9 +160,13 @@ def test_lookup(testbot, lookup, expected):
     actual = [(card['xws'], card['category']) for card in testbot.lookup(lookup)]
     assert actual == expected
 
-def test_card_limit(testbot):
-    assert testbot.handle_lookup('tie') == [[
-        'Your search matched more than 10 cards, please be more specific.']]
+@pytest.mark.parametrize('lookup, message', [
+    ('tie', 'Your search matched more than 10 cards, please be more specific.'),
+    ('> 4', 'You need to specify a slot to search by points value.')
+])
+def test_user_errors(testbot, lookup, message):
+    with pytest.raises(UserError, match=message):
+        testbot.handle_lookup(lookup)
 
 @pytest.mark.parametrize('dialgen, slack', (
     ([

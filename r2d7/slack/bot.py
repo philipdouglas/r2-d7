@@ -10,6 +10,7 @@ import traceback
 
 from websocket._exceptions import WebSocketConnectionClosedException
 
+from r2d7.core import UserError
 from r2d7.slack.clients import SlackClients
 from r2d7.slack.event_handler import RtmEventHandler
 
@@ -76,6 +77,12 @@ class SlackBot(threading.Thread):
                     for event in self.clients.rtm.rtm_read():
                         try:
                             event_handler.handle(event)
+                        except UserError as error:
+                            logging.debug(
+                                'User error generated', exc_info=True)
+                            err_msg = f"Error: {error}"
+                            messager.send_message(event['channel'], err_msg)
+                            continue
                         except Exception:
                             logging.exception('Unexpected error:')
                             if self.debug:

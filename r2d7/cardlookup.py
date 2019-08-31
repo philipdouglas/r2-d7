@@ -4,7 +4,7 @@ from itertools import chain, groupby
 import logging
 import re
 
-from r2d7.core import DroidCore, DroidException
+from r2d7.core import DroidCore, UserError
 
 logger = logging.getLogger(__name__)
 
@@ -165,7 +165,7 @@ class CardLookup(DroidCore):
                     matches.append(self._aliases[lookup])
             else:
                 if not slot_filter:
-                    raise DroidException(
+                    raise UserError(
                         'You need to specify a slot to search by points value.')
                 matches = self._lookup_data.keys()
                 operator = '==' if match[3] == '=' else match[3]
@@ -595,8 +595,9 @@ class CardLookup(DroidCore):
         for card in self.lookup(lookup):
             count += 1
             if count > 10:
-                return [['Your search matched more than 10 cards, please be '
-                         'more specific.']]
+                raise UserError(
+                    'Your search matched more than 10 cards, please be more specific.'
+                )
             output.append(self.print_card(card))
         return output
 
@@ -606,8 +607,9 @@ class CardLookup(DroidCore):
         for card in self.lookup(lookup):
             count += 1
             if count > 10:
-                return [['Your search matched more than 10 cards, please be '
-                         'more specific.']]
+                raise UserError(
+                    'Your search matched more than 10 cards, please be more specific.'
+                )
             output += self.print_image(card)
         return [output]
 

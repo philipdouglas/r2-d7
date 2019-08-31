@@ -2,7 +2,7 @@ from collections import OrderedDict
 import logging
 import re
 
-from r2d7.core import DroidCore, DroidException
+from r2d7.core import DroidCore
 
 logger = logging.getLogger(__name__)
 

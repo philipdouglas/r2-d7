@@ -20,6 +20,11 @@ def is_pattern_type(obj):
 class DroidException(Exception):
     pass
 
+
+class UserError(DroidException):
+    pass
+
+
 class DroidCore():
     def __init__(self):
         self._handlers = OrderedDict()

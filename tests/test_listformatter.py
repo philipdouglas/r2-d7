@@ -20,11 +20,12 @@ get_xws_tests = (
         {"name": "Sunny B!", "faction": "scumandvillainy", "pilots": [{"id": "sunnybounder", "upgrades": {"cannon": [
             "heavylasercannon"]}}], "vendor": {"stopgapp": {"builder": "Stop Gapp builder by DevJonny and dbouckley"}}}
     ),
-    (
+    pytest.param(
         "https://launch-bay-next.herokuapp.com/print?lbx=%27New%20Squadron%27.34.3.0.(44.188.(3.256))&mode=full",
         {"name": "New Squadron", "faction": "scumandvillainy", "pilots": [{"ship": "m3ainterceptor", "upgrades": {"cannon": ["heavylasercannon"]}, "id":"sunnybounder"}], "version": "2.0.0", "points": 34, "vendor": {
-            "lbn": {"builder": "Launch Bay Next", "builder_url": "https://launch-bay-next.herokuapp.com", "link": "https://launch-bay-next.herokuapp.com/print?lbx='New%20Squadron'.34.3.0.(44.188.(3.256))"}}}
-    )
+            "lbn": {"builder": "Launch Bay Next", "builder_url": "https://launch-bay-next.herokuapp.com", "link": "https://launch-bay-next.herokuapp.com/print?lbx='New%20Squadron'.34.3.0.(44.188.(3.256))"}}},
+        marks=pytest.mark.xfail(),  # Launch bay next xws is down
+    ),
 )
 @pytest.mark.parametrize('url, expected', get_xws_tests)
 def test_get_xws(testbot, url, expected):

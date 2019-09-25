@@ -93,7 +93,13 @@ print_card_tests = (
         ':orangecharge::charge2:',
         '*Seismic Charge* (Bomb)',
         'At the end of the Activation Phase, this device detonates. When this device detonates, choose 1 obstacle at range 0-1. Each ship at range 0-1 of the obstacle suffers 1 :hit: damage. Then remove that obstacle.',
-    ])
+    ]),
+    ('snapshot', [
+        ":talent: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Snap_Shot|Snap Shot>* [:smallbase:7:mediumbase:8:largebase:9] [Hyperspace]",
+        "After an enemy ship executes a maneuver, you may perform this attack against it as a bonus attack.",
+        "*Attack:* Your dice cannot be modified.",
+        ':redfrontarc::attack2::redrangebonusindicator:2',
+    ]),
 )
 
 @pytest.mark.parametrize('name, expected', print_card_tests)
@@ -144,7 +150,7 @@ lookup_tests = {
     ],
     'test': [('imdaartestpilot', 'pilot'), ('firstordertestpilot', 'pilot')],
     'fcs': [('firecontrolsystem', 'sensor')],
-    ':astromech: &gt; 6': [('m9g8', 'astromech')],
+    ':astromech: &gt; 6': [('m9g8', 'astromech'), ('c110p', 'astromech')],
     ':crew: = 13': [('supremeleadersnoke', 'crew')],
     ':focus:': [],
     'hot shot': [('hotshotgunner', 'gunner')],

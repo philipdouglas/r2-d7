@@ -1,6 +1,7 @@
 import html
 import logging
 import re
+from urllib.parse import quote
 
 from r2d7.core import DroidCore
 
@@ -163,6 +164,7 @@ You can also search for cards by points value in a particular slot. Eg. _[[:crew
             fudged_name += '_(VCX-100)'
         elif re.match(r'"Heavy_Scyk"_Interceptor', fudged_name):
             fudged_name = '"Heavy_Scyk"_Interceptor'
+        fudged_name = quote(fudged_name)
         url = f"http://xwing-miniatures-second-edition.wikia.com/wiki/{fudged_name}"
         return cls.link(url, card_name)
 

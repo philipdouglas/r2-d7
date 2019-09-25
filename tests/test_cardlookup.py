@@ -65,10 +65,10 @@ print_card_tests = (
         '_*Stygium Array:*_ After you decloak, you may perform an :evade: action. At the start of the End Phase, you may spend 1 evade token to gain 1 cloak token.',
     ]),
     ('pivotwing', [
-        ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_(Closed)|Pivot Wing (Closed)>* [0] [Hyperspace]',
+        ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_%28Closed%29|Pivot Wing (Closed)>* [0] [Hyperspace]',
         '_Restrictions: UT-60D U-wing_',
         'While you defend, roll 1 fewer defense die. After you execute a [0 :stop:] maneuver, you may rotate your ship 90° or 180°. Before you activate, you may flip this card.',
-        ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_(Open)|Pivot Wing (Open)>* [0] [Hyperspace]',
+        ':configuration: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Pivot_Wing_%28Open%29|Pivot Wing (Open)>* [0] [Hyperspace]',
         '_Restrictions: UT-60D U-wing_',
         'Before you activate, you may flip this card.',
     ]),

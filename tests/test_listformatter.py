@@ -20,11 +20,10 @@ get_xws_tests = (
         {"name": "Sunny B!", "faction": "scumandvillainy", "pilots": [{"id": "sunnybounder", "upgrades": {"cannon": [
             "heavylasercannon"]}}], "vendor": {"stopgapp": {"builder": "Stop Gapp builder by DevJonny and dbouckley"}}}
     ),
-    pytest.param(
+    (
         "https://launch-bay-next.herokuapp.com/print?lbx=%27New%20Squadron%27.34.3.0.(44.188.(3.256))&mode=full",
         {"name": "New Squadron", "faction": "scumandvillainy", "pilots": [{"ship": "m3ainterceptor", "upgrades": {"cannon": ["heavylasercannon"]}, "id":"sunnybounder"}], "version": "2.0.0", "points": 34, "vendor": {
             "lbn": {"builder": "Launch Bay Next", "builder_url": "https://launch-bay-next.herokuapp.com", "link": "https://launch-bay-next.herokuapp.com/print?lbx='New%20Squadron'.34.3.0.(44.188.(3.256))"}}},
-        marks=pytest.mark.xfail(),  # Launch bay next xws is down
     ),
 )
 @pytest.mark.parametrize('url, expected', get_xws_tests)
@@ -36,10 +35,9 @@ print_xws_tests = (
         {"faction": "scum", "name": "Sunny B!", "pilots": [{"name": "sunnybounder", "ship": "m3ainterceptor", "upgrades": {"hardpoint": ["hardpointcannon"], "cannon":["heavylasercannon"]}}], "vendor": {"yasb": {
             "builder": "(Yet Another) X-Wing Miniatures Squad Builder", "builder_url": "https://raithos.github.io/xwing", "link": "https://raithos.github.io/xwing/?f=Scum%20and%20Villainy&d=v4!s!138:-1,168:-1:-1:U.10&sn=Sunny%20B!&obs="}}, "version": "0.3.0"},
         [
-            ':scum: *<https://raithos.github.io/?f=Scum%20and%20Villainy&d=v4!s!138:-1,168:-1:-1:U.10&sn=Sunny%20B!&obs=|Sunny B!>* *[34]*',
+            ':scum: *<https://raithos.github.io/xwing/?f=Scum%20and%20Villainy&d=v4!s!138:-1,168:-1:-1:U.10&sn=Sunny%20B!&obs=|Sunny B!>* *[34]*',
             ':m3ainterceptor::initiative1: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Sunny_Bounder|Sunny Bounder>_: <http://xwing-miniatures-second-edition.wikia.com/wiki/Heavy_Laser_Cannon|Heavy Laser Cannon> *[34]*',
         ],
-        marks=pytest.mark.xfail(),  # title links causing problems
     ),
     (
         {"description": "", "faction": "scumandvillainy", "name": "Variable points", "pilots": [

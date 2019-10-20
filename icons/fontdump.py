@@ -168,6 +168,8 @@ fonts = {
         'resistancetransportpod': '}',
         'hyenaclassdroidbomber': '=',
         'nabooroyaln1starfighter': '<',
+        'btlbywing': ':',
+        'nantexclassstarfighter': ';',
     }
 }
 

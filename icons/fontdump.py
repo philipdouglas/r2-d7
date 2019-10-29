@@ -137,7 +137,7 @@ fonts = {
         'tieddefender': "D",
         'tielnfighter': "F",
         'tiefofighter': "O",
-        'tieinterceptor': "I",
+        'tieininterceptor': "I",
         'tiephphantom': "P",
         'tiecapunisher': "N",
         'tiereaper': "V",

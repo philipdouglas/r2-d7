@@ -47,7 +47,6 @@ class ListFormatter(DroidCore):
             xws_url = f"https://launch-bay-next.herokuapp.com/xws?lbx={match[3]}"
 
         if xws_url:
-            xws_url = ListFormatter.clean_slack_formatting(xws_url)
             xws_url = unescape(xws_url)
             logging.info(f"Requesting {xws_url}")
             response = requests.get(xws_url)
@@ -141,11 +140,12 @@ class ListFormatter(DroidCore):
         return [output]
 
     def handle_url(self, message):
+        match = self.formatted_link_regex.match(message)
+        if match:
+            message = match['url']
         xws = self.get_xws(message)
         logger.debug(xws)
         if xws:
             return self.print_xws(xws, url=message)
         return []
 
-    def clean_slack_formatting(url):
-        return url.replace('&amp;','&').replace('&lt;','<').replace('&gt;','<')

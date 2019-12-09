@@ -75,6 +75,7 @@ class DroidCore():
     MANIFEST = 'data/manifest.json'
     # VERSION_RE = re.compile(r'xwing-data/releases/tag/([\d\.]+)')
     check_frequency = 900  # 15 minutes
+    formatted_link_regex = re.compile(r'(?P<url>http(s)?://.*?)\|(?P<text>.*)')
 
     @classmethod
     def get_file(cls, filepath):

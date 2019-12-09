@@ -22,7 +22,7 @@ get_xws_tests = (
     ),
     (
         "https://launch-bay-next.herokuapp.com/print?lbx=%27New%20Squadron%27.34.3.0.(44.188.(3.256))&mode=full",
-        {"name": "New Squadron", "faction": "scumandvillainy", "pilots": [{"ship": "m3ainterceptor", "upgrades": {"cannon": ["heavylasercannon"]}, "id":"sunnybounder"}], "version": "2.0.0", "points": 34, "vendor": {
+        {"name": "New Squadron", "description": "", "faction": "scumandvillainy", "pilots": [{"ship": "m3ainterceptor", "upgrades": {"cannon": ["heavylasercannon"]}, "id":"sunnybounder", "points": 34}], "version": "2.0.0", "points": 34, "vendor": {
             "lbn": {"builder": "Launch Bay Next", "builder_url": "https://launch-bay-next.herokuapp.com", "link": "https://launch-bay-next.herokuapp.com/print?lbx='New%20Squadron'.34.3.0.(44.188.(3.256))"}}},
     ),
 )

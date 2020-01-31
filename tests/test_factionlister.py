@@ -25,6 +25,7 @@ print_faction_ships_tests = (
         ':z95af4headhunter:'
     ]),
     ('first_order', [
+        ':tiebainterceptor:'
         ':tiefofighter:'
         ':tiesffighter:'
         ':tievnsilencer:'

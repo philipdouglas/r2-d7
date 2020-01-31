@@ -24,3 +24,12 @@ To add the icons:
 Written in Python. (Requires version 3.6 or later)
 
 Uses card data from <a href="https://github.com/guidokessels/xwing-data">guidokessels/xwing-data</a>.
+
+# Running locally
+First, create or obtain a slack token (see slack API documentation).
+Then set your token as an environment variable and you can launch r2d7
+```
+export SLACK_TOKEN="123456-your-slack-token-here"
+python -m r2d7.slack
+```
+

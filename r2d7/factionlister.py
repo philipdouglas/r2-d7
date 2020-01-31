@@ -19,10 +19,20 @@ class FactionLister(DroidCore):
 
     icon_to_faction = {
         'scum': ('Scum and Villainy', ),
+        'scum2': ('Scum and Villainy', ),
         'rebel': ('Rebel Alliance', ),
+        'rebel2': ('Rebel Alliance', ),
         'imperial': ('Galactic Empire', ),
+        'empire': ('Galactic Empire', ),
+        'empire2': ('Galactic Empire', ),
         'resistance': ('Resistance', ),
+        'resistance2': ('Resistance', ),
         'first_order': ('First Order', ),
+        'first_order2': ('First Order', ),
+        'separatistalliance': ('Separatist Alliance', ),
+        'separatist2': ('Separatist Alliance', ),
+        'galacticrepublic': ('Galactic Republic', ),
+        'republic2': ('Galactic Republic', ),
     }
 
     def print_faction_ships(self, icon):

@@ -57,7 +57,7 @@ You can also search for cards by points value in a particular slot. Eg. _[[:crew
         r' *(?:(:[^:]+:))? *(?:([^=><:]*[^=><: ][^=><:]*)|([=><][=><]?)'
         r' *(\d+)) *(?:(:[^:]+:))? *'
     )
-    faction_icon_pattern = r':(rebel|resistance|scum|imperial|first_order):'
+    faction_icon_pattern = r':(rebel(2)?|resistance(2)?|scum(2)?|imperial|empire2|first_order|firstorder2|separatistalliance|separatist2|galacticrepublic|republic2):'
 
     @staticmethod
     def iconify(name, special_chars=False):

@@ -23,7 +23,7 @@ class ListFormatter(DroidCore):
         re.compile(
             r'(https://devjonny\.github\.io/(xwing2estopgap)/[a-z]+\?id=([a-zA-Z0-9\-]+))'),
         re.compile(
-            r'(https://(launch-bay-next)\.herokuapp\.com/[a-z]+\?lbx=([^&]+)(?:&mode=[a-z]+)?)'),
+            r'(https://(launch-bay-next)\.herokuapp\.com/[a-z]*\?lbx=([^&]+)(?:&mode=[a-z]+)?)'),
     )
 
     def get_xws(self, message):

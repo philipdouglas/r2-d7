@@ -63,9 +63,11 @@ class ListFormatter(DroidCore):
         if 'vendor' in xws:
             if len(list(xws['vendor'].keys())) > 1:
                 logger.warning(f"More than one vendor found! {xws['vendor']}")
-            vendor = list(xws['vendor'].values())[0]
-            if 'link' in vendor:
-                url = vendor['link']
+            vendor = list(xws['vendor'].values())
+            if len(vendor) > 0:
+                vendor = vendor[0]
+                if 'link' in vendor:
+                    url = vendor['link']
         if url:
             name = self.link(url, name)
         name = self.bold(name)

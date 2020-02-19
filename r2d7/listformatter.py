@@ -38,7 +38,8 @@ class ListFormatter(DroidCore):
 
         xws_url = None
         if match[2] == 'raithos':
-            xws_url = f"https://yasb2-xws.herokuapp.com/?{match[3]}"
+            #xws_url = f"https://yasb2-xws.herokuapp.com/?{match[3]}"
+            xws_url = f"http://squad2xws.herokuapp.com/yasb/xws/?{match[3]}"
         if match[2] == 'squadbuilder':
             xws_url = f"http://squad2xws.herokuapp.com/translate/{match[3]}"
         if match[2] == 'xwing2estopgap':
@@ -63,9 +64,11 @@ class ListFormatter(DroidCore):
         if 'vendor' in xws:
             if len(list(xws['vendor'].keys())) > 1:
                 logger.warning(f"More than one vendor found! {xws['vendor']}")
-            vendor = list(xws['vendor'].values())[0]
-            if 'link' in vendor:
-                url = vendor['link']
+            vendor = list(xws['vendor'].values())
+            if len(vendor) > 0:
+                vendor = vendor[0]
+                if 'link' in vendor:
+                    url = vendor['link']
         if url:
             name = self.link(url, name)
         name = self.bold(name)

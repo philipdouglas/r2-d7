@@ -7,8 +7,7 @@ from r2d7.slackdroid import SlackDroid
 get_xws_tests = (
     (
         "https://raithos.github.io/?f=Scum%20and%20Villainy&d=v8ZsZ200Z138XW10&sn=Sunny%20B!&obs=",
-        {"faction": "scumandvillainy", "name": "Sunny B!", "points": 32, "pilots": [{"id": "sunnybounder", "ship": "m3ainterceptor", "points": 32, "upgrades": {"cannon": ["heavylasercannon"]}}], "vendor": {
-            "yasb": {"builder": "(Yet Another) X-Wing Miniatures Squad Builder", "builder_url": "https://raithos.github.io", "link": "https://raithos.github.io/?f=Scum%20and%20Villainy&d=v8ZsZ200Z138XW10&sn=Sunny%20B!&obs="}}, "version": "2.0.0"},
+        {"faction": "scumandvillainy", "name": "Sunny B!", "points": 32, "pilots": [{"id": "sunnybounder", "ship": "m3ainterceptor", "points": 32, "upgrades": {"cannon": ["heavylasercannon"]}}], "vendor": {}, "version": "2.0.0"},
     ),
     (
         "https://squadbuilder.fantasyflightgames.com/squad-preview/d0966452-ec40-40d4-a3cd-ff384e1dcf70",

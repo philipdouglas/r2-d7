@@ -92,7 +92,7 @@ print_card_tests = (
         '_*Bomb:*_ During the System Phase, you may spend 1 :charge: to drop a Seismic Charge with the [1 :straight:] template.',
         ':orangecharge::charge2:',
         '*Seismic Charge* (Bomb)',
-        'At the end of the Activation Phase, this device detonates. When this device detonates, choose 1 obstacle at range 0-1. Each ship at range 0-1 of the obstacle suffers 1 :hit: damage. Then remove that obstacle.',
+        'At the end of the Activation Phase, this device detonates. When this device detonates, choose 1 obstacle at range 0-1. Each ship and remote at range 0-1 of the obstacle suffers 1 :hit: damage. Then remove that obstacle.',
     ]),
     ('snapshot', [
         ":talent: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Snap_Shot|Snap Shot>* [:smallbase:7:mediumbase:8:largebase:9] [Hyperspace]",
@@ -353,7 +353,7 @@ def test_print_attack(testbot, card, expected):
 @pytest.mark.parametrize('card, expected', [
     ('seismiccharges', [
         '*Seismic Charge* (Bomb)',
-        'At the end of the Activation Phase, this device detonates. When this device detonates, choose 1 obstacle at range 0-1. Each ship at range 0-1 of the obstacle suffers 1 :hit: damage. Then remove that obstacle.',
+        'At the end of the Activation Phase, this device detonates. When this device detonates, choose 1 obstacle at range 0-1. Each ship and remote at range 0-1 of the obstacle suffers 1 :hit: damage. Then remove that obstacle.',
     ]),
 ])
 def test_print_device(testbot, card, expected):

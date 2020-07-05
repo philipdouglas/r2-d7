@@ -170,6 +170,8 @@ fonts = {
         'nabooroyaln1starfighter': '<',
         'btlbywing': ':',
         'nantexclassstarfighter': ';',
+        'fireball': '|',
+        'tiebainterceptor': '{',
     }
 }
 

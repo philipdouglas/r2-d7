@@ -55,10 +55,10 @@ print_xws_tests = (
         ]
     ),
     (
-        {"description": "", "faction": "scumandvillainy", "name": "Lando", "pilots": [{"id": "landocalrissian", "points": 49, "ship": "customizedyt1300lightfreighter"}], "points": 49, "version": "0.3.0"},
+        {"description": "", "faction": "scumandvillainy", "name": "Lando", "pilots": [{"id": "landocalrissian", "points": 42, "ship": "customizedyt1300lightfreighter"}], "points": 42, "version": "0.3.0"},
         [
-            ':scum: *Lando* *[49]*',
-            ':customizedyt1300lightfreighter::initiative4: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Lando_Calrissian|Lando Calrissian>_ *[49]*',
+            ':scum: *Lando* *[42]*',
+            ':customizedyt1300lightfreighter::initiative4: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Lando_Calrissian|Lando Calrissian>_ *[42]*',
         ]
     ),
     (

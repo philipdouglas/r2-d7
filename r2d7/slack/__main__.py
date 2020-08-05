@@ -15,7 +15,6 @@ from r2d7.slack.bot import SlackBot
 
 from r2d7.listformatter import ListFormatter
 from r2d7.cardlookup import CardLookup
-from r2d7.counter import Counter
 from r2d7.factionlister import FactionLister
 from r2d7.roller import Roller
 from r2d7.slackdroid import SlackDroid
@@ -27,7 +26,6 @@ class Droid(
         SlackDroid,
         ListFormatter,
         CardLookup,
-        Counter,
         FactionLister,
         Roller):
     pass

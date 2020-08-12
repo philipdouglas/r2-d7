@@ -32,22 +32,23 @@ class Metawing(DroidCore):
         self.register_handler(Metawing.pattern_handler, self.handler)
 
     def handler(self, message):
-        url = self._base_url + self._list_path + self._json_suffix
+        url = self._base_url + self._list_path
         printer = self.list_printer
         if Metawing.pattern_pilot.match(message):
-            url = self._base_url + self._pilot_path + self._json_suffix
+            url = self._base_url + self._pilot_path
             printer = self.pilot_printer
         if Metawing.pattern_ship.match(message):
-            url = self._base_url + self._ship_path + self._json_suffix
+            url = self._base_url + self._ship_path
             printer = self.ship_printer
         if Metawing.pattern_upgrade.match(message):
-            url = self._base_url + self._upgrade_path + self._json_suffix
+            url = self._base_url + self._upgrade_path
             printer = self.upgrade_printer
         if Metawing.pattern_meta.match(message):
             return [['Woah dude']]
         return [self.query_and_print(url, printer)]
 
     def query_and_print(self, url, printer, num_to_print=5):
+        url = url + self._json_suffix
         try:
             result = requests.get(url)
             if not result.ok:
@@ -96,13 +97,14 @@ class Metawing(DroidCore):
 
     @classmethod
     def name_link_printer(cls, data):
-        list_name = data.get('name', '(unnamed)')
-        if list_name is None or list_name == 'None':
-            list_name = '(unnamed)'
-        list_url = data.get('link', '')
-        if list_url == '':
-            return list_name
-        return cls.link(list_url, list_name)
+        name = data.get('name', '(unnamed)')
+        if name is None or name == 'None':
+            name = '(unnamed)'
+        url = data.get('link', '')
+        if url == '':
+            return name
+        url = re.sub('.json$', '', url)
+        return cls.link(url, name)
 
     @staticmethod
     def score_printer(data):

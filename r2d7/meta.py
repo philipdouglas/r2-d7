@@ -12,11 +12,11 @@ class Metawing(DroidCore):
     """
     match_base = '!meta'
     pattern_handler = re.compile('(!meta.*)', re.I)
-    pattern_list = re.compile(match_base + '.*', re.I)
-    pattern_pilot = re.compile(match_base + '\s*pilot.*', re.I)
-    pattern_ship = re.compile(match_base + '\s*ship.*', re.I)
-    pattern_upgrade = re.compile(match_base + '\s*upgrade.*', re.I)
-    pattern_meta = re.compile(match_base + '\s*meta.*', re.I)
+    pattern_pilot = re.compile('pilot', re.I)
+    pattern_ship = re.compile('ship', re.I)
+    pattern_upgrade = re.compile('upgrade', re.I)
+    pattern_meta = re.compile('meta meta', re.I)
+    pattern_quantity = re.compile('[0-9]+', re.I)
 
     _base_url = 'https://meta.listfortress.com'
     _json_suffix = '.json'
@@ -34,18 +34,22 @@ class Metawing(DroidCore):
     def handler(self, message):
         url = self._base_url + self._list_path
         printer = self.list_printer
-        if Metawing.pattern_pilot.match(message):
+        if Metawing.pattern_pilot.search(message):
             url = self._base_url + self._pilot_path
             printer = self.pilot_printer
-        if Metawing.pattern_ship.match(message):
+        if Metawing.pattern_ship.search(message):
             url = self._base_url + self._ship_path
             printer = self.ship_printer
-        if Metawing.pattern_upgrade.match(message):
+        if Metawing.pattern_upgrade.search(message):
             url = self._base_url + self._upgrade_path
             printer = self.upgrade_printer
-        if Metawing.pattern_meta.match(message):
+        if Metawing.pattern_meta.search(message):
             return [['Woah dude']]
-        return [self.query_and_print(url, printer)]
+        qty = 5
+        qty_match = Metawing.pattern_quantity.search(message)
+        if qty_match:
+            qty = min(int(qty_match[0]), 25)
+        return [self.query_and_print(url, printer, qty)]
 
     def query_and_print(self, url, printer, num_to_print=5):
         url = url + self._json_suffix

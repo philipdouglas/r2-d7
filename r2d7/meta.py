@@ -33,7 +33,7 @@ class Metawing(DroidCore):
         self.register_handler(Metawing.upgrade_handler, self.upgrades)
         self.register_handler(Metawing.meta_handler, self.meta)
 
-    def query_and_print(self, url, printer, numToPrint=3):
+    def query_and_print(self, url, printer, num_to_print=5):
         try:
             result = requests.get(url)
             if !result.ok
@@ -41,7 +41,7 @@ class Metawing(DroidCore):
             json = result.json()
             output = []
             # TODO maybe add numbers here?
-            for item in json[0:numToPrint]:
+            for item in json[0:num_to_print]:
                 output += printer(item)
             return output
         except:
@@ -49,7 +49,7 @@ class Metawing(DroidCore):
 
     def lists(self, message):
         url = self._base_url + self._list_path
-        return self.query_and_print(url, list_printer)
+        return self.query_and_print(url, list_printer, 3)
 
     def pilots(self, message):
         url = self._base_url + self._pilot_path
@@ -77,10 +77,28 @@ class Metawing(DroidCore):
         output += f'\nAverage: {average} Weighted: {weight}'
         return output
 
+    def pilot_printer(self, pilot):
+        output = pilot.get('name', '(unnamed)') + ' '
+        ship = pilot.get('ship', {})
+        output += self.iconify(ship.get('name', 'question'), True)
+        # TODO should probably use a more robust method than slapping the ship name into iconify
+        average = pilot.get('average_percentile', '?')
+        weight = pilot.get('weight', '?')
+        output += f'\nAverage: {average} Weighted: {weight}'
+        return output
+
     def ship_printer(self, ship):
         output = ship.get('name', '(unnamed)') + ' '
         output += self.iconify(ship.get('xws', 'question'))
-        average = meta_list.get('average_percentile', '?')
-        weight = meta_list.get('weight', '?')
+        average = ship.get('average_percentile', '?')
+        weight = ship.get('weight', '?')
+        output += f'\nAverage: {average} Weighted: {weight}'
+        return output
+
+    def upgrade_printer(self, upgrade):
+        output = upgrade.get('name', '(unnamed)') + ' '
+        # TODO add upgrade type icon
+        average = upgrade.get('average_percentile', '?')
+        weight = upgrade.get('weight', '?')
         output += f'\nAverage: {average} Weighted: {weight}'
         return output

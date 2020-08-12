@@ -66,39 +66,43 @@ class Metawing(DroidCore):
     def meta(self, message):
         return ['Woah dude']
 
-    # TODO add hrefs to the names
     def list_printer(self, meta_list):
-        output = meta_list.get('name', '(unnamed)') + ' '
+        output = name_link_printer(meta_list) + ''
         for ship in meta_list.get("ships", []):
             icon
             output += self.iconify(ship.get('xws', 'question'))
-        average = meta_list.get('average_percentile', '?')
-        weight = meta_list.get('weight', '?')
-        output += f'\nAverage: {average} Weighted: {weight}'
+        output += '\n' + score_printer(meta_list)
         return output
 
     def pilot_printer(self, pilot):
-        output = pilot.get('name', '(unnamed)') + ' '
         ship = pilot.get('ship', {})
-        output += self.iconify(ship.get('name', 'question'), True)
         # TODO should probably use a more robust method than slapping the ship name into iconify
-        average = pilot.get('average_percentile', '?')
-        weight = pilot.get('weight', '?')
-        output += f'\nAverage: {average} Weighted: {weight}'
+        output = self.iconify(ship.get('name', 'question'), True)
+        output += ' ' + name_link_printer(pilot)
+        output += '\n' + score_printer(pilot)
         return output
 
     def ship_printer(self, ship):
-        output = ship.get('name', '(unnamed)') + ' '
+        output = name_link_printer(ship) + ''
         output += self.iconify(ship.get('xws', 'question'))
-        average = ship.get('average_percentile', '?')
-        weight = ship.get('weight', '?')
-        output += f'\nAverage: {average} Weighted: {weight}'
+        output += '\n' + score_printer(ship)
         return output
 
     def upgrade_printer(self, upgrade):
-        output = upgrade.get('name', '(unnamed)') + ' '
+        output = name_link_printer(upgrade) + ''
         # TODO add upgrade type icon
-        average = upgrade.get('average_percentile', '?')
-        weight = upgrade.get('weight', '?')
-        output += f'\nAverage: {average} Weighted: {weight}'
+        # TODO put icon before name
+        output += '\n' + score_printer(upgrade)
         return output
+
+    def name_link_printer(self, data):
+        listName = meta_list.get('name', '(unnamed)')
+        listUrl = meta_list.get('link', '')
+        if listUrl == '':
+            return listName
+        return self.link(listUrl, listName)
+
+    def score_printer(self, data):
+        average = data.get('average_percentile', '?')
+        weight = data.get('weight', '?')
+        return f'Average: {average}, Weighted: {weight}'

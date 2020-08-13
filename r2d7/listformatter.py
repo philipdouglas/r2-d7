@@ -18,6 +18,7 @@ class ListFormatter(DroidCore):
 
     _regexes = (
         re.compile(r'(https?://(raithos)\.github\.io/\?(.*))'),
+        re.compile(r'(https?://(danrs)\.github\.io/xwing/\?(.*))'),
         re.compile(
             r'(https://(squadbuilder)\.fantasyflightgames\.com/squad-preview/([a-zA-Z0-9\-]+))'),
         re.compile(
@@ -39,6 +40,8 @@ class ListFormatter(DroidCore):
         xws_url = None
         if match[2] == 'raithos':
             #xws_url = f"https://yasb2-xws.herokuapp.com/?{match[3]}"
+            xws_url = f"http://squad2xws.herokuapp.com/yasb/xws/?{match[3]}"
+        if match[2] == 'danrs':
             xws_url = f"http://squad2xws.herokuapp.com/yasb/xws/?{match[3]}"
         if match[2] == 'squadbuilder':
             xws_url = f"http://squad2xws.herokuapp.com/translate/{match[3]}"

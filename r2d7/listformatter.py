@@ -135,7 +135,7 @@ class ListFormatter(DroidCore):
 
                 upgrade_text = self.wiki_link(upgrade['name'])
                 upgrades.append(upgrade_text)
-                points+=self.get_upgrade_cost(pilot_card, upgrade)
+                points += self.get_upgrade_cost(pilot_card, upgrade)
 
             ship_line = (
                 self.iconify(pilot_card['ship']['name']) +
@@ -161,4 +161,3 @@ class ListFormatter(DroidCore):
         if xws:
             return self.print_xws(xws, url=message)
         return []
-

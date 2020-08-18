@@ -62,6 +62,37 @@ class ListFormatter(DroidCore):
                 raise DroidException(f"YASB error: ({data['message']}")
             return data
 
+    def get_pilot_cards(self, pilot):
+        cards = []
+        if 'upgrades' in pilot:
+            for slot, upgrades in pilot['upgrades'].items():
+                # Hardpoint is a fake slot used to implement the scyk ship ability
+                if slot == 'hardpoint':
+                    continue
+                for upgrade in upgrades:
+                    try:
+                        cards.append(self.data['upgrade'][upgrade])
+                    except KeyError:
+                        cards.append(None)
+        return cards
+
+    def get_upgrade_cost(self, pilot_card, upgrade):
+        cost = upgrade.get('cost', {})
+        if 'variable' in cost:
+            if cost['variable'] == 'size':
+                stat = pilot_card['ship']['size']
+            elif cost['variable'] in pilot_card:
+                stat = pilot_card[cost['variable']]
+            else:
+                stat = 0
+                for stat_block in pilot_card['ship']['stats']:
+                    if stat_block['type'] == cost['variable']:
+                        stat = stat_block['value']
+                        break
+            return cost['values'][str(stat)]
+        else:
+            return cost.get('value', 0)
+
     def print_xws(self, xws, url=None):
         name = xws.get('name', 'Nameless Squadron')
         if 'vendor' in xws:
@@ -94,17 +125,7 @@ class ListFormatter(DroidCore):
             points += pilot_card.get('cost', 0)
             initiative = pilot_card['initiative']
 
-            cards = []
-            if 'upgrades' in pilot:
-                for slot, upgrades in pilot['upgrades'].items():
-                    # Hardpoint is a fake slot used to implement the scyk ship ability
-                    if slot == 'hardpoint':
-                        continue
-                    for upgrade in upgrades:
-                        try:
-                            cards.append(self.data['upgrade'][upgrade])
-                        except KeyError:
-                            cards.append(None)
+            cards = self.get_pilot_cards(pilot)
 
             upgrades = []
             for upgrade in cards:
@@ -114,21 +135,7 @@ class ListFormatter(DroidCore):
 
                 upgrade_text = self.wiki_link(upgrade['name'])
                 upgrades.append(upgrade_text)
-                cost = upgrade.get('cost', {})
-                if 'variable' in cost:
-                    if cost['variable'] == 'size':
-                        stat = pilot_card['ship']['size']
-                    elif cost['variable'] in pilot_card:
-                        stat = pilot_card[cost['variable']]
-                    else:
-                        stat = 0
-                        for stat_block in pilot_card['ship']['stats']:
-                            if stat_block['type'] == cost['variable']:
-                                stat = stat_block['value']
-                                break
-                    points += cost['values'][str(stat)]
-                else:
-                    points += cost.get('value', 0)
+                points+=self.get_upgrade_cost(pilot_card, upgrade)
 
             ship_line = (
                 self.iconify(pilot_card['ship']['name']) +

@@ -70,14 +70,10 @@ class Metawing(DroidCore):
             return [[self._query_error]]
 
     def list_printer(self, meta_list):
-        print("INPUT") #DEBUG
-        print(meta_list) #DEBUG
         output = self.name_link_printer(meta_list) + ' '
         for ship in meta_list.get("ships", []):
             output += self.iconify(ship.get('xws', 'question'))
         output += '\n' + self.score_printer(meta_list)
-        print("OUTPUT") #DEBUG
-        print(output) #DEBUG
         return output
 
     def pilot_printer(self, pilot):
@@ -118,4 +114,4 @@ class Metawing(DroidCore):
     def score_printer(data):
         average = data.get('average_percentile', '?')
         weight = float(data.get('weight', '?'))*100
-        return f'Average: {average}%, Weighted: {weight:.2f}%'
+        return f'Average: {average:.0f}%, Weighted: {weight:.0f}%'

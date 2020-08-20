@@ -16,6 +16,7 @@ class Metawing(DroidCore):
     pattern_ship = re.compile('ship', re.I)
     pattern_upgrade = re.compile('upgrade', re.I)
     pattern_meta = re.compile('meta meta', re.I)
+    pattern_help = re.compile('(help)|(syntax)', re.I)
     pattern_quantity = re.compile('[0-9]+', re.I)
 
     _base_url = 'https://meta.listfortress.com'
@@ -43,13 +44,23 @@ class Metawing(DroidCore):
         if Metawing.pattern_upgrade.search(message):
             url = self._base_url + self._upgrade_path
             printer = self.upgrade_printer
+        if Metawing.pattern_help.search(message):
+            return [self.meta_syntax()]
         if Metawing.pattern_meta.search(message):
             return [['Woah dude']]
         qty = 5
         qty_match = Metawing.pattern_quantity.search(message)
         if qty_match:
             qty = min(int(qty_match[0]), 25)
+            qty = max(qty, 1)
         return [self.query_and_print(url, printer, qty)]
+
+    def meta_syntax(self):
+        output = []
+        output.append('Type `!meta` to see the current meta lists. You may specify `pilot`, `ship` or `upgrade` to see data for that category. You may also specify a number of results, up to 25.')
+        output.append('e.g.: `!meta`')
+        output.append('e.g.: `!meta pilot 3`')
+        return output
 
     def query_and_print(self, url, printer, num_to_print=5):
         url = url + self._json_suffix

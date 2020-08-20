@@ -8,6 +8,7 @@ import discord
 from r2d7.listformatter import ListFormatter
 from r2d7.cardlookup import CardLookup
 from r2d7.factionlister import FactionLister
+from r2d7.meta import Metawing
 from r2d7.roller import Roller
 from r2d7.discorddroid import DiscordDroid
 
@@ -19,6 +20,7 @@ class Droid(
         ListFormatter,
         CardLookup,
         FactionLister,
+        Metawing,
         Roller):
     pass
 

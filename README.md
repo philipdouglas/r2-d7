@@ -13,8 +13,6 @@ Support Slack and Discord!
 - Card image lookup via {{}} queries
 - Basic dice rolls with stats from http://gateofstorms.net/2/multi/
 
-Adding the bot to new Slack workspaces is currently broken. I plan to fix it soon.
-
 To add the icons:
 - Download the latest emoji.zip from https://github.com/FreakyDug/r2-d7/releases
 - Install https://chrome.google.com/webstore/detail/slack-emoji-tools/anchoacphlfbdomdlomnbbfhcmcdmjej

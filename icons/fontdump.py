@@ -172,6 +172,9 @@ fonts = {
         'nantexclassstarfighter': ';',
         'fireball': '|',
         'tiebainterceptor': '{',
+        'xiclasslightshuttle': 'Q',
+        'laatigunship': '/',
+        'hmpdroidgunship': '.',
     }
 }
 

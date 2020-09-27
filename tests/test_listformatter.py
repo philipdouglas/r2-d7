@@ -15,11 +15,6 @@ get_xws_tests = (
             "cannon": ["heavylasercannon"]}, "points":32}], "name": "Sunny B!", "description": "", "points": 32, 'vendor': {}}
     ),
     (
-        "https://devjonny.github.io/xwing2estopgap/scum?id=84b6758e-459f-4abd-a1c3-07f43d211af3",
-        {"name": "Sunny B!", "faction": "scumandvillainy", "pilots": [{"id": "sunnybounder", "upgrades": {"cannon": [
-            "heavylasercannon"]}}], "vendor": {"stopgapp": {"builder": "Stop Gapp builder by DevJonny and dbouckley"}}}
-    ),
-    (
         "https://launch-bay-next.herokuapp.com/print?lbx=%27New%20Squadron%27.32.3.0.(44.188.(3.256))&mode=full",
         {"name": "New Squadron", "description": "", "faction": "scumandvillainy", "pilots": [{"ship": "m3ainterceptor", "upgrades": {"cannon": ["heavylasercannon"]}, "id":"sunnybounder", "points": 32}], "version": "2.0.0", "points": 32, "vendor": {
             "lbn": {"builder": "Launch Bay Next", "builder_url": "https://launch-bay-next.herokuapp.com", "link": "https://launch-bay-next.herokuapp.com/print?lbx='New%20Squadron'.32.3.0.(44.188.(3.256))"}}},

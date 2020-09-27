@@ -45,8 +45,6 @@ class ListFormatter(DroidCore):
             xws_url = f"http://squad2xws.herokuapp.com/yasb/xws/?{match[3]}"
         if match[2] == 'squadbuilder':
             xws_url = f"http://squad2xws.herokuapp.com/translate/{match[3]}"
-        if match[2] == 'xwing2estopgap':
-            xws_url = f"https://o8l90u2pyd.execute-api.eu-west-2.amazonaws.com/live/idtoxws?id={match[3]}"
         if match[2] == 'launch-bay-next':
             xws_url = f"https://launch-bay-next.herokuapp.com/xws?lbx={match[3]}"
 

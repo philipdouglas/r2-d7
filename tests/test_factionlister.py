@@ -12,7 +12,9 @@ print_faction_ships_tests = (
         ':auzituckgunship:'
         ':btla4ywing:'
         ':btls8kwing:'
+        ':cr90corelliancorvette:'
         ':ewing:'
+        ':gr75mediumtransport:'
         ':hwk290lightfreighter:'
         ':modifiedyt1300lightfreighter:'
         ':rz1awing:'
@@ -25,6 +27,8 @@ print_faction_ships_tests = (
         ':z95af4headhunter:'
     ]),
     ('first_order', [
+        ':gozanticlasscruiser:'
+        ':raiderclasscorvette:'
         ':tiebainterceptor:'
         ':tiefofighter:'
         ':tiesffighter:'

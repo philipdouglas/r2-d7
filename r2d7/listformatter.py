@@ -24,6 +24,8 @@ class ListFormatter(DroidCore):
         re.compile(
             r'(https://devjonny\.github\.io/(xwing2estopgap)/[a-z]+\?id=([a-zA-Z0-9\-]+))'),
         re.compile(
+            r'(https://(launchbaynext)\.app/[a-z]*\?lbx=([^&]+)(?:&mode=[a-z]+)?)'),
+        re.compile( # legacy LBN app links
             r'(https://(launch-bay-next)\.herokuapp\.com/[a-z]*\?lbx=([^&]+)(?:&mode=[a-z]+)?)'),
     )
 
@@ -39,13 +41,14 @@ class ListFormatter(DroidCore):
 
         xws_url = None
         if match[2] == 'raithos':
-            #xws_url = f"https://yasb2-xws.herokuapp.com/?{match[3]}"
             xws_url = f"http://squad2xws.herokuapp.com/yasb/xws/?{match[3]}"
         if match[2] == 'danrs':
             xws_url = f"http://squad2xws.herokuapp.com/yasb/xws/?{match[3]}"
         if match[2] == 'squadbuilder':
             xws_url = f"http://squad2xws.herokuapp.com/translate/{match[3]}"
-        if match[2] == 'launch-bay-next':
+        if match[2] == 'launchbaynext':
+            xws_url = f"https://launchbaynext.app/api/xws?lbx={match[3]}"
+        if match[2] == 'launch-bay-next': # legacy LBN app
             xws_url = f"https://launch-bay-next.herokuapp.com/xws?lbx={match[3]}"
 
         if xws_url:

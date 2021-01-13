@@ -15,10 +15,15 @@ get_xws_tests = (
             "cannon": ["heavylasercannon"]}, "points":32}], "name": "Sunny B!", "description": "", "points": 32, 'vendor': {}}
     ),
     (
+        "https://launchbaynext.app/?lbx=%27New%20Squadron%27.32.3.0.l44.188.l3.256rr&mode=full",
+        {"name": "New Squadron", "description": "", "faction": "scumandvillainy", "pilots": [{"ship": "m3ainterceptor", "upgrades": {"cannon": ["heavylasercannon"]}, "id":"sunnybounder", "points": 32}], "version": "2.0.0", "points": 32, "vendor": {
+            "lbn": {"builder": "Launch Bay Next", "builder_url": "https://launchbaynext.app", "link": "https://launchbaynext.app/print?lbx='New%20Squadron'.32.3.0.l44.188.l3.256rr"}}},
+    ),
+    (
         "https://launch-bay-next.herokuapp.com/print?lbx=%27New%20Squadron%27.32.3.0.(44.188.(3.256))&mode=full",
         {"name": "New Squadron", "description": "", "faction": "scumandvillainy", "pilots": [{"ship": "m3ainterceptor", "upgrades": {"cannon": ["heavylasercannon"]}, "id":"sunnybounder", "points": 32}], "version": "2.0.0", "points": 32, "vendor": {
             "lbn": {"builder": "Launch Bay Next", "builder_url": "https://launch-bay-next.herokuapp.com", "link": "https://launch-bay-next.herokuapp.com/print?lbx='New%20Squadron'.32.3.0.(44.188.(3.256))"}}},
-    ),
+    ), # legacy LBN app. If this test fails, delete it and the legacy LBN parser from listformatter.py
 )
 @pytest.mark.parametrize('url, expected', get_xws_tests)
 def test_get_xws(testbot, url, expected):

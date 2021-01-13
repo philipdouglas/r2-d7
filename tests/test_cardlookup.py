@@ -7,13 +7,13 @@ from r2d7.slackdroid import SlackDroid
 
 print_card_tests = (
     ('tacticalofficer', [
-        ':crew: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Tactical_Officer|Tactical Officer>* [6] [Hyperspace]',
+        ':crew: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Tactical_Officer|Tactical Officer>* [6]',
         '_Restrictions: :redcoordinate:_',
         '_In the chaos of a starfighter battle, a single order can mean the difference between a victory and a massacre._',
         ':coordinate:',
     ]),
     ('predator', [
-        ':talent: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Predator|Predator>* [2]',
+        ':talent: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Predator|Predator>* [2] [Hyperspace]',
         'While you perform a primary attack, if the defender is in your :bullseyearc:, you may reroll 1 attack die.',
     ]),
     ('homingmissiles', [
@@ -22,12 +22,12 @@ print_card_tests = (
         ':redfrontarc::attack4::redrangebonusindicator:2-3 | :orangecharge::charge2:',
     ]),
     ('r2astromech', [
-        ':astromech: *<http://xwing-miniatures-second-edition.wikia.com/wiki/R2_Astromech|R2 Astromech>* [:greenagility::agility0:3:agility1:5:agility2:7:agility3:9] [Hyperspace]',
+        ':astromech: *<http://xwing-miniatures-second-edition.wikia.com/wiki/R2_Astromech|R2 Astromech>* [:greenagility::agility0:3:agility1:4:agility2:5:agility3:8] [Hyperspace]',
         'After you reveal your dial, you may spend 1 :charge: and gain 1 disarm token to recover 1 shield.',
         ':orangecharge::charge2:',
     ]),
     ('emperorpalpatine', [
-        ':crew::crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Emperor_Palpatine|Emperor Palpatine>* [11]',
+        ':crew::crew: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Emperor_Palpatine|Emperor Palpatine>* [11] [Hyperspace]',
         '_Restrictions: Imperial_',
         'While another friendly ship defends or performs an attack, you may spend 1 :forcecharge: to modify 1 of its dice as though that ship had spent 1 :forcecharge:.',
         ':purpleforcecharge::forcechargeplus1recurring:',
@@ -88,7 +88,7 @@ print_card_tests = (
         'After you are destroyed, you *must* choose another friendly ship and assign this condition to it, if able.',
     ]),
     ('seismiccharges', [
-        ':device: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Seismic_Charges|Seismic Charges>* [3] [Hyperspace]',
+        ':device: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Seismic_Charges|Seismic Charges>* [3]',
         '_*Bomb:*_ During the System Phase, you may spend 1 :charge: to drop a Seismic Charge with the [1 :straight:] template.',
         ':orangecharge::charge2:',
         '*Seismic Charge* (Bomb)',
@@ -133,10 +133,10 @@ lookup_tests = {
     'xwing': [('t65xwing', 'ship'), ('t70xwing', 'ship')],
     ':gunner: Han solo': [('hansolo', 'gunner'), ('hansolo-gunner', 'gunner')],
     'Han solo :gunner:': [('hansolo', 'gunner'), ('hansolo-gunner', 'gunner')],
-    ':astromech: r2d2': [('r2d2', 'astromech')],
+    ':astromech: r2d2': [('r2d2', 'astromech'), ('r2d2-republic', 'astromech'), ('r2d2-resistance', 'astromech')],
     'guri]]   [[finn': [('guri', 'pilot'), ('finn', 'gunner'), ('finn', 'pilot')],
     'guri]]   [[finn]] [[:astromech: r2d2]]': [
-        ('guri', 'pilot'), ('finn', 'gunner'), ('finn', 'pilot'), ('r2d2', 'astromech')],
+        ('guri', 'pilot'), ('finn', 'gunner'), ('finn', 'pilot'), ('r2d2', 'astromech'), ('r2d2-republic', 'astromech'), ('r2d2-resistance', 'astromech')],
     'han': [
         ('hansolo-crew', 'crew'),
         ('hansolo', 'gunner'),
@@ -150,7 +150,7 @@ lookup_tests = {
     ],
     'test': [('imdaartestpilot', 'pilot'), ('firstordertestpilot', 'pilot')],
     'fcs': [('firecontrolsystem', 'sensor')],
-    ':astromech: &gt; 6': [('m9g8', 'astromech'), ('c110p', 'astromech')],
+    ':astromech: &gt; 6': [('c110p', 'astromech')],
     ':crew: = 13': [('grandinquisitor', 'crew'), ('supremeleadersnoke', 'crew')],
     ':focus:': [],
     'hot shot': [('hotshotgunner', 'gunner')],
@@ -266,7 +266,7 @@ def test_print_ship_ability(testbot, pilot, expected):
         ':scum: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Enforcer|Black Sun Enforcer> [45], :initiative3:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Assassin|Black Sun Assassin> :talent: [48], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Dalan_Oberos|Dalan Oberos> :talent: [54], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Prince_Xizor|Prince Xizor> :talent: [54], :initiative5:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri> :talent: :calculate: [64]',
     ]),
     ('hwk290lightfreighter', [
-        ':rebel: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Rebel_Scout|Rebel Scout> [29], :initiative3:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Kyle_Katarn|Kyle Katarn> :talent: [33], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Roark_Garnet|Roark Garnet> :talent: [38], :initiative5:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Jan_Ors|Jan Ors> :talent: [41]',
+        ':rebel: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Rebel_Scout|Rebel Scout> [29], :initiative3:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Kyle_Katarn|Kyle Katarn> :talent: [31], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Roark_Garnet|Roark Garnet> :talent: [38], :initiative5:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Jan_Ors|Jan Ors> :talent: [41]',
         ':scum: :initiative1:<http://xwing-miniatures-second-edition.wikia.com/wiki/Spice_Runner|Spice Runner> :illicit: [28], :initiative2:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Torkil_Mux|Torkil Mux> :illicit: [38], :initiative3:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Palob_Godalhi|Palob Godalhi> :talent::illicit: [40], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Dace_Bonearm|Dace Bonearm> :talent::illicit: [31]'
     ]),
     ('escapecraft', [

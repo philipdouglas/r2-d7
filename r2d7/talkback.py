@@ -35,14 +35,3 @@ class Talkback(DroidCore):
         text += self.link(self._data_url, self._data_url)
         return [[text]]
 
-    @classmethod
-    def name_link_printer(cls, data):
-        name = data.get('name', '(unnamed)')
-        if name is None or name == 'None':
-            name = '(unnamed)'
-        url = data.get('link', '')
-        if url == '':
-            return name
-        url = re.sub('.json$', '', url)
-        return cls.link(url, name)
-

@@ -19,6 +19,7 @@ from r2d7.factionlister import FactionLister
 from r2d7.meta import Metawing
 from r2d7.roller import Roller
 from r2d7.slackdroid import SlackDroid
+from r2d7.talkback import Talkback
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +30,8 @@ class Droid(
         CardLookup,
         FactionLister,
         Metawing,
-        Roller):
+        Roller,
+        Talkback):
     pass
 
 

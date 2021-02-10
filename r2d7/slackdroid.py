@@ -44,15 +44,19 @@ class SlackDroid(DroidCore):
                 if category == 'damage':
                     card['text'] = self.convert_text(card['text'])
 
-    help = """\
-I am R2-D7, xwingtmg.slack.com's bot.
-*List Printing:* If you paste a (Yet Another) Squad Builder, Official FFG or LaunchBayNext permalink into a channel I'm in (or direct message me one), I will print a summary of the list.
-*Card Lookup:* Type something surrounded by square brackets and I will describe any upgrades, ships or pilots that match what you said. (Eg. Why not try [[Engine Upgrade]])
-If you only want cards in a particular slot or ship, begin your lookup with the emoji for that ship or slot. (eg. _[[:crew: rey]]_)
-You can also search for cards by points value in a particular slot. Eg. _[[:crew: <=3]]_. =, <, >, <= and >= are supported.
-*Dice Rolling:* If you type `!roll` followed by a number and a dice color, I'll roll dice for you. Type `!roll syntax` for full syntax.
-*Issues:* Type `!fix` for the best ways to contact the developers about issues.
+
+    def helpMessage(self):
+        return f"""\
+I am R2-D7, the x-wing miniatures chat bot.
+{self.bold("List Printing:")} If you paste a (Yet Another) Squad Builder, Official FFG or LaunchBayNext permalink into a channel I'm in (or direct message me one), I will print a summary of the list.
+{self.bold("Card Lookup:")} Type something surrounded by square brackets and I will describe any upgrades, ships or pilots that match what you said. (Eg. Why not try `[[Engine Upgrade]]`)
+If you only want cards in a particular slot or ship, begin your lookup with the emoji for that ship or slot. (eg. `[[:crew: rey]]`)
+You can also search for cards by points value in a particular slot. Eg. `[[:crew: <=3]]`. `=`, `<`, `>`, `<=` and `>=` are supported.
+{self.bold("Dice Rolling:")} If you type `!roll` followed by a number and a dice color, I'll roll dice for you. Type `!roll syntax` for full syntax.
+{self.bold("Metawing:")} Type `!meta` for a quick glimpse of the meta. Type `!meta syntax` for full syntax.
+{self.bold("Issues:")} Type `!fix` for the best ways to contact the developers about issues.
 """
+
 
     filter_pattern = re.compile(
         r' *(?:(:[^:]+:))? *(?:([^=><:]*[^=><: ][^=><:]*)|([=><][=><]?)'

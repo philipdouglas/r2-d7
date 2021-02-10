@@ -11,10 +11,12 @@ class Talkback(DroidCore):
     """
     Chat responses unrelated to other commands
     """
-    pattern_fix = re.compile('(!fix)', re.I)
-    pattern_typo = re.compile('(!typo)', re.I)
-    pattern_data = re.compile('(!data)', re.I)
-    pattern_stitch = re.compile('(!stitch ?crew)', re.I)
+    pattern_fix = re.compile('^!((fix)|(typo))', re.I)
+    pattern_data = re.compile('^!(data)', re.I)
+    pattern_help = re.compile('^!(help)', re.I)
+    pattern_stitchCrew = re.compile('^!(stitch ?crew)', re.I)
+    pattern_stitchCard = re.compile('\[\[(stitch ?crew)\]\]', re.I)
+    pattern_egg = re.compile('^!((egg)|(sooga))', re.I)
 
     _data_url = 'https://github.com/guidokessels/xwing-data2'
     _r2d7_url = 'https://github.com/FreakyDug/r2-d7'
@@ -22,9 +24,11 @@ class Talkback(DroidCore):
     def __init__(self):
         super().__init__()
         self.register_handler(Talkback.pattern_fix, self.fixHandler)
-        self.register_handler(Talkback.pattern_typo, self.fixHandler)
         self.register_handler(Talkback.pattern_data, self.dataHandler)
-        self.register_handler(Talkback.pattern_stitch, self.stitchCrewHandler)
+        self.register_handler(Talkback.pattern_help, self.helpHandler)
+        self.register_handler(Talkback.pattern_stitchCrew, self.stitchCrewHandler)
+        self.register_handler(Talkback.pattern_stitchCard, self.stitchCardHandler)
+        self.register_handler(Talkback.pattern_egg, self.eggHandler)
 
     def fixHandler(self, message):
         dataErrorText = 'For issues with card data, raise an issue or pull request at '
@@ -38,17 +42,15 @@ class Talkback(DroidCore):
         text += self.link(self._data_url, self._data_url)
         return [[text]]
 
+    def helpHandler(self, message):
+        return [[self.helpMessage()]]
+
     def stitchCrewHandler(self, message):
         # Commented-out responses are intentionally disabled for the time being
         lines = [
                     ['Stitch who?'],
-                    ['Coming soon...'],
                     #['STITCH CREW!'],
                     #[':sewing_needle::crew:'],
-                    #[
-                    #    f':crew::crew::crew::crew:• {self.bold("Stitch Crew")} [0]',
-                    #    'Pew Pew Pew'
-                    #],
                     #[
                     #    self.bold('Stitch Crew'),
                     #    '4 players, 200pts, 2 ships per player, 2 obstacles per player. First player is random and player order proceeds clockwise.',
@@ -58,3 +60,23 @@ class Talkback(DroidCore):
                 ]
         return [random.choice(lines)]
 
+    def stitchCardHandler(self, message):
+        # Commented-out responses are intentionally disabled for the time being
+        lines = [
+                    ['Coming soon...'],
+                    #[
+                    #    f':crew::crew::crew::crew:• {self.bold("Stitch Crew")} [0]',
+                    #    self.italics('Restrictions: Stitch Crew Only'),
+                    #    'Pew Pew Pew'
+                    #],
+                ]
+        return [random.choice(lines)]
+
+    def eggHandler(self, message):
+        lines = [
+                    ['Sooga! Sooga! Sooga!'],
+                    ['Utinni!'],
+                    [':egg:'],
+                    ['Maclunkey!'],
+                ]
+        return [random.choice(lines)]

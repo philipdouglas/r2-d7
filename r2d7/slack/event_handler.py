@@ -52,7 +52,7 @@ class RtmEventHandler(object):
                     raise Exception('Crashy crash!')
                 if 'help' in msg_txt:
                     self.messager.send_message(
-                        event['channel'], self.droid.help)
+                        event['channel'], self.droid.helpMessage())
                 else:
                     for regex, handle_method in self.droid._dm_handlers.items():
                         match = regex.search(msg_txt)

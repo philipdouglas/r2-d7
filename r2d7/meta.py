@@ -57,9 +57,11 @@ class Metawing(DroidCore):
 
     def meta_syntax(self):
         output = []
-        output.append('Type `!meta` to see the current meta lists. You may specify `pilot`, `ship` or `upgrade` to see data for that category. You may also specify a number of results, up to 25.')
-        output.append('e.g.: `!meta`')
-        output.append('e.g.: `!meta pilot 3`')
+        output.append('Type `!meta` to see the current meta lists. You may add the word `pilot`, `ship` or `upgrade` to see data for that category. You may also specify a number of results, up to 25.')
+        output.append('e.g.: `!meta` shows the top 5 lists')
+        output.append('e.g.: `!meta pilot 3` shows the top 3 pilots')
+        output.append('')
+        output.append('This command is intentionally simple and is not intended for in-depth meta analysis.')
         return output
 
     def query_and_print(self, url, printer, num_to_print=5):

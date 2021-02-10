@@ -599,7 +599,6 @@ class CardLookup(DroidCore):
                     'Your search matched more than 10 cards, please be more specific.'
                 )
             output.append(self.print_card(card))
-        print(output)
         return output
 
     def handle_image_lookup(self, lookup):

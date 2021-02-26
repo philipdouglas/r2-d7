@@ -11,6 +11,8 @@ logger = logging.getLogger(__name__)
 
 
 class ListFormatter(DroidCore):
+    _hyperspace_check_url = 'https://launchbaynext.app/api/hyperspace'
+
     def __init__(self):
         super().__init__()
         # The leading and trailing < and > are for Slack
@@ -63,6 +65,15 @@ class ListFormatter(DroidCore):
                 raise DroidException(f"YASB error: ({data['message']}")
             return data
 
+    def check_hyperspace_legal(self, xws):
+        r = requests.post(self._hyperspace_check_url, json=xws)
+        if r.status_code == 200:
+            return True
+        if r.status_code != 400:
+            # 400 means query succeeded but list was not hyperspace legal, other response codes indicate error
+            logger.warning(f"HTTP Error {r.status_code} while checking hyperspace, reason: {r.reason}, xws: {xws}")
+        return False
+
     def get_pilot_cards(self, pilot):
         cards = []
         if 'upgrades' in pilot:
@@ -94,7 +105,7 @@ class ListFormatter(DroidCore):
         else:
             return cost.get('value', 0)
 
-    def print_xws(self, xws, url=None):
+    def print_xws(self, xws, hyperspace=False, url=None):
         name = xws.get('name', 'Nameless Squadron')
         if 'vendor' in xws:
             if len(list(xws['vendor'].keys())) > 1:
@@ -151,6 +162,8 @@ class ListFormatter(DroidCore):
             total_points += points
 
         output[0] += self.bold(f"[{total_points}]")
+        if hyperspace:
+            output[0] += " " + self.bold(f"[Hyperspace]")
         return [output]
 
     def handle_url(self, message):
@@ -158,7 +171,8 @@ class ListFormatter(DroidCore):
         if match:
             message = match['url']
         xws = self.get_xws(message)
+        hyperspace = self.check_hyperspace_legal(xws)
         logger.debug(xws)
         if xws:
-            return self.print_xws(xws, url=message)
+            return self.print_xws(xws, hyperspace, url=message)
         return []

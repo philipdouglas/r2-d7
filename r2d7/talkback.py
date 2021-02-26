@@ -46,29 +46,26 @@ class Talkback(DroidCore):
         return [[self.helpMessage()]]
 
     def stitchCrewHandler(self, message):
-        # Commented-out responses are intentionally disabled for the time being
         lines = [
                     ['Stitch who?'],
-                    #['STITCH CREW!'],
-                    #[':sewing_needle::crew:'],
-                    #[
-                    #    self.bold('Stitch Crew'),
-                    #    '4 players, 200pts, 2 ships per player, 2 obstacles per player. First player is random and player order proceeds clockwise.',
-                    #    f'{self.bold("Setup:")} Players place obstacles in player order until 6 obstacles have been placed. Players deploy ships within range 3 of their assigned table corner and range 1 of the table edge.',
-                    #    f'{self.bold("Rules:")} The last surviving player wins the game. Alliances are forbidden, but table talk is encouraged. When a ship engages, if it has one or more valid enemy targets, it must shoot.'
-                    #]
+                    ['STITCH CREW!'],
+                    [':sewing_needle::crew:'],
+                    [
+                        self.bold('Stitch Crew'),
+                        '4 players, 200pts, 2 ships per player, 2 obstacles per player. First player is random and player order proceeds clockwise.',
+                        f'{self.bold("Setup:")} Players place obstacles in player order until 6 obstacles have been placed. Players deploy ships within range 3 of their assigned table corner and range 1 of the table edge.',
+                        f'{self.bold("Rules:")} The last surviving player wins the game. Alliances are forbidden, but table talk is encouraged. When a ship engages, if it has one or more valid enemy targets, it must shoot.'
+                    ]
                 ]
         return [random.choice(lines)]
 
     def stitchCardHandler(self, message):
-        # Commented-out responses are intentionally disabled for the time being
         lines = [
-                    ['Coming soon...'],
-                    #[
-                    #    f':crew::crew::crew::crew:• {self.bold("Stitch Crew")} [0]',
-                    #    self.italics('Restrictions: Stitch Crew Only'),
-                    #    'Pew Pew Pew'
-                    #],
+                    [
+                        f':crew::crew::crew::crew:• {self.bold("Stitch Crew")} [0]',
+                        self.italics('Restrictions: Stitch Crew Only'),
+                        'Pew Pew Pew'
+                    ],
                 ]
         return [random.choice(lines)]
 

@@ -74,3 +74,26 @@ print_xws_tests = (
 @pytest.mark.parametrize('xws, expected', print_xws_tests)
 def test_print_xws(testbot, xws, expected):
     assert testbot.print_xws(xws) == [expected]
+
+
+print_xws_hyperspace_tests = (
+    pytest.param(
+        {"description": "", "faction": "scumandvillainy", "name": "Lando", "pilots": [{"id": "landocalrissian", "points": 42, "ship": "customizedyt1300lightfreighter"}], "points": 42, "version": "0.3.0"},
+        [
+            ':scum: *Lando* *[42]* *[Hyperspace]*',
+            ':customizedyt1300lightfreighter::initiative4: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Lando_Calrissian|Lando Calrissian>_ *[42]*',
+        ]
+    ),
+    (
+        {"faction": "rebelalliance", "pilots": [{"id": "norrawexley-btla4ywing", "ship": "ywing"}, {"id": "lukeskywalker", "ship": "xwing", "upgrades": {"amd": ["r2d2"]}}], "vendor": {"yasb": {
+            "builder": "(Yet Another) X-Wing Miniatures Squad Builder", "builder_url": "https://raithos.github.io", "link": "https://raithos.github.io/?f=Rebel%20Alliance&d=v4!s!25:-1,-1,-1,-1,-1,-1,-1:-1:-1:;4:-1,-1,3,-1,-1:-1:-1:&sn=Unnamed%20Squadron&obs="}}, "version": "0.3.0"},
+        [
+            ':rebel: *<https://raithos.github.io/?f=Rebel%20Alliance&d=v4!s!25:-1,-1,-1,-1,-1,-1,-1:-1:-1:;4:-1,-1,3,-1,-1:-1:-1:&sn=Unnamed%20Squadron&obs=|Nameless Squadron>* *[110]* *[Hyperspace]*',
+            ':btla4ywing::initiative5: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Norra_Wexley|Norra Wexley>_ *[41]*',
+            ':t65xwing::initiative5: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Luke_Skywalker|Luke Skywalker>_: <http://xwing-miniatures-second-edition.wikia.com/wiki/R2-D2|R2-D2> *[69]*',
+        ]
+    )
+)
+@pytest.mark.parametrize('xws, expected', print_xws_hyperspace_tests)
+def test_print_xws_hyperspace(testbot, xws, expected):
+    assert testbot.print_xws(xws, hyperspace=True) == [expected]

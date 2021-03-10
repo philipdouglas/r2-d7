@@ -53,13 +53,13 @@ print_card_tests = (
         ':scum: :initiative2:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Enforcer|Black Sun Enforcer> [45], :initiative3:<http://xwing-miniatures-second-edition.wikia.com/wiki/Black_Sun_Assassin|Black Sun Assassin> :talent: [48], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Dalan_Oberos|Dalan Oberos> :talent: [54], :initiative4:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Prince_Xizor|Prince Xizor> :talent: [54], :initiative5:•<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri> :talent: :calculate: [64]',
     ]),
     ('guri', [
-        ':starviperclassattackplatform: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri>*: _Prince Xizor\'s Bodyguard_ [64]',
+        ':starviperclassattackplatform: • *<http://xwing-miniatures-second-edition.wikia.com/wiki/Guri|Guri>*: _Prince Xizor\'s Bodyguard_ [64] [Droid]',
         ':scum:  :initiative5::redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1:  :calculate:|:targetlock:|:barrelroll::linked::redcalculate:|:boost::linked::redcalculate:  :talent::sensor::torpedo::modification::title:',
         'At the start of the Engagement Phase, if there is at least 1 enemy ship at range 0-1, you may gain 1 focus token.',
         '_*Microthrusters:*_ While you perform a barrel roll, you *must* use the :bankleft: or :bankright: template instead of the :straight: template.',
     ]),
     ('imdaartestpilot', [
-        ':tiephphantom: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Imdaar_Test_Pilot|Imdaar Test Pilot>* [43]',
+        ':tiephphantom: *<http://xwing-miniatures-second-edition.wikia.com/wiki/Imdaar_Test_Pilot|Imdaar Test Pilot>* [43] [TIE]',
         ':imperial:  :initiative3::redfrontarc::attack3::greenagility::agility2::yellowhull::hull3::blueshield::shield2:  :focus:|:evade:|:barrelroll:|:cloak:  :sensor::modification::gunner:',
         '_The primary result of a hidden research facility on Imdaar Alpha, the TIE phantom achieves what many thought was impossible: a small starfighter equipped with an advanced cloaking device._',
         '_*Stygium Array:*_ After you decloak, you may perform an :evade: action. At the start of the End Phase, you may spend 1 evade token to gain 1 cloak token.',
@@ -73,7 +73,7 @@ print_card_tests = (
         'Before you activate, you may flip this card.',
     ]),
     ('directhit', [
-        ':crit: *Direct Hit!* (core)',
+        ':crit: *Direct Hit!* (core) •••••',
         'Suffer 1 :hit: damage. Then repair this card.',
     ]),
     ('hunted', [

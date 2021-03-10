@@ -3,6 +3,7 @@ from html import unescape
 from itertools import chain, groupby
 import logging
 import re
+import random
 
 from r2d7.core import DroidCore, UserError
 
@@ -16,8 +17,10 @@ class CardLookup(DroidCore):
         self.register_handler(r'\[\[(.*)\]\]', self.handle_lookup)
         self.register_dm_handler(r'\{\{(.*)\}\}', self.handle_image_lookup)
         self.register_dm_handler(r'(.*)', self.handle_lookup)
+        self.register_handler(r'!(crit)', self.handle_crit)
 
     _lookup_data = None
+    _core_damage_deck = []
 
     _action_order = (
         'Focus',
@@ -96,6 +99,8 @@ class CardLookup(DroidCore):
                 self._lookup_data.setdefault(name, []).append(card)
                 card['_id'] = next_id
                 next_id += 1
+                if card['category'] == 'damage':
+                    self._core_damage_deck += [card]*card.get('amount', 0)
 
         for ship in self.data['ship'].values():
             all_bars = [
@@ -116,7 +121,6 @@ class CardLookup(DroidCore):
                 else:
                     ship_bar.append(slot)
             ship['slots'] = ship_bar
-
 
     _multi_lookup_pattern = re.compile(r'\]\][^\[]*\[\[')
     @property
@@ -583,6 +587,9 @@ class CardLookup(DroidCore):
 
         return text
 
+    def print_device(self, device):
+        return [f"{self.bold(device['name'])} ({device['type']})"] + device['effect']
+
     def print_image(self, card):
         text = []
         if 'sides' not in card:
@@ -618,5 +625,7 @@ class CardLookup(DroidCore):
             output += self.print_image(card)
         return [output]
 
-    def print_device(self, device):
-        return [f"{self.bold(device['name'])} ({device['type']})"] + device['effect']
+    def handle_crit(self, lookup):
+        card = random.choice(self._core_damage_deck)
+        return [self.print_card(card)]
+

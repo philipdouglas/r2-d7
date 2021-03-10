@@ -454,6 +454,9 @@ class CardLookup(DroidCore):
             out = cost
         return f"[{out}]"
 
+    def print_keywords(self, keywords):
+        return f"{', '.join(keywords)}"
+
     def print_grants(self, grants):
         out = []
         for grant in grants:
@@ -517,7 +520,9 @@ class CardLookup(DroidCore):
                 self.bold(self.format_name(card, side)) +
                 (f": {self.italics(card['caption'])}" if 'caption' in card else ''),
                 self.print_cost(card['cost']) if 'cost' in card else '',
+                f"[{self.print_keywords(card['keywords'])}]" if 'keywords' in card else '',
                 f"({card['deck']})" if 'deck' in card else '',
+                '•' * card.get('amount', 0), # damage deck card qty
                 self.iconify(f"{card['size']}base") if 'size' in card else '',
                 "[Hyperspace]" if card.get('hyperspace', False) else '',
             ))))

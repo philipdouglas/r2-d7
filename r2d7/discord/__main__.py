@@ -2,6 +2,7 @@
 import logging
 import os
 import re
+import asyncio
 
 import discord
 
@@ -82,7 +83,29 @@ class DiscordClient(discord.Client):
                         await message.channel.send(embed=embed)
                         current_message = fixed_line
                 await message.channel.send(
-                    embed=discord.Embed(description=current_message))            
+                    embed=discord.Embed(description=current_message))
+            
+            if message.guild.me.permissions_in(message.channel).manage_messages:
+                prompt_delete_previous_message = await message.channel.send("Delete your message?")
+                await prompt_delete_previous_message.add_reaction("✅")
+                await prompt_delete_previous_message.add_reaction("❌")
+
+                try:
+                    reaction, user = await self.wait_for(
+                        event="reaction_add",
+                        timeout=10,
+                        check=lambda reaction, user: user == message.author
+                    )
+                    if str(reaction.emoji) == "✅":
+                        await message.delete()
+                        await prompt_delete_previous_message.delete()
+                        return
+                    if str(reaction.emoji) == "❌":
+                        await prompt_delete_previous_message.delete()
+                        return
+                except asyncio.TimeoutError:
+                    await prompt_delete_previous_message.delete()
+                    return
 
 
 def main():

@@ -2,6 +2,7 @@
 import logging
 import os
 import re
+import asyncio
 
 import discord
 
@@ -77,11 +78,34 @@ class DiscordClient(discord.Client):
                     if len(current_message) + 2 + len(fixed_line) < 2048:
                         current_message += f"\n{fixed_line}"
                     else:
-                        await message.channel.send(
-                            embed=discord.Embed(description=current_message))
+                        embed=discord.Embed(description=current_message)
+                        embed.set_footer(text=f"*Requested by {message.author.mention}*")
+                        await message.channel.send(embed=embed)
                         current_message = fixed_line
                 await message.channel.send(
                     embed=discord.Embed(description=current_message))
+            
+            if message.guild.me.permissions_in(message.channel).manage_messages:
+                prompt_delete_previous_message = await message.channel.send("Delete your message?")
+                await prompt_delete_previous_message.add_reaction("✅")
+                await prompt_delete_previous_message.add_reaction("❌")
+
+                try:
+                    reaction, user = await self.wait_for(
+                        event="reaction_add",
+                        timeout=10,
+                        check=lambda reaction, user: user == message.author
+                    )
+                    if str(reaction.emoji) == "✅":
+                        await message.delete()
+                        await prompt_delete_previous_message.delete()
+                        return
+                    if str(reaction.emoji) == "❌":
+                        await prompt_delete_previous_message.delete()
+                        return
+                except asyncio.TimeoutError:
+                    await prompt_delete_previous_message.delete()
+                    return
 
 
 def main():

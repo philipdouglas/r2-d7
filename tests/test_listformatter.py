@@ -7,7 +7,7 @@ from r2d7.slackdroid import SlackDroid
 get_xws_tests = (
     (
         "https://raithos.github.io/?f=Scum%20and%20Villainy&d=v8ZsZ200Z138XW10&sn=Sunny%20B!&obs=",
-        {"faction": "scumandvillainy", "name": "Sunny B!", "points": 32, "pilots": [{"id": "sunnybounder", "ship": "m3ainterceptor", "points": 32, "upgrades": {"cannon": ["heavylasercannon"]}}], "vendor": {}, "version": "2.0.0"},
+        {"faction": "scumandvillainy", "name": "Sunny B!", "points": 31, "pilots": [{"id": "sunnybounder", "ship": "m3ainterceptor", "points": 31, "upgrades": {"cannon": ["heavylasercannon"]}}], "vendor": {}, "version": "2.0.0"},
     ),
     (
         "https://squadbuilder.fantasyflightgames.com/squad-preview/d0966452-ec40-40d4-a3cd-ff384e1dcf70",
@@ -15,15 +15,10 @@ get_xws_tests = (
             "cannon": ["heavylasercannon"]}, "points":32}], "name": "Sunny B!", "description": "", "points": 32, 'vendor': {}}
     ),
     (
-        "https://launchbaynext.app/?lbx=%27New%20Squadron%27.32.3.0.l44.188.l3.256rr&mode=full",
-        {"name": "New Squadron", "description": "", "faction": "scumandvillainy", "pilots": [{"ship": "m3ainterceptor", "upgrades": {"cannon": ["heavylasercannon"]}, "id":"sunnybounder", "points": 32}], "version": "2.0.0", "points": 32, "vendor": {
-            "lbn": {"builder": "Launch Bay Next", "builder_url": "https://launchbaynext.app", "link": "https://launchbaynext.app/print?lbx='New%20Squadron'.32.3.0.l44.188.l3.256rr"}}},
+        "https://launchbaynext.app/?lbx=%27New%20Squadron%27.31.3.0.l44.188.l3.256rr&mode=full",
+        {"name": "New Squadron", "description": "", "faction": "scumandvillainy", "pilots": [{"ship": "m3ainterceptor", "upgrades": {"cannon": ["heavylasercannon"]}, "id":"sunnybounder", "points": 31}], "version": "2.0.0", "points": 31, "vendor": {
+            "lbn": {"builder": "Launch Bay Next", "builder_url": "https://launchbaynext.app", "link": "https://launchbaynext.app/print?lbx='New%20Squadron'.31.3.0.l44.188.l3.256rr"}}},
     ),
-    (
-        "https://launch-bay-next.herokuapp.com/print?lbx=%27New%20Squadron%27.32.3.0.(44.188.(3.256))&mode=full",
-        {"name": "New Squadron", "description": "", "faction": "scumandvillainy", "pilots": [{"ship": "m3ainterceptor", "upgrades": {"cannon": ["heavylasercannon"]}, "id":"sunnybounder", "points": 32}], "version": "2.0.0", "points": 32, "vendor": {
-            "lbn": {"builder": "Launch Bay Next", "builder_url": "https://launch-bay-next.herokuapp.com", "link": "https://launch-bay-next.herokuapp.com/print?lbx='New%20Squadron'.32.3.0.(44.188.(3.256))"}}},
-    ), # legacy LBN app. If this test fails, delete it and the legacy LBN parser from listformatter.py
 )
 @pytest.mark.parametrize('url, expected', get_xws_tests)
 def test_get_xws(testbot, url, expected):
@@ -34,8 +29,8 @@ print_xws_tests = (
         {"faction": "scum", "name": "Sunny B!", "pilots": [{"name": "sunnybounder", "ship": "m3ainterceptor", "upgrades": {"hardpoint": ["hardpointcannon"], "cannon":["heavylasercannon"]}}], "vendor": {"yasb": {
             "builder": "(Yet Another) X-Wing Miniatures Squad Builder", "builder_url": "https://raithos.github.io/xwing", "link": "https://raithos.github.io/xwing/?f=Scum%20and%20Villainy&d=v4!s!138:-1,168:-1:-1:U.10&sn=Sunny%20B!&obs="}}, "version": "0.3.0"},
         [
-            ':scum: *<https://raithos.github.io/xwing/?f=Scum%20and%20Villainy&d=v4!s!138:-1,168:-1:-1:U.10&sn=Sunny%20B!&obs=|Sunny B!>* *[32]*',
-            ':m3ainterceptor::initiative1: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Sunny_Bounder|Sunny Bounder>_: <http://xwing-miniatures-second-edition.wikia.com/wiki/Heavy_Laser_Cannon|Heavy Laser Cannon> *[32]*',
+            ':scum: *<https://raithos.github.io/xwing/?f=Scum%20and%20Villainy&d=v4!s!138:-1,168:-1:-1:U.10&sn=Sunny%20B!&obs=|Sunny B!>* *[31]*',
+            ':m3ainterceptor::initiative1: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Sunny_Bounder|Sunny Bounder>_: <http://xwing-miniatures-second-edition.wikia.com/wiki/Heavy_Laser_Cannon|Heavy Laser Cannon> *[31]*',
         ],
     ),
     (
@@ -65,9 +60,9 @@ print_xws_tests = (
         {"faction": "rebelalliance", "pilots": [{"id": "norrawexley-btla4ywing", "ship": "ywing"}, {"id": "lukeskywalker", "ship": "xwing", "upgrades": {"amd": ["r2d2"]}}], "vendor": {"yasb": {
             "builder": "(Yet Another) X-Wing Miniatures Squad Builder", "builder_url": "https://raithos.github.io", "link": "https://raithos.github.io/?f=Rebel%20Alliance&d=v4!s!25:-1,-1,-1,-1,-1,-1,-1:-1:-1:;4:-1,-1,3,-1,-1:-1:-1:&sn=Unnamed%20Squadron&obs="}}, "version": "0.3.0"},
         [
-            ':rebel: *<https://raithos.github.io/?f=Rebel%20Alliance&d=v4!s!25:-1,-1,-1,-1,-1,-1,-1:-1:-1:;4:-1,-1,3,-1,-1:-1:-1:&sn=Unnamed%20Squadron&obs=|Nameless Squadron>* *[110]*',
-            ':btla4ywing::initiative5: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Norra_Wexley|Norra Wexley>_ *[41]*',
-            ':t65xwing::initiative5: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Luke_Skywalker|Luke Skywalker>_: <http://xwing-miniatures-second-edition.wikia.com/wiki/R2-D2|R2-D2> *[69]*',
+            ':rebel: *<https://raithos.github.io/?f=Rebel%20Alliance&d=v4!s!25:-1,-1,-1,-1,-1,-1,-1:-1:-1:;4:-1,-1,3,-1,-1:-1:-1:&sn=Unnamed%20Squadron&obs=|Nameless Squadron>* *[108]*',
+            ':btla4ywing::initiative5: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Norra_Wexley|Norra Wexley>_ *[40]*',
+            ':t65xwing::initiative5: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Luke_Skywalker|Luke Skywalker>_: <http://xwing-miniatures-second-edition.wikia.com/wiki/R2-D2|R2-D2> *[68]*',
         ]
     )
 )
@@ -88,9 +83,9 @@ print_xws_hyperspace_tests = (
         {"faction": "rebelalliance", "pilots": [{"id": "norrawexley-btla4ywing", "ship": "ywing"}, {"id": "lukeskywalker", "ship": "xwing", "upgrades": {"amd": ["r2d2"]}}], "vendor": {"yasb": {
             "builder": "(Yet Another) X-Wing Miniatures Squad Builder", "builder_url": "https://raithos.github.io", "link": "https://raithos.github.io/?f=Rebel%20Alliance&d=v4!s!25:-1,-1,-1,-1,-1,-1,-1:-1:-1:;4:-1,-1,3,-1,-1:-1:-1:&sn=Unnamed%20Squadron&obs="}}, "version": "0.3.0"},
         [
-            ':rebel: *<https://raithos.github.io/?f=Rebel%20Alliance&d=v4!s!25:-1,-1,-1,-1,-1,-1,-1:-1:-1:;4:-1,-1,3,-1,-1:-1:-1:&sn=Unnamed%20Squadron&obs=|Nameless Squadron>* *[110]* *[Hyperspace]*',
-            ':btla4ywing::initiative5: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Norra_Wexley|Norra Wexley>_ *[41]*',
-            ':t65xwing::initiative5: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Luke_Skywalker|Luke Skywalker>_: <http://xwing-miniatures-second-edition.wikia.com/wiki/R2-D2|R2-D2> *[69]*',
+            ':rebel: *<https://raithos.github.io/?f=Rebel%20Alliance&d=v4!s!25:-1,-1,-1,-1,-1,-1,-1:-1:-1:;4:-1,-1,3,-1,-1:-1:-1:&sn=Unnamed%20Squadron&obs=|Nameless Squadron>* *[108]* *[Hyperspace]*',
+            ':btla4ywing::initiative5: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Norra_Wexley|Norra Wexley>_ *[40]*',
+            ':t65xwing::initiative5: _<http://xwing-miniatures-second-edition.wikia.com/wiki/Luke_Skywalker|Luke Skywalker>_: <http://xwing-miniatures-second-edition.wikia.com/wiki/R2-D2|R2-D2> *[68]*',
         ]
     )
 )

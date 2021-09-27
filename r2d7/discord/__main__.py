@@ -42,13 +42,15 @@ class DiscordClient(discord.Client):
 
         logger.debug(f"Message: {message}\nContent: {message.clean_content}")
 
+        bot_has_message_permissions = message.guild and message.guild.me.permissions_in(message.channel).manage_messages
+
         # Check for new data
         if self.droid.needs_update():
             self.droid.load_data()
 
         responses = None
 
-        if isinstance(message.channel, discord.DMChannel):
+        if not message.guild:
             for regex, handle_method in self.droid._dm_handlers.items():
                 match = regex.search(message.clean_content)
                 if match:
@@ -66,6 +68,54 @@ class DiscordClient(discord.Client):
                         break
 
         if responses:
+            # If there are multiple matches, allow the user to select one, up to 9 matches.
+            if len(responses) > 1:
+                choices = [
+                    f"**{i+1})** {response[0]}"
+                    for i, response in enumerate(responses)
+                ]
+                multipleChoiceEmbed = discord.Embed(title="Multiple Cards found.")
+                multipleChoiceEmbed.set_footer(
+                    text="Type your selection below, or 'x' to cancel."
+                ).add_field(
+                    name="Cards matching query:",
+                    value='\n'.join(choices)
+                )
+                multipleChoiceEmbedMessage = await message.channel.send(embed=multipleChoiceEmbed)
+                try:
+                    def check(m):
+                        lowercaseMessage = m.content.lower()
+                        isValid = lowercaseMessage in ['x'] + list(str(n) for n in range(1, 16))
+                        if lowercaseMessage.isnumeric():
+                            isValid = 1 <= int(lowercaseMessage) <= len(responses)
+
+                        return m.author.id == message.author.id and isValid
+
+                    choiceSelectionMessage = await self.wait_for(
+                        event='message',
+                        check=check,
+                        timeout=20
+                    )
+                    userCanceled = choiceSelectionMessage.content.lower() == 'x'
+                    if not userCanceled:
+                        choiceSelectionNumber = int(choiceSelectionMessage.content)
+                        responses = [responses[choiceSelectionNumber - 1]]
+
+                    if bot_has_message_permissions:
+                        await choiceSelectionMessage.delete()
+                        await multipleChoiceEmbedMessage.delete()
+
+                    # if user typed 'x', cancel the operation.
+                    if userCanceled:
+                        await message.delete()
+                        return
+
+                except asyncio.TimeoutError:
+                    if bot_has_message_permissions:
+                        await multipleChoiceEmbedMessage.delete()
+                    return
+
+            # Show embeds for all data pulled.
             finalEmbed = None
             finalMessage = None
             for response in responses:
@@ -83,11 +133,12 @@ class DiscordClient(discord.Client):
                         embed = discord.Embed(description=current_message)
                         await message.channel.send(embed=embed)
                         current_message = fixed_line
-                
+
                 finalEmbed = discord.Embed(description=current_message)
                 finalMessage = await message.channel.send(embed=finalEmbed)
-            
-            if message.guild.me.permissions_in(message.channel).manage_messages:
+
+            # allow the user to delete their query message
+            if bot_has_message_permissions:
                 prompt_delete_previous_message = await message.channel.send("Delete your message?")
                 await prompt_delete_previous_message.add_reaction("✅")
                 await prompt_delete_previous_message.add_reaction("❌")
@@ -134,7 +185,7 @@ def main():
         bot.run(discord_token)
     else:
         logging.error("No discord token found, exiting.")
-        return()
+        return
 
 
 if __name__ == "__main__":

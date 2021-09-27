@@ -66,6 +66,8 @@ class DiscordClient(discord.Client):
                         break
 
         if responses:
+            finalEmbed = None
+            finalMessage = None
             for response in responses:
                 emoji_map = {f":{emoji.name}:": str(emoji) for emoji in self.emojis}
 
@@ -78,13 +80,12 @@ class DiscordClient(discord.Client):
                     if len(current_message) + 2 + len(fixed_line) < 2048:
                         current_message += f"\n{fixed_line}"
                     else:
-                        embed=discord.Embed(description=current_message)
+                        embed = discord.Embed(description=current_message)
                         await message.channel.send(embed=embed)
                         current_message = fixed_line
                 
-                embed=discord.Embed(description=current_message)
-                embed.set_footer(text=f"Requested by {message.author.display_name}")
-                await message.channel.send(embed=embed)
+                finalEmbed = discord.Embed(description=current_message)
+                finalMessage = await message.channel.send(embed=finalEmbed)
             
             if message.guild.me.permissions_in(message.channel).manage_messages:
                 prompt_delete_previous_message = await message.channel.send("Delete your message?")
@@ -100,6 +101,12 @@ class DiscordClient(discord.Client):
                     if str(reaction.emoji) == "✅":
                         await message.delete()
                         await prompt_delete_previous_message.delete()
+                        if finalEmbed and finalMessage:
+                            finalEmbed.set_footer(
+                                text=f"{message.author.display_name} requested this data.",
+                                icon_url=message.author.avatar_url
+                            )
+                            await finalMessage.edit(embed=finalEmbed)
                         return
                     if str(reaction.emoji) == "❌":
                         await prompt_delete_previous_message.delete()

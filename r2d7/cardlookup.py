@@ -606,9 +606,9 @@ class CardLookup(DroidCore):
         count = 0
         for card in self.lookup(lookup):
             count += 1
-            if count > 10:
+            if count > 15:
                 raise UserError(
-                    'Your search matched more than 10 cards, please be more specific.'
+                    'Your search matched more than 15 cards, please be more specific.'
                 )
             output.append(self.print_card(card))
         return output

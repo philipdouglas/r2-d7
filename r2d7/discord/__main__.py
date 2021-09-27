@@ -79,11 +79,12 @@ class DiscordClient(discord.Client):
                         current_message += f"\n{fixed_line}"
                     else:
                         embed=discord.Embed(description=current_message)
-                        embed.set_footer(text=f"*Requested by {message.author.mention}*")
                         await message.channel.send(embed=embed)
                         current_message = fixed_line
-                await message.channel.send(
-                    embed=discord.Embed(description=current_message))
+                
+                embed=discord.Embed(description=current_message)
+                embed.set_footer(text=f"Requested by {message.author.display_name}")
+                await message.channel.send(embed=embed)
             
             if message.guild.me.permissions_in(message.channel).manage_messages:
                 prompt_delete_previous_message = await message.channel.send("Delete your message?")

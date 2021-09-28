@@ -31,8 +31,10 @@ print_faction_ships_tests = (
         ':raiderclasscorvette:'
         ':tiebainterceptor:'
         ':tiefofighter:'
+        ':tiesebomber:'
         ':tiesffighter:'
         ':tievnsilencer:'
+        ':tiewiwhispermodifiedinterceptor:'
         ':upsilonclassshuttle:'
         ':xiclasslightshuttle:'
     ])

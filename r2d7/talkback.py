@@ -15,8 +15,8 @@ class Talkback(DroidCore):
     pattern_data = re.compile('^!(data)', re.I)
     pattern_help = re.compile('^!(help)', re.I)
     pattern_stitchCrew = re.compile('^!(stitch ?crew)', re.I)
-    pattern_stitchCard = re.compile('\[\[(stitch ?crew)\]\]', re.I)
     pattern_egg = re.compile('^!((egg)|(sooga))', re.I)
+    pattern_history = re.compile('^!((history)|(cgi))', re.I)
 
     _data_url = 'https://github.com/guidokessels/xwing-data2'
     _r2d7_url = 'https://github.com/FreakyDug/r2-d7'
@@ -27,8 +27,8 @@ class Talkback(DroidCore):
         self.register_handler(Talkback.pattern_data, self.dataHandler)
         self.register_handler(Talkback.pattern_help, self.helpHandler)
         self.register_handler(Talkback.pattern_stitchCrew, self.stitchCrewHandler)
-        self.register_handler(Talkback.pattern_stitchCard, self.stitchCardHandler)
         self.register_handler(Talkback.pattern_egg, self.eggHandler)
+        self.register_handler(Talkback.pattern_history, self.historyHandler)
 
     def fixHandler(self, message):
         dataErrorText = 'For issues with card data, raise an issue or pull request at '
@@ -59,16 +59,6 @@ class Talkback(DroidCore):
                 ]
         return [random.choice(lines)]
 
-    def stitchCardHandler(self, message):
-        lines = [
-                    [
-                        f':crew::crew::crew::crew:• {self.bold("Stitch Crew")} [0]',
-                        self.italics('Restrictions: Stitch Crew Only'),
-                        'Pew Pew Pew'
-                    ],
-                ]
-        return [random.choice(lines)]
-
     def eggHandler(self, message):
         lines = [
                     ['Sooga! Sooga! Sooga!'],
@@ -77,3 +67,6 @@ class Talkback(DroidCore):
                     ['Maclunkey!'],
                 ]
         return [random.choice(lines)]
+
+    def historyHandler(self, message):
+        return [[self.link('https://xhud.sirjorj.com/xwing.cgi', 'https://xhud.sirjorj.com/xwing.cgi')]]

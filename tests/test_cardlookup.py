@@ -7,7 +7,7 @@ from r2d7.slackdroid import SlackDroid
 
 print_card_tests = (
     ('tacticalofficer', [
-        ':crew: *<https://xwingtmgwiki.com/Tactical_Officer|Tactical Officer>* [6]',
+        ':crew: *<https://xwingtmgwiki.com/Tactical_Officer|Tactical Officer>* [3]',
         '_Restrictions: :redcoordinate:_',
         '_In the chaos of a starfighter battle, a single order can mean the difference between a victory and a massacre._',
         ':coordinate:',
@@ -22,12 +22,12 @@ print_card_tests = (
         ':redfrontarc::attack4::redrangebonusindicator:2-3 | :orangecharge::charge2:',
     ]),
     ('r2astromech', [
-        ':astromech: *<https://xwingtmgwiki.com/R2_Astromech|R2 Astromech>* [:greenagility::agility0:3:agility1:4:agility2:5:agility3:8] [Hyperspace]',
+        ':astromech: *<https://xwingtmgwiki.com/R2_Astromech|R2 Astromech>* [:greenagility::agility0:3:agility1:3:agility2:5:agility3:8] [Hyperspace]',
         'After you reveal your dial, you may spend 1 :charge: and gain 1 disarm token to recover 1 shield.',
         ':orangecharge::charge2:',
     ]),
     ('emperorpalpatine', [
-        ':crew::crew: • *<https://xwingtmgwiki.com/Emperor_Palpatine|Emperor Palpatine>* [11] [Hyperspace]',
+        ':crew::crew: • *<https://xwingtmgwiki.com/Emperor_Palpatine|Emperor Palpatine>* [12] [Hyperspace]',
         '_Restrictions: Imperial_',
         'While another friendly ship defends or performs an attack, you may spend 1 :forcecharge: to modify 1 of its dice as though that ship had spent 1 :forcecharge:.',
         ':purpleforcecharge::forcechargeplus1recurring:',
@@ -44,17 +44,17 @@ print_card_tests = (
     ]),
     ('starviperclassattackplatform', [
         ':starviperclassattackplatform: *<https://xwingtmgwiki.com/StarViper-class_Attack_Platform|StarViper-class Attack Platform>* :smallbase:',
-        ':redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1:  :focus:|:targetlock:|:barrelroll::linked::redfocus:|:boost::linked::redfocus:  :sensor::torpedo::modification::title:',
+        ':redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1:  :focus:|:targetlock:|:barrelroll::linked::redfocus:|:boost::linked::redfocus:  :tech::torpedo::modification::title:',
         '4 :blank::blank::straight::blank::blank::blank::blank:',
         '3 :blank::bankleft::bluestraight::bankright::blank::redsloopleft::redsloopright:',
         '2 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank::blank:',
         '1 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank::blank:',
         '_*Microthrusters:*_ While you perform a barrel roll, you *must* use the :bankleft: or :bankright: template instead of the :straight: template.',
-        ':scum: :initiative2:<https://xwingtmgwiki.com/Black_Sun_Enforcer|Black Sun Enforcer> [45], :initiative3:<https://xwingtmgwiki.com/Black_Sun_Assassin|Black Sun Assassin> :talent: [48], :initiative4:•<https://xwingtmgwiki.com/Dalan_Oberos|Dalan Oberos> :talent: [54], :initiative4:•<https://xwingtmgwiki.com/Prince_Xizor|Prince Xizor> :talent: [54], :initiative5:•<https://xwingtmgwiki.com/Guri|Guri> :talent: :calculate: [64]',
+        ':scum: :initiative2:<https://xwingtmgwiki.com/Black_Sun_Enforcer|Black Sun Enforcer> [45], :initiative3:<https://xwingtmgwiki.com/Black_Sun_Assassin|Black Sun Assassin> :talent: [49], :initiative4:•<https://xwingtmgwiki.com/Dalan_Oberos|Dalan Oberos> :talent: [51], :initiative4:•<https://xwingtmgwiki.com/Prince_Xizor|Prince Xizor> :talent: [51], :initiative5:•<https://xwingtmgwiki.com/Guri|Guri> :talent: :calculate: [60]',
     ]),
     ('guri', [
-        ':starviperclassattackplatform: • *<https://xwingtmgwiki.com/Guri|Guri>*: _Prince Xizor\'s Bodyguard_ [64] [Droid]',
-        ':scum:  :initiative5::redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1:  :calculate:|:targetlock:|:barrelroll::linked::redcalculate:|:boost::linked::redcalculate:  :talent::sensor::torpedo::modification::title:',
+        ':starviperclassattackplatform: • *<https://xwingtmgwiki.com/Guri|Guri>*: _Prince Xizor\'s Bodyguard_ [60] [Droid]',
+        ':scum:  :initiative5::redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1:  :calculate:|:targetlock:|:barrelroll::linked::redcalculate:|:boost::linked::redcalculate:  :talent::tech::torpedo::modification::title:',
         'At the start of the Engagement Phase, if there is at least 1 enemy ship at range 0-1, you may gain 1 focus token.',
         '_*Microthrusters:*_ While you perform a barrel roll, you *must* use the :bankleft: or :bankright: template instead of the :straight: template.',
     ]),
@@ -148,7 +148,7 @@ lookup_tests = {
     ':modifiedyt1300lightfreighter: Han': [
         ('hansolo-modifiedyt1300lightfreighter', 'pilot'),
     ],
-    'test': [('imdaartestpilot', 'pilot'), ('firstordertestpilot', 'pilot')],
+    'test': [('imdaartestpilot', 'pilot'), ('firstordertestpilot', 'pilot'), ('sienarjaemustestpilot', 'pilot')],
     'fcs': [('firecontrolsystem', 'sensor')],
     ':astromech: &gt; 6': [('c110p', 'astromech')],
     ':crew: = 13': [('grandinquisitor', 'crew'), ('supremeleadersnoke', 'crew')],
@@ -158,7 +158,7 @@ lookup_tests = {
     '{0}{0}{1}': [],
     'z95': [('z95af4headhunter', 'ship')],
     'tieddefender': [('tieddefender', 'ship')],
-    'tiedefender': [('tieddefender', 'ship')],
+    'tiedefender': [('tiedefenderelite', 'configuration'), ('tieddefender', 'ship')],
     'TIE STRIKER': [('tieskstriker', 'ship')],
 }
 @pytest.mark.parametrize('lookup, expected', lookup_tests.items())
@@ -263,11 +263,11 @@ def test_print_ship_ability(testbot, pilot, expected):
 @pytest.mark.parametrize('ship, expected', [
     ('starviperclassattackplatform', [
         '_*Microthrusters:*_ While you perform a barrel roll, you *must* use the :bankleft: or :bankright: template instead of the :straight: template.',
-        ':scum: :initiative2:<https://xwingtmgwiki.com/Black_Sun_Enforcer|Black Sun Enforcer> [45], :initiative3:<https://xwingtmgwiki.com/Black_Sun_Assassin|Black Sun Assassin> :talent: [48], :initiative4:•<https://xwingtmgwiki.com/Dalan_Oberos|Dalan Oberos> :talent: [54], :initiative4:•<https://xwingtmgwiki.com/Prince_Xizor|Prince Xizor> :talent: [54], :initiative5:•<https://xwingtmgwiki.com/Guri|Guri> :talent: :calculate: [64]',
+        ':scum: :initiative2:<https://xwingtmgwiki.com/Black_Sun_Enforcer|Black Sun Enforcer> [45], :initiative3:<https://xwingtmgwiki.com/Black_Sun_Assassin|Black Sun Assassin> :talent: [49], :initiative4:•<https://xwingtmgwiki.com/Dalan_Oberos|Dalan Oberos> :talent: [51], :initiative4:•<https://xwingtmgwiki.com/Prince_Xizor|Prince Xizor> :talent: [51], :initiative5:•<https://xwingtmgwiki.com/Guri|Guri> :talent: :calculate: [60]',
     ]),
     ('hwk290lightfreighter', [
         ':rebel: :initiative2:<https://xwingtmgwiki.com/Rebel_Scout|Rebel Scout> [29], :initiative3:•<https://xwingtmgwiki.com/Kyle_Katarn|Kyle Katarn> :talent: [31], :initiative4:•<https://xwingtmgwiki.com/Roark_Garnet|Roark Garnet> :talent: [38], :initiative5:•<https://xwingtmgwiki.com/Jan_Ors|Jan Ors> :talent: [41]',
-        ':scum: :initiative1:<https://xwingtmgwiki.com/Spice_Runner|Spice Runner> :illicit: [28], :initiative2:•<https://xwingtmgwiki.com/Torkil_Mux|Torkil Mux> :illicit: [38], :initiative3:•<https://xwingtmgwiki.com/Gamut_Key|Gamut Key> [?], :initiative3:•<https://xwingtmgwiki.com/Kanan_Jarrus|Kanan Jarrus> [?], :initiative3:•<https://xwingtmgwiki.com/Palob_Godalhi|Palob Godalhi> :talent::illicit: [40], :initiative4:•<https://xwingtmgwiki.com/Dace_Bonearm|Dace Bonearm> :talent::illicit: [31]'
+        ':scum: :initiative1:<https://xwingtmgwiki.com/Spice_Runner|Spice Runner> :illicit: [28], :initiative2:•<https://xwingtmgwiki.com/Torkil_Mux|Torkil Mux> :illicit: [38], :initiative3:•<https://xwingtmgwiki.com/Gamut_Key|Gamut Key> :talent::illicit: [34], :initiative3:•<https://xwingtmgwiki.com/Palob_Godalhi|Palob Godalhi> :talent::illicit: [40], :initiative3:•<https://xwingtmgwiki.com/Kanan_Jarrus|Kanan Jarrus> :forcepower::illicit: [42], :initiative4:•<https://xwingtmgwiki.com/Dace_Bonearm|Dace Bonearm> :talent::illicit: [31], :initiative5:•<https://xwingtmgwiki.com/T%C3%A1pusk|Tápusk> :talent::illicit: [36]',
     ]),
     ('escapecraft', [
         '_*Rigged Energy Cells:*_ During the System Phase, if you are not docked, lose 1 :charge:. At the end of the Activation Phase, if you have 0 :charge:, you are destroyed. Before you are removed, each ship at range 0-1 suffers 1 :crit: damage.',
@@ -281,10 +281,10 @@ def test_list_pilots(testbot, ship, expected):
 
 @pytest.mark.parametrize('ship, pilot, expected', [
     ('starviperclassattackplatform', None,
-     ':redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1:  :focus:|:targetlock:|:barrelroll::linked::redfocus:|:boost::linked::redfocus:  :sensor::torpedo::modification::title:',
+     ':redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1:  :focus:|:targetlock:|:barrelroll::linked::redfocus:|:boost::linked::redfocus:  :tech::torpedo::modification::title:',
     ),
     ('starviperclassattackplatform', 'guri',
-     ':scum:  :initiative5::redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1:  :calculate:|:targetlock:|:barrelroll::linked::redcalculate:|:boost::linked::redcalculate:  :talent::sensor::torpedo::modification::title:'
+     ':scum:  :initiative5::redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1:  :calculate:|:targetlock:|:barrelroll::linked::redcalculate:|:boost::linked::redcalculate:  :talent::tech::torpedo::modification::title:'
     ),
     ('m12lkimogilafighter', 'dalanoberos',
      ':scum:  :initiative3::redfrontarc::attack3::greenagility::agility1::yellowhull::hull7::blueshield::shield2::orangecharge::charge2:  :focus:|:targetlock:|:redbarrelroll:|:reload:  :talent::torpedo::missile::astromech::illicit::modification:'
@@ -304,7 +304,7 @@ def test_ship_stats(testbot, ship, pilot, expected):
 
 @pytest.mark.parametrize('card, expected', [
     ('munitionsfailsafe', '[1]'),
-    ('guri', '[64]'),
+    ('guri', '[60]'),
     ('shieldupgrade', '[:greenagility::agility0:3:agility1:4:agility2:6:agility3:8]'),
     ('engineupgrade', '[:smallbase:2:mediumbase:4:largebase:7]'),
     ('bb8', '[:initiative0:2:initiative1:3:initiative2:4:initiative3:5:initiative4:6:initiative5:7:initiative6:8]'),

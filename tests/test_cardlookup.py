@@ -1,5 +1,4 @@
 import pytest
-from conftest import testbot
 
 from r2d7.cardlookup import CardLookup
 from r2d7.core import UserError

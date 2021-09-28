@@ -306,7 +306,7 @@ def test_ship_stats(testbot, ship, pilot, expected):
     ('munitionsfailsafe', '[1]'),
     ('guri', '[60]'),
     ('shieldupgrade', '[:greenagility::agility0:3:agility1:4:agility2:6:agility3:8]'),
-    ('engineupgrade', '[:smallbase:2:mediumbase:4:largebase:7]'),
+    ('engineupgrade', '[:smallbase:3:mediumbase:4:largebase:7]'),
     ('bb8', '[:initiative0:2:initiative1:3:initiative2:4:initiative3:5:initiative4:6:initiative5:7:initiative6:8]'),
 ])
 def test_print_cost(testbot, card, expected):

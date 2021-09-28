@@ -23,11 +23,38 @@ Written in Python. (Requires version 3.6 or later)
 
 Uses card data from <a href="https://github.com/guidokessels/xwing-data">guidokessels/xwing-data</a>.
 
+# Required Permissions
+## Slack
+- View information about a user’s identity,
+- Add the ability for people to direct message or mention @r2-d7
+- Add shortcuts and/or slash commands that people can use
+
+## Discord
+- Text channel permissions:
+  - Send messages
+  - Manage messages (optional, enables prompt to delete a bot trigger message)
+
 # Running locally
-First, create or obtain a slack token (see slack API documentation).
-Then set your token as an environment variable and you can launch r2d7
+## Setup
+Set up a virtual env and install requirements. Standard python stuff, but
+easy to forget so it's written here for convenience.
+```
+mkdir env               # only needed 1st time
+python3 -m venv env     # only needed 1st time
+source env/bin/activate
+pip3 install -r requirements.txt
+```
+
+## Run
+First, create or obtain a slack (or discord) token (see slack API documentation).
+Then set your token as an environment variable and launch r2d7:
 ```
 export SLACK_TOKEN="123456-your-slack-token-here"
 python -m r2d7.slack
+```
+Or for discord:
+```
+export DISCORD_TOKEN="123456-your-discord-token-here"
+python -m r2d7.discord
 ```
 

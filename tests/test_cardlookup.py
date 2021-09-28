@@ -167,7 +167,7 @@ def test_lookup(testbot, lookup, expected):
     assert actual == expected
 
 @pytest.mark.parametrize('lookup, message', [
-    ('tie', 'Your search matched more than 10 cards, please be more specific.'),
+    ('tie', 'Your search matched more than 15 cards, please be more specific.'),
     ('> 4', 'You need to specify a slot to search by points value.')
 ])
 def test_user_errors(testbot, lookup, message):

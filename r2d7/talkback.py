@@ -15,7 +15,6 @@ class Talkback(DroidCore):
     pattern_data = re.compile('^!(data)', re.I)
     pattern_help = re.compile('^!(help)', re.I)
     pattern_stitchCrew = re.compile('^!(stitch ?crew)', re.I)
-    pattern_stitchCard = re.compile('\[\[(stitch ?crew)\]\]', re.I)
     pattern_egg = re.compile('^!((egg)|(sooga))', re.I)
     pattern_history = re.compile('^!((history)|(cgi))', re.I)
 
@@ -28,7 +27,6 @@ class Talkback(DroidCore):
         self.register_handler(Talkback.pattern_data, self.dataHandler)
         self.register_handler(Talkback.pattern_help, self.helpHandler)
         self.register_handler(Talkback.pattern_stitchCrew, self.stitchCrewHandler)
-        self.register_handler(Talkback.pattern_stitchCard, self.stitchCardHandler)
         self.register_handler(Talkback.pattern_egg, self.eggHandler)
         self.register_handler(Talkback.pattern_history, self.historyHandler)
 
@@ -58,16 +56,6 @@ class Talkback(DroidCore):
                         f'{self.bold("Setup:")} Players place obstacles in player order until 6 obstacles have been placed. Players deploy ships within range 3 of their assigned table corner and range 1 of the table edge.',
                         f'{self.bold("Rules:")} The last surviving player wins the game. Alliances are forbidden, but table talk is encouraged. When a ship engages, if it has one or more valid enemy targets, it must shoot.'
                     ]
-                ]
-        return [random.choice(lines)]
-
-    def stitchCardHandler(self, message):
-        lines = [
-                    [
-                        f':crew::crew::crew::crew:• {self.bold("Stitch Crew")} [0]',
-                        self.italics('Restrictions: Stitch Crew Only'),
-                        'Pew Pew Pew'
-                    ],
                 ]
         return [random.choice(lines)]
 

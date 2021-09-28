@@ -50,6 +50,8 @@ class ListFormatter(DroidCore):
             xws_url = f"http://squad2xws.herokuapp.com/translate/{match[3]}"
         if match[2] == 'launchbaynext':
             xws_url = f"https://launchbaynext.app/api/xws?lbx={match[3]}"
+        if match[2] == 'launch-bay-next': # legacy LBN app
+            xws_url = f"https://launch-bay-next.herokuapp.com/xws?lbx={match[3]}"
 
         if xws_url:
             xws_url = unescape(xws_url)

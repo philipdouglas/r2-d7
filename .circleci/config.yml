@@ -1,0 +1,61 @@
+version: 2.1
+
+orbs:
+  python: circleci/python@1.2
+
+workflows:
+  r2-d7:
+    jobs:
+      - run-tests
+      # - generate-emoji
+      # - upload-emoji:
+      #     requires:
+      #       - generate-emoji
+
+
+jobs:
+  run-tests:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - python/install-packages:
+          args: pytest
+          pkg-manager: pip
+          pypi-cache: false
+      - run:
+          name: Run tests
+          command: pytest
+  # generate-emoji:
+  #   docker:
+  #     - image: cimg/python:3.8
+  #   steps:
+  #     - checkout
+  #     - python/install-packages:
+  #         pkg-manager: pip
+  #         app-dir: icons
+  #     - run: mkdir -p workspace
+  #     - run: |
+  #         cd icons
+  #         python generate_emoji.py
+  #         zip -r ../workspace/emoji.zip emoji
+  #     - store_artifacts:
+  #         path: workspace/emoji.zip
+  #     - persist_to_workspace:
+  #         root: workspace
+  #         paths:
+  #           - emoji.zip
+  # upload-emoji:
+  #   docker:
+  #     - image: cibuilds/github:0.10
+  #   steps:
+  #     - attach_workspace:
+  #         at: ./workspace
+  #     - run:
+  #         name: "Publish Release on GitHub"
+  #         command: |
+  #           VERSION=$(md5sum ./workspace/emoji.zip | awk '{ print $1 }')
+  #           ghr -t "${GITHUB_TOKEN}" -u "${CIRCLE_PROJECT_USERNAME}" -r "${CIRCLE_PROJECT_REPONAME}" -c "${CIRCLE_SHA1}" -delete "${VERSION}" ./workspace/
+

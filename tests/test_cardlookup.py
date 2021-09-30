@@ -45,10 +45,10 @@ print_card_tests = (
     ('starviperclassattackplatform', [
         ':starviperclassattackplatform: *<https://xwingtmgwiki.com/StarViper-class_Attack_Platform|StarViper-class Attack Platform>* :smallbase:',
         ':redfrontarc::attack3::greenagility::agility3::yellowhull::hull4::blueshield::shield1:  :focus:|:targetlock:|:barrelroll::linked::redfocus:|:boost::linked::redfocus:  :tech::torpedo::modification::title:',
-        '4 :blank::blank::straight::blank::blank::blank::blank:',
-        '3 :blank::bankleft::bluestraight::bankright::blank::redsloopleft::redsloopright:',
-        '2 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank::blank:',
-        '1 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank::blank:',
+        '`4` :blank::blank::straight::blank::blank::blank::blank:',
+        '`3` :blank::bankleft::bluestraight::bankright::blank::redsloopleft::redsloopright:',
+        '`2` :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank::blank:',
+        '`1` :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank::blank:',
         '_*Microthrusters:*_ While you perform a barrel roll, you *must* use the :bankleft: or :bankright: template instead of the :straight: template.',
         ':scum: :initiative2:<https://xwingtmgwiki.com/Black_Sun_Enforcer|Black Sun Enforcer> [45], :initiative3:<https://xwingtmgwiki.com/Black_Sun_Assassin|Black Sun Assassin> :talent: [49], :initiative4:•<https://xwingtmgwiki.com/Dalan_Oberos|Dalan Oberos> :talent: [51], :initiative4:•<https://xwingtmgwiki.com/Prince_Xizor|Prince Xizor> :talent: [51], :initiative5:•<https://xwingtmgwiki.com/Guri|Guri> :talent: :calculate: [60]',
     ]),
@@ -180,11 +180,11 @@ def test_user_errors(testbot, lookup, message):
         "3NW", "3YW", "3KR", "4FW", "4KR", "5FW"
     ],
     [
-        '5 :blank::blank::straight::blank::blank::blank:',
-        '4 :blank::blank::straight::blank::blank::redkturn:',
-        '3 :turnleft::bankleft::bluestraight::bankright::turnright::redkturn:',
-        '2 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank:',
-        '1 :turnleft::blank::blank::blank::turnright::blank:',
+        '`5` :blank::blank::straight::blank::blank::blank:',
+        '`4` :blank::blank::straight::blank::blank::redkturn:',
+        '`3` :turnleft::bankleft::bluestraight::bankright::turnright::redkturn:',
+        '`2` :turnleft::bluebankleft::bluestraight::bluebankright::turnright::blank:',
+        '`1` :turnleft::blank::blank::blank::turnright::blank:',
     ]
     ),
     ([
@@ -192,9 +192,9 @@ def test_user_errors(testbot, lookup, message):
         "2BB", "2FB", "2NB", "2YW", "2PR", "3BW", "3FB", "3NW"
     ],
     [
-        '3 :blank::bankleft::bluestraight::bankright::blank::blank::blank::blank::blank::blank:',
-        '2 :turnleft::bluebankleft::bluestraight::bluebankright::turnright::redsloopleft::redsloopright::blank::redreversestraight::blank:',
-        '1 :turnleft::bankleft::straight::bankright::turnright::blank::blank::redreversebankleft::blank::redreversebankright:',
+        '`3` :blank::bankleft::bluestraight::bankright::blank::blank::blank::blank::blank::blank:',
+        '`2` :turnleft::bluebankleft::bluestraight::bluebankright::turnright::redsloopleft::redsloopright::blank::redreversestraight::blank:',
+        '`1` :turnleft::bankleft::straight::bankright::turnright::blank::blank::redreversebankleft::blank::redreversebankright:',
     ]
     ),
     ([
@@ -202,10 +202,10 @@ def test_user_errors(testbot, lookup, message):
         "3FW", "3NR"
     ],
     [
-        '3 :blank::redbankleft::straight::redbankright::blank:',
-        '2 :redturnleft::bankleft::bluestraight::bankright::redturnright:',
-        '1 :blank::bluebankleft::bluestraight::bluebankright::blank:',
-        '0 :blank::blank::redstop::blank::blank:',
+        '`3` :blank::redbankleft::straight::redbankright::blank:',
+        '`2` :redturnleft::bankleft::bluestraight::bankright::redturnright:',
+        '`1` :blank::bluebankleft::bluestraight::bluebankright::blank:',
+        '`0` :blank::blank::redstop::blank::blank:',
     ] )
 ))
 def test_maneuvers(testbot, dialgen, slack):

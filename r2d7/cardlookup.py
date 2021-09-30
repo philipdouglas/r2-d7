@@ -269,6 +269,7 @@ class CardLookup(DroidCore):
         'W': '',
         'G': 'green',
         'B': 'blue',
+        'P': 'purple'
     }
 
     def maneuvers(self, dial):
@@ -278,7 +279,7 @@ class CardLookup(DroidCore):
         result = []
         blank = self.iconify('blank')
         for speed, moves in dial.items():
-            line = [speed + ' ']
+            line = [f'`{speed}`' + ' ']
             for dialgen_move, droid_move in self.maneuver_key:
                 if dialgen_move not in used_moves:
                     continue
@@ -618,9 +619,9 @@ class CardLookup(DroidCore):
         count = 0
         for card in self.lookup(lookup):
             count += 1
-            if count > 15:
+            if count > 10:
                 raise UserError(
-                    'Your search matched more than 15 cards, please be more specific.'
+                    'Your search matched more than 10 cards, please be more specific.'
                 )
             output += self.print_image(card)
         return [output]
@@ -628,4 +629,3 @@ class CardLookup(DroidCore):
     def handle_crit(self, lookup):
         card = random.choice(self._core_damage_deck)
         return [self.print_card(card)]
-

@@ -269,6 +269,7 @@ class CardLookup(DroidCore):
         'W': '',
         'G': 'green',
         'B': 'blue',
+        'P': 'purple'
     }
 
     def maneuvers(self, dial):

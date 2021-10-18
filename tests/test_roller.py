@@ -68,7 +68,7 @@ roll_output_tests = (
     ('!roll 5 green with reinforce', r'/:[a-z]*:\\/:[a-z]*:\\/:[a-z]*:\\/:[a-z]*:\\/:[a-z]*:\\ [+] :reinforce:'),
     ('!roll 1 green with 4 reinforce', r'/:[a-z]*:\\ [+] :reinforce::reinforce::reinforce::reinforce:'),
     ('!roll 1 green with 1 reinforce', r'/:[a-z]*:\\ [+] :reinforce:'),
-    ('!roll 2 green with 49 evade', r'/:evade:\\/:evade:\\')
+    ('!roll 2 green with 49 evade', r'/:defevade:\\/:defevade:\\')
     # watch out for backslashes when making new test cases
 )
 @pytest.mark.parametrize('message, expected_pattern', roll_output_tests)

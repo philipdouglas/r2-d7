@@ -225,6 +225,23 @@ needsBlackBackground = {
     'slam'
 }
 
+needsSizeBoost = {
+    'linked',
+    'crit',
+    'hit',
+    'boost',
+    'cloak',
+    'coordinate',
+    'evade',
+    'targetlock',
+    'lock',
+    'recover',
+    'reinforce',
+    'reload',
+    'rotatearc',
+    'slam'
+}
+
 noBackground = {
     'agility',
     'attack',
@@ -254,8 +271,11 @@ def main():
             if name in needsCreamCircle or ('arc' in name and '170' not in name and 'rotate' not in name):
                 fontSize = 155
 
-            if name in needsBlackBackground and name != 'linked':
+            if name in needsBlackBackground:
                 fontSize = 200
+
+            if name in needsSizeBoost:
+                fontSize = 240
 
             if font == "xwing-miniatures-ships.ttf":
                 fontSize = 200

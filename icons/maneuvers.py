@@ -41,9 +41,16 @@ def main():
                 im = Image.new("RGB", (300, 300))
 
                 draw = ImageDraw.Draw(im)
-                draw.text((150, 165 if 'straight' not in name else 175), glyph, font=font, fill=colour, anchor='mm')
+                draw.text(
+                    xy=(150, 165 if 'straight' not in name else 175),
+                    text=glyph,
+                    font=font,
+                    fill=colour,
+                    anchor='mm',
+                    stroke_width=3
+                )
 
-                # remove unneccessory whitespaces if needed
+                # remove unnecessary whitespaces if needed
                 im = im.crop(ImageOps.invert(im.convert('RGB')).getbbox())
 
                 # im = ImageOps.invert(im)

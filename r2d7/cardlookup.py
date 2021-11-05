@@ -364,7 +364,8 @@ class CardLookup(DroidCore):
         "shield": "blue",
         "charge": "orange",
         "forcecharge": "purple",
-        "initiative": "initiative"
+        "initiative": "initiative",
+        "energy": "magenta"
     }
 
     def print_stat(self, stat):

@@ -87,7 +87,7 @@ class CardLookup(DroidCore):
         'tugboat': 'quadrijettransferspacetug',
         'quadjumper': 'quadrijettransferspacetug',
         'wulf': 'wullffwarro',
-        'whylo': 'kyloren-tiewiwhispermodifiedinterceptor'
+        'whylo': ':tiewiwhispermodifiedinterceptor:kyloren'
     }
 
     def load_data(self):
@@ -140,6 +140,10 @@ class CardLookup(DroidCore):
 
         cards_yielded = set()
         for lookup in self._multi_lookup_pattern.split(lookup):
+            
+            if lookup in self._aliases:
+                lookup = self._aliases[lookup]
+            
             matches = []
             slot_filter = None
             points_filter = None
@@ -169,8 +173,6 @@ class CardLookup(DroidCore):
                     if not matches:
                         matches = [key for key in self._lookup_data.keys()
                                    if lookup in key]
-                if lookup in self._aliases:
-                    matches.append(self._aliases[lookup])
             else:
                 if not slot_filter:
                     raise UserError(

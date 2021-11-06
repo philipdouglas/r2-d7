@@ -62,9 +62,7 @@ class CardLookup(DroidCore):
 
     _aliases = {
         'fcs': 'firecontrolsystem',
-        'ptl': 'pushthelimit',
         'hlc': 'heavylasercannon',
-        'at': 'autothrusters',
         'as': 'advancedsensors',
         'eu': 'engineupgrade',
         'tap': 'tieadvancedprototype',
@@ -83,7 +81,13 @@ class CardLookup(DroidCore):
         'bellyrub': 'belbullab22starfighter',
         'bubblebub': 'belbullab22starfighter',
         'hcp': 'haorchallprototype',
-        'hadrchallprototype': 'haorchallprototype'
+        'hadrchallprototype': 'haorchallprototype',
+        'squid': 'tridentclassassaultship',
+        'inky': 'grandinquisitor',
+        'tugboat': 'quadrijettransferspacetug',
+        'quadjumper': 'quadrijettransferspacetug',
+        'wulf': 'wullffwarro',
+        'whylo': 'kyloren-tiewiwhispermodifiedinterceptor'
     }
 
     def load_data(self):

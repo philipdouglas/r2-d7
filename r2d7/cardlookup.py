@@ -86,7 +86,8 @@ class CardLookup(DroidCore):
         'inky': 'grandinquisitor',
         'tugboat': 'quadrijettransferspacetug',
         'quadjumper': 'quadrijettransferspacetug',
-        'wulf': 'wullffwarro'
+        'wulf': 'wullffwarro',
+        'whylo': 'kyloren-tiewiwhispermodifiedinterceptor'
     }
 
     def load_data(self):

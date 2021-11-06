@@ -386,6 +386,8 @@ class CardLookup(DroidCore):
         if stat.get("recovers"):
             recoverAmount: int = stat.get("recovers")
             recurring = f"recurring{recoverAmount if recoverAmount > 1 else ''}"
+            if recoverAmount < 0:  # Vult Skerris
+                recurring = f"losing"
         out += self.iconify(f"{stat_type}{plus}{stat['value']}{recurring}")
         return out
 

@@ -328,6 +328,8 @@ class CardLookup(DroidCore):
                 pilots_printed = []
                 for pilot in pilots:
                     init = self.iconify(f"initiative{pilot['initiative']}")
+                    if pilot.get('engagement'):
+                        init += self.iconify(f"initiativesmall{pilot['engagement']}")
                     unique = '•' * pilot.get('limited', 0)
                     slots = ''.join([
                         self.iconify(slot) for slot in pilot.get('slots', [])

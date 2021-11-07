@@ -76,8 +76,8 @@ class ListFormatter(DroidCore):
         cards = []
         if 'upgrades' in pilot:
             for slot, upgrades in pilot['upgrades'].items():
-                # Hardpoint is a fake slot used to implement the scyk ship ability
-                if slot == 'hardpoint':
+                # Hardpoint is a fake slot used to implement the scyk ship ability - but needs to work for Epic ships!
+                if slot == 'hardpoint' and pilot['ship'] in {'t70xwing', 'm3ainterceptor'}:
                     continue
                 for upgrade in upgrades:
                     try:

@@ -87,7 +87,32 @@ class CardLookup(DroidCore):
         'tugboat': 'quadrijettransferspacetug',
         'quadjumper': 'quadrijettransferspacetug',
         'wulf': 'wullffwarro',
-        'whylo': ':tiewiwhispermodifiedinterceptor:kyloren'
+        'whylo': ':tiewiwhispermodifiedinterceptor:kyloren',
+        'rac': 'rearadmiralchiraneau',
+        'spacecow': 'lambda',
+        'swolencer': ':tievnsilencer:kyloren',
+        'brobot': 'aggressorassaultfighter',
+        'spacewhale': 'mg100 starfortress',
+        'hatchetman': 'majorvynder',
+        'partybus': 'yv666',
+        'rickroll': 'ricolie',
+        'gargor': 'g4rg0r',
+        'oink': 'oicunn',
+        'arby': 'tierbheavy',
+        'dutchess': 'duchess',
+        'aceoflegend': 'soontirfel',
+        'wadge': ':rz1awing:wedge',
+        'herb': ':asf01bwing:hera',
+        'mom': 'norrawexley',
+        'corn': 'corranhorn',
+        '5th': 'fifthbrother',
+        '7th': 'seventhsister',
+        'butterfly': 'starviper',
+        'bucket': 'r1j5',
+        'snap': 'temmin',
+        'hellothere': 'obiwankenobi',
+        'tub': 'technounionbomber',
+        'tfd': 'tradefederationdrone'
     }
 
     def load_data(self):
@@ -220,8 +245,8 @@ class CardLookup(DroidCore):
         stats = []
         if pilot:
             stats.append(self.iconify(f"initiative{pilot['initiative']}"))
-            if pilot.get('engagement'):
-                stats.append(self.iconify(f"initiativesmall{pilot['engagement']}"))
+            if pilot.get('engagement', -1) in (0, 1):
+                stats.append(self.iconify(f"engagement{pilot['engagement']}"))
         for stat in ship['stats']:
             stats.append(self.print_stat(stat))
         if pilot and 'charges' in pilot:
@@ -334,8 +359,8 @@ class CardLookup(DroidCore):
                 pilots_printed = []
                 for pilot in pilots:
                     init = self.iconify(f"initiative{pilot['initiative']}")
-                    if pilot.get('engagement'):
-                        init += self.iconify(f"initiativesmall{pilot['engagement']}")
+                    if pilot.get('engagement', -1) in (0, 1):
+                        init += self.iconify(f"engagement{pilot['engagement']}")
                     unique = '•' * pilot.get('limited', 0)
                     slots = ''.join([
                         self.iconify(slot) for slot in pilot.get('slots', [])

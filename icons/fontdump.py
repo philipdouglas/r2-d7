@@ -32,7 +32,7 @@ Green = Icon.factory('green', "#6BBE44")
 Yellow = Icon.factory('yellow', "#B6B335")
 Blue = Icon.factory('blue', "#7ED3E5")
 Orange = Icon.factory('orange', "#E5B922")
-Purple = Icon.factory('purple', "#C39DC9")
+Purple = Icon.factory('purple', "#B590D3")
 
 Medium = Icon.factory(size=100)
 
@@ -86,6 +86,7 @@ fonts = {
         'focus': Purple(Red("f")),
         'jam': Purple(Red("j")),
         'targetlock': Purple(Red("l")),
+        'lock': Purple(Red("l")),
         'recover': Purple(Red("v")),
         'reinforce': Purple(Red("i")),
         'reload': Purple(Red("=")),
@@ -178,6 +179,79 @@ fonts = {
     }
 }
 
+needsCreamCircle = {
+    'astromech',
+    'device',
+    'cannon',
+    'cargo',
+    'condition',
+    'configuration',
+    'crew',
+    'forcepower',
+    'gunner',
+    'hardpoint',
+    'illicit',
+    'missile',
+    'modification',
+    'sensor',
+    'tacticalrelay',
+    'talent',
+    'team',
+    'tech',
+    'title',
+    'torpedo',
+    'turret'
+}
+
+needsBlackBackground = {
+    'linked',
+    'crit',
+    'hit',
+    'rangebonusindicator',
+    'barrelroll',
+    'boost',
+    'calculate',
+    'cloak',
+    'coordinate',
+    'evade',
+    'focus',
+    'jam',
+    'targetlock',
+    'lock',
+    'recover',
+    'reinforce',
+    'reload',
+    'rotatearc',
+    'slam'
+}
+
+needsSizeBoost = {
+    'linked',
+    'crit',
+    'hit',
+    'boost',
+    'cloak',
+    'coordinate',
+    'evade',
+    'targetlock',
+    'lock',
+    'recover',
+    'reinforce',
+    'reload',
+    'rotatearc',
+    'slam'
+}
+
+noBackground = {
+    'agility',
+    'attack',
+    'charge',
+    'hull',
+    'forcecharge',
+    'shield'
+}
+
+
 size = (128, 128)
 
 def main():
@@ -188,18 +262,40 @@ def main():
         for name, glyph in glyphs.items():
             try:
                 colours = glyph.colours
-                font_size = glyph.size
                 glyph = glyph.letter
             except AttributeError:
                 colours = [Icon.default_colour]
-                font_size = 128
 
-            imfont = ImageFont.truetype(font, font_size)
+            fontSize = 130
+
+            if name in needsCreamCircle or ('arc' in name and '170' not in name and 'rotate' not in name):
+                fontSize = 155
+
+            if name in needsBlackBackground:
+                fontSize = 200
+
+            if name in needsSizeBoost:
+                fontSize = 240
+
+            if font == "xwing-miniatures-ships.ttf":
+                fontSize = 200
+
+            imfont = ImageFont.truetype(font, fontSize)
             for colour_name, colour in colours:
                 im = Image.new("RGBA", (300, 300), (255, 255, 255, 0))
 
+                if name in needsBlackBackground:
+                    im = Image.new("RGB", (300, 300))
+
                 draw = ImageDraw.Draw(im)
-                draw.text((50, 50), glyph, font=imfont, fill=colour)
+
+                if name in needsCreamCircle or font == "xwing-miniatures-ships.ttf":
+                    draw.arc((75, 75, 225, 225), start=0, end=360, fill="#F2F3F5", width=100)
+
+                if name in needsBlackBackground and colour == (0, 0, 0):
+                    colour = (255, 255, 255)
+
+                draw.text((151, 152), glyph, font=imfont, fill=colour, anchor='mm')
 
                 # remove unneccessory whitespaces if needed
                 im = im.crop(ImageOps.invert(im.convert('RGB')).getbbox())
@@ -208,6 +304,8 @@ def main():
                 im.thumbnail(size, Image.ANTIALIAS)
 
                 background = Image.new('RGBA', size, (255, 255, 255, 0))
+
+
                 background.paste(
                     im,
                     ((size[0] - im.size[0]) // 2, (size[1] - im.size[1]) // 2))

@@ -21,9 +21,10 @@ fonts = {
     },
 }
 colours = {
-    '': (0, 0, 0),
-    'blue': '#55C1F2',
+    '': (255, 255, 255),
+    'blue': '#00a8f3',
     'red': '#E61713',
+    'purple': '#B590D3'
 }
 
 
@@ -34,21 +35,28 @@ def main():
         os.mkdir('emoji')
 
     for font, glyphs in fonts.items():
-        font = ImageFont.truetype(font, 128)
+        font = ImageFont.truetype(font, 280)
         for name, glyph in glyphs.items():
             for colour_name, colour in colours.items():
-                im = Image.new("RGBA", (300, 300), (255, 255, 255, 0))
+                im = Image.new("RGB", (300, 300))
 
                 draw = ImageDraw.Draw(im)
-                draw.text((100, 100), glyph, font=font, fill=colour)
+                draw.text(
+                    xy=(150, 165 if 'straight' not in name else 175),
+                    text=glyph,
+                    font=font,
+                    fill=colour,
+                    anchor='mm',
+                    stroke_width=3
+                )
 
-                # remove unneccessory whitespaces if needed
+                # remove unnecessary whitespaces if needed
                 im = im.crop(ImageOps.invert(im.convert('RGB')).getbbox())
 
                 # im = ImageOps.invert(im)
                 im.thumbnail(size, Image.ANTIALIAS)
 
-                background = Image.new('RGBA', size, (255, 255, 255, 0))
+                background = Image.new('RGBA', size)
                 background.paste(
                     im,
                     ((size[0] - im.size[0]) // 2, (size[1] - im.size[1]) // 2))

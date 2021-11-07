@@ -220,6 +220,8 @@ class CardLookup(DroidCore):
         stats = []
         if pilot:
             stats.append(self.iconify(f"initiative{pilot['initiative']}"))
+            if pilot.get('engagement'):
+                stats.append(self.iconify(f"initiativesmall{pilot['engagement']}"))
         for stat in ship['stats']:
             stats.append(self.print_stat(stat))
         if pilot and 'charges' in pilot:
@@ -332,6 +334,8 @@ class CardLookup(DroidCore):
                 pilots_printed = []
                 for pilot in pilots:
                     init = self.iconify(f"initiative{pilot['initiative']}")
+                    if pilot.get('engagement'):
+                        init += self.iconify(f"initiativesmall{pilot['engagement']}")
                     unique = '•' * pilot.get('limited', 0)
                     slots = ''.join([
                         self.iconify(slot) for slot in pilot.get('slots', [])
@@ -384,7 +388,12 @@ class CardLookup(DroidCore):
         else:
             out = self.iconify(f"{colour}{stat_type}")
         plus = 'plus' if stat.get('plus', False) else ''
-        recurring = 'recurring' if stat.get('recovers', False) else ''
+        recurring = ''
+        if stat.get("recovers"):
+            recoverAmount: int = stat.get("recovers")
+            recurring = f"recurring{recoverAmount if recoverAmount > 1 else ''}"
+            if recoverAmount < 0:  # Vult Skerris
+                recurring = f"losing"
         out += self.iconify(f"{stat_type}{plus}{stat['value']}{recurring}")
         return out
 

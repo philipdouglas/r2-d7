@@ -7,11 +7,18 @@ Support Slack and Discord!
 
 <a href="https://discordapp.com/oauth2/authorize?client_id=569554290331353088&permissions=309237967936&scope=bot">Add to Discord</a>
 
-## Features
-- Detects links to lists from <http://geordanr.github.io/xwing/>, <http://xwing-builder.co.uk/build> and <http://x-wing.fabpsb.net> and print them in chat
-- Card lookup via [[]] queries
-- Card image lookup via {{}} queries
-- Basic dice rolls with stats from http://gateofstorms.net/2/multi/
+# Features
+## Detects links to lists 
+-  <http://raithos.github.io/> and <https://launchbaynext.app/> and prints the lists in chat
+- Just paste the list URL into chat, and let the bot handle it! (on Windows, you can press F6 then CTRL+C, and paste into chat)
+## Card lookup via [[]] queries
+  - [[:t65xwing:luke]] will trigger a response with Luke Skywalker's pilot details
+  - [[luke]] will trigger a response letting you choose between the Pilot and the Gunner cards.
+  - [[marksmanship]] will trigger a response with the Marksmanship card's details
+  - [[fang]] will show the Fang Fighter ship chassis information (stats, maneuvers, ship ability), and list the pilots that exist for that ship.
+  - Try looking up [[hellothere]] or [[squid]] ;)
+## Card Image Lookup via {{}} queries
+## Basic dice rolls with stats from http://gateofstorms.net/2/multi/
 
 To add the icons:
 - Download the latest emoji.zip from https://github.com/FreakyDug/r2-d7/releases
@@ -21,7 +28,7 @@ To add the icons:
 
 Written in Python. (Requires version 3.6 or later)
 
-Uses card data from <a href="https://github.com/guidokessels/xwing-data">guidokessels/xwing-data</a>.
+Uses card data from <a href="https://github.com/guidokessels/xwing-data2">guidokessels/xwing-data2</a>.
 
 # Required Permissions
 ## Slack
@@ -31,8 +38,15 @@ Uses card data from <a href="https://github.com/guidokessels/xwing-data">guidoke
 
 ## Discord
 - Text channel permissions:
-  - Send messages
-  - Manage messages (optional, enables prompt to delete a bot trigger message)
+  - View Channels
+  - Send Messages
+  - Access Public Threads (future-proofing for potential new features)
+  - Send Messages in Threads (future-proofing for potential new features)
+  - Manage Messages (enables prompt to delete a user's data query message)
+  - Embed Links
+  - Attach Files
+  - Use External Emojis
+  - Add Reactions
 
 # Running locally
 ## Setup

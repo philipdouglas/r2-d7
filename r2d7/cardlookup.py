@@ -591,6 +591,9 @@ class CardLookup(DroidCore):
             if 'text' in side:
                 text.append(self.italics(side['text']))
 
+            if 'shipAbility' in side:  # some Config cards have replacement Ship Abilities
+                text += self.print_ship_ability(side['shipAbility'])
+            
             if 'shipAbility' in card:
                 text += self.print_ship_ability(card['shipAbility'])
 

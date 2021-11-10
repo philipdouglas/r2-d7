@@ -591,7 +591,7 @@ class CardLookup(DroidCore):
             if 'text' in side:
                 text.append(self.italics(side['text']))
 
-            if 'shipAbility' in card:
+            if 'shipAbility' in card or 'shipAbility' in side:
                 text += self.print_ship_ability(card['shipAbility'])
 
             last_line = []

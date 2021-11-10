@@ -463,6 +463,10 @@ class CardLookup(DroidCore):
                     f"Equipped {''.join(self.iconify(slot) for slot in restrict['equipped'])}")
             if 'force_side' in restrict:
                 ors += [f"{side.capitalize()} side" for side in restrict['force_side']]
+            if 'standardized' in restrict:
+                ors.append('standardized')
+            if 'shipAbility' in restrict:
+                ors += [f"{ability.title()}" for ability in restrict['shipAbility']]
             if ors:
                 ands.append(' or '.join(ors))
         if ands:
@@ -586,6 +590,15 @@ class CardLookup(DroidCore):
                 text.append(self.ship_stats(card, card))
 
             if 'ability' in side:
+                # this Restrictions bit handles weird Bold/Italics problems in Discord for Ship Configurations that replace ship abilities.
+                # the database isn't 100% consistent on these so they're a bit finicky
+                if card.get('restrictions'):
+                    if card['restrictions'][0].get('shipAbility'):
+                        if card['name'] == 'Independent Calculations':
+                            side['ability'][0] = side['ability'][0].replace("***", "**")
+                        side['ability'][-1] = side['ability'][-1].replace("***", "**")
+                if card['name'] == 'TIE Defender Elite':
+                    side['ability'][-1] = side['ability'][-1].replace("***", '**')
                 text += side['ability']
 
             if 'text' in side:
@@ -593,8 +606,7 @@ class CardLookup(DroidCore):
 
             if 'shipAbility' in side:  # some Config cards have replacement Ship Abilities
                 text += self.print_ship_ability(side['shipAbility'])
-            
-            if 'shipAbility' in card:
+            elif 'shipAbility' in card:
                 text += self.print_ship_ability(card['shipAbility'])
 
             last_line = []

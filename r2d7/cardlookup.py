@@ -591,9 +591,12 @@ class CardLookup(DroidCore):
 
             if 'ability' in side:
                 # this Restrictions bit handles weird Bold/Italics problems in Discord for Ship Configurations that replace ship abilities.
+                # the database isn't 100% consistent on these so they're a bit finicky
                 if card.get('restrictions'):
                     if card['restrictions'][0].get('shipAbility'):
-                        side['ability'][-1] = side['ability'][-1].replace('***', '**')
+                        if card['name'] == 'Independent Calculations':
+                            side['ability'][0] = side['ability'][0].replace("***", "**")
+                        side['ability'][-1] = side['ability'][-1].replace("***", "**")
                 if card['name'] == 'TIE Defender Elite':
                     side['ability'][-1] = side['ability'][-1].replace("***", '**')
                 text += side['ability']

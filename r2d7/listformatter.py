@@ -19,7 +19,7 @@ class ListFormatter(DroidCore):
         self.register_handler(r'<?(https?://[^>]+)>?', self.handle_url)
 
     _regexes = (
-        re.compile(r'(https?://(raithos)\.github\.io/\?(.*))'),
+        re.compile(r'(https?://(raithos)\.github\.io/(?:[^?/]*/)?\?(.*))'),
         re.compile(r'(https?://(danrs)\.github\.io/xwing/\?(.*))'),
         re.compile(
             r'(https://(squadbuilder)\.fantasyflightgames\.com/squad-preview/([a-zA-Z0-9\-]+))'),

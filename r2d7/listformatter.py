@@ -2,6 +2,7 @@ from html import unescape
 import logging
 import re
 import json
+from enum import Enum
 
 import requests
 
@@ -9,9 +10,33 @@ from r2d7.core import DroidCore, DroidException
 
 logger = logging.getLogger(__name__)
 
+class Legality(Enum):
+    standard = "Standard"
+    extended = "Extended"
+    epic = "Epic"
+    banned = "Banned"
+
+
+class ListLegality:
+    def __init__(self, legality=Legality.epic):
+        self.legality = legality
+
+    def update(self, standard=False, extended=False, epic=True):
+        """
+        Decrease list legality Standard -> Extended -> Epic -> Banned
+        This function makes the following assumptions:
+        - everything legal in standard is legal in extended,
+        - everything legal in extended is legal in epic
+        """
+        if self.legality == Legality.standard and standard == False:
+            self.legality = Legality.extended
+        if self.legality == Legality.extended and extended == False:
+            self.legality = Legality.epic
+        if self.legality == Legality.epic and epic == False:
+            self.legality = Legality.banned
+
 
 class ListFormatter(DroidCore):
-    _hyperspace_check_url = 'https://launchbaynext.app/api/hyperspace'
 
     def __init__(self):
         super().__init__()
@@ -19,12 +44,7 @@ class ListFormatter(DroidCore):
         self.register_handler(r'<?(https?://[^>]+)>?', self.handle_url)
 
     _regexes = (
-        re.compile(r'(https?://(raithos)\.github\.io/(?:[^?/]*/)?\?(.*))'),
-        re.compile(r'(https?://(danrs)\.github\.io/xwing/\?(.*))'),
-        re.compile(
-            r'(https://(squadbuilder)\.fantasyflightgames\.com/squad-preview/([a-zA-Z0-9\-]+))'),
-        re.compile(
-            r'(https://devjonny\.github\.io/(xwing2estopgap)/[a-z]+\?id=([a-zA-Z0-9\-]+))'),
+        re.compile(r'(https?://(yasb)\.app/(?:[^?/]*/)?\?(.*))'),
         re.compile(
             r'(https://(launchbaynext)\.app/[a-z]*\?lbx=([^&]+)(?:&mode=[a-z]+)?)'),
         re.compile( # legacy LBN app links
@@ -42,12 +62,8 @@ class ListFormatter(DroidCore):
             return None
 
         xws_url = None
-        if match[2] == 'raithos':
+        if match[2] == 'yasb':
             xws_url = f"http://squad2xws.herokuapp.com/yasb/xws/?{match[3]}"
-        if match[2] == 'danrs':
-            xws_url = f"http://squad2xws.herokuapp.com/yasb/xws/?{match[3]}"
-        if match[2] == 'squadbuilder':
-            xws_url = f"http://squad2xws.herokuapp.com/translate/{match[3]}"
         if match[2] == 'launchbaynext':
             xws_url = f"https://launchbaynext.app/api/xws?lbx={match[3]}"
 
@@ -62,15 +78,6 @@ class ListFormatter(DroidCore):
             if 'message' in data:
                 raise DroidException(f"YASB error: ({data['message']}")
             return data
-
-    def check_hyperspace_legal(self, xws):
-        r = requests.post(self._hyperspace_check_url, json=xws)
-        if r.status_code == 200:
-            return True
-        if r.status_code != 400:
-            # 400 means query succeeded but list was not hyperspace legal, other response codes indicate error
-            logger.warning(f"HTTP Error {r.status_code} while checking hyperspace, reason: {r.reason}, xws: {xws}")
-        return False
 
     def get_pilot_cards(self, pilot):
         cards = []
@@ -103,7 +110,7 @@ class ListFormatter(DroidCore):
         else:
             return cost.get('value', 0)
 
-    def print_xws(self, xws, hyperspace=False, url=None):
+    def print_xws(self, xws, url=None):
         name = xws.get('name', 'Nameless Squadron')
         if 'vendor' in xws:
             if len(list(xws['vendor'].keys())) > 1:
@@ -117,10 +124,10 @@ class ListFormatter(DroidCore):
             name = self.link(url, name)
         name = self.bold(name)
         output = [f"{self.iconify(xws['faction'])} {name} "]
-        total_points = 0
+        squad_points = 0
+        legality = ListLegality(Legality.standard)
 
         for pilot in xws['pilots']:
-            points = 0
             try:
                 pilot_name = pilot['id']
             except KeyError:
@@ -130,13 +137,17 @@ class ListFormatter(DroidCore):
             except KeyError:
                 # Unrecognised pilot
                 output.append(self.iconify('question') * 2 + ' ' +
-                              self.italics('Unknown Pilot'))
+                        self.italics('Unknown Pilot: ' + pilot_name))
                 continue
-            points += pilot_card.get('cost', 0)
+            pilot_points = pilot_card.get('cost', 0)
+            loadout_used = 0
+            loadout_total = pilot_card.get('loadout', 0)
             initiative = pilot_card['initiative']
 
-            cards = self.get_pilot_cards(pilot)
+            legality.update(pilot_card.get('standard', False), pilot_card.get('extended', False),
+                    epic = pilot_card.get('epic', False))
 
+            cards = self.get_pilot_cards(pilot)
             upgrades = []
             for upgrade in cards:
                 if upgrade is None:
@@ -145,7 +156,8 @@ class ListFormatter(DroidCore):
 
                 upgrade_text = self.wiki_link(upgrade['name'])
                 upgrades.append(upgrade_text)
-                points += self.get_upgrade_cost(pilot_card, upgrade)
+                loadout_used += self.get_upgrade_cost(pilot_card, upgrade)
+                #TODO update legality for upgrade
 
             ship_line = (
                 self.iconify(pilot_card['ship']['name']) +
@@ -154,14 +166,14 @@ class ListFormatter(DroidCore):
             )
             if upgrades:
                 ship_line += ':' + f" {', '.join(upgrades)}"
-            ship_line += ' ' + self.bold(f"[{points}]")
+            ship_line += ' ' + self.bold(f"[{pilot_points}]") + f"[{loadout_used}/{loadout_total}]"
 
             output.append(ship_line)
-            total_points += points
+            squad_points += pilot_points
 
-        output[0] += self.bold(f"[{total_points}]")
-        if hyperspace:
-            output[0] += " " + self.bold(f"[Hyperspace]")
+        output[0] += self.bold(f"[{squad_points}]")
+        if (legality.legality != Legality.banned):
+            output[0] += " " + self.bold(f"[{legality.legality.value}]")
         return [output]
 
     def handle_url(self, message):
@@ -169,8 +181,7 @@ class ListFormatter(DroidCore):
         if match:
             message = match['url']
         xws = self.get_xws(message)
-        hyperspace = self.check_hyperspace_legal(xws)
         logger.debug(xws)
         if xws:
-            return self.print_xws(xws, hyperspace, url=message)
+            return self.print_xws(xws, url=message)
         return []

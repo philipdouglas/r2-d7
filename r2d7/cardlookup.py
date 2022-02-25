@@ -574,7 +574,7 @@ class CardLookup(DroidCore):
                 f"({card['deck']})" if 'deck' in card else '',
                 '•' * card.get('amount', 0), # damage deck card qty
                 self.iconify(f"{card['size']}base") if 'size' in card else '',
-                "[Hyperspace]" if card.get('hyperspace', False) else '',
+                "[Standard]" if card.get('standard', False) else "[Extended]" if card.get('extended', False) else '',
             ))))
 
             if 'restrictions' in card:

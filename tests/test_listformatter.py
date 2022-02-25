@@ -4,12 +4,11 @@ from r2d7.listformatter import ListFormatter
 from r2d7.slackdroid import SlackDroid
 
 
-#TODO Fix LBN, it isn't working correctly
 get_xws_tests = (
     (
-        "https://launchbaynext.app/?lbx=%27New%20Squadron%27.31.3.0.l44.188.l3.256rr&mode=full",
-        {"name": "New Squadron", "description": "", "faction": "scumandvillainy", "pilots": [{"ship": "m3ainterceptor", "upgrades": {"cannon": ["heavylasercannon"]}, "id":"sunnybounder", "points": 31}], "version": "2.0.0", "points": 31, "vendor": {
-            "lbn": {"builder": "Launch Bay Next", "builder_url": "https://launchbaynext.app", "link": "https://launchbaynext.app/print?lbx='New%20Squadron'.31.3.0.l44.188.l3.256rr"}}},
+        "https://launchbaynext.app/?lbx=%27New%20Squadron%27.4.3.0.l44.188.l3.256rr",
+        {'name': 'New Squadron', 'description': '', 'faction': 'scumandvillainy', 'points': 8, 'version': '2.0.0', 'pilots': [{'id': 'sunnybounder', 'ship': 'm3ainterceptor', 'points': 8, 'upgrades': {'cannon': ['heavylasercannon']}}], 'vendor': {
+            'lbn': {'builder': 'Launch Bay Next', 'builder_url': 'https://launchbaynext.app', 'link': "https://launchbaynext.app/print?lbx='New%20Squadron'.8.3.0.l44.188.l3.256rr"}}}
     ),
     (
         "https://yasb.app/?f=Scum%20and%20Villainy&d=v8ZsZ200Z138XW10&sn=Sunny%20B!&obs=",

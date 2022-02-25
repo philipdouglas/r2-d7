@@ -371,7 +371,7 @@ class CardLookup(DroidCore):
                     calculate = ' ' + self.iconify('calculate') if self.has_calculate(pilot) else ''
                     name = self.format_name(pilot)
                     pilots_printed.append(
-                        f"{init}{unique}{name}{slots}{calculate} [{pilot.get('cost', '?')}]")
+                        f"{init}{unique}{name}{slots}{calculate} " + self.bold(f"[{pilot.get('cost', '?')}]") + f" [{pilot.get('loadout', '?')}]")
                 out.append(f"{self.iconify(faction)} {', '.join(pilots_printed)}")
         return out
 
@@ -569,12 +569,14 @@ class CardLookup(DroidCore):
                 '•' * card.get('limited', 0),
                 self.bold(self.format_name(card, side)) +
                 (f": {self.italics(card['caption'])}" if 'caption' in card else ''),
-                self.print_cost(card['cost']) if 'cost' in card else '',
+                self.bold(self.print_cost(card['cost'])) if 'cost' in card and 'loadout' in card
+                    else self.print_cost(card['cost']) if 'cost' in card else '',
+                self.print_cost(card['loadout']) if 'loadout' in card else '',
                 f"[{self.print_keywords(card['keywords'])}]" if 'keywords' in card else '',
                 f"({card['deck']})" if 'deck' in card else '',
                 '•' * card.get('amount', 0), # damage deck card qty
                 self.iconify(f"{card['size']}base") if 'size' in card else '',
-                "[Hyperspace]" if card.get('hyperspace', False) else '',
+                "[Standard]" if card.get('standard', False) else "[Extended]" if card.get('extended', False) else '',
             ))))
 
             if 'restrictions' in card:

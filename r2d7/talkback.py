@@ -16,7 +16,6 @@ class Talkback(DroidCore):
     pattern_help = re.compile('^!(help)', re.I)
     pattern_stitchCrew = re.compile('^!(stitch ?crew)', re.I)
     pattern_egg = re.compile('^!((egg)|(sooga))', re.I)
-    pattern_history = re.compile('^!((history)|(cgi))', re.I)
 
     _data_url = 'https://github.com/guidokessels/xwing-data2'
     _r2d7_url = 'https://github.com/FreakyDug/r2-d7'
@@ -28,12 +27,11 @@ class Talkback(DroidCore):
         self.register_handler(Talkback.pattern_help, self.helpHandler)
         self.register_handler(Talkback.pattern_stitchCrew, self.stitchCrewHandler)
         self.register_handler(Talkback.pattern_egg, self.eggHandler)
-        self.register_handler(Talkback.pattern_history, self.historyHandler)
 
     def fixHandler(self, message):
         dataErrorText = 'For issues with card data, raise an issue or pull request at '
         dataErrorText += self.link(self._data_url, self._data_url)
-        squadErrorText = 'For issues with squad lists, raise an issue at '
+        squadErrorText = 'For issues with bot behaviour or squad lists, raise an issue or pull request at '
         squadErrorText += self.link(self._r2d7_url, self._r2d7_url)
         return [[dataErrorText, squadErrorText]]
 
@@ -68,5 +66,3 @@ class Talkback(DroidCore):
                 ]
         return [random.choice(lines)]
 
-    def historyHandler(self, message):
-        return [[self.link('https://xhud.sirjorj.com/xwing.cgi', 'https://xhud.sirjorj.com/xwing.cgi')]]

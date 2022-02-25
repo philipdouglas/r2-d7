@@ -569,7 +569,9 @@ class CardLookup(DroidCore):
                 '•' * card.get('limited', 0),
                 self.bold(self.format_name(card, side)) +
                 (f": {self.italics(card['caption'])}" if 'caption' in card else ''),
-                self.print_cost(card['cost']) if 'cost' in card else '',
+                self.bold(self.print_cost(card['cost'])) if 'cost' in card and 'loadout' in card
+                    else self.print_cost(card['cost']) if 'cost' in card else '',
+                self.print_cost(card['loadout']) if 'loadout' in card else '',
                 f"[{self.print_keywords(card['keywords'])}]" if 'keywords' in card else '',
                 f"({card['deck']})" if 'deck' in card else '',
                 '•' * card.get('amount', 0), # damage deck card qty

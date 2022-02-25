@@ -14,6 +14,8 @@ print_faction_ships_tests = (
         ':btls8kwing:'
         ':cr90corelliancorvette:'
         ':ewing:'
+        ':fangfighter:'
+        ':gauntletfighter:'
         ':gr75mediumtransport:'
         ':hwk290lightfreighter:'
         ':modifiedyt1300lightfreighter:'

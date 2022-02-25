@@ -371,7 +371,7 @@ class CardLookup(DroidCore):
                     calculate = ' ' + self.iconify('calculate') if self.has_calculate(pilot) else ''
                     name = self.format_name(pilot)
                     pilots_printed.append(
-                        f"{init}{unique}{name}{slots}{calculate} [{pilot.get('cost', '?')}]")
+                        f"{init}{unique}{name}{slots}{calculate} " + self.bold(f"[{pilot.get('cost', '?')}]") + f" [{pilot.get('loadout', '?')}]")
                 out.append(f"{self.iconify(faction)} {', '.join(pilots_printed)}")
         return out
 

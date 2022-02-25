@@ -157,7 +157,6 @@ class ListFormatter(DroidCore):
                 upgrade_text = self.wiki_link(upgrade['name'])
                 upgrades.append(upgrade_text)
                 loadout_used += self.get_upgrade_cost(pilot_card, upgrade)
-                #TODO update legality for upgrade
                 legality.update(upgrade.get('standard', False), upgrade.get('extended', False),
                         epic = upgrade.get('epic', False))
 

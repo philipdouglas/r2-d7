@@ -121,6 +121,7 @@ class ListFormatter(DroidCore):
                 if 'link' in vendor:
                     url = vendor['link']
         if url:
+            url = re.sub("launchbaynext.app/print", "launchbaynext.app/", url)
             name = self.link(url, name)
         name = self.bold(name)
         output = [f"{self.iconify(xws['faction'])} {name} "]
@@ -178,9 +179,6 @@ class ListFormatter(DroidCore):
         return [output]
 
     def handle_url(self, message):
-        match = self.formatted_link_regex.match(message)
-        if match:
-            message = match['url']
         xws = self.get_xws(message)
         logger.debug(xws)
         if xws:

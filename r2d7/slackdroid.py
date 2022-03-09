@@ -89,6 +89,8 @@ You can also search for cards by points value in a particular slot. Eg. `[[:crew
             name = 'imperial'
         elif name == 'firstorder':
             name = 'first_order'
+        elif name == 'delta7baethersprite':
+            name = 'delta7aethersprite'
         return f":{name}:"
 
     @staticmethod

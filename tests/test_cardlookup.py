@@ -109,10 +109,10 @@ def test_print_card(testbot, name, expected):
 print_card_image_tests = (
     ('directhit', []),
     ('hunted', []),
-    ('sunnybounder', ['https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_188.png']),
-    ('l337.2', ['https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_228.png']),
-    ('chopper.0', ['https://sb-cdn.fantasyflightgames.com/card_images/Card_Upgrade_99.png']),
-    ('servomotorsfoils', ['https://sb-cdn.fantasyflightgames.com/card_images/Card_Upgrade_108.png', 'https://sb-cdn.fantasyflightgames.com/card_images/Card_Upgrade_108b.png']),
+    ('sunnybounder', ['https://squadbuilder.fantasyflightgames.com/card_images/Card_Pilot_188.png']),
+    ('l337.2', ['https://squadbuilder.fantasyflightgames.com/card_images/Card_Pilot_228.png']),
+    ('chopper.0', ['https://squadbuilder.fantasyflightgames.com/card_images/Card_Upgrade_99.png']),
+    ('servomotorsfoils', ['https://squadbuilder.fantasyflightgames.com/card_images/Card_Upgrade_108.png', 'https://squadbuilder.fantasyflightgames.com/card_images/Card_Upgrade_108b.png']),
 )
 
 @pytest.mark.parametrize('name, expected', print_card_image_tests)
@@ -150,7 +150,7 @@ lookup_tests = {
     ],
     'test': [('imdaartestpilot', 'pilot'), ('firstordertestpilot', 'pilot'), ('sienarjaemustestpilot', 'pilot')],
     'fcs': [('firecontrolsystem', 'sensor')],
-    ':astromech: &gt; 6': [('r2d2', 'astromech'), ('bb8', 'astromech'), ('c110p', 'astromech')],
+    ':astromech: &gt; 6': [('r2d2', 'astromech'), ('r2d2-republic', 'astromech'), ('bb8', 'astromech'), ('c110p', 'astromech')],
     ':crew: = 13': [('grandinquisitor', 'crew'), ('supremeleadersnoke', 'crew')],
     ':focus:': [],
     'hot shot': [('hotshotgunner', 'gunner'), ('hotshottailblaster', 'illicit')],

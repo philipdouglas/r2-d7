@@ -6,9 +6,8 @@ from r2d7.slackdroid import SlackDroid
 
 get_xws_tests = (
     (
-        "https://launchbaynext.app/?lbx=%27New%20Squadron%27.4.3.0.l44.188.l3.256rr",
-        {'name': 'New Squadron', 'description': '', 'faction': 'scumandvillainy', 'points': 8, 'version': '2.0.0', 'pilots': [{'id': 'sunnybounder', 'ship': 'm3ainterceptor', 'points': 8, 'upgrades': {'cannon': ['heavylasercannon']}}], 'vendor': {
-            'lbn': {'builder': 'Launch Bay Next', 'builder_url': 'https://launchbaynext.app', 'link': "https://launchbaynext.app/print?lbx='New%20Squadron'.8.3.0.l44.188.l3.256rr"}}}
+        "https://launchbaynext.app/?lbx='New%20Squadron'.4.3.1.ll44.188.l3.256rrr.lr",
+        {"name":"New Squadron","obstacles": [], "description":"","faction":"scumandvillainy","points":4,"version":"2.0.0","pilots":[{"id":"sunnybounder","ship":"m3ainterceptor","points":4,"upgrades":{"cannon":["heavylasercannon"]}}],"vendor":{"lbn":{"builder":"Launch Bay Next","builder_url":"https://launchbaynext.app","link":"https://launchbaynext.app/print?lbx='New%20Squadron'.4.3.1.ll44.188.l3.256rrr.lr","uid":"fffc7914-d447-4402-9347-210a270a5695","wins":0,"losses":0,"tags":[],"created":"2022-03-08T13:26:29.873Z"}}}
     ),
     (
         "https://yasb.app/?f=Scum%20and%20Villainy&d=v8ZsZ200Z138XW10&sn=Sunny%20B!&obs=",
@@ -18,7 +17,11 @@ get_xws_tests = (
 
 @pytest.mark.parametrize('url, expected', get_xws_tests)
 def test_get_xws(testbot, url, expected):
-    assert testbot.get_xws(url) == expected
+    actual = testbot.get_xws(url)
+    # delete vendor content as it's not important and can be changed any time
+    del actual['vendor']
+    del expected['vendor']
+    assert actual == expected
 
 print_xws_tests = (
     pytest.param(

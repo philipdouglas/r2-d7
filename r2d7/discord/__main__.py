@@ -127,7 +127,8 @@ class DiscordClient(discord.Client):
                     for slack_style, discord_style in emoji_map.items():
                         fixed_line = fixed_line.replace(
                             slack_style, discord_style)
-                    if len(current_message) + 2 + len(fixed_line) < 2048:
+                    # Set maximum size for embed to maximum content size of embed minus the maximum for footer
+                    if len(current_message) + 2 + len(fixed_line) < 3952:
                         current_message += f"\n{fixed_line}"
                     else:
                         embed = discord.Embed(description=current_message)

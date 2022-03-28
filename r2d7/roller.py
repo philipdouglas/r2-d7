@@ -228,6 +228,8 @@ class Roller(DroidCore):
     pattern_vs = re.compile('\\b(?P<vs>(vs)|(versus)|(v))\\b', re.I)
     pattern_syntax = re.compile('\\b((syntax)|(help))\\b', re.I)
     pattern_barrel = re.compile('\\bbarrel\\b', re.I)
+    pattern_numeric = re.compile('\\bd(?P<num>[0-9]+)\\b', re.I)
+    pattern_scenario = re.compile('\\b((scenario)|(mission))\\b', re.I)
 
     def __init__(self):
         super().__init__()
@@ -237,10 +239,16 @@ class Roller(DroidCore):
         match_vs = Roller.pattern_vs.search(message)
         match_syntax = Roller.pattern_syntax.search(message)
         match_barrel = Roller.pattern_barrel.search(message)
+        match_numeric = Roller.pattern_numeric.search(message)
+        match_scenario = Roller.pattern_scenario.search(message)
         if match_syntax:
             return [self.roll_syntax()]
         elif match_barrel:
             return [self.roll_barrel()]
+        elif match_numeric:
+            return [self.roll_numeric(match_numeric)]
+        elif match_scenario:
+            return [self.roll_scenario()]
         else:
             try:
                 if match_vs:
@@ -274,6 +282,8 @@ class Roller(DroidCore):
         output.append('e.g.: `!roll 3 red with lock, 1 calculate`')
         output.append('You may also roll both red and green dice using `vs`.')
         output.append('e.g.: `!roll 2 red with focus vs 3 green with calc and evade`')
+        output.append('Supported mods are: focus, lock, calculate, force, reroll, evade, reinforce')
+        output.append('You can also roll a die `!roll d10` or choose a scenario with `!roll scenario`')
         return output
 
     def roll_barrel(self):
@@ -292,5 +302,25 @@ class Roller(DroidCore):
                 ':monkey_face: Cocky little freaks!',
                 ]
         output.append(random.choice(starfox_lines))
+        return output
+
+    def roll_numeric(self, match):
+        output = []
+        try:
+            die_max = match.group('num')
+            output.append(str(random.randint(1,int(die_max))))
+        except RollSyntaxError as err:
+            return [[err.__str__(), 'Type `!roll syntax` for help']]
+        return output
+
+    def roll_scenario(self):
+        output = []
+        scenarios = [
+                'Assault at the Satellite Array',
+                'Chance Engagement',
+                'Salvage Mission',
+                'Scramble the Transmissions',
+                ]
+        output.append(random.choice(scenarios))
         return output
 

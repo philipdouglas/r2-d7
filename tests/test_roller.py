@@ -3,7 +3,6 @@ import re
 from r2d7.roller import Roller, VsRoll, ModdedRoll
 
 roll_mistake_tests = (
-    ('!roll a d20', ['I don\'t understand what you want me to roll. :barrelroll:?', 'Type `!roll syntax` for help']),
     ('!roll roger roger', ['I don\'t understand what you want me to roll. :barrelroll:?', 'Type `!roll syntax` for help']),
     ('!roll 200 red', ['Sorry, I can\'t carry more than 100 dice, and chopper won\'t help :chopper:', 'Type `!roll syntax` for help']),
     ('!roll 2 red 4 rerolls', ['Sorry, the calculator only allows up to 3 rerolls', 'Type `!roll syntax` for help']),
@@ -11,8 +10,6 @@ roll_mistake_tests = (
     # no need to test -ve input as minus sign is ignored by parser
     ('!roll 0 red', ['Sorry, I can\'t roll fewer than 1 dice :jar_jar:', 'Type `!roll syntax` for help']),
     ('!roll 2 red vs 3 red', ['Opposing rolls cannot have same color', 'Type `!roll syntax` for help']),
-    ('!roll syntax', ['To roll dice, type `!roll` followed by the number and color of dice. You may include comma-separated dice mods.','e.g.: `!roll 3 red with lock, 1 calculate`','You may also roll both red and green dice using `vs`.','e.g.: `!roll 2 red with focus vs 3 green with calc and evade`']),
-    ('!roll help', ['To roll dice, type `!roll` followed by the number and color of dice. You may include comma-separated dice mods.','e.g.: `!roll 3 red with lock, 1 calculate`','You may also roll both red and green dice using `vs`.','e.g.: `!roll 2 red with focus vs 3 green with calc and evade`'])
 )
 @pytest.mark.parametrize('message, expected', roll_mistake_tests)
 def test_roll_mistakes(testbot, message, expected):

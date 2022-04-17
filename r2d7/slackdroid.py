@@ -177,6 +177,7 @@ You can also search for cards by points value in a particular slot. Eg. `[[:crew
             fudged_name += '_(VCX-100)'
         elif re.match(r'"Heavy_Scyk"_Interceptor', fudged_name):
             fudged_name = '"Heavy_Scyk"_Interceptor'
+        fudged_name = fudged_name.replace('“', '').replace('”', '')
         fudged_name = quote(fudged_name)
         url = f"https://xwingtmgwiki.com/{fudged_name}"
         return cls.link(url, card_name)

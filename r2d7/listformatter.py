@@ -45,6 +45,7 @@ class ListFormatter(DroidCore):
 
     _regexes = (
         re.compile(r'(https?://(yasb)\.app/(?:[^?/]*/)?\?(.*))'),
+        re.compile(r'(https?://(fbgalacticconquest)\.com/(?:[^?/]*/)?\?(.*))'),
         re.compile(
             r'(https://(launchbaynext)\.app/[a-z]*\?lbx=([^&]+)(?:&mode=[a-z]+)?)'),
         re.compile( # legacy LBN app links
@@ -62,7 +63,7 @@ class ListFormatter(DroidCore):
             return None
 
         xws_url = None
-        if match[2] == 'yasb':
+        if match[2] == 'yasb' or match[2] == 'fbgalacticconquest':
             xws_url = f"http://squad2xws.herokuapp.com/yasb/xws/?{match[3]}"
         if match[2] == 'launchbaynext':
             xws_url = f"https://launchbaynext.app/api/xws?lbx={match[3]}"
